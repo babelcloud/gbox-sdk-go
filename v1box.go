@@ -1,0 +1,1230 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+package gboxsdk
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"net/url"
+	"time"
+
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
+)
+
+// V1BoxService contains methods and other services that help with interacting with
+// the gbox-client API.
+//
+// Note, unlike clients, this service does not read variables from the environment
+// automatically. You should not instantiate this service directly, and instead use
+// the [NewV1BoxService] method instead.
+type V1BoxService struct {
+	Options []option.RequestOption
+	Actions V1BoxActionService
+}
+
+// NewV1BoxService generates a new service that applies the given options to each
+// request. These options are applied after the parent client's options (if there
+// is one), and before any request-specific options.
+func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
+	r = V1BoxService{}
+	r.Options = opts
+	r.Actions = NewV1BoxActionService(opts...)
+	return
+}
+
+func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...option.RequestOption) (res *V1BoxNewResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "api/v1/boxes"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...option.RequestOption) (res *V1BoxListResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "api/v1/boxes"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "api/v1/boxes/android"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "api/v1/boxes/linux"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1BoxExecuteCommandsParams, opts ...option.RequestOption) (res *V1BoxExecuteCommandsResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s/commands", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s/run-code", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s/start", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s/stop", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+type AndroidBox struct {
+	// Unique identifier for the box
+	ID string `json:"id,required"`
+	// Configuration for an Android box instance
+	Config AndroidBoxConfig `json:"config,required"`
+	// Creation timestamp of the box
+	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
+	// Expiration timestamp of the box
+	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
+	// The current status of a box instance
+	//
+	// Any of "pending", "running", "stopped", "error".
+	Status AndroidBoxStatus `json:"status,required"`
+	// Box type is Android
+	//
+	// Any of "linux", "android".
+	Type AndroidBoxType `json:"type,required"`
+	// Last update timestamp of the box
+	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Config      respjson.Field
+		CreatedAt   respjson.Field
+		ExpiresAt   respjson.Field
+		Status      respjson.Field
+		Type        respjson.Field
+		UpdatedAt   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBox) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBox) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Configuration for an Android box instance
+type AndroidBoxConfig struct {
+	// Browser configuration
+	Browser AndroidBoxConfigBrowser `json:"browser,required"`
+	// CPU cores allocated to the box
+	CPU float64 `json:"cpu,required"`
+	// Environment variables for the box
+	Envs any `json:"envs,required"`
+	// Key-value pairs of labels for the box
+	Labels any `json:"labels,required"`
+	// Memory allocated to the box in MB
+	Memory float64 `json:"memory,required"`
+	// Android operating system configuration
+	Os AndroidBoxConfigOs `json:"os,required"`
+	// Storage allocated to the box in GB
+	Storage float64 `json:"storage,required"`
+	// Working directory path for the box
+	WorkingDir string `json:"workingDir,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Browser     respjson.Field
+		CPU         respjson.Field
+		Envs        respjson.Field
+		Labels      respjson.Field
+		Memory      respjson.Field
+		Os          respjson.Field
+		Storage     respjson.Field
+		WorkingDir  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfig) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Browser configuration
+type AndroidBoxConfigBrowser struct {
+	// Supported browser types for Android boxes
+	//
+	// Any of "Chrome for Android", "UC Browser for Android".
+	Type string `json:"type,required"`
+	// Browser version string (e.g. '136')
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type        respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android operating system configuration
+type AndroidBoxConfigOs struct {
+	// Supported Android versions
+	//
+	// Any of "12", "13".
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfigOs) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The current status of a box instance
+type AndroidBoxStatus string
+
+const (
+	AndroidBoxStatusPending AndroidBoxStatus = "pending"
+	AndroidBoxStatusRunning AndroidBoxStatus = "running"
+	AndroidBoxStatusStopped AndroidBoxStatus = "stopped"
+	AndroidBoxStatusError   AndroidBoxStatus = "error"
+)
+
+// Box type is Android
+type AndroidBoxType string
+
+const (
+	AndroidBoxTypeLinux   AndroidBoxType = "linux"
+	AndroidBoxTypeAndroid AndroidBoxType = "android"
+)
+
+// The property Type is required.
+type CreateAndroidBoxParam struct {
+	// Box type is Android
+	//
+	// Any of "linux", "android".
+	Type CreateAndroidBoxType `json:"type,omitzero,required"`
+	// Configuration for an Android box instance
+	Config CreateBoxConfigParam `json:"config,omitzero"`
+	paramObj
+}
+
+func (r CreateAndroidBoxParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateAndroidBoxParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Box type is Android
+type CreateAndroidBoxType string
+
+const (
+	CreateAndroidBoxTypeLinux   CreateAndroidBoxType = "linux"
+	CreateAndroidBoxTypeAndroid CreateAndroidBoxType = "android"
+)
+
+type CreateBoxConfigParam struct {
+	// The box will be alive for the given duration (e.g. '10m')
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	// Environment variables for the box
+	Envs any `json:"envs,omitzero"`
+	// Key-value pairs of labels for the box
+	Labels any `json:"labels,omitzero"`
+	paramObj
+}
+
+func (r CreateBoxConfigParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateBoxConfigParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The property Type is required.
+type CreateLinuxBoxParam struct {
+	// Box type is Linux
+	//
+	// Any of "linux", "android".
+	Type CreateLinuxBoxType `json:"type,omitzero,required"`
+	// Configuration for a Linux box instance
+	Config CreateBoxConfigParam `json:"config,omitzero"`
+	paramObj
+}
+
+func (r CreateLinuxBoxParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateLinuxBoxParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateLinuxBoxParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Box type is Linux
+type CreateLinuxBoxType string
+
+const (
+	CreateLinuxBoxTypeLinux   CreateLinuxBoxType = "linux"
+	CreateLinuxBoxTypeAndroid CreateLinuxBoxType = "android"
+)
+
+type LinuxBox struct {
+	// Unique identifier for the box
+	ID string `json:"id,required"`
+	// Configuration for a Linux box instance
+	Config LinuxBoxConfig `json:"config,required"`
+	// Creation timestamp of the box
+	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
+	// Expiration timestamp of the box
+	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
+	// The current status of a box instance
+	//
+	// Any of "pending", "running", "stopped", "error".
+	Status LinuxBoxStatus `json:"status,required"`
+	// Box type is Linux
+	//
+	// Any of "linux", "android".
+	Type LinuxBoxType `json:"type,required"`
+	// Last update timestamp of the box
+	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Config      respjson.Field
+		CreatedAt   respjson.Field
+		ExpiresAt   respjson.Field
+		Status      respjson.Field
+		Type        respjson.Field
+		UpdatedAt   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBox) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBox) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Configuration for a Linux box instance
+type LinuxBoxConfig struct {
+	// Browser configuration
+	Browser LinuxBoxConfigBrowser `json:"browser,required"`
+	// CPU cores allocated to the box
+	CPU float64 `json:"cpu,required"`
+	// Environment variables for the box
+	Envs any `json:"envs,required"`
+	// Key-value pairs of labels for the box
+	Labels any `json:"labels,required"`
+	// Memory allocated to the box in MB
+	Memory float64 `json:"memory,required"`
+	// Operating system configuration
+	Os LinuxBoxConfigOs `json:"os,required"`
+	// Storage allocated to the box in GB.
+	Storage float64 `json:"storage,required"`
+	// Working directory path for the box
+	WorkingDir string `json:"workingDir,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Browser     respjson.Field
+		CPU         respjson.Field
+		Envs        respjson.Field
+		Labels      respjson.Field
+		Memory      respjson.Field
+		Os          respjson.Field
+		Storage     respjson.Field
+		WorkingDir  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfig) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Browser configuration
+type LinuxBoxConfigBrowser struct {
+	// Supported browser types for Linux boxes
+	//
+	// Any of "chromium", "firefox", "webkit".
+	Type string `json:"type,required"`
+	// Browser version string (e.g. '12')
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type        respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Operating system configuration
+type LinuxBoxConfigOs struct {
+	// OS version string (e.g. 'ubuntu-20.04')
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfigOs) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The current status of a box instance
+type LinuxBoxStatus string
+
+const (
+	LinuxBoxStatusPending LinuxBoxStatus = "pending"
+	LinuxBoxStatusRunning LinuxBoxStatus = "running"
+	LinuxBoxStatusStopped LinuxBoxStatus = "stopped"
+	LinuxBoxStatusError   LinuxBoxStatus = "error"
+)
+
+// Box type is Linux
+type LinuxBoxType string
+
+const (
+	LinuxBoxTypeLinux   LinuxBoxType = "linux"
+	LinuxBoxTypeAndroid LinuxBoxType = "android"
+)
+
+// V1BoxNewResponseUnion contains all possible properties and values from
+// [LinuxBox], [AndroidBox].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxNewResponseUnion struct {
+	ID string `json:"id"`
+	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
+	Config    V1BoxNewResponseUnionConfig `json:"config"`
+	CreatedAt time.Time                   `json:"createdAt"`
+	ExpiresAt time.Time                   `json:"expiresAt"`
+	Status    string                      `json:"status"`
+	Type      string                      `json:"type"`
+	UpdatedAt time.Time                   `json:"updatedAt"`
+	JSON      struct {
+		ID        respjson.Field
+		Config    respjson.Field
+		CreatedAt respjson.Field
+		ExpiresAt respjson.Field
+		Status    respjson.Field
+		Type      respjson.Field
+		UpdatedAt respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (u V1BoxNewResponseUnion) AsLinuxBox() (v LinuxBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxNewResponseUnion) AsAndroidBox() (v AndroidBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxNewResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxNewResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxNewResponseUnionConfig is an implicit subunion of [V1BoxNewResponseUnion].
+// V1BoxNewResponseUnionConfig provides convenient access to the sub-properties of
+// the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxNewResponseUnion].
+type V1BoxNewResponseUnionConfig struct {
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser V1BoxNewResponseUnionConfigBrowser `json:"browser"`
+	CPU     float64                            `json:"cpu"`
+	Envs    any                                `json:"envs"`
+	Labels  any                                `json:"labels"`
+	Memory  float64                            `json:"memory"`
+	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
+	Os         V1BoxNewResponseUnionConfigOs `json:"os"`
+	Storage    float64                       `json:"storage"`
+	WorkingDir string                        `json:"workingDir"`
+	JSON       struct {
+		Browser    respjson.Field
+		CPU        respjson.Field
+		Envs       respjson.Field
+		Labels     respjson.Field
+		Memory     respjson.Field
+		Os         respjson.Field
+		Storage    respjson.Field
+		WorkingDir respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (r *V1BoxNewResponseUnionConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxNewResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigBrowser provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxNewResponseUnion].
+type V1BoxNewResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxNewResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxNewResponseUnionConfigOs is an implicit subunion of
+// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigOs provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxNewResponseUnion].
+type V1BoxNewResponseUnionConfigOs struct {
+	Version string `json:"version"`
+	JSON    struct {
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxNewResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnion contains all possible properties and values from
+// [LinuxBox], [AndroidBox].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxGetResponseUnion struct {
+	ID string `json:"id"`
+	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
+	Config    V1BoxGetResponseUnionConfig `json:"config"`
+	CreatedAt time.Time                   `json:"createdAt"`
+	ExpiresAt time.Time                   `json:"expiresAt"`
+	Status    string                      `json:"status"`
+	Type      string                      `json:"type"`
+	UpdatedAt time.Time                   `json:"updatedAt"`
+	JSON      struct {
+		ID        respjson.Field
+		Config    respjson.Field
+		CreatedAt respjson.Field
+		ExpiresAt respjson.Field
+		Status    respjson.Field
+		Type      respjson.Field
+		UpdatedAt respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (u V1BoxGetResponseUnion) AsLinuxBox() (v LinuxBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxGetResponseUnion) AsAndroidBox() (v AndroidBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxGetResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxGetResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnionConfig is an implicit subunion of [V1BoxGetResponseUnion].
+// V1BoxGetResponseUnionConfig provides convenient access to the sub-properties of
+// the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfig struct {
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser V1BoxGetResponseUnionConfigBrowser `json:"browser"`
+	CPU     float64                            `json:"cpu"`
+	Envs    any                                `json:"envs"`
+	Labels  any                                `json:"labels"`
+	Memory  float64                            `json:"memory"`
+	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
+	Os         V1BoxGetResponseUnionConfigOs `json:"os"`
+	Storage    float64                       `json:"storage"`
+	WorkingDir string                        `json:"workingDir"`
+	JSON       struct {
+		Browser    respjson.Field
+		CPU        respjson.Field
+		Envs       respjson.Field
+		Labels     respjson.Field
+		Memory     respjson.Field
+		Os         respjson.Field
+		Storage    respjson.Field
+		WorkingDir respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigBrowser provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnionConfigOs is an implicit subunion of
+// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigOs provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfigOs struct {
+	Version string `json:"version"`
+	JSON    struct {
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxListResponse struct {
+	// A box instance that can be either Linux or Android type
+	Data []V1BoxListResponseDataUnion `json:"data,required"`
+	// Page number
+	Page float64 `json:"page,required"`
+	// Page size
+	PageSize float64 `json:"pageSize,required"`
+	// Total number of items
+	Total float64 `json:"total,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		Page        respjson.Field
+		PageSize    respjson.Field
+		Total       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxListResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnion contains all possible properties and values from
+// [LinuxBox], [AndroidBox].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxListResponseDataUnion struct {
+	ID string `json:"id"`
+	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
+	Config    V1BoxListResponseDataUnionConfig `json:"config"`
+	CreatedAt time.Time                        `json:"createdAt"`
+	ExpiresAt time.Time                        `json:"expiresAt"`
+	Status    string                           `json:"status"`
+	Type      string                           `json:"type"`
+	UpdatedAt time.Time                        `json:"updatedAt"`
+	JSON      struct {
+		ID        respjson.Field
+		Config    respjson.Field
+		CreatedAt respjson.Field
+		ExpiresAt respjson.Field
+		Status    respjson.Field
+		Type      respjson.Field
+		UpdatedAt respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (u V1BoxListResponseDataUnion) AsLinuxBox() (v LinuxBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxListResponseDataUnion) AsAndroidBox() (v AndroidBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxListResponseDataUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxListResponseDataUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfig is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfig provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfig struct {
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser V1BoxListResponseDataUnionConfigBrowser `json:"browser"`
+	CPU     float64                                 `json:"cpu"`
+	Envs    any                                     `json:"envs"`
+	Labels  any                                     `json:"labels"`
+	Memory  float64                                 `json:"memory"`
+	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
+	Os         V1BoxListResponseDataUnionConfigOs `json:"os"`
+	Storage    float64                            `json:"storage"`
+	WorkingDir string                             `json:"workingDir"`
+	JSON       struct {
+		Browser    respjson.Field
+		CPU        respjson.Field
+		Envs       respjson.Field
+		Labels     respjson.Field
+		Memory     respjson.Field
+		Os         respjson.Field
+		Storage    respjson.Field
+		WorkingDir respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfigBrowser is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfigOs is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigOs provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfigOs struct {
+	Version string `json:"version"`
+	JSON    struct {
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxExecuteCommandsResponse struct {
+	// The exit code of the command
+	ExitCode float64 `json:"exitCode,required"`
+	// The standard error output of the command
+	Stderr string `json:"stderr,required"`
+	// The standard output of the command
+	Stdout string `json:"stdout,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ExitCode    respjson.Field
+		Stderr      respjson.Field
+		Stdout      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxExecuteCommandsResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxRunCodeResponse struct {
+	// The exit code of the code
+	ExitCode float64 `json:"exitCode,required"`
+	// The stderr of the code
+	Stderr string `json:"stderr,required"`
+	// The stdout of the code
+	Stdout string `json:"stdout,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ExitCode    respjson.Field
+		Stderr      respjson.Field
+		Stdout      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxRunCodeResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxRunCodeResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnion contains all possible properties and values from
+// [LinuxBox], [AndroidBox].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxStartResponseUnion struct {
+	ID string `json:"id"`
+	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
+	Config    V1BoxStartResponseUnionConfig `json:"config"`
+	CreatedAt time.Time                     `json:"createdAt"`
+	ExpiresAt time.Time                     `json:"expiresAt"`
+	Status    string                        `json:"status"`
+	Type      string                        `json:"type"`
+	UpdatedAt time.Time                     `json:"updatedAt"`
+	JSON      struct {
+		ID        respjson.Field
+		Config    respjson.Field
+		CreatedAt respjson.Field
+		ExpiresAt respjson.Field
+		Status    respjson.Field
+		Type      respjson.Field
+		UpdatedAt respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (u V1BoxStartResponseUnion) AsLinuxBox() (v LinuxBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxStartResponseUnion) AsAndroidBox() (v AndroidBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxStartResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxStartResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfig is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfig provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfig struct {
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser V1BoxStartResponseUnionConfigBrowser `json:"browser"`
+	CPU     float64                              `json:"cpu"`
+	Envs    any                                  `json:"envs"`
+	Labels  any                                  `json:"labels"`
+	Memory  float64                              `json:"memory"`
+	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
+	Os         V1BoxStartResponseUnionConfigOs `json:"os"`
+	Storage    float64                         `json:"storage"`
+	WorkingDir string                          `json:"workingDir"`
+	JSON       struct {
+		Browser    respjson.Field
+		CPU        respjson.Field
+		Envs       respjson.Field
+		Labels     respjson.Field
+		Memory     respjson.Field
+		Os         respjson.Field
+		Storage    respjson.Field
+		WorkingDir respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfigOs is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigOs provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfigOs struct {
+	Version string `json:"version"`
+	JSON    struct {
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnion contains all possible properties and values from
+// [LinuxBox], [AndroidBox].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxStopResponseUnion struct {
+	ID string `json:"id"`
+	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
+	Config    V1BoxStopResponseUnionConfig `json:"config"`
+	CreatedAt time.Time                    `json:"createdAt"`
+	ExpiresAt time.Time                    `json:"expiresAt"`
+	Status    string                       `json:"status"`
+	Type      string                       `json:"type"`
+	UpdatedAt time.Time                    `json:"updatedAt"`
+	JSON      struct {
+		ID        respjson.Field
+		Config    respjson.Field
+		CreatedAt respjson.Field
+		ExpiresAt respjson.Field
+		Status    respjson.Field
+		Type      respjson.Field
+		UpdatedAt respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (u V1BoxStopResponseUnion) AsLinuxBox() (v LinuxBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxStopResponseUnion) AsAndroidBox() (v AndroidBox) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxStopResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxStopResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnionConfig is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfig provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfig struct {
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser V1BoxStopResponseUnionConfigBrowser `json:"browser"`
+	CPU     float64                             `json:"cpu"`
+	Envs    any                                 `json:"envs"`
+	Labels  any                                 `json:"labels"`
+	Memory  float64                             `json:"memory"`
+	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
+	Os         V1BoxStopResponseUnionConfigOs `json:"os"`
+	Storage    float64                        `json:"storage"`
+	WorkingDir string                         `json:"workingDir"`
+	JSON       struct {
+		Browser    respjson.Field
+		CPU        respjson.Field
+		Envs       respjson.Field
+		Labels     respjson.Field
+		Memory     respjson.Field
+		Os         respjson.Field
+		Storage    respjson.Field
+		WorkingDir respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfig) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnionConfigOs is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigOs provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfigOs struct {
+	Version string `json:"version"`
+	JSON    struct {
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxNewParams struct {
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set.
+	OfCreateLinuxBox *CreateLinuxBoxParam `json:",inline"`
+	// This field is a request body variant, only one variant field can be set.
+	OfCreateAndroidBox *CreateAndroidBoxParam `json:",inline"`
+
+	paramObj
+}
+
+func (u V1BoxNewParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion[V1BoxNewParams](u.OfCreateLinuxBox, u.OfCreateAndroidBox)
+}
+func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxListParams struct {
+	// Page number
+	Page float64 `query:"page,required" json:"-"`
+	// Page size
+	PageSize float64 `query:"pageSize,required" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxListParams]'s query parameters as `url.Values`.
+func (r V1BoxListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type V1BoxNewAndroidParams struct {
+	CreateAndroidBox CreateAndroidBoxParam
+	paramObj
+}
+
+func (r V1BoxNewAndroidParams) MarshalJSON() (data []byte, err error) {
+	return json.Marshal(r.CreateAndroidBox)
+}
+func (r *V1BoxNewAndroidParams) UnmarshalJSON(data []byte) error {
+	return r.CreateAndroidBox.UnmarshalJSON(data)
+}
+
+type V1BoxNewLinuxParams struct {
+	CreateLinuxBox CreateLinuxBoxParam
+	paramObj
+}
+
+func (r V1BoxNewLinuxParams) MarshalJSON() (data []byte, err error) {
+	return json.Marshal(r.CreateLinuxBox)
+}
+func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
+	return r.CreateLinuxBox.UnmarshalJSON(data)
+}
+
+type V1BoxExecuteCommandsParams struct {
+	// The command to run
+	Commands []string `json:"commands,omitzero,required"`
+	// The timeout of the command. e.g. '30s'
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// The working directory of the command
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
+	// The environment variables to run the command
+	Envs any `json:"envs,omitzero"`
+	paramObj
+}
+
+func (r V1BoxExecuteCommandsParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxExecuteCommandsParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxExecuteCommandsParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxRunCodeParams struct {
+	// The code to run
+	Code string `json:"code,required"`
+	// The type of the code.
+	//
+	// Any of "bash", "python3", "typescript".
+	Type V1BoxRunCodeParamsType `json:"type,omitzero,required"`
+	// The timeout of the code. e.g. "30s"
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// The working directory of the code.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
+	// The arguments to run the code. e.g. ["-h"]
+	Argv []string `json:"argv,omitzero"`
+	// The environment variables to run the code
+	Envs any `json:"envs,omitzero"`
+	paramObj
+}
+
+func (r V1BoxRunCodeParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxRunCodeParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxRunCodeParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The type of the code.
+type V1BoxRunCodeParamsType string
+
+const (
+	V1BoxRunCodeParamsTypeBash       V1BoxRunCodeParamsType = "bash"
+	V1BoxRunCodeParamsTypePython3    V1BoxRunCodeParamsType = "python3"
+	V1BoxRunCodeParamsTypeTypescript V1BoxRunCodeParamsType = "typescript"
+)
