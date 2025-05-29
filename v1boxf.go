@@ -4,10 +4,12 @@ package gboxsdk
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
 	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
@@ -71,7 +73,7 @@ func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWritePa
 
 type V1BoxFListResponse struct {
 	// A box instance that can be either Linux or Android type
-	Data []any `json:"data,required"`
+	Data []V1BoxFListResponseDataUnion `json:"data,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -83,6 +85,101 @@ type V1BoxFListResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxFListResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxFListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxFListResponseDataUnion contains all possible properties and values from
+// [V1BoxFListResponseDataFile], [V1BoxFListResponseDataDir].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxFListResponseDataUnion struct {
+	// This field is from variant [V1BoxFListResponseDataFile].
+	LastModified time.Time `json:"lastModified"`
+	Name         string    `json:"name"`
+	Path         string    `json:"path"`
+	// This field is from variant [V1BoxFListResponseDataFile].
+	Size string `json:"size"`
+	Type string `json:"type"`
+	JSON struct {
+		LastModified respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u V1BoxFListResponseDataUnion) AsV1BoxFListResponseDataFile() (v V1BoxFListResponseDataFile) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxFListResponseDataUnion) AsV1BoxFListResponseDataDir() (v V1BoxFListResponseDataDir) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxFListResponseDataUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxFListResponseDataUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxFListResponseDataFile struct {
+	// Last modified time of the file
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Name of the file
+	Name string `json:"name,required"`
+	// Full path to the file
+	Path string `json:"path,required"`
+	// Size of the file
+	Size string `json:"size,required"`
+	// File type indicator
+	//
+	// Any of "file".
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFListResponseDataFile) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFListResponseDataFile) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxFListResponseDataDir struct {
+	// Name of the directory
+	Name string `json:"name,required"`
+	// Full path to the directory
+	Path string `json:"path,required"`
+	// Directory type indicator
+	//
+	// Any of "dir".
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Path        respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFListResponseDataDir) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFListResponseDataDir) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
