@@ -85,37 +85,6 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionKeypressWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Actions.Keypress(
-		context.TODO(),
-		"id",
-		gboxsdk.V1BoxActionKeypressParams{
-			Keys:         []string{"Enter"},
-			Type:         map[string]interface{}{},
-			OutputFormat: gboxsdk.V1BoxActionKeypressParamsOutputFormatBase64,
-		},
-	)
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
 func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
@@ -137,6 +106,37 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 			X:            200,
 			Y:            300,
 			OutputFormat: gboxsdk.V1BoxActionMoveParamsOutputFormatBase64,
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Actions.Press(
+		context.TODO(),
+		"id",
+		gboxsdk.V1BoxActionPressParams{
+			Keys:         []string{"Enter"},
+			Type:         map[string]interface{}{},
+			OutputFormat: gboxsdk.V1BoxActionPressParamsOutputFormatBase64,
 		},
 	)
 	if err != nil {

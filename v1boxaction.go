@@ -56,17 +56,6 @@ func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
-func (r *V1BoxActionService) Keypress(ctx context.Context, id string, body V1BoxActionKeypressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
-		return
-	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/keypress", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
 func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -74,6 +63,17 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 		return
 	}
 	path := fmt.Sprintf("api/v1/boxes/%s/actions/move", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxActionPressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("api/v1/boxes/%s/actions/press", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -326,34 +326,6 @@ const (
 	V1BoxActionDragParamsOutputFormatStorageKey V1BoxActionDragParamsOutputFormat = "storageKey"
 )
 
-type V1BoxActionKeypressParams struct {
-	// Array of keys to press
-	Keys []string `json:"keys,omitzero,required"`
-	// Action type for keyboard key press
-	Type any `json:"type,omitzero,required"`
-	// Type of the URI
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionKeypressParamsOutputFormat `json:"outputFormat,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionKeypressParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionKeypressParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionKeypressParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Type of the URI
-type V1BoxActionKeypressParamsOutputFormat string
-
-const (
-	V1BoxActionKeypressParamsOutputFormatBase64     V1BoxActionKeypressParamsOutputFormat = "base64"
-	V1BoxActionKeypressParamsOutputFormatStorageKey V1BoxActionKeypressParamsOutputFormat = "storageKey"
-)
-
 type V1BoxActionMoveParams struct {
 	// Action type for cursor movement
 	Type any `json:"type,omitzero,required"`
@@ -382,6 +354,34 @@ type V1BoxActionMoveParamsOutputFormat string
 const (
 	V1BoxActionMoveParamsOutputFormatBase64     V1BoxActionMoveParamsOutputFormat = "base64"
 	V1BoxActionMoveParamsOutputFormatStorageKey V1BoxActionMoveParamsOutputFormat = "storageKey"
+)
+
+type V1BoxActionPressParams struct {
+	// Array of keys to press
+	Keys []string `json:"keys,omitzero,required"`
+	// Action type for keyboard key press
+	Type any `json:"type,omitzero,required"`
+	// Type of the URI
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat V1BoxActionPressParamsOutputFormat `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionPressParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionPressParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionPressParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Type of the URI
+type V1BoxActionPressParamsOutputFormat string
+
+const (
+	V1BoxActionPressParamsOutputFormatBase64     V1BoxActionPressParamsOutputFormat = "base64"
+	V1BoxActionPressParamsOutputFormatStorageKey V1BoxActionPressParamsOutputFormat = "storageKey"
 )
 
 type V1BoxActionScreenshotParams struct {
