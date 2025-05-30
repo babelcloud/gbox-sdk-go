@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-05-30)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/babelcloud/gbox-sdk-go/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** api update ([07c24b2](https://github.com/babelcloud/gbox-sdk-go/commit/07c24b284e4648bdff11749d41514ac98570d906))
+
+
+### Chores
+
+* update SDK settings ([04d32c6](https://github.com/babelcloud/gbox-sdk-go/commit/04d32c664148fda4db54cbec8220a0e27d72ae8b))
+
 ## 0.1.0-alpha.1 (2025-05-30)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/babelcloud/gbox-sdk-go/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
