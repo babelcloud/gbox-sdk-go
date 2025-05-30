@@ -1,8 +1,8 @@
 package paramutil
 
 import (
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 )
 
 func AddrIfPresent[T comparable](v param.Opt[T]) *T {
