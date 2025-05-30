@@ -13,7 +13,7 @@ import (
 	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
-func TestV1BoxFList(t *testing.T) {
+func TestV1BoxFListWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -30,8 +30,8 @@ func TestV1BoxFList(t *testing.T) {
 		context.TODO(),
 		"id",
 		gboxsdk.V1BoxFListParams{
-			Depth: 0,
 			Path:  "path",
+			Depth: gboxsdk.Float(0),
 		},
 	)
 	if err != nil {
