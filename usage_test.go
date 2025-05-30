@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/gbox-sdk-go"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/testutil"
-	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/babelcloud/gbox-sdk-go"
+	"github.com/babelcloud/gbox-sdk-go/internal/testutil"
+	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
 func TestUsage(t *testing.T) {
