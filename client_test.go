@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/gbox-sdk-go"
-	"github.com/stainless-sdks/gbox-sdk-go/internal"
-	"github.com/stainless-sdks/gbox-sdk-go/option"
+	gboxsdk "github.com/babelcloud/gbox-sdk-go"
+	"github.com/babelcloud/gbox-sdk-go/internal"
+	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
 type closureTransport struct {
@@ -38,8 +38,8 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -66,8 +66,8 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -105,8 +105,8 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -139,8 +139,8 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -172,8 +172,8 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(context.Background(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -199,8 +199,8 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := client.V1.Boxes.New(cancelCtx, gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(cancelCtx, gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -223,8 +223,8 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	_, err := client.V1.Boxes.New(cancelCtx, gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	_, err := client.V1.Boxes.New(cancelCtx, gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -253,8 +253,8 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		_, err := client.V1.Boxes.New(deadlineCtx, gboxsdk.V1BoxNewParamsCreateLinuxBox{
-			CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+		_, err := client.V1.Boxes.New(deadlineCtx, gboxsdk.V1BoxNewParams{
+			OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 				Type: gboxsdk.CreateLinuxBoxTypeLinux,
 			},
 		})
