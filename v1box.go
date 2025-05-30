@@ -29,6 +29,7 @@ type V1BoxService struct {
 	Options []option.RequestOption
 	Actions V1BoxActionService
 	Fs      V1BoxFService
+	Browser V1BoxBrowserService
 }
 
 // NewV1BoxService generates a new service that applies the given options to each
@@ -39,6 +40,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	r.Options = opts
 	r.Actions = NewV1BoxActionService(opts...)
 	r.Fs = NewV1BoxFService(opts...)
+	r.Browser = NewV1BoxBrowserService(opts...)
 	return
 }
 
