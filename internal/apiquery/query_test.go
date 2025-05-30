@@ -1,7 +1,7 @@
 package apiquery
 
 import (
-	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/babelcloud/gbox-sdk-go/packages/param"
 	"net/url"
 	"testing"
 	"time"
