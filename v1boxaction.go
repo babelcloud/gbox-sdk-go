@@ -34,7 +34,7 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 	return
 }
 
-func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
+func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")

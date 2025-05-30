@@ -218,10 +218,10 @@ func (r *V1BoxFWriteResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFListParams struct {
-	// Depth of the directory
-	Depth float64 `query:"depth,required" json:"-"`
 	// Path to the directory
 	Path string `query:"path,required" json:"-"`
+	// Depth of the directory
+	Depth param.Opt[float64] `query:"depth,omitzero" json:"-"`
 	paramObj
 }
 

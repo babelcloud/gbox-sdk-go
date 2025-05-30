@@ -42,6 +42,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	return
 }
 
+// Create box
 func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...option.RequestOption) (res *V1BoxNewResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "api/v1/boxes"
@@ -49,6 +50,7 @@ func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...opt
 	return
 }
 
+// Get box detail
 func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -60,6 +62,7 @@ func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.Reques
 	return
 }
 
+// List box
 func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...option.RequestOption) (res *V1BoxListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "api/v1/boxes"
@@ -67,6 +70,7 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 	return
 }
 
+// Create android box
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "api/v1/boxes/android"
@@ -74,6 +78,7 @@ func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParam
 	return
 }
 
+// Create linux box
 func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "api/v1/boxes/linux"
@@ -103,6 +108,7 @@ func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCode
 	return
 }
 
+// Start box
 func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -114,6 +120,7 @@ func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.Requ
 	return
 }
 
+// Stop box
 func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
