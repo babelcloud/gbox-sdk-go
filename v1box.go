@@ -1170,7 +1170,7 @@ func (r V1BoxNewAndroidParams) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(r.CreateAndroidBox)
 }
 func (r *V1BoxNewAndroidParams) UnmarshalJSON(data []byte) error {
-	return r.CreateAndroidBox.UnmarshalJSON(data)
+	return json.Unmarshal(data, &r.CreateAndroidBox)
 }
 
 type V1BoxNewLinuxParams struct {
@@ -1182,7 +1182,7 @@ func (r V1BoxNewLinuxParams) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(r.CreateLinuxBox)
 }
 func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
-	return r.CreateLinuxBox.UnmarshalJSON(data)
+	return json.Unmarshal(data, &r.CreateLinuxBox)
 }
 
 type V1BoxExecuteCommandsParams struct {
