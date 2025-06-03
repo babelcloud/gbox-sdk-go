@@ -11,12 +11,12 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
-	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
-	"github.com/babelcloud/gbox-sdk-go/option"
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 )
 
 // V1BoxService contains methods and other services that help with interacting with
@@ -187,6 +187,8 @@ type AndroidBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
 	Os AndroidBoxConfigOs `json:"os,required"`
+	// Resolution of the box
+	Resolution AndroidBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB
 	Storage float64 `json:"storage,required"`
 	// Working directory path for the box
@@ -199,6 +201,7 @@ type AndroidBoxConfig struct {
 		Labels      respjson.Field
 		Memory      respjson.Field
 		Os          respjson.Field
+		Resolution  respjson.Field
 		Storage     respjson.Field
 		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -252,6 +255,27 @@ type AndroidBoxConfigOs struct {
 // Returns the unmodified JSON received from the API
 func (r AndroidBoxConfigOs) RawJSON() string { return r.JSON.raw }
 func (r *AndroidBoxConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Resolution of the box
+type AndroidBoxConfigResolution struct {
+	// Height of the box
+	Height float64 `json:"height,required"`
+	// Width of the box
+	Width float64 `json:"width,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfigResolution) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -395,6 +419,8 @@ type LinuxBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Operating system configuration
 	Os LinuxBoxConfigOs `json:"os,required"`
+	// Resolution of the box
+	Resolution LinuxBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB.
 	Storage float64 `json:"storage,required"`
 	// Working directory path for the box
@@ -407,6 +433,7 @@ type LinuxBoxConfig struct {
 		Labels      respjson.Field
 		Memory      respjson.Field
 		Os          respjson.Field
+		Resolution  respjson.Field
 		Storage     respjson.Field
 		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -458,6 +485,27 @@ type LinuxBoxConfigOs struct {
 // Returns the unmodified JSON received from the API
 func (r LinuxBoxConfigOs) RawJSON() string { return r.JSON.raw }
 func (r *LinuxBoxConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Resolution of the box
+type LinuxBoxConfigResolution struct {
+	// Height of the box
+	Height float64 `json:"height,required"`
+	// Width of the box
+	Width float64 `json:"width,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfigResolution) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -534,9 +582,12 @@ type V1BoxNewResponseUnionConfig struct {
 	Labels  any                                `json:"labels"`
 	Memory  float64                            `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxNewResponseUnionConfigOs `json:"os"`
-	Storage    float64                       `json:"storage"`
-	WorkingDir string                        `json:"workingDir"`
+	Os V1BoxNewResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxNewResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                               `json:"storage"`
+	WorkingDir string                                `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -544,6 +595,7 @@ type V1BoxNewResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -589,6 +641,26 @@ type V1BoxNewResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxNewResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxNewResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxNewResponseUnion].
+type V1BoxNewResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxNewResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -648,9 +720,12 @@ type V1BoxGetResponseUnionConfig struct {
 	Labels  any                                `json:"labels"`
 	Memory  float64                            `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxGetResponseUnionConfigOs `json:"os"`
-	Storage    float64                       `json:"storage"`
-	WorkingDir string                        `json:"workingDir"`
+	Os V1BoxGetResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxGetResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                               `json:"storage"`
+	WorkingDir string                                `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -658,6 +733,7 @@ type V1BoxGetResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -703,6 +779,26 @@ type V1BoxGetResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxGetResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -788,9 +884,12 @@ type V1BoxListResponseDataUnionConfig struct {
 	Labels  any                                     `json:"labels"`
 	Memory  float64                                 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxListResponseDataUnionConfigOs `json:"os"`
-	Storage    float64                            `json:"storage"`
-	WorkingDir string                             `json:"workingDir"`
+	Os V1BoxListResponseDataUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxListResponseDataUnionConfigResolution `json:"resolution"`
+	Storage    float64                                    `json:"storage"`
+	WorkingDir string                                     `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -798,6 +897,7 @@ type V1BoxListResponseDataUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -843,6 +943,26 @@ type V1BoxListResponseDataUnionConfigOs struct {
 }
 
 func (r *V1BoxListResponseDataUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfigResolution is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigResolution
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -948,9 +1068,12 @@ type V1BoxStartResponseUnionConfig struct {
 	Labels  any                                  `json:"labels"`
 	Memory  float64                              `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxStartResponseUnionConfigOs `json:"os"`
-	Storage    float64                         `json:"storage"`
-	WorkingDir string                          `json:"workingDir"`
+	Os V1BoxStartResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxStartResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                                 `json:"storage"`
+	WorkingDir string                                  `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -958,6 +1081,7 @@ type V1BoxStartResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -1003,6 +1127,26 @@ type V1BoxStartResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxStartResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1062,9 +1206,12 @@ type V1BoxStopResponseUnionConfig struct {
 	Labels  any                                 `json:"labels"`
 	Memory  float64                             `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxStopResponseUnionConfigOs `json:"os"`
-	Storage    float64                        `json:"storage"`
-	WorkingDir string                         `json:"workingDir"`
+	Os V1BoxStopResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxStopResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                                `json:"storage"`
+	WorkingDir string                                 `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -1072,6 +1219,7 @@ type V1BoxStopResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -1117,6 +1265,26 @@ type V1BoxStopResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxStopResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
