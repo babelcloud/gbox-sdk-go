@@ -10,7 +10,6 @@ import (
 	"testing"
 	"time"
 
-
 	gboxsdk "github.com/babelcloud/gbox-sdk-go"
 	"github.com/babelcloud/gbox-sdk-go/internal"
 	"github.com/babelcloud/gbox-sdk-go/option"
