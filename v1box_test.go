@@ -109,7 +109,7 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
-			Type: gboxsdk.CreateAndroidBoxTypeLinux,
+			Type: gboxsdk.CreateAndroidBoxTypeAndroid,
 			Config: gboxsdk.CreateBoxConfigParam{
 				Envs:      map[string]interface{}{},
 				ExpiresIn: gboxsdk.String("expiresIn"),
