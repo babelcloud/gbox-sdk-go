@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/gbox-sdk-go
+module github.com/babelcloud/gbox-sdk-go
 
 go 1.21
 

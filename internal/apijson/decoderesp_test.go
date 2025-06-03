@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
-	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
+	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
+	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
 	"testing"
 )
 
