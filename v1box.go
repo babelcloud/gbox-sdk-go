@@ -149,7 +149,7 @@ type AndroidBox struct {
 	Status AndroidBoxStatus `json:"status,required"`
 	// Box type is Android
 	//
-	// Any of "linux", "android".
+	// Any of "android".
 	Type AndroidBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
@@ -269,7 +269,6 @@ const (
 type AndroidBoxType string
 
 const (
-	AndroidBoxTypeLinux   AndroidBoxType = "linux"
 	AndroidBoxTypeAndroid AndroidBoxType = "android"
 )
 
@@ -277,7 +276,7 @@ const (
 type CreateAndroidBoxParam struct {
 	// Box type is Android
 	//
-	// Any of "linux", "android".
+	// Any of "android".
 	Type CreateAndroidBoxType `json:"type,omitzero,required"`
 	// Configuration for an Android box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
@@ -296,7 +295,6 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 type CreateAndroidBoxType string
 
 const (
-	CreateAndroidBoxTypeLinux   CreateAndroidBoxType = "linux"
 	CreateAndroidBoxTypeAndroid CreateAndroidBoxType = "android"
 )
 
@@ -322,7 +320,7 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 type CreateLinuxBoxParam struct {
 	// Box type is Linux
 	//
-	// Any of "linux", "android".
+	// Any of "linux".
 	Type CreateLinuxBoxType `json:"type,omitzero,required"`
 	// Configuration for a Linux box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
@@ -341,8 +339,7 @@ func (r *CreateLinuxBoxParam) UnmarshalJSON(data []byte) error {
 type CreateLinuxBoxType string
 
 const (
-	CreateLinuxBoxTypeLinux   CreateLinuxBoxType = "linux"
-	CreateLinuxBoxTypeAndroid CreateLinuxBoxType = "android"
+	CreateLinuxBoxTypeLinux CreateLinuxBoxType = "linux"
 )
 
 type LinuxBox struct {
@@ -360,7 +357,7 @@ type LinuxBox struct {
 	Status LinuxBoxStatus `json:"status,required"`
 	// Box type is Linux
 	//
-	// Any of "linux", "android".
+	// Any of "linux".
 	Type LinuxBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
@@ -478,8 +475,7 @@ const (
 type LinuxBoxType string
 
 const (
-	LinuxBoxTypeLinux   LinuxBoxType = "linux"
-	LinuxBoxTypeAndroid LinuxBoxType = "android"
+	LinuxBoxTypeLinux LinuxBoxType = "linux"
 )
 
 // V1BoxNewResponseUnion contains all possible properties and values from
