@@ -198,7 +198,9 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"id",
 		gboxsdk.V1BoxExecuteCommandsParams{
-			Commands:   []string{"ls", "-l"},
+			Commands: gboxsdk.V1BoxExecuteCommandsParamsCommandsUnion{
+				OfStringArray: []string{"ls", "-l"},
+			},
 			Envs:       map[string]interface{}{},
 			Timeout:    gboxsdk.String("30s"),
 			WorkingDir: gboxsdk.String("workingDir"),
