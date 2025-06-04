@@ -1311,9 +1311,9 @@ func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxListParams struct {
 	// Page number
-	Page float64 `query:"page,required" json:"-"`
+	Page param.Opt[float64] `query:"page,omitzero" json:"-"`
 	// Page size
-	PageSize float64 `query:"pageSize,required" json:"-"`
+	PageSize param.Opt[float64] `query:"pageSize,omitzero" json:"-"`
 	paramObj
 }
 
@@ -1372,10 +1372,6 @@ func (r *V1BoxExecuteCommandsParams) UnmarshalJSON(data []byte) error {
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
-	// The type of the code.
-	//
-	// Any of "bash", "python3", "typescript".
-	Type V1BoxRunCodeParamsType `json:"type,omitzero,required"`
 	// The timeout of the code. e.g. "30s"
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the code.
@@ -1384,6 +1380,10 @@ type V1BoxRunCodeParams struct {
 	Argv []string `json:"argv,omitzero"`
 	// The environment variables to run the code
 	Envs any `json:"envs,omitzero"`
+	// The language of the code.
+	//
+	// Any of "bash", "python3", "typescript".
+	Language V1BoxRunCodeParamsLanguage `json:"language,omitzero"`
 	paramObj
 }
 
@@ -1395,11 +1395,11 @@ func (r *V1BoxRunCodeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The type of the code.
-type V1BoxRunCodeParamsType string
+// The language of the code.
+type V1BoxRunCodeParamsLanguage string
 
 const (
-	V1BoxRunCodeParamsTypeBash       V1BoxRunCodeParamsType = "bash"
-	V1BoxRunCodeParamsTypePython3    V1BoxRunCodeParamsType = "python3"
-	V1BoxRunCodeParamsTypeTypescript V1BoxRunCodeParamsType = "typescript"
+	V1BoxRunCodeParamsLanguageBash       V1BoxRunCodeParamsLanguage = "bash"
+	V1BoxRunCodeParamsLanguagePython3    V1BoxRunCodeParamsLanguage = "python3"
+	V1BoxRunCodeParamsLanguageTypescript V1BoxRunCodeParamsLanguage = "typescript"
 )
