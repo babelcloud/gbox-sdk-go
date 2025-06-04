@@ -40,7 +40,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/click", id)
+	path := fmt.Sprintf("boxes/%s/actions/click", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -51,7 +51,7 @@ func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/drag", id)
+	path := fmt.Sprintf("boxes/%s/actions/drag", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -62,7 +62,7 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/move", id)
+	path := fmt.Sprintf("boxes/%s/actions/move", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -73,7 +73,7 @@ func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/press", id)
+	path := fmt.Sprintf("boxes/%s/actions/press", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -84,7 +84,7 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1B
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/screenshot", id)
+	path := fmt.Sprintf("boxes/%s/actions/screenshot", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -95,7 +95,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxAc
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/scroll", id)
+	path := fmt.Sprintf("boxes/%s/actions/scroll", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -106,7 +106,7 @@ func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/touch", id)
+	path := fmt.Sprintf("boxes/%s/actions/touch", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -117,7 +117,7 @@ func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/type", id)
+	path := fmt.Sprintf("boxes/%s/actions/type", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
