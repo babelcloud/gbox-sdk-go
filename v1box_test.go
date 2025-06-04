@@ -68,7 +68,7 @@ func TestV1BoxGet(t *testing.T) {
 	}
 }
 
-func TestV1BoxList(t *testing.T) {
+func TestV1BoxListWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -82,8 +82,8 @@ func TestV1BoxList(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.V1.Boxes.List(context.TODO(), gboxsdk.V1BoxListParams{
-		Page:     0,
-		PageSize: 0,
+		Page:     gboxsdk.Float(0),
+		PageSize: gboxsdk.Float(0),
 	})
 	if err != nil {
 		var apierr *gboxsdk.Error
@@ -208,9 +208,9 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 		"id",
 		gboxsdk.V1BoxRunCodeParams{
 			Code:       `print("Hello, World!")`,
-			Type:       gboxsdk.V1BoxRunCodeParamsTypeBash,
 			Argv:       []string{"string"},
 			Envs:       map[string]interface{}{},
+			Language:   gboxsdk.V1BoxRunCodeParamsLanguageBash,
 			Timeout:    gboxsdk.String("timeout"),
 			WorkingDir: gboxsdk.String("workingDir"),
 		},
