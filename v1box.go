@@ -1363,8 +1363,8 @@ func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxExecuteCommandsParams struct {
-	// The command to run
-	Commands []string `json:"commands,omitzero,required"`
+	// The command to run. Can be a single string or an array of strings
+	Commands V1BoxExecuteCommandsParamsCommandsUnion `json:"commands,omitzero,required"`
 	// The timeout of the command. e.g. '30s'
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the command
@@ -1380,6 +1380,31 @@ func (r V1BoxExecuteCommandsParams) MarshalJSON() (data []byte, err error) {
 }
 func (r *V1BoxExecuteCommandsParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxExecuteCommandsParamsCommandsUnion struct {
+	OfString      param.Opt[string] `json:",omitzero,inline"`
+	OfStringArray []string          `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxExecuteCommandsParamsCommandsUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfString, u.OfStringArray)
+}
+func (u *V1BoxExecuteCommandsParamsCommandsUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
+	if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	} else if !param.IsOmitted(u.OfStringArray) {
+		return &u.OfStringArray
+	}
+	return nil
 }
 
 type V1BoxRunCodeParams struct {
