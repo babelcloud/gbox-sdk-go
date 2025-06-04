@@ -1303,7 +1303,7 @@ type V1BoxNewParams struct {
 }
 
 func (u V1BoxNewParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion[V1BoxNewParams](u.OfCreateLinuxBox, u.OfCreateAndroidBox)
+	return param.MarshalUnion(u, u.OfCreateLinuxBox, u.OfCreateAndroidBox)
 }
 func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
