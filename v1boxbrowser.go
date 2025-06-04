@@ -39,7 +39,7 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, opts ...opt
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/browser/connect-url/cdp", id)
+	path := fmt.Sprintf("boxes/%s/browser/connect-url/cdp", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -50,7 +50,7 @@ func (r *V1BoxBrowserService) ConnectURL(ctx context.Context, id string, opts ..
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/browser/connect-url", id)
+	path := fmt.Sprintf("boxes/%s/browser/connect-url", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }

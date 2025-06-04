@@ -47,7 +47,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 // Create box
 func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...option.RequestOption) (res *V1BoxNewResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes"
+	path := "boxes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -59,7 +59,7 @@ func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.Reques
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s", id)
+	path := fmt.Sprintf("boxes/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -67,7 +67,7 @@ func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.Reques
 // List box
 func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...option.RequestOption) (res *V1BoxListResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes"
+	path := "boxes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
@@ -75,7 +75,7 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 // Create android box
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes/android"
+	path := "boxes/android"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -83,7 +83,7 @@ func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParam
 // Create linux box
 func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes/linux"
+	path := "boxes/linux"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -94,7 +94,7 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/commands", id)
+	path := fmt.Sprintf("boxes/%s/commands", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -105,7 +105,7 @@ func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCode
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/run-code", id)
+	path := fmt.Sprintf("boxes/%s/run-code", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -117,7 +117,7 @@ func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.Requ
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/start", id)
+	path := fmt.Sprintf("boxes/%s/start", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
@@ -129,7 +129,7 @@ func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.Reque
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/stop", id)
+	path := fmt.Sprintf("boxes/%s/stop", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
