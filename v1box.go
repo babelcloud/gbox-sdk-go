@@ -72,6 +72,19 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 	return
 }
 
+// Delete box
+func (r *V1BoxService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return
+}
+
 // Create android box
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
