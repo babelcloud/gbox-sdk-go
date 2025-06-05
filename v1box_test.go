@@ -84,8 +84,8 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.V1.Boxes.List(context.TODO(), gboxsdk.V1BoxListParams{
-		Page:     gboxsdk.Float(0),
-		PageSize: gboxsdk.Float(0),
+		Page:     gboxsdk.Int(0),
+		PageSize: gboxsdk.Int(0),
 		Status:   gboxsdk.String("status"),
 	})
 	if err != nil {

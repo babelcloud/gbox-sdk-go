@@ -829,11 +829,11 @@ type V1BoxListResponse struct {
 	// A box instance that can be either Linux or Android type
 	Data []V1BoxListResponseDataUnion `json:"data,required"`
 	// Page number
-	Page float64 `json:"page,required"`
+	Page int64 `json:"page,required"`
 	// Page size
-	PageSize float64 `json:"pageSize,required"`
+	PageSize int64 `json:"pageSize,required"`
 	// Total number of items
-	Total float64 `json:"total,required"`
+	Total int64 `json:"total,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -1334,9 +1334,9 @@ func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxListParams struct {
 	// Page number
-	Page param.Opt[float64] `query:"page,omitzero" json:"-"`
+	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
-	PageSize param.Opt[float64] `query:"pageSize,omitzero" json:"-"`
+	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
 	// Filter boxes by their current status (pending, running, stopped, error, deleted)
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	paramObj
