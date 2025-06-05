@@ -34,6 +34,8 @@ func TestV1BoxNewWithOptionalParams(t *testing.T) {
 				ExpiresIn: gboxsdk.String("expiresIn"),
 				Labels:    map[string]interface{}{},
 			},
+			Timeout: gboxsdk.String("timeout"),
+			Wait:    gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
@@ -94,7 +96,7 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxDelete(t *testing.T) {
+func TestV1BoxDeleteWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -107,7 +109,14 @@ func TestV1BoxDelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Delete(context.TODO(), "id")
+	err := client.V1.Boxes.Delete(
+		context.TODO(),
+		"id",
+		gboxsdk.V1BoxDeleteParams{
+			Timeout: gboxsdk.String("timeout"),
+			Wait:    gboxsdk.Bool(true),
+		},
+	)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -138,6 +147,8 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 				ExpiresIn: gboxsdk.String("expiresIn"),
 				Labels:    map[string]interface{}{},
 			},
+			Timeout: gboxsdk.String("timeout"),
+			Wait:    gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
@@ -170,6 +181,8 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 				ExpiresIn: gboxsdk.String("expiresIn"),
 				Labels:    map[string]interface{}{},
 			},
+			Timeout: gboxsdk.String("timeout"),
+			Wait:    gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {

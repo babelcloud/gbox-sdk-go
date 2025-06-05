@@ -73,7 +73,7 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 }
 
 // Delete box
-func (r *V1BoxService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxService) Delete(ctx context.Context, id string, body V1BoxDeleteParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if id == "" {
@@ -81,7 +81,7 @@ func (r *V1BoxService) Delete(ctx context.Context, id string, opts ...option.Req
 		return
 	}
 	path := fmt.Sprintf("boxes/%s", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, nil, opts...)
 	return
 }
 
@@ -315,6 +315,10 @@ type CreateAndroidBoxParam struct {
 	//
 	// Any of "android".
 	Type CreateAndroidBoxType `json:"type,omitzero,required"`
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for an Android box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
@@ -359,6 +363,10 @@ type CreateLinuxBoxParam struct {
 	//
 	// Any of "linux".
 	Type CreateLinuxBoxType `json:"type,omitzero,required"`
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a Linux box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
@@ -1336,6 +1344,22 @@ func (r V1BoxListParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type V1BoxDeleteParams struct {
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
+	paramObj
+}
+
+func (r V1BoxDeleteParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxDeleteParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxDeleteParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxNewAndroidParams struct {
