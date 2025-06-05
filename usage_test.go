@@ -4,28 +4,33 @@ package gboxsdk_test
 
 import (
 	"context"
-	"os"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/babelcloud/gbox-sdk-go"
-	"github.com/babelcloud/gbox-sdk-go/internal/testutil"
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
 func TestUsage(t *testing.T) {
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
+	// 使用 httptest.Server mock /boxes 接口
+	mockServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/boxes" && r.Method == http.MethodPost {
+			w.Header().Set("Content-Type", "application/json") // 设置返回类型为 JSON
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte(`{"id":"mocked-box-id"}`)) // 返回一个简单的 JSON
+			return
+		}
+		http.NotFound(w, r)
+	}))
+	defer mockServer.Close()
+
 	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
+		option.WithBaseURL(mockServer.URL),
 		option.WithAPIKey("My API Key"),
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
