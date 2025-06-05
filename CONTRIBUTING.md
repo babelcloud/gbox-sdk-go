@@ -41,7 +41,7 @@ To use a local version of this library from source in another project, edit the 
 directive. This can be done through the CLI with the following:
 
 ```sh
-$ go mod edit -replace github.com/babelcloud/gbox-sdk-go=/path/to/gbox-sdk-go
+$ go mod edit -replace github.com/stainless-sdks/gbox-sdk-go=/path/to/gbox-sdk-go
 ```
 
 ## Running tests
