@@ -52,8 +52,8 @@ func main() {
 	client := gboxsdk.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("GBOX_API_KEY")
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
