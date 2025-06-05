@@ -158,7 +158,7 @@ type AndroidBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error".
+	// Any of "pending", "running", "stopped", "error", "deleted".
 	Status AndroidBoxStatus `json:"status,required"`
 	// Box type is Android
 	//
@@ -300,6 +300,7 @@ const (
 	AndroidBoxStatusRunning AndroidBoxStatus = "running"
 	AndroidBoxStatusStopped AndroidBoxStatus = "stopped"
 	AndroidBoxStatusError   AndroidBoxStatus = "error"
+	AndroidBoxStatusDeleted AndroidBoxStatus = "deleted"
 )
 
 // Box type is Android
@@ -398,7 +399,7 @@ type LinuxBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error".
+	// Any of "pending", "running", "stopped", "error", "deleted".
 	Status LinuxBoxStatus `json:"status,required"`
 	// Box type is Linux
 	//
@@ -538,6 +539,7 @@ const (
 	LinuxBoxStatusRunning LinuxBoxStatus = "running"
 	LinuxBoxStatusStopped LinuxBoxStatus = "stopped"
 	LinuxBoxStatusError   LinuxBoxStatus = "error"
+	LinuxBoxStatusDeleted LinuxBoxStatus = "deleted"
 )
 
 // Box type is Linux
@@ -1335,6 +1337,8 @@ type V1BoxListParams struct {
 	Page param.Opt[float64] `query:"page,omitzero" json:"-"`
 	// Page size
 	PageSize param.Opt[float64] `query:"pageSize,omitzero" json:"-"`
+	// Filter boxes by their current status (pending, running, stopped, error, deleted)
+	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	paramObj
 }
 

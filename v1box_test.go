@@ -86,6 +86,7 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.List(context.TODO(), gboxsdk.V1BoxListParams{
 		Page:     gboxsdk.Float(0),
 		PageSize: gboxsdk.Float(0),
+		Status:   gboxsdk.String("status"),
 	})
 	if err != nil {
 		var apierr *gboxsdk.Error
