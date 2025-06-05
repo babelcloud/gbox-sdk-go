@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-06-05)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/babelcloud/gbox-sdk-go/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** api update ([7c226cc](https://github.com/babelcloud/gbox-sdk-go/commit/7c226cc5949f18305218700678df3b8f18aa3119))
+* **api:** api update ([07c24b2](https://github.com/babelcloud/gbox-sdk-go/commit/07c24b284e4648bdff11749d41514ac98570d906))
+
+
+### Bug Fixes
+
+* correct unmarshalling of root body params ([9fab75c](https://github.com/babelcloud/gbox-sdk-go/commit/9fab75cbc85a7135f0f649ab7f4b35ad97005719))
+
+
+### Chores
+
+* make go mod tidy continue on error ([e86525c](https://github.com/babelcloud/gbox-sdk-go/commit/e86525cc16de2ee283e983ab01d83ac57e259686))
+* sync config ([25bc884](https://github.com/babelcloud/gbox-sdk-go/commit/25bc8849e147dd2de34186349a0e5f6659de6927))
+* update SDK settings ([1344d29](https://github.com/babelcloud/gbox-sdk-go/commit/1344d29ee21d59774c571f252e196790d531ab78))
+* update SDK settings ([04d32c6](https://github.com/babelcloud/gbox-sdk-go/commit/04d32c664148fda4db54cbec8220a0e27d72ae8b))
+
 ## 0.1.0-alpha.1 (2025-05-30)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/babelcloud/gbox-sdk-go/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
