@@ -44,7 +44,7 @@ func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListPar
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/fs/list", id)
+	path := fmt.Sprintf("boxes/%s/fs/list", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
@@ -55,7 +55,7 @@ func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadPar
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/fs/read", id)
+	path := fmt.Sprintf("boxes/%s/fs/read", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
@@ -66,7 +66,7 @@ func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWritePa
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/fs/write", id)
+	path := fmt.Sprintf("boxes/%s/fs/write", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }

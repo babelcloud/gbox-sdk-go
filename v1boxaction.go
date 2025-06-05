@@ -40,7 +40,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/click", id)
+	path := fmt.Sprintf("boxes/%s/actions/click", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -51,7 +51,7 @@ func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/drag", id)
+	path := fmt.Sprintf("boxes/%s/actions/drag", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -62,7 +62,7 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/move", id)
+	path := fmt.Sprintf("boxes/%s/actions/move", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -73,7 +73,7 @@ func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/press", id)
+	path := fmt.Sprintf("boxes/%s/actions/press", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -84,7 +84,7 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1B
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/screenshot", id)
+	path := fmt.Sprintf("boxes/%s/actions/screenshot", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -95,7 +95,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxAc
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/scroll", id)
+	path := fmt.Sprintf("boxes/%s/actions/scroll", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -106,7 +106,7 @@ func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxAct
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/touch", id)
+	path := fmt.Sprintf("boxes/%s/actions/touch", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -117,7 +117,7 @@ func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActi
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/actions/type", id)
+	path := fmt.Sprintf("boxes/%s/actions/type", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -235,8 +235,6 @@ func (r *V1BoxActionScreenshotResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxActionClickParams struct {
-	// Action type for mouse click
-	Type any `json:"type,omitzero,required"`
 	// X coordinate of the click
 	X float64 `json:"x,required"`
 	// Y coordinate of the click
@@ -282,8 +280,6 @@ const (
 type V1BoxActionDragParams struct {
 	// Path of the drag action as a series of coordinates
 	Path []V1BoxActionDragParamsPath `json:"path,omitzero,required"`
-	// Action type for drag interaction
-	Type any `json:"type,omitzero,required"`
 	// Time interval between points (e.g. "50ms")
 	Duration param.Opt[string] `json:"duration,omitzero"`
 	// Type of the URI
@@ -327,8 +323,6 @@ const (
 )
 
 type V1BoxActionMoveParams struct {
-	// Action type for cursor movement
-	Type any `json:"type,omitzero,required"`
 	// X coordinate to move to
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
@@ -359,8 +353,6 @@ const (
 type V1BoxActionPressParams struct {
 	// Array of keys to press
 	Keys []string `json:"keys,omitzero,required"`
-	// Action type for keyboard key press
-	Type any `json:"type,omitzero,required"`
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".
@@ -391,10 +383,6 @@ type V1BoxActionScreenshotParams struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionScreenshotParamsOutputFormat `json:"outputFormat,omitzero"`
-	// Action type for screenshot
-	//
-	// Any of "png", "jpeg".
-	Type V1BoxActionScreenshotParamsType `json:"type,omitzero"`
 	paramObj
 }
 
@@ -437,21 +425,11 @@ const (
 	V1BoxActionScreenshotParamsOutputFormatStorageKey V1BoxActionScreenshotParamsOutputFormat = "storageKey"
 )
 
-// Action type for screenshot
-type V1BoxActionScreenshotParamsType string
-
-const (
-	V1BoxActionScreenshotParamsTypePng  V1BoxActionScreenshotParamsType = "png"
-	V1BoxActionScreenshotParamsTypeJpeg V1BoxActionScreenshotParamsType = "jpeg"
-)
-
 type V1BoxActionScrollParams struct {
 	// Horizontal scroll amount
 	ScrollX float64 `json:"scrollX,required"`
 	// Vertical scroll amount
 	ScrollY float64 `json:"scrollY,required"`
-	// Action type for scroll interaction
-	Type any `json:"type,omitzero,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
@@ -482,8 +460,6 @@ const (
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionTouchParamsPoint `json:"points,omitzero,required"`
-	// Action type for touch interaction
-	Type any `json:"type,omitzero,required"`
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".
@@ -546,8 +522,6 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// Action type for typing text
-	Type any `json:"type,omitzero,required"`
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".

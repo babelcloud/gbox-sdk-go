@@ -30,7 +30,6 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"id",
 		gboxsdk.V1BoxActionClickParams{
-			Type:         map[string]interface{}{},
 			X:            100,
 			Y:            100,
 			Button:       gboxsdk.V1BoxActionClickParamsButtonLeft,
@@ -71,7 +70,6 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				X: 200,
 				Y: 200,
 			}},
-			Type:         map[string]interface{}{},
 			Duration:     gboxsdk.String("duration"),
 			OutputFormat: gboxsdk.V1BoxActionDragParamsOutputFormatBase64,
 		},
@@ -102,7 +100,6 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"id",
 		gboxsdk.V1BoxActionMoveParams{
-			Type:         map[string]interface{}{},
 			X:            200,
 			Y:            300,
 			OutputFormat: gboxsdk.V1BoxActionMoveParamsOutputFormatBase64,
@@ -135,7 +132,6 @@ func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
 		"id",
 		gboxsdk.V1BoxActionPressParams{
 			Keys:         []string{"Enter"},
-			Type:         map[string]interface{}{},
 			OutputFormat: gboxsdk.V1BoxActionPressParamsOutputFormatBase64,
 		},
 	)
@@ -172,7 +168,6 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 				Y:      0,
 			},
 			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
-			Type:         gboxsdk.V1BoxActionScreenshotParamsTypePng,
 		},
 	)
 	if err != nil {
@@ -203,7 +198,6 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionScrollParams{
 			ScrollX:      0,
 			ScrollY:      100,
-			Type:         map[string]interface{}{},
 			X:            100,
 			Y:            100,
 			OutputFormat: gboxsdk.V1BoxActionScrollParamsOutputFormatBase64,
@@ -242,7 +236,6 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 				},
 				Actions: []any{map[string]interface{}{}},
 			}},
-			Type:         map[string]interface{}{},
 			OutputFormat: gboxsdk.V1BoxActionTouchParamsOutputFormatBase64,
 		},
 	)
@@ -273,7 +266,6 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 		"id",
 		gboxsdk.V1BoxActionTypeParams{
 			Text:         "Hello World",
-			Type:         map[string]interface{}{},
 			OutputFormat: gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
 		},
 	)

@@ -47,7 +47,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 // Create box
 func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...option.RequestOption) (res *V1BoxNewResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes"
+	path := "boxes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -59,7 +59,7 @@ func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.Reques
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s", id)
+	path := fmt.Sprintf("boxes/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -67,15 +67,28 @@ func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.Reques
 // List box
 func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...option.RequestOption) (res *V1BoxListResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes"
+	path := "boxes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
+// Delete box
+func (r *V1BoxService) Delete(ctx context.Context, id string, body V1BoxDeleteParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, nil, opts...)
 	return
 }
 
 // Create android box
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes/android"
+	path := "boxes/android"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -83,7 +96,7 @@ func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParam
 // Create linux box
 func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "api/v1/boxes/linux"
+	path := "boxes/linux"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -94,7 +107,7 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/commands", id)
+	path := fmt.Sprintf("boxes/%s/commands", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -105,7 +118,7 @@ func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCode
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/run-code", id)
+	path := fmt.Sprintf("boxes/%s/run-code", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -117,7 +130,7 @@ func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.Requ
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/start", id)
+	path := fmt.Sprintf("boxes/%s/start", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
@@ -129,7 +142,7 @@ func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.Reque
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("api/v1/boxes/%s/stop", id)
+	path := fmt.Sprintf("boxes/%s/stop", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
@@ -145,11 +158,11 @@ type AndroidBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error".
+	// Any of "pending", "running", "stopped", "error", "deleted".
 	Status AndroidBoxStatus `json:"status,required"`
 	// Box type is Android
 	//
-	// Any of "linux", "android".
+	// Any of "android".
 	Type AndroidBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
@@ -187,6 +200,8 @@ type AndroidBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
 	Os AndroidBoxConfigOs `json:"os,required"`
+	// Resolution of the box
+	Resolution AndroidBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB
 	Storage float64 `json:"storage,required"`
 	// Working directory path for the box
@@ -199,6 +214,7 @@ type AndroidBoxConfig struct {
 		Labels      respjson.Field
 		Memory      respjson.Field
 		Os          respjson.Field
+		Resolution  respjson.Field
 		Storage     respjson.Field
 		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -255,6 +271,27 @@ func (r *AndroidBoxConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Resolution of the box
+type AndroidBoxConfigResolution struct {
+	// Height of the box
+	Height float64 `json:"height,required"`
+	// Width of the box
+	Width float64 `json:"width,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfigResolution) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The current status of a box instance
 type AndroidBoxStatus string
 
@@ -263,13 +300,13 @@ const (
 	AndroidBoxStatusRunning AndroidBoxStatus = "running"
 	AndroidBoxStatusStopped AndroidBoxStatus = "stopped"
 	AndroidBoxStatusError   AndroidBoxStatus = "error"
+	AndroidBoxStatusDeleted AndroidBoxStatus = "deleted"
 )
 
 // Box type is Android
 type AndroidBoxType string
 
 const (
-	AndroidBoxTypeLinux   AndroidBoxType = "linux"
 	AndroidBoxTypeAndroid AndroidBoxType = "android"
 )
 
@@ -277,8 +314,12 @@ const (
 type CreateAndroidBoxParam struct {
 	// Box type is Android
 	//
-	// Any of "linux", "android".
+	// Any of "android".
 	Type CreateAndroidBoxType `json:"type,omitzero,required"`
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for an Android box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
@@ -296,7 +337,6 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 type CreateAndroidBoxType string
 
 const (
-	CreateAndroidBoxTypeLinux   CreateAndroidBoxType = "linux"
 	CreateAndroidBoxTypeAndroid CreateAndroidBoxType = "android"
 )
 
@@ -322,8 +362,12 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 type CreateLinuxBoxParam struct {
 	// Box type is Linux
 	//
-	// Any of "linux", "android".
+	// Any of "linux".
 	Type CreateLinuxBoxType `json:"type,omitzero,required"`
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a Linux box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
@@ -341,8 +385,7 @@ func (r *CreateLinuxBoxParam) UnmarshalJSON(data []byte) error {
 type CreateLinuxBoxType string
 
 const (
-	CreateLinuxBoxTypeLinux   CreateLinuxBoxType = "linux"
-	CreateLinuxBoxTypeAndroid CreateLinuxBoxType = "android"
+	CreateLinuxBoxTypeLinux CreateLinuxBoxType = "linux"
 )
 
 type LinuxBox struct {
@@ -356,11 +399,11 @@ type LinuxBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error".
+	// Any of "pending", "running", "stopped", "error", "deleted".
 	Status LinuxBoxStatus `json:"status,required"`
 	// Box type is Linux
 	//
-	// Any of "linux", "android".
+	// Any of "linux".
 	Type LinuxBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
@@ -398,6 +441,8 @@ type LinuxBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Operating system configuration
 	Os LinuxBoxConfigOs `json:"os,required"`
+	// Resolution of the box
+	Resolution LinuxBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB.
 	Storage float64 `json:"storage,required"`
 	// Working directory path for the box
@@ -410,6 +455,7 @@ type LinuxBoxConfig struct {
 		Labels      respjson.Field
 		Memory      respjson.Field
 		Os          respjson.Field
+		Resolution  respjson.Field
 		Storage     respjson.Field
 		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -464,6 +510,27 @@ func (r *LinuxBoxConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Resolution of the box
+type LinuxBoxConfigResolution struct {
+	// Height of the box
+	Height float64 `json:"height,required"`
+	// Width of the box
+	Width float64 `json:"width,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfigResolution) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The current status of a box instance
 type LinuxBoxStatus string
 
@@ -472,14 +539,14 @@ const (
 	LinuxBoxStatusRunning LinuxBoxStatus = "running"
 	LinuxBoxStatusStopped LinuxBoxStatus = "stopped"
 	LinuxBoxStatusError   LinuxBoxStatus = "error"
+	LinuxBoxStatusDeleted LinuxBoxStatus = "deleted"
 )
 
 // Box type is Linux
 type LinuxBoxType string
 
 const (
-	LinuxBoxTypeLinux   LinuxBoxType = "linux"
-	LinuxBoxTypeAndroid LinuxBoxType = "android"
+	LinuxBoxTypeLinux LinuxBoxType = "linux"
 )
 
 // V1BoxNewResponseUnion contains all possible properties and values from
@@ -538,9 +605,12 @@ type V1BoxNewResponseUnionConfig struct {
 	Labels  any                                `json:"labels"`
 	Memory  float64                            `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxNewResponseUnionConfigOs `json:"os"`
-	Storage    float64                       `json:"storage"`
-	WorkingDir string                        `json:"workingDir"`
+	Os V1BoxNewResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxNewResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                               `json:"storage"`
+	WorkingDir string                                `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -548,6 +618,7 @@ type V1BoxNewResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -593,6 +664,26 @@ type V1BoxNewResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxNewResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxNewResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxNewResponseUnion].
+type V1BoxNewResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxNewResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -652,9 +743,12 @@ type V1BoxGetResponseUnionConfig struct {
 	Labels  any                                `json:"labels"`
 	Memory  float64                            `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxGetResponseUnionConfigOs `json:"os"`
-	Storage    float64                       `json:"storage"`
-	WorkingDir string                        `json:"workingDir"`
+	Os V1BoxGetResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxGetResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                               `json:"storage"`
+	WorkingDir string                                `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -662,6 +756,7 @@ type V1BoxGetResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -710,15 +805,35 @@ func (r *V1BoxGetResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// V1BoxGetResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxListResponse struct {
 	// A box instance that can be either Linux or Android type
 	Data []V1BoxListResponseDataUnion `json:"data,required"`
 	// Page number
-	Page float64 `json:"page,required"`
+	Page int64 `json:"page,required"`
 	// Page size
-	PageSize float64 `json:"pageSize,required"`
+	PageSize int64 `json:"pageSize,required"`
 	// Total number of items
-	Total float64 `json:"total,required"`
+	Total int64 `json:"total,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -792,9 +907,12 @@ type V1BoxListResponseDataUnionConfig struct {
 	Labels  any                                     `json:"labels"`
 	Memory  float64                                 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxListResponseDataUnionConfigOs `json:"os"`
-	Storage    float64                            `json:"storage"`
-	WorkingDir string                             `json:"workingDir"`
+	Os V1BoxListResponseDataUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxListResponseDataUnionConfigResolution `json:"resolution"`
+	Storage    float64                                    `json:"storage"`
+	WorkingDir string                                     `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -802,6 +920,7 @@ type V1BoxListResponseDataUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -847,6 +966,26 @@ type V1BoxListResponseDataUnionConfigOs struct {
 }
 
 func (r *V1BoxListResponseDataUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfigResolution is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigResolution
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -952,9 +1091,12 @@ type V1BoxStartResponseUnionConfig struct {
 	Labels  any                                  `json:"labels"`
 	Memory  float64                              `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxStartResponseUnionConfigOs `json:"os"`
-	Storage    float64                         `json:"storage"`
-	WorkingDir string                          `json:"workingDir"`
+	Os V1BoxStartResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxStartResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                                 `json:"storage"`
+	WorkingDir string                                  `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -962,6 +1104,7 @@ type V1BoxStartResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -1007,6 +1150,26 @@ type V1BoxStartResponseUnionConfigOs struct {
 }
 
 func (r *V1BoxStartResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1066,9 +1229,12 @@ type V1BoxStopResponseUnionConfig struct {
 	Labels  any                                 `json:"labels"`
 	Memory  float64                             `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os         V1BoxStopResponseUnionConfigOs `json:"os"`
-	Storage    float64                        `json:"storage"`
-	WorkingDir string                         `json:"workingDir"`
+	Os V1BoxStopResponseUnionConfigOs `json:"os"`
+	// This field is a union of [LinuxBoxConfigResolution],
+	// [AndroidBoxConfigResolution]
+	Resolution V1BoxStopResponseUnionConfigResolution `json:"resolution"`
+	Storage    float64                                `json:"storage"`
+	WorkingDir string                                 `json:"workingDir"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -1076,6 +1242,7 @@ type V1BoxStopResponseUnionConfig struct {
 		Labels     respjson.Field
 		Memory     respjson.Field
 		Os         respjson.Field
+		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
 		raw        string
@@ -1124,6 +1291,26 @@ func (r *V1BoxStopResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// V1BoxStopResponseUnionConfigResolution is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigResolution provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfigResolution struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxNewParams struct {
 
 	//
@@ -1139,7 +1326,7 @@ type V1BoxNewParams struct {
 }
 
 func (u V1BoxNewParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion[V1BoxNewParams](u.OfCreateLinuxBox, u.OfCreateAndroidBox)
+	return param.MarshalUnion(u, u.OfCreateLinuxBox, u.OfCreateAndroidBox)
 }
 func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -1147,9 +1334,11 @@ func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxListParams struct {
 	// Page number
-	Page float64 `query:"page,required" json:"-"`
+	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
-	PageSize float64 `query:"pageSize,required" json:"-"`
+	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
+	// Filter boxes by their current status (pending, running, stopped, error, deleted)
+	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	paramObj
 }
 
@@ -1161,6 +1350,22 @@ func (r V1BoxListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+type V1BoxDeleteParams struct {
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
+	paramObj
+}
+
+func (r V1BoxDeleteParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxDeleteParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxDeleteParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxNewAndroidParams struct {
 	CreateAndroidBox CreateAndroidBoxParam
 	paramObj
@@ -1170,7 +1375,7 @@ func (r V1BoxNewAndroidParams) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(r.CreateAndroidBox)
 }
 func (r *V1BoxNewAndroidParams) UnmarshalJSON(data []byte) error {
-	return r.CreateAndroidBox.UnmarshalJSON(data)
+	return json.Unmarshal(data, &r.CreateAndroidBox)
 }
 
 type V1BoxNewLinuxParams struct {
@@ -1182,12 +1387,12 @@ func (r V1BoxNewLinuxParams) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(r.CreateLinuxBox)
 }
 func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
-	return r.CreateLinuxBox.UnmarshalJSON(data)
+	return json.Unmarshal(data, &r.CreateLinuxBox)
 }
 
 type V1BoxExecuteCommandsParams struct {
-	// The command to run
-	Commands []string `json:"commands,omitzero,required"`
+	// The command to run. Can be a single string or an array of strings
+	Commands V1BoxExecuteCommandsParamsCommandsUnion `json:"commands,omitzero,required"`
 	// The timeout of the command. e.g. '30s'
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the command
@@ -1205,13 +1410,34 @@ func (r *V1BoxExecuteCommandsParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxExecuteCommandsParamsCommandsUnion struct {
+	OfString      param.Opt[string] `json:",omitzero,inline"`
+	OfStringArray []string          `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxExecuteCommandsParamsCommandsUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfString, u.OfStringArray)
+}
+func (u *V1BoxExecuteCommandsParamsCommandsUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
+	if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	} else if !param.IsOmitted(u.OfStringArray) {
+		return &u.OfStringArray
+	}
+	return nil
+}
+
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
-	// The type of the code.
-	//
-	// Any of "bash", "python3", "typescript".
-	Type V1BoxRunCodeParamsType `json:"type,omitzero,required"`
 	// The timeout of the code. e.g. "30s"
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the code.
@@ -1220,6 +1446,10 @@ type V1BoxRunCodeParams struct {
 	Argv []string `json:"argv,omitzero"`
 	// The environment variables to run the code
 	Envs any `json:"envs,omitzero"`
+	// The language of the code.
+	//
+	// Any of "bash", "python3", "typescript".
+	Language V1BoxRunCodeParamsLanguage `json:"language,omitzero"`
 	paramObj
 }
 
@@ -1231,11 +1461,11 @@ func (r *V1BoxRunCodeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The type of the code.
-type V1BoxRunCodeParamsType string
+// The language of the code.
+type V1BoxRunCodeParamsLanguage string
 
 const (
-	V1BoxRunCodeParamsTypeBash       V1BoxRunCodeParamsType = "bash"
-	V1BoxRunCodeParamsTypePython3    V1BoxRunCodeParamsType = "python3"
-	V1BoxRunCodeParamsTypeTypescript V1BoxRunCodeParamsType = "typescript"
+	V1BoxRunCodeParamsLanguageBash       V1BoxRunCodeParamsLanguage = "bash"
+	V1BoxRunCodeParamsLanguagePython3    V1BoxRunCodeParamsLanguage = "python3"
+	V1BoxRunCodeParamsLanguageTypescript V1BoxRunCodeParamsLanguage = "typescript"
 )

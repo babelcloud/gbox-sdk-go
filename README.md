@@ -24,7 +24,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.1'
+go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.2'
 ```
 
 <!-- x-release-please-end -->
@@ -52,8 +52,8 @@ func main() {
 	client := gboxsdk.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("GBOX_API_KEY")
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
+	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
+		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 		},
 	})
@@ -306,7 +306,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/api/v1/boxes": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/boxes": 400 Bad Request { ... }
 }
 ```
 
