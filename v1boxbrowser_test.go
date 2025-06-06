@@ -26,7 +26,7 @@ func TestV1BoxBrowserCdpURL(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.CdpURL(context.TODO(), "id")
+	_, err := client.V1.Boxes.Browser.CdpURL(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -49,7 +49,7 @@ func TestV1BoxBrowserConnectURL(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.ConnectURL(context.TODO(), "id")
+	_, err := client.V1.Boxes.Browser.ConnectURL(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
