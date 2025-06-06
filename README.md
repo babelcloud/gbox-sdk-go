@@ -341,6 +341,24 @@ file returned by `os.Open` will be sent with the file name on disk.
 We also provide a helper `gboxsdk.File(reader io.Reader, filename string, contentType string)`
 which can be used to wrap any `io.Reader` with the appropriate file name and content type.
 
+```go
+// A file from the file system
+file, err := os.Open("/path/to/file")
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: file,
+}
+
+// A file from a string
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: strings.NewReader("my file contents"),
+}
+
+// With a custom filename and contentType
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+}
+```
+
 ### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.

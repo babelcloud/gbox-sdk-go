@@ -3,8 +3,10 @@
 package gboxsdk_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -13,7 +15,7 @@ import (
 	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
-func TestV1BoxFListWithOptionalParams(t *testing.T) {
+func TestV1BoxAndroidList(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,12 +28,34 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Fs.List(
+	_, err := client.V1.Boxes.Android.List(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxAndroidGet(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Android.Get(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxFListParams{
-			Path:  "path",
-			Depth: gboxsdk.Float(0),
+		"com.example.myapp",
+		gboxsdk.V1BoxAndroidGetParams{
+			ID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
@@ -43,7 +67,7 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxFRead(t *testing.T) {
+func TestV1BoxAndroidInstall(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -56,12 +80,10 @@ func TestV1BoxFRead(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Fs.Read(
+	err := client.V1.Boxes.Android.Install(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxFReadParams{
-			Path: "path",
-		},
+		gboxsdk.V1BoxAndroidInstallParams{},
 	)
 	if err != nil {
 		var apierr *gboxsdk.Error
@@ -72,7 +94,7 @@ func TestV1BoxFRead(t *testing.T) {
 	}
 }
 
-func TestV1BoxFWrite(t *testing.T) {
+func TestV1BoxAndroidUninstall(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -85,12 +107,11 @@ func TestV1BoxFWrite(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Fs.Write(
+	err := client.V1.Boxes.Android.Uninstall(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxFWriteParams{
-			Content: "content",
-			Path:    "path",
+		"com.example.myapp",
+		gboxsdk.V1BoxAndroidUninstallParams{
+			ID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
