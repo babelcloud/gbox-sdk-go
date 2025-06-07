@@ -38,6 +38,7 @@ func NewV1BoxFService(opts ...option.RequestOption) (r V1BoxFService) {
 	return
 }
 
+// List box files
 func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -49,6 +50,7 @@ func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListPar
 	return
 }
 
+// Read box file
 func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -60,6 +62,7 @@ func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadPar
 	return
 }
 
+// Write box file
 func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -71,8 +74,9 @@ func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWritePa
 	return
 }
 
+// Response containing directory listing results
 type V1BoxFListResponse struct {
-	// A box instance that can be either Linux or Android type
+	// Array of files and directories
 	Data []V1BoxFListResponseDataUnion `json:"data,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -89,7 +93,7 @@ func (r *V1BoxFListResponse) UnmarshalJSON(data []byte) error {
 }
 
 // V1BoxFListResponseDataUnion contains all possible properties and values from
-// [V1BoxFListResponseDataFile], [V1BoxFListResponseDataDir].
+// [V1BoxFListResponseDataFile], [V1BoxFListResponseDataDirectory].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxFListResponseDataUnion struct {
@@ -110,12 +114,12 @@ type V1BoxFListResponseDataUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxFListResponseDataUnion) AsV1BoxFListResponseDataFile() (v V1BoxFListResponseDataFile) {
+func (u V1BoxFListResponseDataUnion) AsFile() (v V1BoxFListResponseDataFile) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxFListResponseDataUnion) AsV1BoxFListResponseDataDir() (v V1BoxFListResponseDataDir) {
+func (u V1BoxFListResponseDataUnion) AsDirectory() (v V1BoxFListResponseDataDirectory) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -127,6 +131,7 @@ func (r *V1BoxFListResponseDataUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// File system file representation
 type V1BoxFListResponseDataFile struct {
 	// Last modified time of the file
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
@@ -158,7 +163,8 @@ func (r *V1BoxFListResponseDataFile) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxFListResponseDataDir struct {
+// File system directory representation
+type V1BoxFListResponseDataDirectory struct {
 	// Name of the directory
 	Name string `json:"name,required"`
 	// Full path to the directory
@@ -178,11 +184,12 @@ type V1BoxFListResponseDataDir struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxFListResponseDataDir) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFListResponseDataDir) UnmarshalJSON(data []byte) error {
+func (r V1BoxFListResponseDataDirectory) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFListResponseDataDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing file content
 type V1BoxFReadResponse struct {
 	// Content of the file
 	Content string `json:"content,required"`
@@ -200,6 +207,7 @@ func (r *V1BoxFReadResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response after writing file content
 type V1BoxFWriteResponse struct {
 	// Success message
 	Message string `json:"message,required"`

@@ -33,6 +33,7 @@ func NewV1BoxBrowserService(opts ...option.RequestOption) (r V1BoxBrowserService
 	return
 }
 
+// Get browser CDP url
 func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, opts ...option.RequestOption) (res *string, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -44,6 +45,7 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, opts ...opt
 	return
 }
 
+// Get browser connect url
 func (r *V1BoxBrowserService) ConnectURL(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxBrowserConnectURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -55,6 +57,7 @@ func (r *V1BoxBrowserService) ConnectURL(ctx context.Context, id string, opts ..
 	return
 }
 
+// Browser connection URL information
 type V1BoxBrowserConnectURLResponse struct {
 	// CDP URL
 	CdpURL string `json:"cdpUrl,required"`

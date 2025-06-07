@@ -96,6 +96,7 @@ func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string,
 	return
 }
 
+// Android app information
 type AndroidApp struct {
 	// Android app apk path
 	ApkPath string `json:"apkPath,required"`
@@ -122,6 +123,7 @@ func (r *AndroidApp) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing list of Android apps
 type V1BoxAndroidListResponse struct {
 	// Android app list
 	Data []AndroidApp `json:"data,required"`
@@ -150,10 +152,12 @@ type V1BoxAndroidInstallParams struct {
 	// Request body variants
 	//
 
-	// This field is a request body variant, only one variant field can be set.
+	// This field is a request body variant, only one variant field can be set. Request
+	// for installing Android app from uploaded APK file
 	OfInstallAndroidAppByFile *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile `json:",inline"`
-	// This field is a request body variant, only one variant field can be set.
-	OfInstallAndroidAppByURLDto *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURLDto `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Request
+	// for installing Android app from HTTP URL
+	OfInstallAndroidAppByURL *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL `json:",inline"`
 
 	paramObj
 }
@@ -176,6 +180,8 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
+// Request for installing Android app from uploaded APK file
+//
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile struct {
 	// APK file to install (max file size: 200MB)
@@ -191,18 +197,20 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Request for installing Android app from HTTP URL
+//
 // The property Apk is required.
-type V1BoxAndroidInstallParamsBodyInstallAndroidAppByURLDto struct {
+type V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL struct {
 	// HTTP URL to download APK file (max file size: 200MB)
 	Apk string `json:"apk,required"`
 	paramObj
 }
 
-func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByURLDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidAppByURLDto
+func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURLDto) UnmarshalJSON(data []byte) error {
+func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
