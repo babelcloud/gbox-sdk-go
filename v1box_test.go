@@ -30,11 +30,17 @@ func TestV1BoxNewWithOptionalParams(t *testing.T) {
 		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 			Config: gboxsdk.CreateBoxConfigParam{
-				Envs:      map[string]interface{}{},
-				ExpiresIn: gboxsdk.String("expiresIn"),
-				Labels:    map[string]interface{}{},
+				Envs: map[string]interface{}{
+					"DEBUG":   "true",
+					"API_URL": "https://api.example.com",
+				},
+				ExpiresIn: gboxsdk.String("10m"),
+				Labels: map[string]interface{}{
+					"project":     "web-automation",
+					"environment": "testing",
+				},
 			},
-			Timeout: gboxsdk.String("timeout"),
+			Timeout: gboxsdk.String("30s"),
 			Wait:    gboxsdk.Bool(true),
 		},
 	})
@@ -84,9 +90,9 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.V1.Boxes.List(context.TODO(), gboxsdk.V1BoxListParams{
-		Page:     gboxsdk.Int(0),
-		PageSize: gboxsdk.Int(0),
-		Status:   gboxsdk.String("status"),
+		Page:     gboxsdk.Int(1),
+		PageSize: gboxsdk.Int(10),
+		Status:   gboxsdk.String("running"),
 	})
 	if err != nil {
 		var apierr *gboxsdk.Error
@@ -114,7 +120,7 @@ func TestV1BoxDeleteWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxDeleteParams{
-			Timeout: gboxsdk.String("timeout"),
+			Timeout: gboxsdk.String("30s"),
 			Wait:    gboxsdk.Bool(true),
 		},
 	)
@@ -144,11 +150,17 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
 			Type: gboxsdk.CreateAndroidBoxTypeAndroid,
 			Config: gboxsdk.CreateBoxConfigParam{
-				Envs:      map[string]interface{}{},
-				ExpiresIn: gboxsdk.String("expiresIn"),
-				Labels:    map[string]interface{}{},
+				Envs: map[string]interface{}{
+					"DEBUG":   "true",
+					"API_URL": "https://api.example.com",
+				},
+				ExpiresIn: gboxsdk.String("10m"),
+				Labels: map[string]interface{}{
+					"project":     "web-automation",
+					"environment": "testing",
+				},
 			},
-			Timeout: gboxsdk.String("timeout"),
+			Timeout: gboxsdk.String("30s"),
 			Wait:    gboxsdk.Bool(true),
 		},
 	})
@@ -178,11 +190,17 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
 			Type: gboxsdk.CreateLinuxBoxTypeLinux,
 			Config: gboxsdk.CreateBoxConfigParam{
-				Envs:      map[string]interface{}{},
-				ExpiresIn: gboxsdk.String("expiresIn"),
-				Labels:    map[string]interface{}{},
+				Envs: map[string]interface{}{
+					"DEBUG":   "true",
+					"API_URL": "https://api.example.com",
+				},
+				ExpiresIn: gboxsdk.String("10m"),
+				Labels: map[string]interface{}{
+					"project":     "web-automation",
+					"environment": "testing",
+				},
 			},
-			Timeout: gboxsdk.String("timeout"),
+			Timeout: gboxsdk.String("30s"),
 			Wait:    gboxsdk.Bool(true),
 		},
 	})
@@ -215,9 +233,12 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 			Commands: gboxsdk.V1BoxExecuteCommandsParamsCommandsUnion{
 				OfStringArray: []string{"ls", "-l"},
 			},
-			Envs:       map[string]interface{}{},
+			Envs: map[string]interface{}{
+				"PATH":     "/usr/bin:/bin",
+				"NODE_ENV": "production",
+			},
 			Timeout:    gboxsdk.String("30s"),
-			WorkingDir: gboxsdk.String("workingDir"),
+			WorkingDir: gboxsdk.String("/home/user/projects"),
 		},
 	)
 	if err != nil {
@@ -246,12 +267,15 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxRunCodeParams{
-			Code:       `print("Hello, World!")`,
-			Argv:       []string{"string"},
-			Envs:       map[string]interface{}{},
-			Language:   gboxsdk.V1BoxRunCodeParamsLanguageBash,
+			Code: `print("Hello, World!")`,
+			Argv: []string{"-v", "--help"},
+			Envs: map[string]interface{}{
+				"PYTHONPATH": "/usr/lib/python3",
+				"DEBUG":      "true",
+			},
+			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython3,
 			Timeout:    gboxsdk.String("timeout"),
-			WorkingDir: gboxsdk.String("workingDir"),
+			WorkingDir: gboxsdk.String("/home/user/scripts"),
 		},
 	)
 	if err != nil {

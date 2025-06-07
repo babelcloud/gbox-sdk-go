@@ -34,6 +34,7 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 	return
 }
 
+// Click
 func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -45,6 +46,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxAct
 	return
 }
 
+// Drag
 func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -56,6 +58,7 @@ func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
+// Move to position
 func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -67,6 +70,7 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
+// Press key
 func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxActionPressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -78,6 +82,7 @@ func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxAct
 	return
 }
 
+// Take screenshot
 func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -89,6 +94,7 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1B
 	return
 }
 
+// Scroll
 func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -100,6 +106,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxAc
 	return
 }
 
+// Touch
 func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -111,6 +118,7 @@ func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxAct
 	return
 }
 
+// Type text
 func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -122,8 +130,9 @@ func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
+// Result of an interface action execution
 type ActionResult struct {
-	// screenshot
+	// Complete screenshot result with highlight, before and after images
 	Screenshot ActionResultScreenshot `json:"screenshot,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -139,13 +148,13 @@ func (r *ActionResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// screenshot
+// Complete screenshot result with highlight, before and after images
 type ActionResultScreenshot struct {
-	// URI of the screenshot after the action
+	// Screenshot taken after action execution
 	After ActionResultScreenshotAfter `json:"after,required"`
-	// URI of the screenshot before the action
+	// Screenshot taken before action execution
 	Before ActionResultScreenshotBefore `json:"before,required"`
-	// URI of the screenshot before the action with highlight
+	// Screenshot with action highlight
 	Highlight ActionResultScreenshotHighlight `json:"highlight,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -163,7 +172,7 @@ func (r *ActionResultScreenshot) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// URI of the screenshot after the action
+// Screenshot taken after action execution
 type ActionResultScreenshotAfter struct {
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
@@ -181,7 +190,7 @@ func (r *ActionResultScreenshotAfter) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// URI of the screenshot before the action
+// Screenshot taken before action execution
 type ActionResultScreenshotBefore struct {
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
@@ -199,7 +208,7 @@ func (r *ActionResultScreenshotBefore) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// URI of the screenshot before the action with highlight
+// Screenshot with action highlight
 type ActionResultScreenshotHighlight struct {
 	// URI of the screenshot before the action with highlight
 	Uri string `json:"uri,required"`
@@ -217,6 +226,7 @@ func (r *ActionResultScreenshotHighlight) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Result of screenshot capture action
 type V1BoxActionScreenshotResponse struct {
 	// URL of the screenshot
 	Uri string `json:"uri,required"`
@@ -297,6 +307,8 @@ func (r *V1BoxActionDragParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Single point in a drag path
+//
 // The properties X, Y are required.
 type V1BoxActionDragParamsPath struct {
 	// X coordinate of a point in the drag path
@@ -377,7 +389,7 @@ const (
 )
 
 type V1BoxActionScreenshotParams struct {
-	// clip of the screenshot
+	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
 	// Type of the URI
 	//
@@ -394,7 +406,7 @@ func (r *V1BoxActionScreenshotParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// clip of the screenshot
+// Clipping region for screenshot capture
 //
 // The properties Height, Width, X, Y are required.
 type V1BoxActionScreenshotParamsClip struct {
@@ -475,9 +487,11 @@ func (r *V1BoxActionTouchParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Touch point configuration with start position and actions
+//
 // The property Start is required.
 type V1BoxActionTouchParamsPoint struct {
-	// Starting position for touch
+	// Initial touch point position
 	Start V1BoxActionTouchParamsPointStart `json:"start,omitzero,required"`
 	// Sequence of actions to perform after initial touch
 	Actions []any `json:"actions,omitzero"`
@@ -492,7 +506,7 @@ func (r *V1BoxActionTouchParamsPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Starting position for touch
+// Initial touch point position
 //
 // The properties X, Y are required.
 type V1BoxActionTouchParamsPointStart struct {

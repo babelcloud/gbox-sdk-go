@@ -33,7 +33,7 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 			X:            100,
 			Y:            100,
 			Button:       gboxsdk.V1BoxActionClickParamsButtonLeft,
-			Double:       gboxsdk.Bool(true),
+			Double:       gboxsdk.Bool(false),
 			OutputFormat: gboxsdk.V1BoxActionClickParamsOutputFormatBase64,
 		},
 	)
@@ -70,7 +70,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				X: 200,
 				Y: 200,
 			}},
-			Duration:     gboxsdk.String("duration"),
+			Duration:     gboxsdk.String("50ms"),
 			OutputFormat: gboxsdk.V1BoxActionDragParamsOutputFormatBase64,
 		},
 	)
@@ -162,10 +162,10 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScreenshotParams{
 			Clip: gboxsdk.V1BoxActionScreenshotParamsClip{
-				Height: 0,
-				Width:  0,
-				X:      0,
-				Y:      0,
+				Height: 600,
+				Width:  800,
+				X:      100,
+				Y:      50,
 			},
 			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
 		},
@@ -231,10 +231,16 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionTouchParams{
 			Points: []gboxsdk.V1BoxActionTouchParamsPoint{{
 				Start: gboxsdk.V1BoxActionTouchParamsPointStart{
-					X: 0,
-					Y: 0,
+					X: 100,
+					Y: 150,
 				},
-				Actions: []any{map[string]interface{}{}},
+				Actions: []any{map[string]interface{}{
+					"x":        400,
+					"y":        300,
+					"duration": "200ms",
+				}, map[string]interface{}{
+					"duration": "500ms",
+				}},
 			}},
 			OutputFormat: gboxsdk.V1BoxActionTouchParamsOutputFormatBase64,
 		},

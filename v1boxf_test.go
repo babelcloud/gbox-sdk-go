@@ -30,8 +30,8 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFListParams{
-			Path:  "path",
-			Depth: gboxsdk.Float(0),
+			Path:  "/home/user/documents",
+			Depth: gboxsdk.Float(2),
 		},
 	)
 	if err != nil {
@@ -60,7 +60,7 @@ func TestV1BoxFRead(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFReadParams{
-			Path: "path",
+			Path: "/home/user/documents/config.json",
 		},
 	)
 	if err != nil {
@@ -89,8 +89,8 @@ func TestV1BoxFWrite(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFWriteParams{
-			Content: "content",
-			Path:    "path",
+			Content: "Hello, World!\nThis is file content.",
+			Path:    "/home/user/documents/output.txt",
 		},
 	)
 	if err != nil {

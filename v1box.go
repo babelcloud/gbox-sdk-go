@@ -103,6 +103,7 @@ func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, o
 	return
 }
 
+// Exec command
 func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1BoxExecuteCommandsParams, opts ...option.RequestOption) (res *V1BoxExecuteCommandsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -114,6 +115,7 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 	return
 }
 
+// Run code on the box
 func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -149,10 +151,11 @@ func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.Reque
 	return
 }
 
+// Android box instance with full configuration and status
 type AndroidBox struct {
 	// Unique identifier for the box
 	ID string `json:"id,required"`
-	// Configuration for an Android box instance
+	// Complete configuration for Android box instance
 	Config AndroidBoxConfig `json:"config,required"`
 	// Creation timestamp of the box
 	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
@@ -188,9 +191,9 @@ func (r *AndroidBox) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Configuration for an Android box instance
+// Complete configuration for Android box instance
 type AndroidBoxConfig struct {
-	// Browser configuration
+	// Android browser configuration settings
 	Browser AndroidBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
@@ -202,7 +205,7 @@ type AndroidBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
 	Os AndroidBoxConfigOs `json:"os,required"`
-	// Resolution of the box
+	// Box display resolution configuration
 	Resolution AndroidBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB
 	Storage float64 `json:"storage,required"`
@@ -230,7 +233,7 @@ func (r *AndroidBoxConfig) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Browser configuration
+// Android browser configuration settings
 type AndroidBoxConfigBrowser struct {
 	// Supported browser types for Android boxes
 	//
@@ -273,7 +276,7 @@ func (r *AndroidBoxConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Resolution of the box
+// Box display resolution configuration
 type AndroidBoxConfigResolution struct {
 	// Height of the box
 	Height float64 `json:"height,required"`
@@ -312,6 +315,8 @@ const (
 	AndroidBoxTypeAndroid AndroidBoxType = "android"
 )
 
+// Request body for creating a new Android box instance
+//
 // The property Type is required.
 type CreateAndroidBoxParam struct {
 	// Box type is Android
@@ -322,7 +327,7 @@ type CreateAndroidBoxParam struct {
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
-	// Configuration for an Android box instance
+	// Configuration for a box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
 }
@@ -342,6 +347,7 @@ const (
 	CreateAndroidBoxTypeAndroid CreateAndroidBoxType = "android"
 )
 
+// Configuration for a box instance
 type CreateBoxConfigParam struct {
 	// The box will be alive for the given duration (e.g. '10m')
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
@@ -360,6 +366,8 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Request body for creating a new Linux box instance
+//
 // The property Type is required.
 type CreateLinuxBoxParam struct {
 	// Box type is Linux
@@ -370,7 +378,7 @@ type CreateLinuxBoxParam struct {
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
-	// Configuration for a Linux box instance
+	// Configuration for a box instance
 	Config CreateBoxConfigParam `json:"config,omitzero"`
 	paramObj
 }
@@ -390,10 +398,11 @@ const (
 	CreateLinuxBoxTypeLinux CreateLinuxBoxType = "linux"
 )
 
+// Linux box instance with full configuration and status
 type LinuxBox struct {
 	// Unique identifier for the box
 	ID string `json:"id,required"`
-	// Configuration for a Linux box instance
+	// Complete configuration for Linux box instance
 	Config LinuxBoxConfig `json:"config,required"`
 	// Creation timestamp of the box
 	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
@@ -429,9 +438,9 @@ func (r *LinuxBox) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Configuration for a Linux box instance
+// Complete configuration for Linux box instance
 type LinuxBoxConfig struct {
-	// Browser configuration
+	// Linux browser configuration settings
 	Browser LinuxBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
@@ -441,9 +450,9 @@ type LinuxBoxConfig struct {
 	Labels any `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
-	// Operating system configuration
+	// Linux operating system configuration
 	Os LinuxBoxConfigOs `json:"os,required"`
-	// Resolution of the box
+	// Box display resolution configuration
 	Resolution LinuxBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB.
 	Storage float64 `json:"storage,required"`
@@ -471,7 +480,7 @@ func (r *LinuxBoxConfig) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Browser configuration
+// Linux browser configuration settings
 type LinuxBoxConfigBrowser struct {
 	// Supported browser types for Linux boxes
 	//
@@ -494,7 +503,7 @@ func (r *LinuxBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Operating system configuration
+// Linux operating system configuration
 type LinuxBoxConfigOs struct {
 	// OS version string (e.g. 'ubuntu-20.04')
 	Version string `json:"version,required"`
@@ -512,7 +521,7 @@ func (r *LinuxBoxConfigOs) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Resolution of the box
+// Box display resolution configuration
 type LinuxBoxConfigResolution struct {
 	// Height of the box
 	Height float64 `json:"height,required"`
@@ -827,6 +836,7 @@ func (r *V1BoxGetResponseUnionConfigResolution) UnmarshalJSON(data []byte) error
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing paginated list of box instances
 type V1BoxListResponse struct {
 	// A box instance that can be either Linux or Android type
 	Data []V1BoxListResponseDataUnion `json:"data,required"`
@@ -991,6 +1001,7 @@ func (r *V1BoxListResponseDataUnionConfigResolution) UnmarshalJSON(data []byte) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Result of command execution
 type V1BoxExecuteCommandsResponse struct {
 	// The exit code of the command
 	ExitCode float64 `json:"exitCode,required"`
@@ -1014,6 +1025,7 @@ func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Result of code execution
 type V1BoxRunCodeResponse struct {
 	// The exit code of the code
 	ExitCode float64 `json:"exitCode,required"`
@@ -1319,9 +1331,11 @@ type V1BoxNewParams struct {
 	// Request body variants
 	//
 
-	// This field is a request body variant, only one variant field can be set.
+	// This field is a request body variant, only one variant field can be set. Request
+	// body for creating a new Linux box instance
 	OfCreateLinuxBox *CreateLinuxBoxParam `json:",inline"`
-	// This field is a request body variant, only one variant field can be set.
+	// This field is a request body variant, only one variant field can be set. Request
+	// body for creating a new Android box instance
 	OfCreateAndroidBox *CreateAndroidBoxParam `json:",inline"`
 
 	paramObj
@@ -1369,6 +1383,7 @@ func (r *V1BoxDeleteParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxNewAndroidParams struct {
+	// Request body for creating a new Android box instance
 	CreateAndroidBox CreateAndroidBoxParam
 	paramObj
 }
@@ -1381,6 +1396,7 @@ func (r *V1BoxNewAndroidParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxNewLinuxParams struct {
+	// Request body for creating a new Linux box instance
 	CreateLinuxBox CreateLinuxBoxParam
 	paramObj
 }
