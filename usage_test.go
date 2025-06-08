@@ -24,11 +24,7 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParamsCreateLinuxBox{
-		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
-	})
+	box, err := client.V1.Boxes.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}

@@ -46,15 +46,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	return
 }
 
-// Create box
-func (r *V1BoxService) New(ctx context.Context, body V1BoxNewParams, opts ...option.RequestOption) (res *V1BoxNewResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
-	path := "boxes"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
-// Get box detail
+// Get box info
 func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -128,26 +120,26 @@ func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCode
 }
 
 // Start box
-func (r *V1BoxService) Start(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
+func (r *V1BoxService) Start(ctx context.Context, id string, body V1BoxStartParams, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/start", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Stop box
-func (r *V1BoxService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
+func (r *V1BoxService) Stop(ctx context.Context, id string, body V1BoxStopParams, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/stop", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -316,13 +308,7 @@ const (
 )
 
 // Request body for creating a new Android box instance
-//
-// The property Type is required.
 type CreateAndroidBoxParam struct {
-	// Box type is Android
-	//
-	// Any of "android".
-	Type CreateAndroidBoxType `json:"type,omitzero,required"`
 	// Timeout for the box operation to be completed, default is 30s
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
@@ -339,13 +325,6 @@ func (r CreateAndroidBoxParam) MarshalJSON() (data []byte, err error) {
 func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Box type is Android
-type CreateAndroidBoxType string
-
-const (
-	CreateAndroidBoxTypeAndroid CreateAndroidBoxType = "android"
-)
 
 // Configuration for a box instance
 type CreateBoxConfigParam struct {
@@ -367,13 +346,7 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 }
 
 // Request body for creating a new Linux box instance
-//
-// The property Type is required.
 type CreateLinuxBoxParam struct {
-	// Box type is Linux
-	//
-	// Any of "linux".
-	Type CreateLinuxBoxType `json:"type,omitzero,required"`
 	// Timeout for the box operation to be completed, default is 30s
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
@@ -390,13 +363,6 @@ func (r CreateLinuxBoxParam) MarshalJSON() (data []byte, err error) {
 func (r *CreateLinuxBoxParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Box type is Linux
-type CreateLinuxBoxType string
-
-const (
-	CreateLinuxBoxTypeLinux CreateLinuxBoxType = "linux"
-)
 
 // Linux box instance with full configuration and status
 type LinuxBox struct {
@@ -559,144 +525,6 @@ type LinuxBoxType string
 const (
 	LinuxBoxTypeLinux LinuxBoxType = "linux"
 )
-
-// V1BoxNewResponseUnion contains all possible properties and values from
-// [LinuxBox], [AndroidBox].
-//
-// Use the methods beginning with 'As' to cast the union to one of its variants.
-type V1BoxNewResponseUnion struct {
-	ID string `json:"id"`
-	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
-	Config    V1BoxNewResponseUnionConfig `json:"config"`
-	CreatedAt time.Time                   `json:"createdAt"`
-	ExpiresAt time.Time                   `json:"expiresAt"`
-	Status    string                      `json:"status"`
-	Type      string                      `json:"type"`
-	UpdatedAt time.Time                   `json:"updatedAt"`
-	JSON      struct {
-		ID        respjson.Field
-		Config    respjson.Field
-		CreatedAt respjson.Field
-		ExpiresAt respjson.Field
-		Status    respjson.Field
-		Type      respjson.Field
-		UpdatedAt respjson.Field
-		raw       string
-	} `json:"-"`
-}
-
-func (u V1BoxNewResponseUnion) AsLinuxBox() (v LinuxBox) {
-	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
-	return
-}
-
-func (u V1BoxNewResponseUnion) AsAndroidBox() (v AndroidBox) {
-	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
-	return
-}
-
-// Returns the unmodified JSON received from the API
-func (u V1BoxNewResponseUnion) RawJSON() string { return u.JSON.raw }
-
-func (r *V1BoxNewResponseUnion) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxNewResponseUnionConfig is an implicit subunion of [V1BoxNewResponseUnion].
-// V1BoxNewResponseUnionConfig provides convenient access to the sub-properties of
-// the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxNewResponseUnion].
-type V1BoxNewResponseUnionConfig struct {
-	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
-	Browser V1BoxNewResponseUnionConfigBrowser `json:"browser"`
-	CPU     float64                            `json:"cpu"`
-	Envs    any                                `json:"envs"`
-	Labels  any                                `json:"labels"`
-	Memory  float64                            `json:"memory"`
-	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
-	Os V1BoxNewResponseUnionConfigOs `json:"os"`
-	// This field is a union of [LinuxBoxConfigResolution],
-	// [AndroidBoxConfigResolution]
-	Resolution V1BoxNewResponseUnionConfigResolution `json:"resolution"`
-	Storage    float64                               `json:"storage"`
-	WorkingDir string                                `json:"workingDir"`
-	JSON       struct {
-		Browser    respjson.Field
-		CPU        respjson.Field
-		Envs       respjson.Field
-		Labels     respjson.Field
-		Memory     respjson.Field
-		Os         respjson.Field
-		Resolution respjson.Field
-		Storage    respjson.Field
-		WorkingDir respjson.Field
-		raw        string
-	} `json:"-"`
-}
-
-func (r *V1BoxNewResponseUnionConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxNewResponseUnionConfigBrowser is an implicit subunion of
-// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigBrowser provides convenient
-// access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxNewResponseUnion].
-type V1BoxNewResponseUnionConfigBrowser struct {
-	Type    string `json:"type"`
-	Version string `json:"version"`
-	JSON    struct {
-		Type    respjson.Field
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxNewResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxNewResponseUnionConfigOs is an implicit subunion of
-// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigOs provides convenient
-// access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxNewResponseUnion].
-type V1BoxNewResponseUnionConfigOs struct {
-	Version string `json:"version"`
-	JSON    struct {
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxNewResponseUnionConfigOs) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxNewResponseUnionConfigResolution is an implicit subunion of
-// [V1BoxNewResponseUnion]. V1BoxNewResponseUnionConfigResolution provides
-// convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxNewResponseUnion].
-type V1BoxNewResponseUnionConfigResolution struct {
-	Height float64 `json:"height"`
-	Width  float64 `json:"width"`
-	JSON   struct {
-		Height respjson.Field
-		Width  respjson.Field
-		raw    string
-	} `json:"-"`
-}
-
-func (r *V1BoxNewResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
 
 // V1BoxGetResponseUnion contains all possible properties and values from
 // [LinuxBox], [AndroidBox].
@@ -1325,29 +1153,6 @@ func (r *V1BoxStopResponseUnionConfigResolution) UnmarshalJSON(data []byte) erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxNewParams struct {
-
-	//
-	// Request body variants
-	//
-
-	// This field is a request body variant, only one variant field can be set. Request
-	// body for creating a new Linux box instance
-	OfCreateLinuxBox *CreateLinuxBoxParam `json:",inline"`
-	// This field is a request body variant, only one variant field can be set. Request
-	// body for creating a new Android box instance
-	OfCreateAndroidBox *CreateAndroidBoxParam `json:",inline"`
-
-	paramObj
-}
-
-func (u V1BoxNewParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfCreateLinuxBox, u.OfCreateAndroidBox)
-}
-func (r *V1BoxNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type V1BoxListParams struct {
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
@@ -1355,6 +1160,8 @@ type V1BoxListParams struct {
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
 	// Filter boxes by their current status (pending, running, stopped, error, deleted)
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
+	// Filter boxes by their type (linux, android etc.) , default is all
+	Type param.Opt[string] `query:"type,omitzero" json:"-"`
 	paramObj
 }
 
@@ -1487,3 +1294,35 @@ const (
 	V1BoxRunCodeParamsLanguagePython3    V1BoxRunCodeParamsLanguage = "python3"
 	V1BoxRunCodeParamsLanguageTypescript V1BoxRunCodeParamsLanguage = "typescript"
 )
+
+type V1BoxStartParams struct {
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
+	paramObj
+}
+
+func (r V1BoxStartParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxStartParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxStartParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxStopParams struct {
+	// Timeout for the box operation to be completed, default is 30s
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
+	paramObj
+}
+
+func (r V1BoxStopParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxStopParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxStopParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
