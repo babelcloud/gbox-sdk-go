@@ -132,7 +132,7 @@ func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActi
 
 // Result of an UI action execution
 type ActionResult struct {
-	// Complete screenshot result with highlight, before and after images
+	// Complete screenshot result with operation trace, before and after images
 	Screenshot ActionResultScreenshot `json:"screenshot,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -148,19 +148,19 @@ func (r *ActionResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Complete screenshot result with highlight, before and after images
+// Complete screenshot result with operation trace, before and after images
 type ActionResultScreenshot struct {
 	// Screenshot taken after action execution
 	After ActionResultScreenshotAfter `json:"after,required"`
 	// Screenshot taken before action execution
 	Before ActionResultScreenshotBefore `json:"before,required"`
-	// Screenshot with action highlight
-	Highlight ActionResultScreenshotHighlight `json:"highlight,required"`
+	// Screenshot with action operation trace
+	Trace ActionResultScreenshotTrace `json:"trace,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		After       respjson.Field
 		Before      respjson.Field
-		Highlight   respjson.Field
+		Trace       respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -208,9 +208,9 @@ func (r *ActionResultScreenshotBefore) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Screenshot with action highlight
-type ActionResultScreenshotHighlight struct {
-	// URI of the screenshot before the action with highlight
+// Screenshot with action operation trace
+type ActionResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -221,8 +221,8 @@ type ActionResultScreenshotHighlight struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResultScreenshotHighlight) RawJSON() string { return r.JSON.raw }
-func (r *ActionResultScreenshotHighlight) UnmarshalJSON(data []byte) error {
+func (r ActionResultScreenshotTrace) RawJSON() string { return r.JSON.raw }
+func (r *ActionResultScreenshotTrace) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
