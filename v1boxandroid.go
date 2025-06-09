@@ -217,7 +217,7 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data
 type V1BoxAndroidUninstallParams struct {
 	ID string `path:"id,required" json:"-"`
 	// uninstalls the application while retaining the data/cache
-	KeepData bool `json:"keepData,required"`
+	KeepData param.Opt[bool] `json:"keepData,omitzero"`
 	paramObj
 }
 
