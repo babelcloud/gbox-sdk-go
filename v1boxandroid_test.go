@@ -94,7 +94,7 @@ func TestV1BoxAndroidInstall(t *testing.T) {
 	}
 }
 
-func TestV1BoxAndroidUninstall(t *testing.T) {
+func TestV1BoxAndroidUninstallWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -112,7 +112,7 @@ func TestV1BoxAndroidUninstall(t *testing.T) {
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidUninstallParams{
 			ID:       "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-			KeepData: true,
+			KeepData: gboxsdk.Bool(true),
 		},
 	)
 	if err != nil {
