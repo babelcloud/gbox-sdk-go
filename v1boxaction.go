@@ -130,7 +130,7 @@ func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
-// Result of an interface action execution
+// Result of an UI action execution
 type ActionResult struct {
 	// Complete screenshot result with highlight, before and after images
 	Screenshot ActionResultScreenshot `json:"screenshot,required"`
