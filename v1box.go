@@ -46,7 +46,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	return
 }
 
-// Get box info
+// Get box
 func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -189,6 +189,10 @@ type AndroidBoxConfig struct {
 	Browser AndroidBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
+	// Device type - virtual or physical Android device
+	//
+	// Any of "virtual", "physical".
+	DeviceType string `json:"deviceType,required"`
 	// Environment variables for the box
 	Envs any `json:"envs,required"`
 	// Key-value pairs of labels for the box
@@ -207,6 +211,7 @@ type AndroidBoxConfig struct {
 	JSON struct {
 		Browser     respjson.Field
 		CPU         respjson.Field
+		DeviceType  respjson.Field
 		Envs        respjson.Field
 		Labels      respjson.Field
 		Memory      respjson.Field
@@ -588,6 +593,8 @@ type V1BoxGetResponseUnionConfig struct {
 	Resolution V1BoxGetResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                               `json:"storage"`
 	WorkingDir string                                `json:"workingDir"`
+	// This field is from variant [AndroidBoxConfig].
+	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -598,6 +605,7 @@ type V1BoxGetResponseUnionConfig struct {
 		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
 }
@@ -753,6 +761,8 @@ type V1BoxListResponseDataUnionConfig struct {
 	Resolution V1BoxListResponseDataUnionConfigResolution `json:"resolution"`
 	Storage    float64                                    `json:"storage"`
 	WorkingDir string                                     `json:"workingDir"`
+	// This field is from variant [AndroidBoxConfig].
+	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -763,6 +773,7 @@ type V1BoxListResponseDataUnionConfig struct {
 		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
 }
@@ -939,6 +950,8 @@ type V1BoxStartResponseUnionConfig struct {
 	Resolution V1BoxStartResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                                 `json:"storage"`
 	WorkingDir string                                  `json:"workingDir"`
+	// This field is from variant [AndroidBoxConfig].
+	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -949,6 +962,7 @@ type V1BoxStartResponseUnionConfig struct {
 		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
 }
@@ -1077,6 +1091,8 @@ type V1BoxStopResponseUnionConfig struct {
 	Resolution V1BoxStopResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                                `json:"storage"`
 	WorkingDir string                                 `json:"workingDir"`
+	// This field is from variant [AndroidBoxConfig].
+	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		Browser    respjson.Field
 		CPU        respjson.Field
@@ -1087,6 +1103,7 @@ type V1BoxStopResponseUnionConfig struct {
 		Resolution respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
 }

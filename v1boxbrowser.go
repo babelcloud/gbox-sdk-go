@@ -57,7 +57,7 @@ func (r *V1BoxBrowserService) ConnectURL(ctx context.Context, id string, opts ..
 	return
 }
 
-// Browser connection URL information
+// Browser connection address information
 type V1BoxBrowserConnectURLResponse struct {
 	// CDP URL
 	CdpURL string `json:"cdpUrl,required"`

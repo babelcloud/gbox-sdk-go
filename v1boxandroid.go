@@ -80,10 +80,10 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1Box
 }
 
 // Uninstall Android app
-func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, body V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if body.ID == "" {
+	if params.ID == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
@@ -91,8 +91,8 @@ func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string,
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s", body.ID, packageName)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s", params.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, params, nil, opts...)
 	return
 }
 
@@ -216,5 +216,15 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data
 
 type V1BoxAndroidUninstallParams struct {
 	ID string `path:"id,required" json:"-"`
+	// uninstalls the application while retaining the data/cache
+	KeepData bool `json:"keepData,required"`
 	paramObj
+}
+
+func (r V1BoxAndroidUninstallParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidUninstallParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxAndroidUninstallParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }

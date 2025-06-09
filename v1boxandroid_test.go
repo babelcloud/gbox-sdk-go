@@ -111,7 +111,8 @@ func TestV1BoxAndroidUninstall(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidUninstallParams{
-			ID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			ID:       "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			KeepData: true,
 		},
 	)
 	if err != nil {
