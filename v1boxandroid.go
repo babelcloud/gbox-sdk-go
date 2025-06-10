@@ -38,7 +38,7 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
-// List Android app
+// List android app
 func (r *V1BoxAndroidService) List(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -50,7 +50,7 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, opts ...optio
 	return
 }
 
-// Get Android app
+// Get android app
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
 	if query.ID == "" {
@@ -66,7 +66,7 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 	return
 }
 
-// Install Android app
+// Install android app
 func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -79,7 +79,7 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1Box
 	return
 }
 
-// Uninstall Android app
+// Uninstall android app
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
