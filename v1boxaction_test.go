@@ -272,6 +272,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTypeParams{
 			Text:         "Hello World",
+			Delay:        gboxsdk.String("100ms"),
 			OutputFormat: gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
 		},
 	)
