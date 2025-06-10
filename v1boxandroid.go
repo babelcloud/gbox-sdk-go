@@ -10,9 +10,11 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 
 	"github.com/stainless-sdks/gbox-sdk-go/internal/apiform"
 	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
 	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
 	"github.com/stainless-sdks/gbox-sdk-go/option"
 	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
@@ -39,14 +41,14 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 }
 
 // List android app
-func (r *V1BoxAndroidService) List(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
+func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/android/apps", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
@@ -100,6 +102,12 @@ func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string,
 type AndroidApp struct {
 	// Android app apk path
 	ApkPath string `json:"apkPath,required"`
+	// Application type: system or third-party
+	//
+	// Any of "system", "third-party".
+	AppType AndroidAppAppType `json:"appType,required"`
+	// Whether the application is currently running
+	IsRunning bool `json:"isRunning,required"`
 	// Android app name
 	Name string `json:"name,required"`
 	// Android app package name
@@ -109,6 +117,8 @@ type AndroidApp struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ApkPath     respjson.Field
+		AppType     respjson.Field
+		IsRunning   respjson.Field
 		Name        respjson.Field
 		PackageName respjson.Field
 		Version     respjson.Field
@@ -122,6 +132,14 @@ func (r AndroidApp) RawJSON() string { return r.JSON.raw }
 func (r *AndroidApp) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Application type: system or third-party
+type AndroidAppAppType string
+
+const (
+	AndroidAppAppTypeSystem     AndroidAppAppType = "system"
+	AndroidAppAppTypeThirdParty AndroidAppAppType = "third-party"
+)
 
 // Response containing list of Android apps
 type V1BoxAndroidListResponse struct {
@@ -140,6 +158,32 @@ func (r V1BoxAndroidListResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type V1BoxAndroidListParams struct {
+	// Whether to include running apps, default is all
+	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
+	// Application type: system or third-party, default is all
+	//
+	// Any of "system", "third-party".
+	AppType V1BoxAndroidListParamsAppType `query:"appType,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxAndroidListParams]'s query parameters as `url.Values`.
+func (r V1BoxAndroidListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// Application type: system or third-party, default is all
+type V1BoxAndroidListParamsAppType string
+
+const (
+	V1BoxAndroidListParamsAppTypeSystem     V1BoxAndroidListParamsAppType = "system"
+	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
+)
 
 type V1BoxAndroidGetParams struct {
 	ID string `path:"id,required" json:"-"`
