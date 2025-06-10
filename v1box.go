@@ -1179,6 +1179,8 @@ type V1BoxListParams struct {
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	// Filter boxes by their type (linux, android etc.) , default is all
 	Type param.Opt[string] `query:"type,omitzero" json:"-"`
+	// Filter boxes by their labels, default is all
+	Labels any `query:"labels,omitzero" json:"-"`
 	paramObj
 }
 
