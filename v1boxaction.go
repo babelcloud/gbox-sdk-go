@@ -363,7 +363,7 @@ const (
 )
 
 type V1BoxActionPressParams struct {
-	// Array of keys to press
+	// This is an array of strings, each representing a key
 	Keys []string `json:"keys,omitzero,required"`
 	// Type of the URI
 	//
@@ -536,6 +536,8 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
+	// Time to wait between key presses. Defaults to 0ms.
+	Delay param.Opt[string] `json:"delay,omitzero"`
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".

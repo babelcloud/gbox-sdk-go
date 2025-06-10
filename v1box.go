@@ -189,10 +189,6 @@ type AndroidBoxConfig struct {
 	Browser AndroidBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
-	// Device type - virtual or physical Android device
-	//
-	// Any of "virtual", "physical".
-	DeviceType string `json:"deviceType,required"`
 	// Environment variables for the box
 	Envs any `json:"envs,required"`
 	// Key-value pairs of labels for the box
@@ -207,11 +203,14 @@ type AndroidBoxConfig struct {
 	Storage float64 `json:"storage,required"`
 	// Working directory path for the box
 	WorkingDir string `json:"workingDir,required"`
+	// Device type - virtual or physical Android device
+	//
+	// Any of "virtual", "physical".
+	DeviceType string `json:"deviceType"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Browser     respjson.Field
 		CPU         respjson.Field
-		DeviceType  respjson.Field
 		Envs        respjson.Field
 		Labels      respjson.Field
 		Memory      respjson.Field
@@ -219,6 +218,7 @@ type AndroidBoxConfig struct {
 		Resolution  respjson.Field
 		Storage     respjson.Field
 		WorkingDir  respjson.Field
+		DeviceType  respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
