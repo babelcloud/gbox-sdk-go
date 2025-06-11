@@ -70,16 +70,29 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
-// Simulates pressing a specific key by triggering the complete physical key event
-// chain (keydown, keypress, keyup). Use this to activate physical key event
-// listeners such as shortcuts or form submissions.
-func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxActionPressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+// Press button on the device. like power button, volume up button, volume down
+// button, etc.
+func (r *V1BoxActionService) PressButton(ctx context.Context, id string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/press", id)
+	path := fmt.Sprintf("boxes/%s/actions/press-button", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// Simulates pressing a specific key by triggering the complete keyboard key event
+// chain (keydown, keypress, keyup). Use this to activate keyboard key event
+// listeners such as shortcuts or form submissions.
+func (r *V1BoxActionService) PressKey(ctx context.Context, id string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/press-key", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -366,8 +379,34 @@ const (
 	V1BoxActionMoveParamsOutputFormatStorageKey V1BoxActionMoveParamsOutputFormat = "storageKey"
 )
 
-type V1BoxActionPressParams struct {
-	// This is an array of physical keys to press. Supports cross-platform
+type V1BoxActionPressButtonParams struct {
+	// Button to press
+	Buttons []string `json:"buttons,omitzero,required"`
+	// Type of the URI
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat V1BoxActionPressButtonParamsOutputFormat `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionPressButtonParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionPressButtonParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionPressButtonParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Type of the URI
+type V1BoxActionPressButtonParamsOutputFormat string
+
+const (
+	V1BoxActionPressButtonParamsOutputFormatBase64     V1BoxActionPressButtonParamsOutputFormat = "base64"
+	V1BoxActionPressButtonParamsOutputFormatStorageKey V1BoxActionPressButtonParamsOutputFormat = "storageKey"
+)
+
+type V1BoxActionPressKeyParams struct {
+	// This is an array of keyboard keys to press. Supports cross-platform
 	// compatibility.
 	//
 	// Any of "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
@@ -387,24 +426,24 @@ type V1BoxActionPressParams struct {
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionPressParamsOutputFormat `json:"outputFormat,omitzero"`
+	OutputFormat V1BoxActionPressKeyParamsOutputFormat `json:"outputFormat,omitzero"`
 	paramObj
 }
 
-func (r V1BoxActionPressParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionPressParams
+func (r V1BoxActionPressKeyParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionPressKeyParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionPressParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionPressKeyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Type of the URI
-type V1BoxActionPressParamsOutputFormat string
+type V1BoxActionPressKeyParamsOutputFormat string
 
 const (
-	V1BoxActionPressParamsOutputFormatBase64     V1BoxActionPressParamsOutputFormat = "base64"
-	V1BoxActionPressParamsOutputFormatStorageKey V1BoxActionPressParamsOutputFormat = "storageKey"
+	V1BoxActionPressKeyParamsOutputFormatBase64     V1BoxActionPressKeyParamsOutputFormat = "base64"
+	V1BoxActionPressKeyParamsOutputFormatStorageKey V1BoxActionPressKeyParamsOutputFormat = "storageKey"
 )
 
 type V1BoxActionScreenshotParams struct {

@@ -114,7 +114,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
+func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -127,12 +127,42 @@ func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.Press(
+	_, err := client.V1.Boxes.Actions.PressButton(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxActionPressParams{
+		gboxsdk.V1BoxActionPressButtonParams{
+			Buttons:      []string{"power"},
+			OutputFormat: gboxsdk.V1BoxActionPressButtonParamsOutputFormatBase64,
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Actions.PressKey(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionPressKeyParams{
 			Keys:         []string{"enter"},
-			OutputFormat: gboxsdk.V1BoxActionPressParamsOutputFormatBase64,
+			OutputFormat: gboxsdk.V1BoxActionPressKeyParamsOutputFormatBase64,
 		},
 	)
 	if err != nil {
