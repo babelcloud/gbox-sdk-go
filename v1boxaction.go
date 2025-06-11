@@ -70,7 +70,9 @@ func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActi
 	return
 }
 
-// Press key
+// Simulates pressing a specific key by triggering the complete physical key event
+// chain (keydown, keypress, keyup). Use this to activate physical key event
+// listeners such as shortcuts or form submissions.
 func (r *V1BoxActionService) Press(ctx context.Context, id string, body V1BoxActionPressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -118,7 +120,9 @@ func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxAct
 	return
 }
 
-// Type text
+// Directly inputs text content without triggering physical key events (keydown,
+// etc.), ideal for quickly filling large amounts of text when intermediate input
+// events aren't needed.
 func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -363,7 +367,22 @@ const (
 )
 
 type V1BoxActionPressParams struct {
-	// This is an array of strings, each representing a key
+	// This is an array of physical keys to press. Supports cross-platform
+	// compatibility.
+	//
+	// Any of "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+	// "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3",
+	// "4", "5", "6", "7", "8", "9", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8",
+	// "f9", "f10", "f11", "f12", "control", "alt", "shift", "meta", "win", "cmd",
+	// "option", "arrowUp", "arrowDown", "arrowLeft", "arrowRight", "home", "end",
+	// "pageUp", "pageDown", "enter", "space", "tab", "escape", "backspace", "delete",
+	// "insert", "capsLock", "numLock", "scrollLock", "pause", "printScreen", ";", "=",
+	// ",", "-", ".", "/", "`", "[", "\\", "]", "'", "numpad0", "numpad1", "numpad2",
+	// "numpad3", "numpad4", "numpad5", "numpad6", "numpad7", "numpad8", "numpad9",
+	// "numpadAdd", "numpadSubtract", "numpadMultiply", "numpadDivide",
+	// "numpadDecimal", "numpadEnter", "numpadEqual", "volumeUp", "volumeDown",
+	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
+	// "mediaPreviousTrack".
 	Keys []string `json:"keys,omitzero,required"`
 	// Type of the URI
 	//
@@ -536,8 +555,6 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// Time to wait between key presses. Defaults to 0ms.
-	Delay param.Opt[string] `json:"delay,omitzero"`
 	// Type of the URI
 	//
 	// Any of "base64", "storageKey".
