@@ -40,7 +40,7 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
-// List android app
+// List apps
 func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -52,7 +52,24 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAn
 	return
 }
 
-// Get android app
+// Close app
+func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, body V1BoxAndroidCloseParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if body.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/close", body.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
+// Get app
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
 	if query.ID == "" {
@@ -68,7 +85,7 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 	return
 }
 
-// Install android app
+// Install app
 func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -81,7 +98,41 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1Box
 	return
 }
 
-// Uninstall android app
+// Open app
+func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if params.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/open", params.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	return
+}
+
+// Restart app
+func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, body V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if body.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", body.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
+// Uninstall app
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -185,6 +236,11 @@ const (
 	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
 )
 
+type V1BoxAndroidCloseParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
+}
+
 type V1BoxAndroidGetParams struct {
 	ID string `path:"id,required" json:"-"`
 	paramObj
@@ -256,6 +312,26 @@ func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) MarshalJSON() (data
 }
 func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidOpenParams struct {
+	ID string `path:"id,required" json:"-"`
+	// Activity name, default is the main activity.
+	ActivityName param.Opt[string] `json:"activityName,omitzero"`
+	paramObj
+}
+
+func (r V1BoxAndroidOpenParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidOpenParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxAndroidOpenParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidRestartParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
 }
 
 type V1BoxAndroidUninstallParams struct {
