@@ -381,6 +381,8 @@ const (
 
 type V1BoxActionPressButtonParams struct {
 	// Button to press
+	//
+	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu".
 	Buttons []string `json:"buttons,omitzero,required"`
 	// Type of the URI
 	//
