@@ -185,8 +185,6 @@ func (r *AndroidBox) UnmarshalJSON(data []byte) error {
 
 // Complete configuration for Android box instance
 type AndroidBoxConfig struct {
-	// Android browser configuration settings
-	Browser AndroidBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
 	// Environment variables for the box
@@ -201,15 +199,16 @@ type AndroidBoxConfig struct {
 	Resolution AndroidBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB
 	Storage float64 `json:"storage,required"`
-	// Working directory path for the box
-	WorkingDir string `json:"workingDir,required"`
+	// Android browser configuration settings
+	Browser AndroidBoxConfigBrowser `json:"browser"`
 	// Device type - virtual or physical Android device
 	//
 	// Any of "virtual", "physical".
 	DeviceType string `json:"deviceType"`
+	// Working directory path for the box
+	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Browser     respjson.Field
 		CPU         respjson.Field
 		Envs        respjson.Field
 		Labels      respjson.Field
@@ -217,8 +216,9 @@ type AndroidBoxConfig struct {
 		Os          respjson.Field
 		Resolution  respjson.Field
 		Storage     respjson.Field
-		WorkingDir  respjson.Field
+		Browser     respjson.Field
 		DeviceType  respjson.Field
+		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -227,29 +227,6 @@ type AndroidBoxConfig struct {
 // Returns the unmodified JSON received from the API
 func (r AndroidBoxConfig) RawJSON() string { return r.JSON.raw }
 func (r *AndroidBoxConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Android browser configuration settings
-type AndroidBoxConfigBrowser struct {
-	// Supported browser types for Android boxes
-	//
-	// Any of "Chrome for Android", "UC Browser for Android".
-	Type string `json:"type,required"`
-	// Browser version string (e.g. '136')
-	Version string `json:"version,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Type        respjson.Field
-		Version     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r AndroidBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
-func (r *AndroidBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -291,6 +268,29 @@ type AndroidBoxConfigResolution struct {
 // Returns the unmodified JSON received from the API
 func (r AndroidBoxConfigResolution) RawJSON() string { return r.JSON.raw }
 func (r *AndroidBoxConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android browser configuration settings
+type AndroidBoxConfigBrowser struct {
+	// Supported browser types for Android boxes
+	//
+	// Any of "Chrome for Android", "UC Browser for Android".
+	Type string `json:"type,required"`
+	// Browser version string (e.g. '136')
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type        respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
+func (r *AndroidBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -411,8 +411,6 @@ func (r *LinuxBox) UnmarshalJSON(data []byte) error {
 
 // Complete configuration for Linux box instance
 type LinuxBoxConfig struct {
-	// Linux browser configuration settings
-	Browser LinuxBoxConfigBrowser `json:"browser,required"`
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
 	// Environment variables for the box
@@ -427,11 +425,12 @@ type LinuxBoxConfig struct {
 	Resolution LinuxBoxConfigResolution `json:"resolution,required"`
 	// Storage allocated to the box in GB.
 	Storage float64 `json:"storage,required"`
+	// Linux browser configuration settings
+	Browser LinuxBoxConfigBrowser `json:"browser"`
 	// Working directory path for the box
-	WorkingDir string `json:"workingDir,required"`
+	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Browser     respjson.Field
 		CPU         respjson.Field
 		Envs        respjson.Field
 		Labels      respjson.Field
@@ -439,6 +438,7 @@ type LinuxBoxConfig struct {
 		Os          respjson.Field
 		Resolution  respjson.Field
 		Storage     respjson.Field
+		Browser     respjson.Field
 		WorkingDir  respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -448,29 +448,6 @@ type LinuxBoxConfig struct {
 // Returns the unmodified JSON received from the API
 func (r LinuxBoxConfig) RawJSON() string { return r.JSON.raw }
 func (r *LinuxBoxConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Linux browser configuration settings
-type LinuxBoxConfigBrowser struct {
-	// Supported browser types for Linux boxes
-	//
-	// Any of "chromium", "firefox", "webkit".
-	Type string `json:"type,required"`
-	// Browser version string (e.g. '12')
-	Version string `json:"version,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Type        respjson.Field
-		Version     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r LinuxBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
-func (r *LinuxBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -510,6 +487,29 @@ type LinuxBoxConfigResolution struct {
 // Returns the unmodified JSON received from the API
 func (r LinuxBoxConfigResolution) RawJSON() string { return r.JSON.raw }
 func (r *LinuxBoxConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Linux browser configuration settings
+type LinuxBoxConfigBrowser struct {
+	// Supported browser types for Linux boxes
+	//
+	// Any of "chromium", "firefox", "webkit".
+	Type string `json:"type,required"`
+	// Browser version string (e.g. '12')
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type        respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinuxBoxConfigBrowser) RawJSON() string { return r.JSON.raw }
+func (r *LinuxBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -580,23 +580,22 @@ func (r *V1BoxGetResponseUnion) UnmarshalJSON(data []byte) error {
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxGetResponseUnion].
 type V1BoxGetResponseUnionConfig struct {
-	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
-	Browser V1BoxGetResponseUnionConfigBrowser `json:"browser"`
-	CPU     float64                            `json:"cpu"`
-	Envs    any                                `json:"envs"`
-	Labels  any                                `json:"labels"`
-	Memory  float64                            `json:"memory"`
+	CPU    float64 `json:"cpu"`
+	Envs   any     `json:"envs"`
+	Labels any     `json:"labels"`
+	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxGetResponseUnionConfigOs `json:"os"`
 	// This field is a union of [LinuxBoxConfigResolution],
 	// [AndroidBoxConfigResolution]
 	Resolution V1BoxGetResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                               `json:"storage"`
-	WorkingDir string                                `json:"workingDir"`
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser    V1BoxGetResponseUnionConfigBrowser `json:"browser"`
+	WorkingDir string                             `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
-		Browser    respjson.Field
 		CPU        respjson.Field
 		Envs       respjson.Field
 		Labels     respjson.Field
@@ -604,6 +603,7 @@ type V1BoxGetResponseUnionConfig struct {
 		Os         respjson.Field
 		Resolution respjson.Field
 		Storage    respjson.Field
+		Browser    respjson.Field
 		WorkingDir respjson.Field
 		DeviceType respjson.Field
 		raw        string
@@ -611,26 +611,6 @@ type V1BoxGetResponseUnionConfig struct {
 }
 
 func (r *V1BoxGetResponseUnionConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxGetResponseUnionConfigBrowser is an implicit subunion of
-// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigBrowser provides convenient
-// access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxGetResponseUnion].
-type V1BoxGetResponseUnionConfigBrowser struct {
-	Type    string `json:"type"`
-	Version string `json:"version"`
-	JSON    struct {
-		Type    respjson.Field
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxGetResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -669,6 +649,26 @@ type V1BoxGetResponseUnionConfigResolution struct {
 }
 
 func (r *V1BoxGetResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxGetResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxGetResponseUnion]. V1BoxGetResponseUnionConfigBrowser provides convenient
+// access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxGetResponseUnion].
+type V1BoxGetResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxGetResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -748,23 +748,22 @@ func (r *V1BoxListResponseDataUnion) UnmarshalJSON(data []byte) error {
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxListResponseDataUnion].
 type V1BoxListResponseDataUnionConfig struct {
-	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
-	Browser V1BoxListResponseDataUnionConfigBrowser `json:"browser"`
-	CPU     float64                                 `json:"cpu"`
-	Envs    any                                     `json:"envs"`
-	Labels  any                                     `json:"labels"`
-	Memory  float64                                 `json:"memory"`
+	CPU    float64 `json:"cpu"`
+	Envs   any     `json:"envs"`
+	Labels any     `json:"labels"`
+	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxListResponseDataUnionConfigOs `json:"os"`
 	// This field is a union of [LinuxBoxConfigResolution],
 	// [AndroidBoxConfigResolution]
 	Resolution V1BoxListResponseDataUnionConfigResolution `json:"resolution"`
 	Storage    float64                                    `json:"storage"`
-	WorkingDir string                                     `json:"workingDir"`
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser    V1BoxListResponseDataUnionConfigBrowser `json:"browser"`
+	WorkingDir string                                  `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
-		Browser    respjson.Field
 		CPU        respjson.Field
 		Envs       respjson.Field
 		Labels     respjson.Field
@@ -772,6 +771,7 @@ type V1BoxListResponseDataUnionConfig struct {
 		Os         respjson.Field
 		Resolution respjson.Field
 		Storage    respjson.Field
+		Browser    respjson.Field
 		WorkingDir respjson.Field
 		DeviceType respjson.Field
 		raw        string
@@ -779,26 +779,6 @@ type V1BoxListResponseDataUnionConfig struct {
 }
 
 func (r *V1BoxListResponseDataUnionConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxListResponseDataUnionConfigBrowser is an implicit subunion of
-// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigBrowser provides
-// convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxListResponseDataUnion].
-type V1BoxListResponseDataUnionConfigBrowser struct {
-	Type    string `json:"type"`
-	Version string `json:"version"`
-	JSON    struct {
-		Type    respjson.Field
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxListResponseDataUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -837,6 +817,26 @@ type V1BoxListResponseDataUnionConfigResolution struct {
 }
 
 func (r *V1BoxListResponseDataUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxListResponseDataUnionConfigBrowser is an implicit subunion of
+// [V1BoxListResponseDataUnion]. V1BoxListResponseDataUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxListResponseDataUnion].
+type V1BoxListResponseDataUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxListResponseDataUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -937,23 +937,22 @@ func (r *V1BoxStartResponseUnion) UnmarshalJSON(data []byte) error {
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxStartResponseUnion].
 type V1BoxStartResponseUnionConfig struct {
-	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
-	Browser V1BoxStartResponseUnionConfigBrowser `json:"browser"`
-	CPU     float64                              `json:"cpu"`
-	Envs    any                                  `json:"envs"`
-	Labels  any                                  `json:"labels"`
-	Memory  float64                              `json:"memory"`
+	CPU    float64 `json:"cpu"`
+	Envs   any     `json:"envs"`
+	Labels any     `json:"labels"`
+	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxStartResponseUnionConfigOs `json:"os"`
 	// This field is a union of [LinuxBoxConfigResolution],
 	// [AndroidBoxConfigResolution]
 	Resolution V1BoxStartResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                                 `json:"storage"`
-	WorkingDir string                                  `json:"workingDir"`
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser    V1BoxStartResponseUnionConfigBrowser `json:"browser"`
+	WorkingDir string                               `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
-		Browser    respjson.Field
 		CPU        respjson.Field
 		Envs       respjson.Field
 		Labels     respjson.Field
@@ -961,6 +960,7 @@ type V1BoxStartResponseUnionConfig struct {
 		Os         respjson.Field
 		Resolution respjson.Field
 		Storage    respjson.Field
+		Browser    respjson.Field
 		WorkingDir respjson.Field
 		DeviceType respjson.Field
 		raw        string
@@ -968,26 +968,6 @@ type V1BoxStartResponseUnionConfig struct {
 }
 
 func (r *V1BoxStartResponseUnionConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxStartResponseUnionConfigBrowser is an implicit subunion of
-// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigBrowser provides
-// convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxStartResponseUnion].
-type V1BoxStartResponseUnionConfigBrowser struct {
-	Type    string `json:"type"`
-	Version string `json:"version"`
-	JSON    struct {
-		Type    respjson.Field
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxStartResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1026,6 +1006,26 @@ type V1BoxStartResponseUnionConfigResolution struct {
 }
 
 func (r *V1BoxStartResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStartResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxStartResponseUnion]. V1BoxStartResponseUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStartResponseUnion].
+type V1BoxStartResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStartResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1078,23 +1078,22 @@ func (r *V1BoxStopResponseUnion) UnmarshalJSON(data []byte) error {
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxStopResponseUnion].
 type V1BoxStopResponseUnionConfig struct {
-	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
-	Browser V1BoxStopResponseUnionConfigBrowser `json:"browser"`
-	CPU     float64                             `json:"cpu"`
-	Envs    any                                 `json:"envs"`
-	Labels  any                                 `json:"labels"`
-	Memory  float64                             `json:"memory"`
+	CPU    float64 `json:"cpu"`
+	Envs   any     `json:"envs"`
+	Labels any     `json:"labels"`
+	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxStopResponseUnionConfigOs `json:"os"`
 	// This field is a union of [LinuxBoxConfigResolution],
 	// [AndroidBoxConfigResolution]
 	Resolution V1BoxStopResponseUnionConfigResolution `json:"resolution"`
 	Storage    float64                                `json:"storage"`
-	WorkingDir string                                 `json:"workingDir"`
+	// This field is a union of [LinuxBoxConfigBrowser], [AndroidBoxConfigBrowser]
+	Browser    V1BoxStopResponseUnionConfigBrowser `json:"browser"`
+	WorkingDir string                              `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
-		Browser    respjson.Field
 		CPU        respjson.Field
 		Envs       respjson.Field
 		Labels     respjson.Field
@@ -1102,6 +1101,7 @@ type V1BoxStopResponseUnionConfig struct {
 		Os         respjson.Field
 		Resolution respjson.Field
 		Storage    respjson.Field
+		Browser    respjson.Field
 		WorkingDir respjson.Field
 		DeviceType respjson.Field
 		raw        string
@@ -1109,26 +1109,6 @@ type V1BoxStopResponseUnionConfig struct {
 }
 
 func (r *V1BoxStopResponseUnionConfig) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxStopResponseUnionConfigBrowser is an implicit subunion of
-// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigBrowser provides
-// convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxStopResponseUnion].
-type V1BoxStopResponseUnionConfigBrowser struct {
-	Type    string `json:"type"`
-	Version string `json:"version"`
-	JSON    struct {
-		Type    respjson.Field
-		Version respjson.Field
-		raw     string
-	} `json:"-"`
-}
-
-func (r *V1BoxStopResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1167,6 +1147,26 @@ type V1BoxStopResponseUnionConfigResolution struct {
 }
 
 func (r *V1BoxStopResponseUnionConfigResolution) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxStopResponseUnionConfigBrowser is an implicit subunion of
+// [V1BoxStopResponseUnion]. V1BoxStopResponseUnionConfigBrowser provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxStopResponseUnion].
+type V1BoxStopResponseUnionConfigBrowser struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+	JSON    struct {
+		Type    respjson.Field
+		Version respjson.Field
+		raw     string
+	} `json:"-"`
+}
+
+func (r *V1BoxStopResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
