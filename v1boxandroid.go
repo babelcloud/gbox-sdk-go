@@ -69,6 +69,23 @@ func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, bod
 	return
 }
 
+// Close all apps
+func (r *V1BoxAndroidService) CloseAll(ctx context.Context, packageName string, body V1BoxAndroidCloseAllParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if body.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/close-all", body.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
 // Get app
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
@@ -237,6 +254,11 @@ const (
 )
 
 type V1BoxAndroidCloseParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
+}
+
+type V1BoxAndroidCloseAllParams struct {
 	ID string `path:"id,required" json:"-"`
 	paramObj
 }
