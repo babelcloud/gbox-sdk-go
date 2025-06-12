@@ -87,13 +87,7 @@ func TestV1BoxAndroidCloseAll(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Android.CloseAll(
-		context.TODO(),
-		"com.example.myapp",
-		gboxsdk.V1BoxAndroidCloseAllParams{
-			ID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		},
-	)
+	err := client.V1.Boxes.Android.CloseAll(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
