@@ -98,6 +98,18 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 	return
 }
 
+// Get connect address
+func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/connect-address", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Install app
 func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -220,6 +232,25 @@ type V1BoxAndroidListResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxAndroidListResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android connection information
+type V1BoxAndroidGetConnectAddressResponse struct {
+	// Android adb connect address. use `adb connect <adbConnectAddress>` to connect to
+	// the Android device
+	Adb string `json:"adb,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Adb         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidGetConnectAddressResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidGetConnectAddressResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
