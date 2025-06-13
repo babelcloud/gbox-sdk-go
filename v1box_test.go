@@ -115,7 +115,7 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
-				ExpiresIn: gboxsdk.String("10m"),
+				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
@@ -154,7 +154,7 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
-				ExpiresIn: gboxsdk.String("10m"),
+				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
