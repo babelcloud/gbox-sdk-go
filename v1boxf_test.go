@@ -43,7 +43,7 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxFExists(t *testing.T) {
+func TestV1BoxFExistsWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -60,7 +60,8 @@ func TestV1BoxFExists(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFExistsParams{
-			Path: "/home/user/documents/output.txt",
+			Path:       "/home/user/documents/output.txt",
+			WorkingDir: gboxsdk.String("/home/user/documents"),
 		},
 	)
 	if err != nil {
@@ -72,7 +73,7 @@ func TestV1BoxFExists(t *testing.T) {
 	}
 }
 
-func TestV1BoxFRead(t *testing.T) {
+func TestV1BoxFReadWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -89,7 +90,8 @@ func TestV1BoxFRead(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFReadParams{
-			Path: "/home/user/documents/config.json",
+			Path:       "/home/user/documents/config.json",
+			WorkingDir: gboxsdk.String("/home/user/documents"),
 		},
 	)
 	if err != nil {
@@ -101,7 +103,7 @@ func TestV1BoxFRead(t *testing.T) {
 	}
 }
 
-func TestV1BoxFRemove(t *testing.T) {
+func TestV1BoxFRemoveWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -118,7 +120,8 @@ func TestV1BoxFRemove(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFRemoveParams{
-			Path: "/home/user/documents/output.txt",
+			Path:       "/home/user/documents/output.txt",
+			WorkingDir: gboxsdk.String("/home/user/documents"),
 		},
 	)
 	if err != nil {
@@ -130,7 +133,7 @@ func TestV1BoxFRemove(t *testing.T) {
 	}
 }
 
-func TestV1BoxFRename(t *testing.T) {
+func TestV1BoxFRenameWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -147,8 +150,9 @@ func TestV1BoxFRename(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFRenameParams{
-			NewPath: "/home/user/documents/new-name.txt",
-			OldPath: "/home/user/documents/output.txt",
+			NewPath:    "/home/user/documents/new-name.txt",
+			OldPath:    "/home/user/documents/output.txt",
+			WorkingDir: gboxsdk.String("/home/user/documents"),
 		},
 	)
 	if err != nil {
@@ -160,7 +164,7 @@ func TestV1BoxFRename(t *testing.T) {
 	}
 }
 
-func TestV1BoxFWrite(t *testing.T) {
+func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -177,8 +181,9 @@ func TestV1BoxFWrite(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFWriteParams{
-			Content: "Hello, World!\nThis is file content.",
-			Path:    "/home/user/documents/output.txt",
+			Content:    "Hello, World!\nThis is file content.",
+			Path:       "/home/user/documents/output.txt",
+			WorkingDir: gboxsdk.String("/home/user/documents"),
 		},
 	)
 	if err != nil {
