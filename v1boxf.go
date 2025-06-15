@@ -62,7 +62,8 @@ func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadPar
 	return
 }
 
-// Write box file
+// Creates or overwrites a file. Creates necessary directories in the path if they
+// don't exist.
 func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -97,8 +98,8 @@ func (r *V1BoxFListResponse) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxFListResponseDataUnion struct {
-	// This field is from variant [V1BoxFListResponseDataFile].
 	LastModified time.Time `json:"lastModified"`
+	Mode         string    `json:"mode"`
 	Name         string    `json:"name"`
 	Path         string    `json:"path"`
 	// This field is from variant [V1BoxFListResponseDataFile].
@@ -106,6 +107,7 @@ type V1BoxFListResponseDataUnion struct {
 	Type string `json:"type"`
 	JSON struct {
 		LastModified respjson.Field
+		Mode         respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		Size         respjson.Field
@@ -135,6 +137,8 @@ func (r *V1BoxFListResponseDataUnion) UnmarshalJSON(data []byte) error {
 type V1BoxFListResponseDataFile struct {
 	// Last modified time of the file
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// File metadata
+	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
 	// Full path to the file
@@ -148,6 +152,7 @@ type V1BoxFListResponseDataFile struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		Mode         respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		Size         respjson.Field
@@ -165,6 +170,10 @@ func (r *V1BoxFListResponseDataFile) UnmarshalJSON(data []byte) error {
 
 // File system directory representation
 type V1BoxFListResponseDataDirectory struct {
+	// Last modified time of the directory
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Directory metadata
+	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
 	// Full path to the directory
@@ -175,11 +184,13 @@ type V1BoxFListResponseDataDirectory struct {
 	Type string `json:"type,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Name        respjson.Field
-		Path        respjson.Field
-		Type        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 

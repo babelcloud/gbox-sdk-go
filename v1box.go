@@ -1286,7 +1286,8 @@ type V1BoxRunCodeParams struct {
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the code.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
-	// The arguments to run the code. e.g. ["-h"]
+	// The arguments to run the code. For example, if you want to run "python index.py
+	// --help", you should pass ["--help"] as arguments.
 	Argv []string `json:"argv,omitzero"`
 	// The environment variables to run the code
 	Envs any `json:"envs,omitzero"`

@@ -228,7 +228,7 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxRunCodeParams{
 			Code: `print("Hello, World!")`,
-			Argv: []string{"-v", "--help"},
+			Argv: []string{"--help"},
 			Envs: map[string]interface{}{
 				"PYTHONPATH": "/usr/lib/python3",
 				"DEBUG":      "true",

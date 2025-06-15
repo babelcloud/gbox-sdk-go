@@ -42,7 +42,8 @@ import (
 
 func main() {
 	client := gboxsdk.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithAPIKey("My API Key"),  // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithEnvironmentSelfHost(), // defaults to option.WithEnvironmentProduction()
 	)
 	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
