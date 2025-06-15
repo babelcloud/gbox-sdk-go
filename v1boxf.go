@@ -62,6 +62,30 @@ func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadPar
 	return
 }
 
+// Delete box file/directory
+func (r *V1BoxFService) Remove(ctx context.Context, id string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/fs", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, &res, opts...)
+	return
+}
+
+// Rename box file
+func (r *V1BoxFService) Rename(ctx context.Context, id string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/fs/rename", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Creates or overwrites a file. Creates necessary directories in the path if they
 // don't exist.
 func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
@@ -218,6 +242,42 @@ func (r *V1BoxFReadResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response after deleting file/directory
+type V1BoxFRemoveResponse struct {
+	// Success message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFRemoveResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFRemoveResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response after renaming file/directory
+type V1BoxFRenameResponse struct {
+	// Success message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFRenameResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFRenameResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Response after writing file content
 type V1BoxFWriteResponse struct {
 	// Success message
@@ -264,6 +324,36 @@ func (r V1BoxFReadParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type V1BoxFRemoveParams struct {
+	// Path to the file/directory
+	Path string `json:"path,required"`
+	paramObj
+}
+
+func (r V1BoxFRemoveParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFRemoveParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxFRemoveParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxFRenameParams struct {
+	// New path for the file/directory
+	NewPath string `json:"newPath,required"`
+	// Old path to the file/directory
+	OldPath string `json:"oldPath,required"`
+	paramObj
+}
+
+func (r V1BoxFRenameParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFRenameParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxFRenameParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxFWriteParams struct {
