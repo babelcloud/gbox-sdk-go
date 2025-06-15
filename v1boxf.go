@@ -343,8 +343,12 @@ func (r V1BoxFListParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFExistsParams struct {
-	// Path to the file/directory
+	// Path to the file/directory. If the path is not start with '/', the
+	// file/directory will be checked from the working directory
 	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
 
@@ -357,8 +361,12 @@ func (r *V1BoxFExistsParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFReadParams struct {
-	// Path to the file
+	// Path to the file. If the path is not start with '/', the file will be read from
+	// the working directory.
 	Path string `query:"path,required" json:"-"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
 	paramObj
 }
 
@@ -371,8 +379,12 @@ func (r V1BoxFReadParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFRemoveParams struct {
-	// Path to the file/directory
+	// Path to the file/directory. If the path is not start with '/', the
+	// file/directory will be deleted from the working directory
 	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
 
@@ -385,10 +397,15 @@ func (r *V1BoxFRemoveParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFRenameParams struct {
-	// New path for the file/directory
+	// New path for the file/directory. If the path is not start with '/', the
+	// file/directory will be renamed to the working directory
 	NewPath string `json:"newPath,required"`
-	// Old path to the file/directory
+	// Old path to the file/directory. If the path is not start with '/', the
+	// file/directory will be renamed from the working directory
 	OldPath string `json:"oldPath,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
 
@@ -403,8 +420,12 @@ func (r *V1BoxFRenameParams) UnmarshalJSON(data []byte) error {
 type V1BoxFWriteParams struct {
 	// Content of the file
 	Content string `json:"content,required"`
-	// Path to the file
+	// Path to the file. If the path is not start with '/', the file will be written to
+	// the working directory
 	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
 
