@@ -50,6 +50,18 @@ func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListPar
 	return
 }
 
+// Check if file exists
+func (r *V1BoxFService) Exists(ctx context.Context, id string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/fs/exists", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Read box file
 func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -224,6 +236,24 @@ func (r *V1BoxFListResponseDataDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response after checking if a file/directory exists
+type V1BoxFExistsResponse struct {
+	// Exists
+	Exists bool `json:"exists,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Exists      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFExistsResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFExistsResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Response containing file content
 type V1BoxFReadResponse struct {
 	// Content of the file
@@ -310,6 +340,20 @@ func (r V1BoxFListParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type V1BoxFExistsParams struct {
+	// Path to the file/directory
+	Path string `json:"path,required"`
+	paramObj
+}
+
+func (r V1BoxFExistsParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFExistsParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxFExistsParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxFReadParams struct {
