@@ -262,7 +262,14 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.
 func WithEnvironmentProduction() RequestOption {
-	return requestconfig.WithDefaultBaseURL("https://alpha.gbox.cloud/api/v1/")
+	return requestconfig.WithDefaultBaseURL("https://gbox.ai/api/v1/")
+}
+
+// WithEnvironmentSelfHost returns a RequestOption that sets the current
+// environment to be the "selfHost" environment. An environment specifies which base URL
+// to use by default.
+func WithEnvironmentSelfHost() RequestOption {
+	return requestconfig.WithDefaultBaseURL("http://localhost:28080/api/v1/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".
