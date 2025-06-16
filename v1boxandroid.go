@@ -123,6 +123,22 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1Box
 	return
 }
 
+// Get app activities
+func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName string, query V1BoxAndroidListActivitiesParams, opts ...option.RequestOption) (res *V1BoxAndroidListActivitiesResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if query.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/activities", query.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Open app
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -254,6 +270,53 @@ func (r *V1BoxAndroidGetConnectAddressResponse) UnmarshalJSON(data []byte) error
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type V1BoxAndroidListActivitiesResponse struct {
+	// Activity list
+	Data []V1BoxAndroidListActivitiesResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListActivitiesResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListActivitiesResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android app activity
+type V1BoxAndroidListActivitiesResponseData struct {
+	// Activity class name
+	ClassName string `json:"className,required"`
+	// Activity class name
+	IsExported bool `json:"isExported,required"`
+	// Whether the activity is the main activity
+	IsMain bool `json:"isMain,required"`
+	// Activity name
+	Name string `json:"name,required"`
+	// Activity package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ClassName   respjson.Field
+		IsExported  respjson.Field
+		IsMain      respjson.Field
+		Name        respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListActivitiesResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxAndroidListParams struct {
 	// Whether to include running apps, default is all
 	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
@@ -356,6 +419,11 @@ func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) MarshalJSON() (data
 }
 func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidListActivitiesParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
 }
 
 type V1BoxAndroidOpenParams struct {
