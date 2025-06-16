@@ -82,8 +82,7 @@ func TestV1BoxDeleteWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxDeleteParams{
-			Timeout: gboxsdk.String("30s"),
-			Wait:    gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	)
 	if err != nil {
@@ -121,8 +120,7 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 					"environment": "testing",
 				},
 			},
-			Timeout: gboxsdk.String("30s"),
-			Wait:    gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
@@ -160,8 +158,7 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"environment": "testing",
 				},
 			},
-			Timeout: gboxsdk.String("30s"),
-			Wait:    gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
@@ -264,8 +261,7 @@ func TestV1BoxStartWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxStartParams{
-			Timeout: gboxsdk.String("30s"),
-			Wait:    gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	)
 	if err != nil {
@@ -294,8 +290,7 @@ func TestV1BoxStopWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxStopParams{
-			Timeout: gboxsdk.String("30s"),
-			Wait:    gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	)
 	if err != nil {

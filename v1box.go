@@ -314,8 +314,6 @@ const (
 
 // Request body for creating a new Android box instance
 type CreateAndroidBoxParam struct {
-	// Timeout for the box operation to be completed, default is 30s
-	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a box instance
@@ -352,8 +350,6 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 
 // Request body for creating a new Linux box instance
 type CreateLinuxBoxParam struct {
-	// Timeout for the box operation to be completed, default is 30s
-	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a box instance
@@ -1193,8 +1189,6 @@ func (r V1BoxListParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxDeleteParams struct {
-	// Timeout for the box operation to be completed, default is 30s
-	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	paramObj
@@ -1237,7 +1231,9 @@ func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
 type V1BoxExecuteCommandsParams struct {
 	// The command to run. Can be a single string or an array of strings
 	Commands V1BoxExecuteCommandsParamsCommandsUnion `json:"commands,omitzero,required"`
-	// The timeout of the command. e.g. '30s'
+	// The timeout of the command. e.g. '30s' or '1m' or '1h'. If the command times
+	// out, the exit code will be 124. For example: 'timeout 5s sleep 10s' will result
+	// in exit code 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the command
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
@@ -1282,7 +1278,8 @@ func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
-	// The timeout of the code. e.g. "30s"
+	// The timeout of the code execution. e.g. "30s" or "1m" or "1h". If the code
+	// execution times out, the exit code will be 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the code.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
@@ -1316,8 +1313,6 @@ const (
 )
 
 type V1BoxStartParams struct {
-	// Timeout for the box operation to be completed, default is 30s
-	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	paramObj
@@ -1332,8 +1327,6 @@ func (r *V1BoxStartParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxStopParams struct {
-	// Timeout for the box operation to be completed, default is 30s
-	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	paramObj
