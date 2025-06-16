@@ -268,11 +268,23 @@ type V1BoxActionClickParams struct {
 	Y float64 `json:"y,required"`
 	// Whether to perform a double click
 	Double param.Opt[bool] `json:"double,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Mouse button to click
 	//
 	// Any of "left", "right", "middle".
 	Button V1BoxActionClickParamsButton `json:"button,omitzero"`
-	// Type of the URI
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionClickParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -296,7 +308,7 @@ const (
 	V1BoxActionClickParamsButtonMiddle V1BoxActionClickParamsButton = "middle"
 )
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionClickParamsOutputFormat string
 
 const (
@@ -309,7 +321,19 @@ type V1BoxActionDragParams struct {
 	Path []V1BoxActionDragParamsPath `json:"path,omitzero,required"`
 	// Time interval between points (e.g. "50ms")
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionDragParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -343,7 +367,7 @@ func (r *V1BoxActionDragParamsPath) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionDragParamsOutputFormat string
 
 const (
@@ -356,7 +380,19 @@ type V1BoxActionMoveParams struct {
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
 	Y float64 `json:"y,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionMoveParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -371,7 +407,7 @@ func (r *V1BoxActionMoveParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionMoveParamsOutputFormat string
 
 const (
@@ -384,7 +420,19 @@ type V1BoxActionPressButtonParams struct {
 	//
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu".
 	Buttons []string `json:"buttons,omitzero,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionPressButtonParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -399,7 +447,7 @@ func (r *V1BoxActionPressButtonParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionPressButtonParamsOutputFormat string
 
 const (
@@ -425,7 +473,19 @@ type V1BoxActionPressKeyParams struct {
 	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
 	// "mediaPreviousTrack".
 	Keys []string `json:"keys,omitzero,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionPressKeyParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -440,7 +500,7 @@ func (r *V1BoxActionPressKeyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionPressKeyParamsOutputFormat string
 
 const (
@@ -449,9 +509,21 @@ const (
 )
 
 type V1BoxActionScreenshotParams struct {
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
-	// Type of the URI
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionScreenshotParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -489,7 +561,7 @@ func (r *V1BoxActionScreenshotParamsClip) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionScreenshotParamsOutputFormat string
 
 const (
@@ -506,7 +578,19 @@ type V1BoxActionScrollParams struct {
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
 	Y float64 `json:"y,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionScrollParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -521,7 +605,7 @@ func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionScrollParamsOutputFormat string
 
 const (
@@ -532,7 +616,19 @@ const (
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionTouchParamsPoint `json:"points,omitzero,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionTouchParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -585,7 +681,7 @@ func (r *V1BoxActionTouchParamsPointStart) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionTouchParamsOutputFormat string
 
 const (
@@ -596,7 +692,19 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// Type of the URI
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionTypeParamsOutputFormat `json:"outputFormat,omitzero"`
@@ -611,7 +719,7 @@ func (r *V1BoxActionTypeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI
+// Type of the URI. default is base64.
 type V1BoxActionTypeParamsOutputFormat string
 
 const (
