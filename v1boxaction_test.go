@@ -202,8 +202,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 				X:      100,
 				Y:      50,
 			},
-			OutputFormat:    gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
-			ScreenshotDelay: gboxsdk.String("500ms"),
+			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
 		},
 	)
 	if err != nil {
