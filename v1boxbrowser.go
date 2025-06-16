@@ -8,10 +8,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
 )
 
 // V1BoxBrowserService contains methods and other services that help with
@@ -42,32 +40,4 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, opts ...opt
 	path := fmt.Sprintf("boxes/%s/browser/connect-url/cdp", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
-}
-
-func (r *V1BoxBrowserService) ConnectURL(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxBrowserConnectURLResponse, err error) {
-	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
-		return
-	}
-	path := fmt.Sprintf("boxes/%s/browser/connect-url", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
-}
-
-type V1BoxBrowserConnectURLResponse struct {
-	// CDP URL
-	CdpURL string `json:"cdpUrl,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		CdpURL      respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxBrowserConnectURLResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxBrowserConnectURLResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
 }
