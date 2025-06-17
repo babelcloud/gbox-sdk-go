@@ -62,6 +62,18 @@ func (r *V1BoxFService) Exists(ctx context.Context, id string, body V1BoxFExists
 	return
 }
 
+// Get file/directory
+func (r *V1BoxFService) Info(ctx context.Context, id string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/fs/info", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
 // Read box file
 func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -99,7 +111,7 @@ func (r *V1BoxFService) Rename(ctx context.Context, id string, body V1BoxFRename
 }
 
 // Creates or overwrites a file. Creates necessary directories in the path if they
-// don't exist.
+// don't exist. if the path is a directory, the write will be failed.
 func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -254,6 +266,29 @@ func (r *V1BoxFExistsResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Request parameters for getting a file/directory info
+type V1BoxFInfoResponse struct {
+	// Path to the file/directory. If the path is not start with '/', the
+	// file/directory will be checked from the working directory
+	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir string `json:"workingDir"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Path        respjson.Field
+		WorkingDir  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFInfoResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFInfoResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Response containing file content
 type V1BoxFReadResponse struct {
 	// Content of the file
@@ -331,6 +366,9 @@ type V1BoxFListParams struct {
 	Path string `query:"path,required" json:"-"`
 	// Depth of the directory
 	Depth param.Opt[float64] `query:"depth,omitzero" json:"-"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
 	paramObj
 }
 
@@ -358,6 +396,24 @@ func (r V1BoxFExistsParams) MarshalJSON() (data []byte, err error) {
 }
 func (r *V1BoxFExistsParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxFInfoParams struct {
+	// Path to the file/directory. If the path is not start with '/', the
+	// file/directory will be checked from the working directory
+	Path string `query:"path,required" json:"-"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxFInfoParams]'s query parameters as `url.Values`.
+func (r V1BoxFInfoParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
 
 type V1BoxFReadParams struct {
