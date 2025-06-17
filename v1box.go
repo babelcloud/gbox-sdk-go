@@ -332,7 +332,8 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 // Configuration for a box instance
 type CreateBoxConfigParam struct {
 	// The box will be alive for the given duration (e.g. '10m')
-	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	ExpiresIn    param.Opt[string] `json:"expiresIn,omitzero"`
+	IsRealDevice param.Opt[bool]   `json:"isRealDevice,omitzero"`
 	// Environment variables for the box
 	Envs any `json:"envs,omitzero"`
 	// Key-value pairs of labels for the box
