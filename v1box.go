@@ -1213,13 +1213,19 @@ type V1BoxListParams struct {
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
-	// Filter boxes by their current status (pending, running, stopped, error,
-	// terminated).
-	Status param.Opt[string] `query:"status,omitzero" json:"-"`
-	// Filter boxes by their type (linux, android etc.) , default is all
-	Type param.Opt[string] `query:"type,omitzero" json:"-"`
 	// Filter boxes by their labels, default is all
 	Labels any `query:"labels,omitzero" json:"-"`
+	// Filter boxes by their current status (pending, running, stopped, error,
+	// terminated, all). Must be an array of statuses. Use 'all' to get boxes with any
+	// status.
+	//
+	// Any of "all", "pending", "running", "stopped", "error", "terminated".
+	Status []string `query:"status,omitzero" json:"-"`
+	// Filter boxes by their type (linux, android, all). Must be an array of types. Use
+	// 'all' to get boxes of any type.
+	//
+	// Any of "all", "linux", "android".
+	Type []string `query:"type,omitzero" json:"-"`
 	paramObj
 }
 

@@ -53,8 +53,8 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 		Labels:   map[string]interface{}{},
 		Page:     gboxsdk.Int(1),
 		PageSize: gboxsdk.Int(10),
-		Status:   gboxsdk.String("running"),
-		Type:     gboxsdk.String("linux"),
+		Status:   []string{"running"},
+		Type:     []string{"linux"},
 	})
 	if err != nil {
 		var apierr *gboxsdk.Error
