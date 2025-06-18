@@ -142,6 +142,19 @@ func (r *V1BoxService) Stop(ctx context.Context, id string, body V1BoxStopParams
 	return
 }
 
+// Terminate box
+func (r *V1BoxService) Terminate(ctx context.Context, id string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/terminate", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	return
+}
+
 // Android box instance with full configuration and status
 type AndroidBox struct {
 	// Unique identifier for the box
@@ -1353,5 +1366,19 @@ func (r V1BoxStopParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxStopParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxTerminateParams struct {
+	// Wait for the box operation to be completed, default is true
+	Wait param.Opt[bool] `json:"wait,omitzero"`
+	paramObj
+}
+
+func (r V1BoxTerminateParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxTerminateParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxTerminateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
