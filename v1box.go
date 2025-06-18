@@ -1201,7 +1201,7 @@ type V1BoxListParams struct {
 	// Page size
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
 	// Filter boxes by their current status (pending, running, stopped, error,
-	// terminated)
+	// terminated).
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	// Filter boxes by their type (linux, android etc.) , default is all
 	Type param.Opt[string] `query:"type,omitzero" json:"-"`
