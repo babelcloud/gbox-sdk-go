@@ -1,7 +1,7 @@
 package sentinel_test
 
 import (
-	"github.com/babelcloud/gbox-sdk-go/internal/encoding/json/sentinel"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/encoding/json/sentinel"
 	"reflect"
 	"slices"
 	"testing"

@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/babelcloud/gbox-sdk-go"
-	"github.com/babelcloud/gbox-sdk-go/internal/testutil"
-	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/testutil"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
 func TestV1BoxGet(t *testing.T) {
@@ -110,12 +110,12 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
+				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
-				ExpiresIn:    gboxsdk.String("60m"),
-				IsRealDevice: gboxsdk.Bool(true),
+				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
@@ -149,12 +149,12 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
+				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
-				ExpiresIn:    gboxsdk.String("60m"),
-				IsRealDevice: gboxsdk.Bool(true),
+				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
