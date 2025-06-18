@@ -107,6 +107,18 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 	return
 }
 
+// Get live view url
+func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/live-view-url", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Run code on the box
 func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -869,6 +881,24 @@ type V1BoxExecuteCommandsResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxExecuteCommandsResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Live view configuration
+type V1BoxLiveViewURLResponse struct {
+	// Live view url
+	URL string `json:"url,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxLiveViewURLResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxLiveViewURLResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
