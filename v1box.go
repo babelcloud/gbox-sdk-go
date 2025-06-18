@@ -66,19 +66,6 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 	return
 }
 
-// Delete box
-func (r *V1BoxService) Delete(ctx context.Context, id string, body V1BoxDeleteParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
-		return
-	}
-	path := fmt.Sprintf("boxes/%s", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, nil, opts...)
-	return
-}
-
 // Create android box
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
@@ -167,7 +154,7 @@ type AndroidBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error", "deleted".
+	// Any of "pending", "running", "stopped", "error", "terminated".
 	Status AndroidBoxStatus `json:"status,required"`
 	// Box type is Android
 	//
@@ -310,11 +297,11 @@ func (r *AndroidBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 type AndroidBoxStatus string
 
 const (
-	AndroidBoxStatusPending AndroidBoxStatus = "pending"
-	AndroidBoxStatusRunning AndroidBoxStatus = "running"
-	AndroidBoxStatusStopped AndroidBoxStatus = "stopped"
-	AndroidBoxStatusError   AndroidBoxStatus = "error"
-	AndroidBoxStatusDeleted AndroidBoxStatus = "deleted"
+	AndroidBoxStatusPending    AndroidBoxStatus = "pending"
+	AndroidBoxStatusRunning    AndroidBoxStatus = "running"
+	AndroidBoxStatusStopped    AndroidBoxStatus = "stopped"
+	AndroidBoxStatusError      AndroidBoxStatus = "error"
+	AndroidBoxStatusTerminated AndroidBoxStatus = "terminated"
 )
 
 // Box type is Android
@@ -401,7 +388,7 @@ type LinuxBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error", "deleted".
+	// Any of "pending", "running", "stopped", "error", "terminated".
 	Status LinuxBoxStatus `json:"status,required"`
 	// Box type is Linux
 	//
@@ -537,11 +524,11 @@ func (r *LinuxBoxConfigBrowser) UnmarshalJSON(data []byte) error {
 type LinuxBoxStatus string
 
 const (
-	LinuxBoxStatusPending LinuxBoxStatus = "pending"
-	LinuxBoxStatusRunning LinuxBoxStatus = "running"
-	LinuxBoxStatusStopped LinuxBoxStatus = "stopped"
-	LinuxBoxStatusError   LinuxBoxStatus = "error"
-	LinuxBoxStatusDeleted LinuxBoxStatus = "deleted"
+	LinuxBoxStatusPending    LinuxBoxStatus = "pending"
+	LinuxBoxStatusRunning    LinuxBoxStatus = "running"
+	LinuxBoxStatusStopped    LinuxBoxStatus = "stopped"
+	LinuxBoxStatusError      LinuxBoxStatus = "error"
+	LinuxBoxStatusTerminated LinuxBoxStatus = "terminated"
 )
 
 // Box type is Linux
@@ -1213,7 +1200,8 @@ type V1BoxListParams struct {
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
-	// Filter boxes by their current status (pending, running, stopped, error, deleted)
+	// Filter boxes by their current status (pending, running, stopped, error,
+	// terminated)
 	Status param.Opt[string] `query:"status,omitzero" json:"-"`
 	// Filter boxes by their type (linux, android etc.) , default is all
 	Type param.Opt[string] `query:"type,omitzero" json:"-"`
@@ -1228,20 +1216,6 @@ func (r V1BoxListParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
-}
-
-type V1BoxDeleteParams struct {
-	// Wait for the box operation to be completed, default is true
-	Wait param.Opt[bool] `json:"wait,omitzero"`
-	paramObj
-}
-
-func (r V1BoxDeleteParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxDeleteParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxDeleteParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxNewAndroidParams struct {
