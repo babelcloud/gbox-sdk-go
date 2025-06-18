@@ -234,7 +234,7 @@ func (r *AndroidBoxConfig) UnmarshalJSON(data []byte) error {
 type AndroidBoxConfigOs struct {
 	// Supported Android versions
 	//
-	// Any of "12", "13".
+	// Any of "12", "13", "15".
 	Version string `json:"version,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
