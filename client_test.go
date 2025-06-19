@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/gbox-sdk-go"
-	"github.com/stainless-sdks/gbox-sdk-go/internal"
-	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/babelcloud/gbox-sdk-go"
+	"github.com/babelcloud/gbox-sdk-go/internal"
+	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
 type closureTransport struct {
