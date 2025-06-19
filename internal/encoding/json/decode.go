@@ -14,7 +14,7 @@ import (
 	"encoding"
 	"encoding/base64"
 	"fmt"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/encoding/json/shims"
+	"github.com/babelcloud/gbox-sdk-go/internal/encoding/json/shims"
 	"reflect"
 	"strconv"
 	"strings"

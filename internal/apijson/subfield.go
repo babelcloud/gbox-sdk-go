@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
+	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
 	"reflect"
 )
 
