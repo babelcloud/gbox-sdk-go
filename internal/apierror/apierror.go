@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 )
 
 // Error represents an error that originates from the API, i.e. when a request is

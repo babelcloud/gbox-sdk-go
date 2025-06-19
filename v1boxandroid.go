@@ -12,13 +12,13 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
-	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
-	"github.com/babelcloud/gbox-sdk-go/option"
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiform"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 )
 
 // V1BoxAndroidService contains methods and other services that help with
@@ -157,10 +157,10 @@ func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, para
 }
 
 // Restart app
-func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, body V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, params V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if body.ID == "" {
+	if params.ID == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
@@ -168,8 +168,8 @@ func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, b
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", body.ID, packageName)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", params.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
 
@@ -456,7 +456,17 @@ func (r *V1BoxAndroidOpenParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxAndroidRestartParams struct {
 	ID string `path:"id,required" json:"-"`
+	// Activity name, default is the main activity.
+	ActivityName param.Opt[string] `json:"activityName,omitzero"`
 	paramObj
+}
+
+func (r V1BoxAndroidRestartParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidRestartParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxAndroidRestartParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxAndroidRotateScreenParams struct {

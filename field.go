@@ -1,7 +1,7 @@
 package gboxsdk
 
 import (
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
 	"io"
 	"time"
 )

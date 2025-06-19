@@ -2,7 +2,7 @@ package apiform
 
 import (
 	"bytes"
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
 	"io"
 	"mime/multipart"
 	"strings"
