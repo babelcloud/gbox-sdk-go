@@ -418,7 +418,8 @@ const (
 type V1BoxActionPressButtonParams struct {
 	// Button to press
 	//
-	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu".
+	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
+	// "appSwitch".
 	Buttons []string `json:"buttons,omitzero,required"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
