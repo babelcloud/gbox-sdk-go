@@ -4,7 +4,6 @@ package gboxsdk
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -616,15 +615,100 @@ const (
 )
 
 type V1BoxActionSwipeParams struct {
-	Body any
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Simple
+	// swipe action configuration
+	OfSwipeSimple *V1BoxActionSwipeParamsBodySwipeSimple `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Swipe
+	// action configuration
+	OfSwipeAction *V1BoxActionSwipeParamsBodySwipeAction `json:",inline"`
+
 	paramObj
 }
 
-func (r V1BoxActionSwipeParams) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(r.Body)
+func (u V1BoxActionSwipeParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSwipeSimple, u.OfSwipeAction)
 }
 func (r *V1BoxActionSwipeParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.Body)
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Simple swipe action configuration
+//
+// The property Direction is required.
+type V1BoxActionSwipeParamsBodySwipeSimple struct {
+	// Direction of the swipe
+	//
+	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
+	// "downRight".
+	Direction string `json:"direction,omitzero,required"`
+	// Distance of the swipe in pixels. If not provided, will use a default distance
+	// based on screen size
+	Distance param.Opt[float64] `json:"distance,omitzero"`
+	// Duration of the swipe
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionSwipeParamsBodySwipeSimple) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeSimple
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionSwipeParamsBodySwipeSimple) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
+		"direction", "up", "down", "left", "right", "upLeft", "upRight", "downLeft", "downRight",
+	)
+}
+
+// Swipe action configuration
+//
+// The properties End, Start are required.
+type V1BoxActionSwipeParamsBodySwipeAction struct {
+	// End point of the swipe path
+	End any `json:"end,omitzero,required"`
+	// Start point of the swipe path
+	Start any `json:"start,omitzero,required"`
+	// Duration of the swipe
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionSwipeParamsBodySwipeAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeAction
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionSwipeParamsBodySwipeAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAction](
+		"outputFormat", "base64", "storageKey",
+	)
 }
 
 type V1BoxActionTouchParams struct {
