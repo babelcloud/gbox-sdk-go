@@ -24,7 +24,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.2'
+go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.3'
 ```
 
 <!-- x-release-please-end -->
@@ -50,17 +50,17 @@ import (
 
 func main() {
 	client := gboxsdk.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithAPIKey("My API Key"),  // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithEnvironmentSelfHost(), // defaults to option.WithEnvironmentProduction()
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
-		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
+	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", box)
+	fmt.Printf("%+v\n", androidBox.ID)
 }
 
 ```
@@ -266,13 +266,15 @@ client := gboxsdk.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.V1.Boxes.New(context.TODO(), ...,
+client.V1.Boxes.NewAndroid(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
 	option.WithJSONSet("some.json.path", map[string]string{"my": "object"}),
 )
 ```
+
+The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
 See the [full list of request options](https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go/option).
 
@@ -295,10 +297,8 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
-	OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-		Type: gboxsdk.CreateLinuxBoxTypeLinux,
-	},
+_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
+	CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
 })
 if err != nil {
 	var apierr *gboxsdk.Error
@@ -306,7 +306,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/boxes": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/boxes/android": 400 Bad Request { ... }
 }
 ```
 
@@ -324,12 +324,10 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.V1.Boxes.New(
+client.V1.Boxes.NewAndroid(
 	ctx,
-	gboxsdk.V1BoxNewParams{
-		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -349,6 +347,24 @@ file returned by `os.Open` will be sent with the file name on disk.
 We also provide a helper `gboxsdk.File(reader io.Reader, filename string, contentType string)`
 which can be used to wrap any `io.Reader` with the appropriate file name and content type.
 
+```go
+// A file from the file system
+file, err := os.Open("/path/to/file")
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: file,
+}
+
+// A file from a string
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: strings.NewReader("my file contents"),
+}
+
+// With a custom filename and contentType
+gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
+	Apk: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+}
+```
+
 ### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
@@ -364,12 +380,10 @@ client := gboxsdk.NewClient(
 )
 
 // Override per-request:
-client.V1.Boxes.New(
+client.V1.Boxes.NewAndroid(
 	context.TODO(),
-	gboxsdk.V1BoxNewParams{
-		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
 	},
 	option.WithMaxRetries(5),
 )
@@ -383,19 +397,17 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-box, err := client.V1.Boxes.New(
+androidBox, err := client.V1.Boxes.NewAndroid(
 	context.TODO(),
-	gboxsdk.V1BoxNewParams{
-		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
 	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", box)
+fmt.Printf("%+v\n", androidBox)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)

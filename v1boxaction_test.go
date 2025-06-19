@@ -28,13 +28,14 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Click(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionClickParams{
-			X:            100,
-			Y:            100,
-			Button:       gboxsdk.V1BoxActionClickParamsButtonLeft,
-			Double:       gboxsdk.Bool(true),
-			OutputFormat: gboxsdk.V1BoxActionClickParamsOutputFormatBase64,
+			X:               100,
+			Y:               100,
+			Button:          gboxsdk.V1BoxActionClickParamsButtonLeft,
+			Double:          gboxsdk.Bool(false),
+			OutputFormat:    gboxsdk.V1BoxActionClickParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -61,7 +62,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Drag(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionDragParams{
 			Path: []gboxsdk.V1BoxActionDragParamsPath{{
 				X: 100,
@@ -70,8 +71,9 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				X: 200,
 				Y: 200,
 			}},
-			Duration:     gboxsdk.String("duration"),
-			OutputFormat: gboxsdk.V1BoxActionDragParamsOutputFormatBase64,
+			Duration:        gboxsdk.String("50ms"),
+			OutputFormat:    gboxsdk.V1BoxActionDragParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -98,11 +100,12 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Move(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionMoveParams{
-			X:            200,
-			Y:            300,
-			OutputFormat: gboxsdk.V1BoxActionMoveParamsOutputFormatBase64,
+			X:               200,
+			Y:               300,
+			OutputFormat:    gboxsdk.V1BoxActionMoveParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -114,7 +117,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
+func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -127,12 +130,44 @@ func TestV1BoxActionPressWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.Press(
+	_, err := client.V1.Boxes.Actions.PressButton(
 		context.TODO(),
-		"id",
-		gboxsdk.V1BoxActionPressParams{
-			Keys:         []string{"Enter"},
-			OutputFormat: gboxsdk.V1BoxActionPressParamsOutputFormatBase64,
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionPressButtonParams{
+			Buttons:         []string{"power"},
+			OutputFormat:    gboxsdk.V1BoxActionPressButtonParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Actions.PressKey(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionPressKeyParams{
+			Keys:            []string{"enter"},
+			OutputFormat:    gboxsdk.V1BoxActionPressKeyParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -159,13 +194,13 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Screenshot(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScreenshotParams{
 			Clip: gboxsdk.V1BoxActionScreenshotParamsClip{
-				Height: 0,
-				Width:  0,
-				X:      0,
-				Y:      0,
+				Height: 600,
+				Width:  800,
+				X:      100,
+				Y:      50,
 			},
 			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
 		},
@@ -194,13 +229,14 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Scroll(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScrollParams{
-			ScrollX:      0,
-			ScrollY:      100,
-			X:            100,
-			Y:            100,
-			OutputFormat: gboxsdk.V1BoxActionScrollParamsOutputFormatBase64,
+			ScrollX:         0,
+			ScrollY:         100,
+			X:               100,
+			Y:               100,
+			OutputFormat:    gboxsdk.V1BoxActionScrollParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -227,16 +263,23 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Touch(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTouchParams{
 			Points: []gboxsdk.V1BoxActionTouchParamsPoint{{
 				Start: gboxsdk.V1BoxActionTouchParamsPointStart{
-					X: 0,
-					Y: 0,
+					X: 100,
+					Y: 150,
 				},
-				Actions: []any{map[string]interface{}{}},
+				Actions: []any{map[string]interface{}{
+					"x":        400,
+					"y":        300,
+					"duration": "200ms",
+				}, map[string]interface{}{
+					"duration": "500ms",
+				}},
 			}},
-			OutputFormat: gboxsdk.V1BoxActionTouchParamsOutputFormatBase64,
+			OutputFormat:    gboxsdk.V1BoxActionTouchParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
@@ -263,10 +306,11 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Type(
 		context.TODO(),
-		"id",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTypeParams{
-			Text:         "Hello World",
-			OutputFormat: gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
+			Text:            "Hello World",
+			OutputFormat:    gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
+			ScreenshotDelay: gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
