@@ -3,8 +3,8 @@
 package gboxsdk
 
 import (
-	"github.com/stainless-sdks/gbox-sdk-go/internal/apierror"
-	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/babelcloud/gbox-sdk-go/internal/apierror"
+	"github.com/babelcloud/gbox-sdk-go/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

@@ -18,10 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/gbox-sdk-go/internal"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/apierror"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/apiform"
-	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
+	"github.com/babelcloud/gbox-sdk-go/internal"
+	"github.com/babelcloud/gbox-sdk-go/internal/apierror"
+	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
+	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {
