@@ -10,9 +10,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/babelcloud/gbox-sdk-go"
-	"github.com/babelcloud/gbox-sdk-go/internal/testutil"
-	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/testutil"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
 func TestV1BoxAndroidListWithOptionalParams(t *testing.T) {
@@ -235,7 +235,7 @@ func TestV1BoxAndroidOpenWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxAndroidRestart(t *testing.T) {
+func TestV1BoxAndroidRestartWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -252,7 +252,8 @@ func TestV1BoxAndroidRestart(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidRestartParams{
-			ID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			ID:           "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			ActivityName: gboxsdk.String("com.android.settings.Settings"),
 		},
 	)
 	if err != nil {

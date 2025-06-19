@@ -3,8 +3,8 @@ package respjson_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	rj "github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	rj "github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 	"reflect"
 	"testing"
 )
