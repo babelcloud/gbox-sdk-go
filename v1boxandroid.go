@@ -52,6 +52,36 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAn
 	return
 }
 
+// Backup app
+func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if body.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/backup", body.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+// Backup all apps
+func (r *V1BoxAndroidService) BackupAll(ctx context.Context, id string, opts ...option.RequestOption) (res *http.Response, err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/backup-all", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
 // Close app
 func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, body V1BoxAndroidCloseParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -182,6 +212,19 @@ func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, p
 	}
 	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", params.ID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	return
+}
+
+// Restore app
+func (r *V1BoxAndroidService) Restore(ctx context.Context, id string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/restore", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
 
@@ -411,6 +454,11 @@ const (
 	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
 )
 
+type V1BoxAndroidBackupParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
+}
+
 type V1BoxAndroidCloseParams struct {
 	ID string `path:"id,required" json:"-"`
 	paramObj
@@ -547,6 +595,30 @@ func (r V1BoxAndroidRestartParams) MarshalJSON() (data []byte, err error) {
 }
 func (r *V1BoxAndroidRestartParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidRestoreParams struct {
+	// Backup file to restore (max file size: 100MB)
+	Backup io.Reader `json:"backup,omitzero,required" format:"binary"`
+	paramObj
+}
+
+func (r V1BoxAndroidRestoreParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 type V1BoxAndroidRotateScreenParams struct {

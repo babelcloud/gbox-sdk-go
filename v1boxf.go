@@ -3,14 +3,18 @@
 package gboxsdk
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"time"
 
+	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -558,7 +562,44 @@ func (r *V1BoxFRenameParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFWriteParams struct {
-	// Content of the file
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Request
+	// parameters for writing content to a file
+	OfWriteFile *V1BoxFWriteParamsBodyWriteFile `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Request
+	// parameters for writing binary content to a file
+	OfWriteFileByBinary *V1BoxFWriteParamsBodyWriteFileByBinary `json:",inline"`
+
+	paramObj
+}
+
+func (r V1BoxFWriteParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
+}
+
+// Request parameters for writing content to a file
+//
+// The properties Content, Path are required.
+type V1BoxFWriteParamsBodyWriteFile struct {
+	// Content of the file (Max size: 512MB)
 	Content string `json:"content,required"`
 	// Path to the file. If the path is not start with '/', the file will be written to
 	// the working directory
@@ -569,10 +610,33 @@ type V1BoxFWriteParams struct {
 	paramObj
 }
 
-func (r V1BoxFWriteParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxFWriteParams
+func (r V1BoxFWriteParamsBodyWriteFile) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFWriteParamsBodyWriteFile
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxFWriteParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxFWriteParamsBodyWriteFile) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Request parameters for writing binary content to a file
+//
+// The properties Content, Path are required.
+type V1BoxFWriteParamsBodyWriteFileByBinary struct {
+	// Binary content of the file (Max file size: 512MB)
+	Content io.Reader `json:"content,omitzero,required" format:"binary"`
+	// Path to the file. If the path is not start with '/', the file will be written to
+	// the working directory
+	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the root
+	// directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
+	paramObj
+}
+
+func (r V1BoxFWriteParamsBodyWriteFileByBinary) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFWriteParamsBodyWriteFileByBinary
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxFWriteParamsBodyWriteFileByBinary) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }

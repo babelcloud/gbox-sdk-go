@@ -212,9 +212,11 @@ func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFWriteParams{
-			Content:    "Hello, World!\nThis is file content.",
-			Path:       "/home/user/documents/output.txt",
-			WorkingDir: gboxsdk.String("/home/user/documents"),
+			OfWriteFile: &gboxsdk.V1BoxFWriteParamsBodyWriteFile{
+				Content:    "Hello, World!\nThis is file content.",
+				Path:       "/home/user/documents/output.txt",
+				WorkingDir: gboxsdk.String("/home/user/documents"),
+			},
 		},
 	)
 	if err != nil {

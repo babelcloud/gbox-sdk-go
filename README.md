@@ -350,18 +350,21 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 ```go
 // A file from the file system
 file, err := os.Open("/path/to/file")
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: file,
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: file,
+	Path:    "/home/user/documents/output.txt",
 }
 
 // A file from a string
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: strings.NewReader("my file contents"),
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: strings.NewReader("my file contents"),
+	Path:    "/home/user/documents/output.txt",
 }
 
 // With a custom filename and contentType
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+	Path:    "/home/user/documents/output.txt",
 }
 ```
 
