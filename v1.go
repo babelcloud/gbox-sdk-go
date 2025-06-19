@@ -3,7 +3,7 @@
 package gboxsdk
 
 import (
-	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
 // V1Service contains methods and other services that help with interacting with

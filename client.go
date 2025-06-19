@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
-	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with

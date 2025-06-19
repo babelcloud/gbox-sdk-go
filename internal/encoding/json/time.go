@@ -2,7 +2,7 @@
 package json
 
 import (
-	"github.com/babelcloud/gbox-sdk-go/internal/encoding/json/shims"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/encoding/json/shims"
 	"reflect"
 	"time"
 )

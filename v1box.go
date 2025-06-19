@@ -11,12 +11,12 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
-	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
-	"github.com/babelcloud/gbox-sdk-go/option"
-	"github.com/babelcloud/gbox-sdk-go/packages/param"
-	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apijson"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/apiquery"
+	"github.com/stainless-sdks/gbox-sdk-go/internal/requestconfig"
+	"github.com/stainless-sdks/gbox-sdk-go/option"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/param"
+	"github.com/stainless-sdks/gbox-sdk-go/packages/respjson"
 )
 
 // V1BoxService contains methods and other services that help with interacting with

@@ -1,3 +1,5 @@
+github.com/babelcloud/gbox-sdk-go v0.1.0-alpha.2 h1:srKBuoX3jeIDlTCvGBlOZ/PX+Vm/ZWkqsDRenOqnb+M=
+github.com/babelcloud/gbox-sdk-go v0.1.0-alpha.2/go.mod h1:Su+RubcjR8UAHVd/Wxf2roq6Y0kZCxhXHBLrA4+Dnl0=
 github.com/tidwall/gjson v1.14.2/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
 github.com/tidwall/gjson v1.14.4 h1:uo0p8EbA09J7RQaflQ1aBRffTR7xedD2bcIVSYxLnkM=
 github.com/tidwall/gjson v1.14.4/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
