@@ -248,7 +248,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSwipe(t *testing.T) {
+func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -265,8 +265,10 @@ func TestV1BoxActionSwipe(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionSwipeParams{
-			Body: map[string]interface{}{
-				"direction": "up",
+			OfSwipeSimple: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimple{
+				Direction: "up",
+				Distance:  gboxsdk.Float(300),
+				Duration:  gboxsdk.String("200ms"),
 			},
 		},
 	)

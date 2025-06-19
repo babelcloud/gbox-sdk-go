@@ -139,6 +139,18 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 	return
 }
 
+// List apps simple
+func (r *V1BoxAndroidService) ListSimple(ctx context.Context, id string, query V1BoxAndroidListSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListSimpleResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/simple", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
 // Open app
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -330,10 +342,53 @@ func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing list of Android apps
+type V1BoxAndroidListSimpleResponse struct {
+	// Android app simple list
+	Data []V1BoxAndroidListSimpleResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListSimpleResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListSimpleResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidListSimpleResponseData struct {
+	// Android app apk path
+	ApkPath string `json:"apkPath,required"`
+	// Application type: system or third-party
+	//
+	// Any of "system", "third-party".
+	AppType string `json:"appType,required"`
+	// Android app package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ApkPath     respjson.Field
+		AppType     respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListSimpleResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListSimpleResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxAndroidListParams struct {
 	// Whether to include running apps, default is all
 	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
-	// Application type: system or third-party, default is all
+	// Application type: system or third-party, default is third-party
 	//
 	// Any of "system", "third-party".
 	AppType V1BoxAndroidListParamsAppType `query:"appType,omitzero" json:"-"`
@@ -348,7 +403,7 @@ func (r V1BoxAndroidListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
-// Application type: system or third-party, default is all
+// Application type: system or third-party, default is third-party
 type V1BoxAndroidListParamsAppType string
 
 const (
@@ -404,7 +459,7 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile struct {
-	// APK file to install (max file size: 200MB)
+	// APK file to install (max file size: 512MB)
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
 	paramObj
 }
@@ -421,7 +476,7 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile) UnmarshalJSON(dat
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL struct {
-	// HTTP URL to download APK file (max file size: 200MB)
+	// HTTP URL to download APK file (max file size: 512MB)
 	Apk string `json:"apk,required"`
 	paramObj
 }
@@ -438,6 +493,31 @@ type V1BoxAndroidListActivitiesParams struct {
 	ID string `path:"id,required" json:"-"`
 	paramObj
 }
+
+type V1BoxAndroidListSimpleParams struct {
+	// Application type: system or third-party, default is third-party
+	//
+	// Any of "system", "third-party".
+	AppType V1BoxAndroidListSimpleParamsAppType `query:"appType,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxAndroidListSimpleParams]'s query parameters as
+// `url.Values`.
+func (r V1BoxAndroidListSimpleParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// Application type: system or third-party, default is third-party
+type V1BoxAndroidListSimpleParamsAppType string
+
+const (
+	V1BoxAndroidListSimpleParamsAppTypeSystem     V1BoxAndroidListSimpleParamsAppType = "system"
+	V1BoxAndroidListSimpleParamsAppTypeThirdParty V1BoxAndroidListSimpleParamsAppType = "third-party"
+)
 
 type V1BoxAndroidOpenParams struct {
 	ID string `path:"id,required" json:"-"`
