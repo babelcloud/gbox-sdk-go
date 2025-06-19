@@ -44,15 +44,14 @@ func main() {
 	client := gboxsdk.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("GBOX_API_KEY")
 	)
-	box, err := client.V1.Boxes.New(context.TODO(), gboxsdk.V1BoxNewParams{
-		OfCreateLinuxBox: &gboxsdk.CreateLinuxBoxParam{
-			Type: gboxsdk.CreateLinuxBoxTypeLinux,
-		},
+	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", box)
+	fmt.Printf("%+v\n", androidBox.ID)
 }
 
 ```
@@ -258,7 +257,7 @@ client := gboxsdk.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.V1.Boxes.Get(context.TODO(), ...,
+client.V1.Boxes.NewAndroid(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -287,14 +286,16 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.V1.Boxes.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
+	CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+})
 if err != nil {
 	var apierr *gboxsdk.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/boxes/{id}": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/boxes/android": 400 Bad Request { ... }
 }
 ```
 
@@ -312,9 +313,11 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.V1.Boxes.Get(
+client.V1.Boxes.NewAndroid(
 	ctx,
-	"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -366,9 +369,11 @@ client := gboxsdk.NewClient(
 )
 
 // Override per-request:
-client.V1.Boxes.Get(
+client.V1.Boxes.NewAndroid(
 	context.TODO(),
-	"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+	},
 	option.WithMaxRetries(5),
 )
 ```
@@ -381,15 +386,17 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-box, err := client.V1.Boxes.Get(
+androidBox, err := client.V1.Boxes.NewAndroid(
 	context.TODO(),
-	"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+	gboxsdk.V1BoxNewAndroidParams{
+		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
+	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", box)
+fmt.Printf("%+v\n", androidBox)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)

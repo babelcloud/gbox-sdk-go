@@ -3,14 +3,12 @@
 package gboxsdk_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"io"
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/gbox-sdk-go"
+	gboxsdk "github.com/stainless-sdks/gbox-sdk-go"
 	"github.com/stainless-sdks/gbox-sdk-go/internal/testutil"
 	"github.com/stainless-sdks/gbox-sdk-go/option"
 )

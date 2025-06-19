@@ -3,7 +3,6 @@ module github.com/stainless-sdks/gbox-sdk-go
 go 1.21
 
 require (
-	github.com/babelcloud/gbox-sdk-go v0.1.0-alpha.2
 	github.com/tidwall/gjson v1.14.4
 	github.com/tidwall/sjson v1.2.5
 )
