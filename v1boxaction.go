@@ -4,6 +4,7 @@ package gboxsdk
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -117,6 +118,18 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxAc
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/actions/scroll", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// Performs a swipe in the specified direction
+func (r *V1BoxActionService) Swipe(ctx context.Context, id string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/swipe", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -601,6 +614,18 @@ const (
 	V1BoxActionScrollParamsOutputFormatBase64     V1BoxActionScrollParamsOutputFormat = "base64"
 	V1BoxActionScrollParamsOutputFormatStorageKey V1BoxActionScrollParamsOutputFormat = "storageKey"
 )
+
+type V1BoxActionSwipeParams struct {
+	Body any
+	paramObj
+}
+
+func (r V1BoxActionSwipeParams) MarshalJSON() (data []byte, err error) {
+	return json.Marshal(r.Body)
+}
+func (r *V1BoxActionSwipeParams) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &r.Body)
+}
 
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions
