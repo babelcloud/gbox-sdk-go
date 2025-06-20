@@ -81,7 +81,6 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
-				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
@@ -120,7 +119,6 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
-				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
