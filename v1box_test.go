@@ -89,6 +89,8 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
+					"owner":       "john-doe",
+					"purpose":     "e2e-testing",
 				},
 			},
 			Wait: gboxsdk.Bool(true),
@@ -127,6 +129,8 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
+					"owner":       "john-doe",
+					"purpose":     "e2e-testing",
 				},
 			},
 			Wait: gboxsdk.Bool(true),

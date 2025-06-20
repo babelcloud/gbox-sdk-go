@@ -211,9 +211,13 @@ func (r *AndroidBox) UnmarshalJSON(data []byte) error {
 type AndroidBoxConfig struct {
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,required"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
@@ -229,7 +233,10 @@ type AndroidBoxConfig struct {
 	//
 	// Any of "virtual", "physical".
 	DeviceType string `json:"deviceType"`
-	// Working directory path for the box
+	// Working directory path for the box. This directory serves as the default
+	// starting point for all operations including command execution, code running, and
+	// file system operations. When you execute commands or run code, they will start
+	// from this directory unless explicitly specified otherwise.
 	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -357,9 +364,13 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 type CreateBoxConfigParam struct {
 	// The box will be alive for the given duration (e.g. '10m')
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,omitzero"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,omitzero"`
 	paramObj
 }
@@ -433,9 +444,13 @@ func (r *LinuxBox) UnmarshalJSON(data []byte) error {
 type LinuxBoxConfig struct {
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,required"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
@@ -447,7 +462,10 @@ type LinuxBoxConfig struct {
 	Storage float64 `json:"storage,required"`
 	// Linux browser configuration settings
 	Browser LinuxBoxConfigBrowser `json:"browser"`
-	// Working directory path for the box
+	// Working directory path for the box. This directory serves as the default
+	// starting point for all operations including command execution, code running, and
+	// file system operations. When you execute commands or run code, they will start
+	// from this directory unless explicitly specified otherwise.
 	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1231,7 +1249,10 @@ type V1BoxListParams struct {
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
-	// Filter boxes by their labels, default is all
+	// Filter boxes by their labels. Labels are key-value pairs that help identify and
+	// categorize boxes. Use this to filter boxes that match specific label criteria.
+	// For example, you can filter by project, environment, team, or any custom labels
+	// you've added to your boxes.
 	Labels any `query:"labels,omitzero" json:"-"`
 	// Filter boxes by their current status (pending, running, stopped, error,
 	// terminated, all). Must be an array of statuses. Use 'all' to get boxes with any
