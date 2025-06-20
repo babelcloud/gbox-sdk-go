@@ -651,6 +651,22 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	Distance param.Opt[float64] `json:"distance,omitzero"`
 	// Duration of the swipe
 	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
 	paramObj
 }
 
@@ -665,6 +681,9 @@ func (r *V1BoxActionSwipeParamsBodySwipeSimple) UnmarshalJSON(data []byte) error
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
 		"direction", "up", "down", "left", "right", "upLeft", "upRight", "downLeft", "downRight",
+	)
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
+		"outputFormat", "base64", "storageKey",
 	)
 }
 

@@ -266,9 +266,11 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionSwipeParams{
 			OfSwipeSimple: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimple{
-				Direction: "up",
-				Distance:  gboxsdk.Float(300),
-				Duration:  gboxsdk.String("200ms"),
+				Direction:       "up",
+				Distance:        gboxsdk.Float(300),
+				Duration:        gboxsdk.String("200ms"),
+				OutputFormat:    "base64",
+				ScreenshotDelay: gboxsdk.String("500ms"),
 			},
 		},
 	)
