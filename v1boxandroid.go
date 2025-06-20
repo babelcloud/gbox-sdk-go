@@ -40,7 +40,8 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
-// List apps
+// Retrieve detailed information for all installed applications. This endpoint
+// provides comprehensive app details
 func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -169,7 +170,9 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 	return
 }
 
-// List apps simple
+// A faster endpoint to quickly retrieve basic app information. This API provides
+// better performance for scenarios where you need to get essential app details
+// quickly
 func (r *V1BoxAndroidService) ListSimple(ctx context.Context, id string, query V1BoxAndroidListSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListSimpleResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
