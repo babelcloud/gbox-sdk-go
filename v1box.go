@@ -345,10 +345,6 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 type CreateBoxConfigParam struct {
 	// The box will be alive for the given duration (e.g. '10m')
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
-	// Device type - virtual or physical Android device
-	//
-	// Any of "virtual", "physical".
-	DeviceType CreateBoxConfigDeviceType `json:"deviceType,omitzero"`
 	// Environment variables for the box
 	Envs any `json:"envs,omitzero"`
 	// Key-value pairs of labels for the box
@@ -363,14 +359,6 @@ func (r CreateBoxConfigParam) MarshalJSON() (data []byte, err error) {
 func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Device type - virtual or physical Android device
-type CreateBoxConfigDeviceType string
-
-const (
-	CreateBoxConfigDeviceTypeVirtual  CreateBoxConfigDeviceType = "virtual"
-	CreateBoxConfigDeviceTypePhysical CreateBoxConfigDeviceType = "physical"
-)
 
 // Request body for creating a new Linux box instance
 type CreateLinuxBoxParam struct {
