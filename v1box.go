@@ -1288,7 +1288,8 @@ type V1BoxExecuteCommandsParams struct {
 	// out, the exit code will be 124. For example: 'timeout 5s sleep 10s' will result
 	// in exit code 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
-	// The working directory of the command
+	// The working directory of the command. It not provided, the command will be run
+	// in the `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	// The environment variables to run the command
 	Envs any `json:"envs,omitzero"`
@@ -1349,7 +1350,8 @@ type V1BoxRunCodeParams struct {
 	// The timeout of the code execution. e.g. "30s" or "1m" or "1h". If the code
 	// execution times out, the exit code will be 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
-	// The working directory of the code.
+	// The working directory of the code. It not provided, the code will be run in the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	// The arguments to run the code. For example, if you want to run "python index.py
 	// --help", you should pass ["--help"] as arguments.
