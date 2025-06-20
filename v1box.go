@@ -94,15 +94,15 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 	return
 }
 
-// Get live view url
-func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
+// Generate pre-signed live view url
+func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/live-view-url", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -152,6 +152,18 @@ func (r *V1BoxService) Terminate(ctx context.Context, id string, body V1BoxTermi
 	}
 	path := fmt.Sprintf("boxes/%s/terminate", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	return
+}
+
+// Generate pre-signed web terminal url
+func (r *V1BoxService) WebTerminalURL(ctx context.Context, id string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/web-terminal-url", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -872,7 +884,7 @@ func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Live view configuration
+// Live view result
 type V1BoxLiveViewURLResponse struct {
 	// Live view url
 	URL string `json:"url,required"`
@@ -1196,6 +1208,24 @@ func (r *V1BoxStopResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Web terminal result
+type V1BoxWebTerminalURLResponse struct {
+	// Web terminal url
+	URL string `json:"url,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxWebTerminalURLResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxWebTerminalURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxListParams struct {
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
@@ -1298,6 +1328,21 @@ func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
 	return nil
 }
 
+type V1BoxLiveViewURLParams struct {
+	// The live view will be alive for the given duration (e.g. '10m' or '1h'). Default
+	// is 180m.
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxLiveViewURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxLiveViewURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxLiveViewURLParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
@@ -1374,5 +1419,20 @@ func (r V1BoxTerminateParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxTerminateParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxWebTerminalURLParams struct {
+	// The web terminal will be alive for the given duration (e.g. '10m' or '1h').
+	// Default is 180m.
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxWebTerminalURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxWebTerminalURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxWebTerminalURLParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
