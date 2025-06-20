@@ -1313,7 +1313,7 @@ type V1BoxRunCodeParams struct {
 	Envs any `json:"envs,omitzero"`
 	// The language of the code.
 	//
-	// Any of "bash", "python3", "typescript".
+	// Any of "bash", "python", "typescript".
 	Language V1BoxRunCodeParamsLanguage `json:"language,omitzero"`
 	paramObj
 }
@@ -1331,7 +1331,7 @@ type V1BoxRunCodeParamsLanguage string
 
 const (
 	V1BoxRunCodeParamsLanguageBash       V1BoxRunCodeParamsLanguage = "bash"
-	V1BoxRunCodeParamsLanguagePython3    V1BoxRunCodeParamsLanguage = "python3"
+	V1BoxRunCodeParamsLanguagePython     V1BoxRunCodeParamsLanguage = "python"
 	V1BoxRunCodeParamsLanguageTypescript V1BoxRunCodeParamsLanguage = "typescript"
 )
 

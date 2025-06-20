@@ -221,10 +221,10 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 			Code: `print("Hello, World!")`,
 			Argv: []string{"--help"},
 			Envs: map[string]interface{}{
-				"PYTHONPATH": "/usr/lib/python3",
+				"PYTHONPATH": "/usr/lib/python",
 				"DEBUG":      "true",
 			},
-			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython3,
+			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython,
 			Timeout:    gboxsdk.String("timeout"),
 			WorkingDir: gboxsdk.String("/home/user/scripts"),
 		},
