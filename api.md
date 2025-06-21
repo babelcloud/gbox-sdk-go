@@ -81,7 +81,7 @@ Methods:
 
 Methods:
 
-- <code title="get /boxes/{id}/browser/connect-url/cdp">client.V1.Boxes.Browser.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxBrowserService.CdpURL">CdpURL</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/builtin#string">string</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /boxes/{id}/browser/connect-url/cdp">client.V1.Boxes.Browser.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxBrowserService.CdpURL">CdpURL</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxBrowserCdpURLParams">V1BoxBrowserCdpURLParams</a>) (<a href="https://pkg.go.dev/builtin#string">string</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ### Android
 

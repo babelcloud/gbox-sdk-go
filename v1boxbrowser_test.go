@@ -13,7 +13,7 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
-func TestV1BoxBrowserCdpURL(t *testing.T) {
+func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,7 +26,13 @@ func TestV1BoxBrowserCdpURL(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.CdpURL(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Browser.CdpURL(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxBrowserCdpURLParams{
+			ExpiresIn: gboxsdk.String("120m"),
+		},
+	)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
