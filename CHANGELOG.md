@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-06-21)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/babelcloud/gbox-sdk-go/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* **api:** api update ([ff649ef](https://github.com/babelcloud/gbox-sdk-go/commit/ff649ef4eefc404aaa6c78aef7b2bd6163463074))
+* **api:** api update ([b323450](https://github.com/babelcloud/gbox-sdk-go/commit/b3234501160357bb78e5af6027c0caee711b7256))
+* **api:** api update ([d89e98a](https://github.com/babelcloud/gbox-sdk-go/commit/d89e98ab55f632ca706c093439083f219401b0ee))
+* **api:** api update ([7a8b39f](https://github.com/babelcloud/gbox-sdk-go/commit/7a8b39f72d5d185ff8b33bae92b4d2d9830cf16a))
+* **api:** api update ([268263e](https://github.com/babelcloud/gbox-sdk-go/commit/268263ed0b46186e69a4bf9af492dcdcfc5e9f1c))
+* **api:** api update ([792e0b7](https://github.com/babelcloud/gbox-sdk-go/commit/792e0b7dadd65375da86a6b4b8fc6b38de7eb956))
+* **api:** api update ([6fe402d](https://github.com/babelcloud/gbox-sdk-go/commit/6fe402dad38a8aec41501ecb3cefe8f6138b47bd))
+* **api:** api update ([78e3333](https://github.com/babelcloud/gbox-sdk-go/commit/78e3333f8c4be6f1e8e93f901f9002071e3cbad4))
+* **api:** api update ([1bb0ff6](https://github.com/babelcloud/gbox-sdk-go/commit/1bb0ff6d984e1ff52603bac6c30769a2669659f8))
+* **api:** api update ([e178665](https://github.com/babelcloud/gbox-sdk-go/commit/e17866510da3fcdcf38842451ccbd1240e760bcf))
+* **api:** api update ([f8233ab](https://github.com/babelcloud/gbox-sdk-go/commit/f8233abc8df897e382d2db5bdba7f9d9e1d6c317))
+* **client:** add escape hatch for null slice & maps ([204c9ec](https://github.com/babelcloud/gbox-sdk-go/commit/204c9ec41df3a4e836752d628b203363c08595a0))
+
+
+### Chores
+
+* fix documentation of null map ([884e0ef](https://github.com/babelcloud/gbox-sdk-go/commit/884e0ef7d34e273ba4314218a0838845784a9bbe))
+
 ## 0.1.0-alpha.3 (2025-06-19)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/babelcloud/gbox-sdk-go/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)

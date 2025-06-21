@@ -40,7 +40,8 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
-// List apps
+// Retrieve detailed information for all installed applications. This endpoint
+// provides comprehensive app details
 func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -49,6 +50,36 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAn
 	}
 	path := fmt.Sprintf("boxes/%s/android/apps", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
+// Backup app
+func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if body.ID == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/backup", body.ID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+// Backup all apps
+func (r *V1BoxAndroidService) BackupAll(ctx context.Context, id string, opts ...option.RequestOption) (res *http.Response, err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/backup-all", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -139,6 +170,20 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 	return
 }
 
+// A faster endpoint to quickly retrieve basic app information. This API provides
+// better performance for scenarios where you need to get essential app details
+// quickly
+func (r *V1BoxAndroidService) ListSimple(ctx context.Context, id string, query V1BoxAndroidListSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListSimpleResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/simple", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
 // Open app
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -173,15 +218,15 @@ func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, p
 	return
 }
 
-// Rotate screen
-func (r *V1BoxAndroidService) RotateScreen(ctx context.Context, id string, body V1BoxAndroidRotateScreenParams, opts ...option.RequestOption) (err error) {
+// Restore app
+func (r *V1BoxAndroidService) Restore(ctx context.Context, id string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/screen/rotate", id)
+	path := fmt.Sprintf("boxes/%s/android/apps/restore", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
@@ -330,10 +375,53 @@ func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing list of Android apps
+type V1BoxAndroidListSimpleResponse struct {
+	// Android app simple list
+	Data []V1BoxAndroidListSimpleResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListSimpleResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListSimpleResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidListSimpleResponseData struct {
+	// Android app apk path
+	ApkPath string `json:"apkPath,required"`
+	// Application type: system or third-party
+	//
+	// Any of "system", "third-party".
+	AppType string `json:"appType,required"`
+	// Android app package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ApkPath     respjson.Field
+		AppType     respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListSimpleResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListSimpleResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxAndroidListParams struct {
 	// Whether to include running apps, default is all
 	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
-	// Application type: system or third-party, default is all
+	// Application type: system or third-party, default is third-party
 	//
 	// Any of "system", "third-party".
 	AppType V1BoxAndroidListParamsAppType `query:"appType,omitzero" json:"-"`
@@ -348,13 +436,18 @@ func (r V1BoxAndroidListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
-// Application type: system or third-party, default is all
+// Application type: system or third-party, default is third-party
 type V1BoxAndroidListParamsAppType string
 
 const (
 	V1BoxAndroidListParamsAppTypeSystem     V1BoxAndroidListParamsAppType = "system"
 	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
 )
+
+type V1BoxAndroidBackupParams struct {
+	ID string `path:"id,required" json:"-"`
+	paramObj
+}
 
 type V1BoxAndroidCloseParams struct {
 	ID string `path:"id,required" json:"-"`
@@ -404,7 +497,7 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile struct {
-	// APK file to install (max file size: 200MB)
+	// APK file to install (max file size: 512MB)
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
 	paramObj
 }
@@ -421,7 +514,7 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile) UnmarshalJSON(dat
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL struct {
-	// HTTP URL to download APK file (max file size: 200MB)
+	// HTTP URL to download APK file (max file size: 512MB)
 	Apk string `json:"apk,required"`
 	paramObj
 }
@@ -438,6 +531,31 @@ type V1BoxAndroidListActivitiesParams struct {
 	ID string `path:"id,required" json:"-"`
 	paramObj
 }
+
+type V1BoxAndroidListSimpleParams struct {
+	// Application type: system or third-party, default is third-party
+	//
+	// Any of "system", "third-party".
+	AppType V1BoxAndroidListSimpleParamsAppType `query:"appType,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxAndroidListSimpleParams]'s query parameters as
+// `url.Values`.
+func (r V1BoxAndroidListSimpleParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// Application type: system or third-party, default is third-party
+type V1BoxAndroidListSimpleParamsAppType string
+
+const (
+	V1BoxAndroidListSimpleParamsAppTypeSystem     V1BoxAndroidListSimpleParamsAppType = "system"
+	V1BoxAndroidListSimpleParamsAppTypeThirdParty V1BoxAndroidListSimpleParamsAppType = "third-party"
+)
 
 type V1BoxAndroidOpenParams struct {
 	ID string `path:"id,required" json:"-"`
@@ -469,33 +587,29 @@ func (r *V1BoxAndroidRestartParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxAndroidRotateScreenParams struct {
-	// Rotation angle in degrees
-	//
-	// Any of 90, 180, 270.
-	Angle float64 `json:"angle,omitzero,required"`
-	// Rotation direction
-	//
-	// Any of "clockwise", "counter-clockwise".
-	Direction V1BoxAndroidRotateScreenParamsDirection `json:"direction,omitzero,required"`
+type V1BoxAndroidRestoreParams struct {
+	// Backup file to restore (max file size: 100MB)
+	Backup io.Reader `json:"backup,omitzero,required" format:"binary"`
 	paramObj
 }
 
-func (r V1BoxAndroidRotateScreenParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidRotateScreenParams
-	return param.MarshalObject(r, (*shadow)(&r))
+func (r V1BoxAndroidRestoreParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
-func (r *V1BoxAndroidRotateScreenParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Rotation direction
-type V1BoxAndroidRotateScreenParamsDirection string
-
-const (
-	V1BoxAndroidRotateScreenParamsDirectionClockwise        V1BoxAndroidRotateScreenParamsDirection = "clockwise"
-	V1BoxAndroidRotateScreenParamsDirectionCounterClockwise V1BoxAndroidRotateScreenParamsDirection = "counter-clockwise"
-)
 
 type V1BoxAndroidUninstallParams struct {
 	ID string `path:"id,required" json:"-"`

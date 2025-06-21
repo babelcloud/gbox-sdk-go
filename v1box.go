@@ -94,15 +94,15 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1Bo
 	return
 }
 
-// Get live view url
-func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
+// Generate pre-signed live view url
+func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/live-view-url", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -155,6 +155,18 @@ func (r *V1BoxService) Terminate(ctx context.Context, id string, body V1BoxTermi
 	return
 }
 
+// Generate pre-signed web terminal url
+func (r *V1BoxService) WebTerminalURL(ctx context.Context, id string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/web-terminal-url", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Android box instance with full configuration and status
 type AndroidBox struct {
 	// Unique identifier for the box
@@ -199,9 +211,13 @@ func (r *AndroidBox) UnmarshalJSON(data []byte) error {
 type AndroidBoxConfig struct {
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,required"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
@@ -217,7 +233,10 @@ type AndroidBoxConfig struct {
 	//
 	// Any of "virtual", "physical".
 	DeviceType string `json:"deviceType"`
-	// Working directory path for the box
+	// Working directory path for the box. This directory serves as the default
+	// starting point for all operations including command execution, code running, and
+	// file system operations. When you execute commands or run code, they will start
+	// from this directory unless explicitly specified otherwise.
 	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -345,13 +364,13 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 type CreateBoxConfigParam struct {
 	// The box will be alive for the given duration (e.g. '10m')
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
-	// Device type - virtual or physical Android device
-	//
-	// Any of "virtual", "physical".
-	DeviceType CreateBoxConfigDeviceType `json:"deviceType,omitzero"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,omitzero"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,omitzero"`
 	paramObj
 }
@@ -363,14 +382,6 @@ func (r CreateBoxConfigParam) MarshalJSON() (data []byte, err error) {
 func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Device type - virtual or physical Android device
-type CreateBoxConfigDeviceType string
-
-const (
-	CreateBoxConfigDeviceTypeVirtual  CreateBoxConfigDeviceType = "virtual"
-	CreateBoxConfigDeviceTypePhysical CreateBoxConfigDeviceType = "physical"
-)
 
 // Request body for creating a new Linux box instance
 type CreateLinuxBoxParam struct {
@@ -433,9 +444,13 @@ func (r *LinuxBox) UnmarshalJSON(data []byte) error {
 type LinuxBoxConfig struct {
 	// CPU cores allocated to the box
 	CPU float64 `json:"cpu,required"`
-	// Environment variables for the box
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
 	Envs any `json:"envs,required"`
-	// Key-value pairs of labels for the box
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
 	Labels any `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
@@ -447,7 +462,10 @@ type LinuxBoxConfig struct {
 	Storage float64 `json:"storage,required"`
 	// Linux browser configuration settings
 	Browser LinuxBoxConfigBrowser `json:"browser"`
-	// Working directory path for the box
+	// Working directory path for the box. This directory serves as the default
+	// starting point for all operations including command execution, code running, and
+	// file system operations. When you execute commands or run code, they will start
+	// from this directory unless explicitly specified otherwise.
 	WorkingDir string `json:"workingDir"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -884,7 +902,7 @@ func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Live view configuration
+// Live view result
 type V1BoxLiveViewURLResponse struct {
 	// Live view url
 	URL string `json:"url,required"`
@@ -1208,12 +1226,33 @@ func (r *V1BoxStopResponseUnionConfigBrowser) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Web terminal result
+type V1BoxWebTerminalURLResponse struct {
+	// Web terminal url
+	URL string `json:"url,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxWebTerminalURLResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxWebTerminalURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxListParams struct {
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
-	// Filter boxes by their labels, default is all
+	// Filter boxes by their labels. Labels are key-value pairs that help identify and
+	// categorize boxes. Use this to filter boxes that match specific label criteria.
+	// For example, you can filter by project, environment, team, or any custom labels
+	// you've added to your boxes.
 	Labels any `query:"labels,omitzero" json:"-"`
 	// Filter boxes by their current status (pending, running, stopped, error,
 	// terminated, all). Must be an array of statuses. Use 'all' to get boxes with any
@@ -1270,7 +1309,8 @@ type V1BoxExecuteCommandsParams struct {
 	// out, the exit code will be 124. For example: 'timeout 5s sleep 10s' will result
 	// in exit code 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
-	// The working directory of the command
+	// The working directory of the command. It not provided, the command will be run
+	// in the `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	// The environment variables to run the command
 	Envs any `json:"envs,omitzero"`
@@ -1310,13 +1350,29 @@ func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
 	return nil
 }
 
+type V1BoxLiveViewURLParams struct {
+	// The live view will be alive for the given duration (e.g. '10m' or '1h'). Default
+	// is 180m.
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxLiveViewURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxLiveViewURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxLiveViewURLParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
 	// The timeout of the code execution. e.g. "30s" or "1m" or "1h". If the code
 	// execution times out, the exit code will be 124.
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
-	// The working directory of the code.
+	// The working directory of the code. It not provided, the code will be run in the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	// The arguments to run the code. For example, if you want to run "python index.py
 	// --help", you should pass ["--help"] as arguments.
@@ -1325,7 +1381,7 @@ type V1BoxRunCodeParams struct {
 	Envs any `json:"envs,omitzero"`
 	// The language of the code.
 	//
-	// Any of "bash", "python3", "typescript".
+	// Any of "bash", "python", "typescript".
 	Language V1BoxRunCodeParamsLanguage `json:"language,omitzero"`
 	paramObj
 }
@@ -1343,7 +1399,7 @@ type V1BoxRunCodeParamsLanguage string
 
 const (
 	V1BoxRunCodeParamsLanguageBash       V1BoxRunCodeParamsLanguage = "bash"
-	V1BoxRunCodeParamsLanguagePython3    V1BoxRunCodeParamsLanguage = "python3"
+	V1BoxRunCodeParamsLanguagePython     V1BoxRunCodeParamsLanguage = "python"
 	V1BoxRunCodeParamsLanguageTypescript V1BoxRunCodeParamsLanguage = "typescript"
 )
 
@@ -1386,5 +1442,20 @@ func (r V1BoxTerminateParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxTerminateParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxWebTerminalURLParams struct {
+	// The web terminal will be alive for the given duration (e.g. '10m' or '1h').
+	// Default is 180m.
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxWebTerminalURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxWebTerminalURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxWebTerminalURLParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }

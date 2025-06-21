@@ -81,7 +81,6 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
-				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
@@ -90,6 +89,8 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
+					"owner":       "john-doe",
+					"purpose":     "e2e-testing",
 				},
 			},
 			Wait: gboxsdk.Bool(true),
@@ -120,7 +121,6 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
-				DeviceType: gboxsdk.CreateBoxConfigDeviceTypeVirtual,
 				Envs: map[string]interface{}{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
@@ -129,6 +129,8 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 				Labels: map[string]interface{}{
 					"project":     "web-automation",
 					"environment": "testing",
+					"owner":       "john-doe",
+					"purpose":     "e2e-testing",
 				},
 			},
 			Wait: gboxsdk.Bool(true),
@@ -180,7 +182,7 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxLiveViewURL(t *testing.T) {
+func TestV1BoxLiveViewURLWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -193,7 +195,13 @@ func TestV1BoxLiveViewURL(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.LiveViewURL(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.LiveViewURL(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxLiveViewURLParams{
+			ExpiresIn: gboxsdk.String("180m"),
+		},
+	)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -223,10 +231,10 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 			Code: `print("Hello, World!")`,
 			Argv: []string{"--help"},
 			Envs: map[string]interface{}{
-				"PYTHONPATH": "/usr/lib/python3",
+				"PYTHONPATH": "/usr/lib/python",
 				"DEBUG":      "true",
 			},
-			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython3,
+			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython,
 			Timeout:    gboxsdk.String("timeout"),
 			WorkingDir: gboxsdk.String("/home/user/scripts"),
 		},
@@ -316,6 +324,35 @@ func TestV1BoxTerminateWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxTerminateParams{
 			Wait: gboxsdk.Bool(true),
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxWebTerminalURLWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.WebTerminalURL(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxWebTerminalURLParams{
+			ExpiresIn: gboxsdk.String("180m"),
 		},
 	)
 	if err != nil {
