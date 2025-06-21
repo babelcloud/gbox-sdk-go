@@ -8,8 +8,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/babelcloud/gbox-sdk-go/packages/param"
 )
 
 // V1BoxBrowserService contains methods and other services that help with
@@ -31,14 +33,28 @@ func NewV1BoxBrowserService(opts ...option.RequestOption) (r V1BoxBrowserService
 	return
 }
 
-// Get CDP url
-func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, opts ...option.RequestOption) (res *string, err error) {
+// Generate pre-signed CDP url
+func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, body V1BoxBrowserCdpURLParams, opts ...option.RequestOption) (res *string, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/browser/connect-url/cdp", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
+}
+
+type V1BoxBrowserCdpURLParams struct {
+	// The CDP url will be alive for the given duration (e.g. '120m')
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxBrowserCdpURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxBrowserCdpURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxBrowserCdpURLParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
