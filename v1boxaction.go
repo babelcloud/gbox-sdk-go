@@ -97,6 +97,18 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, id string, body V1Box
 	return
 }
 
+// Rotate screen
+func (r *V1BoxActionService) ScreenRotation(ctx context.Context, id string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/screen-rotation", id)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Take screenshot
 func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -519,6 +531,34 @@ type V1BoxActionPressKeyParamsOutputFormat string
 const (
 	V1BoxActionPressKeyParamsOutputFormatBase64     V1BoxActionPressKeyParamsOutputFormat = "base64"
 	V1BoxActionPressKeyParamsOutputFormatStorageKey V1BoxActionPressKeyParamsOutputFormat = "storageKey"
+)
+
+type V1BoxActionScreenRotationParams struct {
+	// Rotation angle in degrees
+	//
+	// Any of 90, 180, 270.
+	Angle float64 `json:"angle,omitzero,required"`
+	// Rotation direction
+	//
+	// Any of "clockwise", "counter-clockwise".
+	Direction V1BoxActionScreenRotationParamsDirection `json:"direction,omitzero,required"`
+	paramObj
+}
+
+func (r V1BoxActionScreenRotationParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScreenRotationParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionScreenRotationParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Rotation direction
+type V1BoxActionScreenRotationParamsDirection string
+
+const (
+	V1BoxActionScreenRotationParamsDirectionClockwise        V1BoxActionScreenRotationParamsDirection = "clockwise"
+	V1BoxActionScreenRotationParamsDirectionCounterClockwise V1BoxActionScreenRotationParamsDirection = "counter-clockwise"
 )
 
 type V1BoxActionScreenshotParams struct {

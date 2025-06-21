@@ -231,19 +231,6 @@ func (r *V1BoxAndroidService) Restore(ctx context.Context, id string, body V1Box
 	return
 }
 
-// Rotate screen
-func (r *V1BoxAndroidService) RotateScreen(ctx context.Context, id string, body V1BoxAndroidRotateScreenParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
-		return
-	}
-	path := fmt.Sprintf("boxes/%s/android/screen/rotate", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
-	return
-}
-
 // Uninstall app
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
@@ -623,34 +610,6 @@ func (r V1BoxAndroidRestoreParams) MarshalMultipart() (data []byte, contentType 
 	}
 	return buf.Bytes(), writer.FormDataContentType(), nil
 }
-
-type V1BoxAndroidRotateScreenParams struct {
-	// Rotation angle in degrees
-	//
-	// Any of 90, 180, 270.
-	Angle float64 `json:"angle,omitzero,required"`
-	// Rotation direction
-	//
-	// Any of "clockwise", "counter-clockwise".
-	Direction V1BoxAndroidRotateScreenParamsDirection `json:"direction,omitzero,required"`
-	paramObj
-}
-
-func (r V1BoxAndroidRotateScreenParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidRotateScreenParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxAndroidRotateScreenParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Rotation direction
-type V1BoxAndroidRotateScreenParamsDirection string
-
-const (
-	V1BoxAndroidRotateScreenParamsDirectionClockwise        V1BoxAndroidRotateScreenParamsDirection = "clockwise"
-	V1BoxAndroidRotateScreenParamsDirectionCounterClockwise V1BoxAndroidRotateScreenParamsDirection = "counter-clockwise"
-)
 
 type V1BoxAndroidUninstallParams struct {
 	ID string `path:"id,required" json:"-"`
