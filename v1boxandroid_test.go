@@ -240,7 +240,7 @@ func TestV1BoxAndroidInstall(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Android.Install(
+	_, err := client.V1.Boxes.Android.Install(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidInstallParams{},

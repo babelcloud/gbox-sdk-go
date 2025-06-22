@@ -661,10 +661,12 @@ type V1BoxActionSwipeParams struct {
 	//
 
 	// This field is a request body variant, only one variant field can be set. Simple
-	// swipe action configuration
+	// swipe action configuration. The gesture will be performed from the center of the
+	// screen towards the specified direction.
 	OfSwipeSimple *V1BoxActionSwipeParamsBodySwipeSimple `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Swipe
-	// action configuration
+	// action configuration. The gesture will start from the specified start point and
+	// move towards the end point.
 	OfSwipeAdvanced *V1BoxActionSwipeParamsBodySwipeAdvanced `json:",inline"`
 
 	paramObj
@@ -677,17 +679,19 @@ func (r *V1BoxActionSwipeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Simple swipe action configuration
+// Simple swipe action configuration. The gesture will be performed from the center
+// of the screen towards the specified direction.
 //
 // The property Direction is required.
 type V1BoxActionSwipeParamsBodySwipeSimple struct {
-	// Direction of the swipe
+	// Direction to swipe. The gesture will be performed from the center of the screen
+	// towards this direction.
 	//
 	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
 	// "downRight".
 	Direction string `json:"direction,omitzero,required"`
-	// Distance of the swipe in pixels. If not provided, will use a default distance
-	// based on screen size
+	// Distance of the swipe in pixels. If not provided, the swipe will be performed
+	// from the center of the screen to the screen edge
 	Distance param.Opt[float64] `json:"distance,omitzero"`
 	// Duration of the swipe
 	Duration param.Opt[string] `json:"duration,omitzero"`
@@ -727,12 +731,13 @@ func init() {
 	)
 }
 
-// Swipe action configuration
+// Swipe action configuration. The gesture will start from the specified start
+// point and move towards the end point.
 //
 // The properties End, Start are required.
 type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// End point of the swipe path
-	End any `json:"end,omitzero,required"`
+	End V1BoxActionSwipeParamsBodySwipeAdvancedEnd `json:"end,omitzero,required"`
 	// Start point of the swipe path
 	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
 	// Duration of the swipe
@@ -768,6 +773,25 @@ func init() {
 	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
+}
+
+// End point of the swipe path
+//
+// The properties X, Y are required.
+type V1BoxActionSwipeParamsBodySwipeAdvancedEnd struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	paramObj
+}
+
+func (r V1BoxActionSwipeParamsBodySwipeAdvancedEnd) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedEnd
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionSwipeParamsBodySwipeAdvancedEnd) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // Start point of the swipe path
