@@ -34,13 +34,13 @@ func NewV1BoxBrowserService(opts ...option.RequestOption) (r V1BoxBrowserService
 }
 
 // Generate pre-signed CDP url
-func (r *V1BoxBrowserService) CdpURL(ctx context.Context, id string, body V1BoxBrowserCdpURLParams, opts ...option.RequestOption) (res *string, err error) {
+func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1BoxBrowserCdpURLParams, opts ...option.RequestOption) (res *string, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/browser/connect-url/cdp", id)
+	path := fmt.Sprintf("boxes/%s/browser/connect-url/cdp", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }

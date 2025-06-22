@@ -28,7 +28,7 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Click(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionClickParams{
 			X:               100,
 			Y:               100,
@@ -62,7 +62,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Drag(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionDragParams{
 			Path: []gboxsdk.V1BoxActionDragParamsPath{{
 				X: 100,
@@ -100,7 +100,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Move(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionMoveParams{
 			X:               200,
 			Y:               300,
@@ -132,7 +132,7 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.PressButton(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionPressButtonParams{
 			Buttons:         []string{"power"},
 			OutputFormat:    gboxsdk.V1BoxActionPressButtonParamsOutputFormatBase64,
@@ -163,7 +163,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.PressKey(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionPressKeyParams{
 			Keys:            []string{"enter"},
 			OutputFormat:    gboxsdk.V1BoxActionPressKeyParamsOutputFormatBase64,
@@ -194,7 +194,7 @@ func TestV1BoxActionScreenRotation(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.ScreenRotation(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionScreenRotationParams{
 			Angle:     90,
 			Direction: gboxsdk.V1BoxActionScreenRotationParamsDirectionClockwise,
@@ -224,7 +224,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Screenshot(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionScreenshotParams{
 			Clip: gboxsdk.V1BoxActionScreenshotParamsClip{
 				Height: 600,
@@ -259,7 +259,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Scroll(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionScrollParams{
 			ScrollX:         0,
 			ScrollY:         100,
@@ -293,7 +293,7 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Swipe(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionSwipeParams{
 			OfSwipeSimple: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimple{
 				Direction:       "up",
@@ -328,7 +328,7 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Touch(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionTouchParams{
 			Points: []gboxsdk.V1BoxActionTouchParamsPoint{{
 				Start: gboxsdk.V1BoxActionTouchParamsPointStart{
@@ -371,7 +371,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Actions.Type(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxActionTypeParams{
 			Text:            "Hello World",
 			OutputFormat:    gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,

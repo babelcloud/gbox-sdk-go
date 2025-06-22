@@ -2,7 +2,6 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/babelcloud/gbox-sdk-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 
@@ -59,21 +58,12 @@ func IsOmitted(v any) bool {
 
 // IsNull returns true if v was set to the JSON value null.
 //
-// To set a param to null use [NullStruct], [Null], [NullMap], or [NullSlice]
+// To set a param to null use [NullStruct] or [Null]
 // depending on the type of v.
 //
 // IsNull returns false if the value is omitted.
-func IsNull[T any](v T) bool {
-	if nullable, ok := any(v).(ParamNullable); ok {
-		return nullable.null()
-	}
-
-	switch reflect.TypeOf(v).Kind() {
-	case reflect.Slice, reflect.Map:
-		return sentinel.IsNull(v)
-	}
-
-	return false
+func IsNull(v ParamNullable) bool {
+	return v.null()
 }
 
 // ParamNullable encapsulates all structs in parameters,

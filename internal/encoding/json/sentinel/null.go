@@ -6,41 +6,52 @@ import (
 	"sync"
 )
 
-type cacheEntry struct {
-	x    any
-	ptr  uintptr
-	kind reflect.Kind
-}
+var nullPtrsCache sync.Map // map[reflect.Type]*T
 
-var nullCache sync.Map // map[reflect.Type]cacheEntry
-
-func NewNullSentinel[T any](mk func() T) T {
+func NullPtr[T any]() *T {
 	t := shims.TypeFor[T]()
-	entry, loaded := nullCache.Load(t) // avoid premature allocation
+	ptr, loaded := nullPtrsCache.Load(t) // avoid premature allocation
 	if !loaded {
-		x := mk()
-		ptr := reflect.ValueOf(x).Pointer()
-		entry, _ = nullCache.LoadOrStore(t, cacheEntry{x, ptr, t.Kind()})
+		ptr, _ = nullPtrsCache.LoadOrStore(t, new(T))
 	}
-	return entry.(cacheEntry).x.(T)
+	return (ptr.(*T))
 }
 
-// for internal use only
-func IsValueNull(v reflect.Value) bool {
-	switch v.Kind() {
-	case reflect.Map, reflect.Slice:
-		null, ok := nullCache.Load(v.Type())
-		return ok && v.Pointer() == null.(cacheEntry).ptr
-	}
-	return false
-}
+var nullSlicesCache sync.Map // map[reflect.Type][]T
 
-func IsNull[T any](v T) bool {
+func NullSlice[T any]() []T {
 	t := shims.TypeFor[T]()
-	switch t.Kind() {
-	case reflect.Map, reflect.Slice:
-		null, ok := nullCache.Load(t)
-		return ok && reflect.ValueOf(v).Pointer() == null.(cacheEntry).ptr
+	slice, loaded := nullSlicesCache.Load(t) // avoid premature allocation
+	if !loaded {
+		slice, _ = nullSlicesCache.LoadOrStore(t, []T{})
 	}
-	return false
+	return slice.([]T)
+}
+
+func IsNullPtr[T any](ptr *T) bool {
+	nullptr, ok := nullPtrsCache.Load(shims.TypeFor[T]())
+	return ok && ptr == nullptr.(*T)
+}
+
+func IsNullSlice[T any](slice []T) bool {
+	nullSlice, ok := nullSlicesCache.Load(shims.TypeFor[T]())
+	return ok && reflect.ValueOf(slice).Pointer() == reflect.ValueOf(nullSlice).Pointer()
+}
+
+// internal only
+func IsValueNullPtr(v reflect.Value) bool {
+	if v.Kind() != reflect.Ptr {
+		return false
+	}
+	nullptr, ok := nullPtrsCache.Load(v.Type().Elem())
+	return ok && v.Pointer() == reflect.ValueOf(nullptr).Pointer()
+}
+
+// internal only
+func IsValueNullSlice(v reflect.Value) bool {
+	if v.Kind() != reflect.Slice {
+		return false
+	}
+	nullSlice, ok := nullSlicesCache.Load(v.Type().Elem())
+	return ok && v.Pointer() == reflect.ValueOf(nullSlice).Pointer()
 }

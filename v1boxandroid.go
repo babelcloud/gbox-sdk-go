@@ -42,13 +42,13 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 
 // Retrieve detailed information for all installed applications. This endpoint
 // provides comprehensive app details
-func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
+func (r *V1BoxAndroidService) List(ctx context.Context, boxID string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps", id)
+	path := fmt.Sprintf("boxes/%s/android/apps", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
@@ -57,28 +57,28 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAn
 func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
-	if body.ID == "" {
-		err = errors.New("missing required id parameter")
+	if body.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/backup", body.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/backup", body.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
 // Backup all apps
-func (r *V1BoxAndroidService) BackupAll(ctx context.Context, id string, opts ...option.RequestOption) (res *http.Response, err error) {
+func (r *V1BoxAndroidService) BackupAll(ctx context.Context, boxID string, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/backup-all", id)
+	path := fmt.Sprintf("boxes/%s/android/apps/backup-all", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
@@ -87,28 +87,28 @@ func (r *V1BoxAndroidService) BackupAll(ctx context.Context, id string, opts ...
 func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, body V1BoxAndroidCloseParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if body.ID == "" {
-		err = errors.New("missing required id parameter")
+	if body.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/close", body.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/close", body.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
 
 // Close all apps
-func (r *V1BoxAndroidService) CloseAll(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/close-all", id)
+	path := fmt.Sprintf("boxes/%s/android/apps/close-all", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
@@ -116,40 +116,40 @@ func (r *V1BoxAndroidService) CloseAll(ctx context.Context, id string, opts ...o
 // Get app
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
-	if query.ID == "" {
-		err = errors.New("missing required id parameter")
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
 // Get connect address
-func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
+func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/connect-address", id)
+	path := fmt.Sprintf("boxes/%s/android/connect-address", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
 // Install app
-func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps", id)
+	path := fmt.Sprintf("boxes/%s/android/apps", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
@@ -157,15 +157,15 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1Box
 // Get app activities
 func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName string, query V1BoxAndroidListActivitiesParams, opts ...option.RequestOption) (res *V1BoxAndroidListActivitiesResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if query.ID == "" {
-		err = errors.New("missing required id parameter")
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/activities", query.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/activities", query.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -173,13 +173,13 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 // A faster endpoint to quickly retrieve basic app information. This API provides
 // better performance for scenarios where you need to get essential app details
 // quickly
-func (r *V1BoxAndroidService) ListSimple(ctx context.Context, id string, query V1BoxAndroidListSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListSimpleResponse, err error) {
+func (r *V1BoxAndroidService) ListSimple(ctx context.Context, boxID string, query V1BoxAndroidListSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListSimpleResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/simple", id)
+	path := fmt.Sprintf("boxes/%s/android/apps/simple", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
@@ -188,15 +188,15 @@ func (r *V1BoxAndroidService) ListSimple(ctx context.Context, id string, query V
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/open", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/open", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
@@ -205,28 +205,28 @@ func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, para
 func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, params V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
 
 // Restore app
-func (r *V1BoxAndroidService) Restore(ctx context.Context, id string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Restore(ctx context.Context, boxID string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/restore", id)
+	path := fmt.Sprintf("boxes/%s/android/apps/restore", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
@@ -235,15 +235,15 @@ func (r *V1BoxAndroidService) Restore(ctx context.Context, id string, body V1Box
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/apps/%s", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, params, nil, opts...)
 	return
 }
@@ -445,17 +445,17 @@ const (
 )
 
 type V1BoxAndroidBackupParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
 type V1BoxAndroidCloseParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
 type V1BoxAndroidGetParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
@@ -528,7 +528,7 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data
 }
 
 type V1BoxAndroidListActivitiesParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
@@ -558,7 +558,7 @@ const (
 )
 
 type V1BoxAndroidOpenParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	// Activity name, default is the main activity.
 	ActivityName param.Opt[string] `json:"activityName,omitzero"`
 	paramObj
@@ -573,7 +573,7 @@ func (r *V1BoxAndroidOpenParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxAndroidRestartParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	// Activity name, default is the main activity.
 	ActivityName param.Opt[string] `json:"activityName,omitzero"`
 	paramObj
@@ -612,7 +612,7 @@ func (r V1BoxAndroidRestoreParams) MarshalMultipart() (data []byte, contentType 
 }
 
 type V1BoxAndroidUninstallParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	// uninstalls the application while retaining the data/cache
 	KeepData param.Opt[bool] `json:"keepData,omitzero"`
 	paramObj

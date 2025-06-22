@@ -43,86 +43,86 @@ func NewV1BoxFService(opts ...option.RequestOption) (r V1BoxFService) {
 }
 
 // List box files
-func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
+func (r *V1BoxFService) List(ctx context.Context, boxID string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/list", id)
+	path := fmt.Sprintf("boxes/%s/fs/list", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
 // Check if file exists
-func (r *V1BoxFService) Exists(ctx context.Context, id string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponse, err error) {
+func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/exists", id)
+	path := fmt.Sprintf("boxes/%s/fs/exists", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Get file/directory
-func (r *V1BoxFService) Info(ctx context.Context, id string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
+func (r *V1BoxFService) Info(ctx context.Context, boxID string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/info", id)
+	path := fmt.Sprintf("boxes/%s/fs/info", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
 // Read box file
-func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
+func (r *V1BoxFService) Read(ctx context.Context, boxID string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/read", id)
+	path := fmt.Sprintf("boxes/%s/fs/read", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
 // Delete box file/directory
-func (r *V1BoxFService) Remove(ctx context.Context, id string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
+func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs", id)
+	path := fmt.Sprintf("boxes/%s/fs", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, &res, opts...)
 	return
 }
 
 // Rename box file
-func (r *V1BoxFService) Rename(ctx context.Context, id string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponse, err error) {
+func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/rename", id)
+	path := fmt.Sprintf("boxes/%s/fs/rename", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Creates or overwrites a file. Creates necessary directories in the path if they
 // don't exist. if the path is a directory, the write will be failed.
-func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
+func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/write", id)
+	path := fmt.Sprintf("boxes/%s/fs/write", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
