@@ -665,13 +665,13 @@ type V1BoxActionSwipeParams struct {
 	OfSwipeSimple *V1BoxActionSwipeParamsBodySwipeSimple `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Swipe
 	// action configuration
-	OfSwipeAction *V1BoxActionSwipeParamsBodySwipeAction `json:",inline"`
+	OfSwipeAdvanced *V1BoxActionSwipeParamsBodySwipeAdvanced `json:",inline"`
 
 	paramObj
 }
 
 func (u V1BoxActionSwipeParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfSwipeSimple, u.OfSwipeAction)
+	return param.MarshalUnion(u, u.OfSwipeSimple, u.OfSwipeAdvanced)
 }
 func (r *V1BoxActionSwipeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -730,11 +730,11 @@ func init() {
 // Swipe action configuration
 //
 // The properties End, Start are required.
-type V1BoxActionSwipeParamsBodySwipeAction struct {
+type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// End point of the swipe path
 	End any `json:"end,omitzero,required"`
 	// Start point of the swipe path
-	Start any `json:"start,omitzero,required"`
+	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
 	// Duration of the swipe
 	Duration param.Opt[string] `json:"duration,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
@@ -756,18 +756,37 @@ type V1BoxActionSwipeParamsBodySwipeAction struct {
 	paramObj
 }
 
-func (r V1BoxActionSwipeParamsBodySwipeAction) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeAction
+func (r V1BoxActionSwipeParamsBodySwipeAdvanced) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeAdvanced
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionSwipeParamsBodySwipeAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionSwipeParamsBodySwipeAdvanced) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAction](
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
+}
+
+// Start point of the swipe path
+//
+// The properties X, Y are required.
+type V1BoxActionSwipeParamsBodySwipeAdvancedStart struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	paramObj
+}
+
+func (r V1BoxActionSwipeParamsBodySwipeAdvancedStart) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedStart
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionSwipeParamsBodySwipeAdvancedStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxActionTouchParams struct {
