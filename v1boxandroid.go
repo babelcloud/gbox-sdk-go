@@ -142,15 +142,14 @@ func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, boxID strin
 }
 
 // Install app
-func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (res *V1BoxAndroidInstallResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/android/apps", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -327,6 +326,73 @@ func (r V1BoxAndroidGetConnectAddressResponse) RawJSON() string { return r.JSON.
 func (r *V1BoxAndroidGetConnectAddressResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Response containing the result of installing an Android app
+type V1BoxAndroidInstallResponse struct {
+	// Activity list
+	Activities []V1BoxAndroidInstallResponseActivity `json:"activities,required"`
+	// Android app apk path
+	ApkPath string `json:"apkPath,required"`
+	// Application type: system or third-party
+	//
+	// Any of "system", "third-party".
+	AppType V1BoxAndroidInstallResponseAppType `json:"appType,required"`
+	// Android app package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Activities  respjson.Field
+		ApkPath     respjson.Field
+		AppType     respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidInstallResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidInstallResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android app activity
+type V1BoxAndroidInstallResponseActivity struct {
+	// Activity class name
+	ClassName string `json:"className,required"`
+	// Activity class name
+	IsExported bool `json:"isExported,required"`
+	// Whether the activity is the main activity
+	IsMain bool `json:"isMain,required"`
+	// Activity name
+	Name string `json:"name,required"`
+	// Activity package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ClassName   respjson.Field
+		IsExported  respjson.Field
+		IsMain      respjson.Field
+		Name        respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidInstallResponseActivity) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidInstallResponseActivity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Application type: system or third-party
+type V1BoxAndroidInstallResponseAppType string
+
+const (
+	V1BoxAndroidInstallResponseAppTypeSystem     V1BoxAndroidInstallResponseAppType = "system"
+	V1BoxAndroidInstallResponseAppTypeThirdParty V1BoxAndroidInstallResponseAppType = "third-party"
+)
 
 type V1BoxAndroidListActivitiesResponse struct {
 	// Activity list
