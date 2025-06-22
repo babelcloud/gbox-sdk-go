@@ -47,13 +47,13 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 }
 
 // Get box
-func (r *V1BoxService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
+func (r *V1BoxService) Get(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s", id)
+	path := fmt.Sprintf("boxes/%s", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -83,86 +83,86 @@ func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, o
 }
 
 // Exec command
-func (r *V1BoxService) ExecuteCommands(ctx context.Context, id string, body V1BoxExecuteCommandsParams, opts ...option.RequestOption) (res *V1BoxExecuteCommandsResponse, err error) {
+func (r *V1BoxService) ExecuteCommands(ctx context.Context, boxID string, body V1BoxExecuteCommandsParams, opts ...option.RequestOption) (res *V1BoxExecuteCommandsResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/commands", id)
+	path := fmt.Sprintf("boxes/%s/commands", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Generate pre-signed live view url
-func (r *V1BoxService) LiveViewURL(ctx context.Context, id string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
+func (r *V1BoxService) LiveViewURL(ctx context.Context, boxID string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/live-view-url", id)
+	path := fmt.Sprintf("boxes/%s/live-view-url", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Run code on the box
-func (r *V1BoxService) RunCode(ctx context.Context, id string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
+func (r *V1BoxService) RunCode(ctx context.Context, boxID string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/run-code", id)
+	path := fmt.Sprintf("boxes/%s/run-code", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Start box
-func (r *V1BoxService) Start(ctx context.Context, id string, body V1BoxStartParams, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
+func (r *V1BoxService) Start(ctx context.Context, boxID string, body V1BoxStartParams, opts ...option.RequestOption) (res *V1BoxStartResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/start", id)
+	path := fmt.Sprintf("boxes/%s/start", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Stop box
-func (r *V1BoxService) Stop(ctx context.Context, id string, body V1BoxStopParams, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
+func (r *V1BoxService) Stop(ctx context.Context, boxID string, body V1BoxStopParams, opts ...option.RequestOption) (res *V1BoxStopResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/stop", id)
+	path := fmt.Sprintf("boxes/%s/stop", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Terminate box
-func (r *V1BoxService) Terminate(ctx context.Context, id string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/terminate", id)
+	path := fmt.Sprintf("boxes/%s/terminate", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
 
 // Generate pre-signed web terminal url
-func (r *V1BoxService) WebTerminalURL(ctx context.Context, id string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
+func (r *V1BoxService) WebTerminalURL(ctx context.Context, boxID string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/web-terminal-url", id)
+	path := fmt.Sprintf("boxes/%s/web-terminal-url", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }

@@ -35,50 +35,50 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 }
 
 // Click
-func (r *V1BoxActionService) Click(ctx context.Context, id string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/click", id)
+	path := fmt.Sprintf("boxes/%s/actions/click", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Drag
-func (r *V1BoxActionService) Drag(ctx context.Context, id string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/drag", id)
+	path := fmt.Sprintf("boxes/%s/actions/drag", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Move to position
-func (r *V1BoxActionService) Move(ctx context.Context, id string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/move", id)
+	path := fmt.Sprintf("boxes/%s/actions/move", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Press button on the device. like power button, volume up button, volume down
 // button, etc.
-func (r *V1BoxActionService) PressButton(ctx context.Context, id string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/press-button", id)
+	path := fmt.Sprintf("boxes/%s/actions/press-button", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -86,73 +86,73 @@ func (r *V1BoxActionService) PressButton(ctx context.Context, id string, body V1
 // Simulates pressing a specific key by triggering the complete keyboard key event
 // chain (keydown, keypress, keyup). Use this to activate keyboard key event
 // listeners such as shortcuts or form submissions.
-func (r *V1BoxActionService) PressKey(ctx context.Context, id string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/press-key", id)
+	path := fmt.Sprintf("boxes/%s/actions/press-key", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Rotate screen
-func (r *V1BoxActionService) ScreenRotation(ctx context.Context, id string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/screen-rotation", id)
+	path := fmt.Sprintf("boxes/%s/actions/screen-rotation", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Take screenshot
-func (r *V1BoxActionService) Screenshot(ctx context.Context, id string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
+func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/screenshot", id)
+	path := fmt.Sprintf("boxes/%s/actions/screenshot", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Scroll
-func (r *V1BoxActionService) Scroll(ctx context.Context, id string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/scroll", id)
+	path := fmt.Sprintf("boxes/%s/actions/scroll", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Performs a swipe in the specified direction
-func (r *V1BoxActionService) Swipe(ctx context.Context, id string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/swipe", id)
+	path := fmt.Sprintf("boxes/%s/actions/swipe", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Touch
-func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/touch", id)
+	path := fmt.Sprintf("boxes/%s/actions/touch", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -160,13 +160,13 @@ func (r *V1BoxActionService) Touch(ctx context.Context, id string, body V1BoxAct
 // Directly inputs text content without triggering physical key events (keydown,
 // etc.), ideal for quickly filling large amounts of text when intermediate input
 // events aren't needed.
-func (r *V1BoxActionService) Type(ctx context.Context, id string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/type", id)
+	path := fmt.Sprintf("boxes/%s/actions/type", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }

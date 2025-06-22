@@ -28,7 +28,7 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.List(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFListParams{
 			Path:       "/home/user/documents",
 			Depth:      gboxsdk.Float(2),
@@ -59,7 +59,7 @@ func TestV1BoxFExistsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Exists(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFExistsParams{
 			Path:       "/home/user/documents/output.txt",
 			WorkingDir: gboxsdk.String("/home/user/documents"),
@@ -89,7 +89,7 @@ func TestV1BoxFInfoWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Info(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFInfoParams{
 			Path:       "/home/user/documents/output.txt",
 			WorkingDir: gboxsdk.String("/home/user/documents"),
@@ -119,7 +119,7 @@ func TestV1BoxFReadWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Read(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFReadParams{
 			Path:       "/home/user/documents/config.json",
 			WorkingDir: gboxsdk.String("/home/user/documents"),
@@ -149,7 +149,7 @@ func TestV1BoxFRemoveWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Remove(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFRemoveParams{
 			Path:       "/home/user/documents/output.txt",
 			WorkingDir: gboxsdk.String("/home/user/documents"),
@@ -179,7 +179,7 @@ func TestV1BoxFRenameWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Rename(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFRenameParams{
 			NewPath:    "/home/user/documents/new-name.txt",
 			OldPath:    "/home/user/documents/output.txt",
@@ -210,7 +210,7 @@ func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Fs.Write(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		"boxId",
 		gboxsdk.V1BoxFWriteParams{
 			OfWriteFile: &gboxsdk.V1BoxFWriteParamsBodyWriteFile{
 				Content:    "Hello, World!\nThis is file content.",
