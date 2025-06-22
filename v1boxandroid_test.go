@@ -32,7 +32,7 @@ func TestV1BoxAndroidListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Android.List(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidListParams{
 			AppType:   gboxsdk.V1BoxAndroidListParamsAppTypeSystem,
 			IsRunning: gboxsdk.Bool(true),
@@ -63,7 +63,7 @@ func TestV1BoxAndroidBackup(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidBackupParams{
-			BoxID: "boxId",
+			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
@@ -100,7 +100,7 @@ func TestV1BoxAndroidBackupAll(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	resp, err := client.V1.Boxes.Android.BackupAll(context.TODO(), "boxId")
+	resp, err := client.V1.Boxes.Android.BackupAll(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -140,7 +140,7 @@ func TestV1BoxAndroidClose(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidCloseParams{
-			BoxID: "boxId",
+			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
@@ -165,7 +165,7 @@ func TestV1BoxAndroidCloseAll(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Android.CloseAll(context.TODO(), "boxId")
+	err := client.V1.Boxes.Android.CloseAll(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -192,7 +192,7 @@ func TestV1BoxAndroidGet(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidGetParams{
-			BoxID: "boxId",
+			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
@@ -217,7 +217,7 @@ func TestV1BoxAndroidGetConnectAddress(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Android.GetConnectAddress(context.TODO(), "boxId")
+	_, err := client.V1.Boxes.Android.GetConnectAddress(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -242,7 +242,7 @@ func TestV1BoxAndroidInstall(t *testing.T) {
 	)
 	err := client.V1.Boxes.Android.Install(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidInstallParams{},
 	)
 	if err != nil {
@@ -271,7 +271,7 @@ func TestV1BoxAndroidListActivities(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidListActivitiesParams{
-			BoxID: "boxId",
+			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
 	if err != nil {
@@ -298,7 +298,7 @@ func TestV1BoxAndroidListSimpleWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Android.ListSimple(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidListSimpleParams{
 			AppType: gboxsdk.V1BoxAndroidListSimpleParamsAppTypeSystem,
 		},
@@ -329,7 +329,7 @@ func TestV1BoxAndroidOpenWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidOpenParams{
-			BoxID:        "boxId",
+			BoxID:        "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 			ActivityName: gboxsdk.String("com.android.settings.Settings"),
 		},
 	)
@@ -359,7 +359,7 @@ func TestV1BoxAndroidRestartWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidRestartParams{
-			BoxID:        "boxId",
+			BoxID:        "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 			ActivityName: gboxsdk.String("com.android.settings.Settings"),
 		},
 	)
@@ -387,7 +387,7 @@ func TestV1BoxAndroidRestore(t *testing.T) {
 	)
 	err := client.V1.Boxes.Android.Restore(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidRestoreParams{
 			Backup: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 		},
@@ -418,7 +418,7 @@ func TestV1BoxAndroidUninstallWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidUninstallParams{
-			BoxID:    "boxId",
+			BoxID:    "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 			KeepData: gboxsdk.Bool(true),
 		},
 	)
