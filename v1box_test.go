@@ -26,7 +26,7 @@ func TestV1BoxGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Get(context.TODO(), "boxId")
+	_, err := client.V1.Boxes.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -160,7 +160,7 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.ExecuteCommands(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxExecuteCommandsParams{
 			Commands: gboxsdk.V1BoxExecuteCommandsParamsCommandsUnion{
 				OfStringArray: []string{"ls", "-l"},
@@ -197,7 +197,7 @@ func TestV1BoxLiveViewURLWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.LiveViewURL(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxLiveViewURLParams{
 			ExpiresIn: gboxsdk.String("180m"),
 		},
@@ -226,7 +226,7 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.RunCode(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxRunCodeParams{
 			Code: `print("Hello, World!")`,
 			Argv: []string{"--help"},
@@ -263,7 +263,7 @@ func TestV1BoxStartWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Start(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxStartParams{
 			Wait: gboxsdk.Bool(true),
 		},
@@ -292,7 +292,7 @@ func TestV1BoxStopWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Stop(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxStopParams{
 			Wait: gboxsdk.Bool(true),
 		},
@@ -321,7 +321,7 @@ func TestV1BoxTerminateWithOptionalParams(t *testing.T) {
 	)
 	err := client.V1.Boxes.Terminate(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxTerminateParams{
 			Wait: gboxsdk.Bool(true),
 		},
@@ -350,7 +350,7 @@ func TestV1BoxWebTerminalURLWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.WebTerminalURL(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxWebTerminalURLParams{
 			ExpiresIn: gboxsdk.String("180m"),
 		},

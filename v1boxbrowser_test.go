@@ -28,7 +28,7 @@ func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Browser.CdpURL(
 		context.TODO(),
-		"boxId",
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxBrowserCdpURLParams{
 			ExpiresIn: gboxsdk.String("120m"),
 		},
