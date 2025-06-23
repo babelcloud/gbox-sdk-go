@@ -195,7 +195,7 @@ type V1BoxFListResponseDataFile struct {
 	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
-	// Full path to the file
+	// Full path to the file in the box
 	Path string `json:"path,required"`
 	// Size of the file
 	Size string `json:"size,required"`
@@ -230,7 +230,7 @@ type V1BoxFListResponseDataDirectory struct {
 	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
-	// Full path to the directory
+	// Full path to the directory in the box
 	Path string `json:"path,required"`
 	// Directory type indicator
 	//
@@ -374,7 +374,7 @@ type V1BoxFInfoResponseFile struct {
 	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
-	// Full path to the file
+	// Full path to the file in the box
 	Path string `json:"path,required"`
 	// Size of the file
 	Size string `json:"size,required"`
@@ -409,7 +409,7 @@ type V1BoxFInfoResponseDirectory struct {
 	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
-	// Full path to the directory
+	// Full path to the directory in the box
 	Path string `json:"path,required"`
 	// Directory type indicator
 	//
@@ -517,7 +517,7 @@ type V1BoxFRenameResponseFile struct {
 	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
-	// Full path to the file
+	// Full path to the file in the box
 	Path string `json:"path,required"`
 	// Size of the file
 	Size string `json:"size,required"`
@@ -552,7 +552,7 @@ type V1BoxFRenameResponseDirectory struct {
 	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
-	// Full path to the directory
+	// Full path to the directory in the box
 	Path string `json:"path,required"`
 	// Directory type indicator
 	//
@@ -595,7 +595,7 @@ func (r *V1BoxFWriteResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFListParams struct {
-	// Path to the directory
+	// Target directory path in the box
 	Path string `query:"path,required" json:"-"`
 	// Depth of the directory
 	Depth param.Opt[float64] `query:"depth,omitzero" json:"-"`
@@ -614,8 +614,8 @@ func (r V1BoxFListParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFExistsParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be checked from the working directory
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be checked relative to the working directory
 	Path string `json:"path,required"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -632,8 +632,8 @@ func (r *V1BoxFExistsParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFInfoParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be checked from the working directory
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be checked relative to the working directory
 	Path string `query:"path,required" json:"-"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -650,8 +650,8 @@ func (r V1BoxFInfoParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFReadParams struct {
-	// Path to the file. If the path is not start with '/', the file will be read from
-	// the working directory.
+	// Target path in the box. If the path does not start with '/', the file will be
+	// read from the working directory.
 	Path string `query:"path,required" json:"-"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -668,9 +668,9 @@ func (r V1BoxFReadParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFRemoveParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be deleted from the working directory. If target path is not
-	// exists, the delete will be failed.
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be deleted relative to the working directory. If the target path does not
+	// exist, the delete will fail.
 	Path string `json:"path,required"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -687,13 +687,13 @@ func (r *V1BoxFRemoveParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFRenameParams struct {
-	// New path for the file/directory. If the path is not start with '/', the
-	// file/directory will be renamed to the working directory. If target newPath is
-	// already exists, the rename will be failed.
+	// New path in the box. If the path does not start with '/', the file/directory
+	// will be renamed relative to the working directory. If the newPath already
+	// exists, the rename will fail.
 	NewPath string `json:"newPath,required"`
-	// Old path to the file/directory. If the path is not start with '/', the
-	// file/directory will be renamed from the working directory. If target oldPath is
-	// not exists, the rename will be failed.
+	// Old path in the box. If the path does not start with '/', the file/directory
+	// will be renamed relative to the working directory. If the oldPath does not
+	// exist, the rename will fail.
 	OldPath string `json:"oldPath,required"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -749,9 +749,10 @@ func (r V1BoxFWriteParams) MarshalMultipart() (data []byte, contentType string, 
 type V1BoxFWriteParamsBodyWriteFile struct {
 	// Content of the file (Max size: 512MB)
 	Content string `json:"content,required"`
-	// Path to the file. If the path is not start with '/', the file will be written to
-	// the working directory. Creates necessary directories in the path if they don't
-	// exist. If target path is already exists, the write will be failed.
+	// Target path in the box. If the path does not start with '/', the file will be
+	// written relative to the working directory. Creates necessary directories in the
+	// path if they don't exist. If the target path already exists, the write will
+	// fail.
 	Path string `json:"path,required"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
@@ -773,9 +774,10 @@ func (r *V1BoxFWriteParamsBodyWriteFile) UnmarshalJSON(data []byte) error {
 type V1BoxFWriteParamsBodyWriteFileByBinary struct {
 	// Binary content of the file (Max file size: 512MB)
 	Content io.Reader `json:"content,omitzero,required" format:"binary"`
-	// Path to the file. If the path is not start with '/', the file will be written to
-	// the working directory. Creates necessary directories in the path if they don't
-	// exist. If target path is already exists, the write will be failed.
+	// Target path in the box. If the path does not start with '/', the file will be
+	// written relative to the working directory. Creates necessary directories in the
+	// path if they don't exist. If the target path already exists, the write will
+	// fail.
 	Path string `json:"path,required"`
 	// Working directory. If not provided, the file will be read from the
 	// `box.config.workingDir` directory.
