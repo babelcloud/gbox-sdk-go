@@ -54,7 +54,7 @@ func (r *V1BoxFService) List(ctx context.Context, boxID string, query V1BoxFList
 	return
 }
 
-// Check if file/directory exists
+// Check if file/dir exists
 func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -66,7 +66,7 @@ func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExi
 	return
 }
 
-// Get file/directory
+// Get file/dir
 func (r *V1BoxFService) Info(ctx context.Context, boxID string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -90,8 +90,7 @@ func (r *V1BoxFService) Read(ctx context.Context, boxID string, query V1BoxFRead
 	return
 }
 
-// Delete a file or directory. If target path is not exists, the delete will be
-// failed.
+// Delete a file or dir. If target path is not exists, the delete will be failed.
 func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -103,8 +102,8 @@ func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRem
 	return
 }
 
-// Rename a file or directory. If target newPath is already exists, the rename will
-// be failed.
+// Rename a file or dir. If target newPath is already exists, the rename will be
+// failed.
 func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
