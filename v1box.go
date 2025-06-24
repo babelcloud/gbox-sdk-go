@@ -1245,6 +1245,8 @@ func (r *V1BoxWebTerminalURLResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxListParams struct {
+	// Filter boxes by their device type (virtual, physical)
+	DeviceType param.Opt[string] `query:"deviceType,omitzero" json:"-"`
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
