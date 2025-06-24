@@ -4,6 +4,7 @@ package gboxsdk
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -35,7 +36,7 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 }
 
 // Click
-func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *V1BoxActionClickResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -47,7 +48,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1Box
 }
 
 // Drag
-func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *V1BoxActionDragResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -59,7 +60,7 @@ func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxA
 }
 
 // Move to position
-func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *V1BoxActionMoveResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -72,7 +73,7 @@ func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxA
 
 // Press button on the device. like power button, volume up button, volume down
 // button, etc.
-func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *V1BoxActionPressButtonResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -86,7 +87,7 @@ func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body
 // Simulates pressing a specific key by triggering the complete keyboard key event
 // chain (keydown, keypress, keyup). Use this to activate keyboard key event
 // listeners such as shortcuts or form submissions.
-func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *V1BoxActionPressKeyResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -98,7 +99,7 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 }
 
 // Rotate screen
-func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *V1BoxActionScreenRotationResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -122,7 +123,7 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body 
 }
 
 // Scroll
-func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *V1BoxActionScrollResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -134,7 +135,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1Bo
 }
 
 // Performs a swipe in the specified direction
-func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *V1BoxActionSwipeResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -146,7 +147,7 @@ func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1Box
 }
 
 // Touch
-func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *V1BoxActionTouchResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -160,7 +161,7 @@ func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1Box
 // Directly inputs text content without triggering physical key events (keydown,
 // etc.), ideal for quickly filling large amounts of text when intermediate input
 // events aren't needed.
-func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
+func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *V1BoxActionTypeResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -171,10 +172,45 @@ func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxA
 	return
 }
 
-// Result of an UI action execution
-type ActionResult struct {
+// V1BoxActionClickResponseUnion contains all possible properties and values from
+// [V1BoxActionClickResponseActionIncludeScreenshotResult],
+// [V1BoxActionClickResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionClickResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionClickResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionClickResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionClickResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionClickResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionClickResponseUnion) AsActionCommonResult() (v V1BoxActionClickResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionClickResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionClickResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionClickResponseActionIncludeScreenshotResult struct {
 	// Complete screenshot result with operation trace, before and after images
-	Screenshot ActionResultScreenshot `json:"screenshot,required"`
+	Screenshot V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Screenshot  respjson.Field
@@ -184,19 +220,19 @@ type ActionResult struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResult) RawJSON() string { return r.JSON.raw }
-func (r *ActionResult) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionClickResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionClickResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Complete screenshot result with operation trace, before and after images
-type ActionResultScreenshot struct {
+type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot struct {
 	// Screenshot taken after action execution
-	After ActionResultScreenshotAfter `json:"after,required"`
+	After V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
 	// Screenshot taken before action execution
-	Before ActionResultScreenshotBefore `json:"before,required"`
+	Before V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
 	// Screenshot with action operation trace
-	Trace ActionResultScreenshotTrace `json:"trace,required"`
+	Trace V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		After       respjson.Field
@@ -208,13 +244,15 @@ type ActionResultScreenshot struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResultScreenshot) RawJSON() string { return r.JSON.raw }
-func (r *ActionResultScreenshot) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Screenshot taken after action execution
-type ActionResultScreenshotAfter struct {
+type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter struct {
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -226,13 +264,15 @@ type ActionResultScreenshotAfter struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResultScreenshotAfter) RawJSON() string { return r.JSON.raw }
-func (r *ActionResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Screenshot taken before action execution
-type ActionResultScreenshotBefore struct {
+type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore struct {
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -244,13 +284,15 @@ type ActionResultScreenshotBefore struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResultScreenshotBefore) RawJSON() string { return r.JSON.raw }
-func (r *ActionResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Screenshot with action operation trace
-type ActionResultScreenshotTrace struct {
+type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotTrace struct {
 	// URI of the screenshot with operation trace
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -262,8 +304,818 @@ type ActionResultScreenshotTrace struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r ActionResultScreenshotTrace) RawJSON() string { return r.JSON.raw }
-func (r *ActionResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionClickResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionClickResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionClickResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionDragResponseUnion contains all possible properties and values from
+// [V1BoxActionDragResponseActionIncludeScreenshotResult],
+// [V1BoxActionDragResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionDragResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionDragResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionDragResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionDragResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionDragResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionDragResponseUnion) AsActionCommonResult() (v V1BoxActionDragResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionDragResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionDragResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionDragResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionDragResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionDragResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionDragResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionDragResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionMoveResponseUnion contains all possible properties and values from
+// [V1BoxActionMoveResponseActionIncludeScreenshotResult],
+// [V1BoxActionMoveResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionMoveResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionMoveResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionMoveResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionMoveResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionMoveResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionMoveResponseUnion) AsActionCommonResult() (v V1BoxActionMoveResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionMoveResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionMoveResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionMoveResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionMoveResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionMoveResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionMoveResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionMoveResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionPressButtonResponseUnion contains all possible properties and values
+// from [V1BoxActionPressButtonResponseActionIncludeScreenshotResult],
+// [V1BoxActionPressButtonResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionPressButtonResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionPressButtonResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionPressButtonResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionPressButtonResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionPressButtonResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionPressButtonResponseUnion) AsActionCommonResult() (v V1BoxActionPressButtonResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionPressButtonResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionPressButtonResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionPressButtonResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionIncludeScreenshotResult) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionPressButtonResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressButtonResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionPressButtonResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionPressKeyResponseUnion contains all possible properties and values
+// from [V1BoxActionPressKeyResponseActionIncludeScreenshotResult],
+// [V1BoxActionPressKeyResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionPressKeyResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionPressKeyResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionPressKeyResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionPressKeyResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionPressKeyResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionPressKeyResponseUnion) AsActionCommonResult() (v V1BoxActionPressKeyResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionPressKeyResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionPressKeyResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionPressKeyResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionPressKeyResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionPressKeyResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionPressKeyResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionScreenRotationResponseUnion contains all possible properties and
+// values from [V1BoxActionScreenRotationResponseActionIncludeScreenshotResult],
+// [V1BoxActionScreenRotationResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionScreenRotationResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionScreenRotationResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant
+	// [V1BoxActionScreenRotationResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionScreenRotationResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionScreenRotationResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionScreenRotationResponseUnion) AsActionCommonResult() (v V1BoxActionScreenRotationResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionScreenRotationResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionScreenRotationResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionScreenRotationResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionIncludeScreenshotResult) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionScreenRotationResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenRotationResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionScreenRotationResponseActionCommonResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -285,6 +1137,634 @@ func (r *V1BoxActionScreenshotResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// V1BoxActionScrollResponseUnion contains all possible properties and values from
+// [V1BoxActionScrollResponseActionIncludeScreenshotResult],
+// [V1BoxActionScrollResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionScrollResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionScrollResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionScrollResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionScrollResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionScrollResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionScrollResponseUnion) AsActionCommonResult() (v V1BoxActionScrollResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionScrollResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionScrollResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionScrollResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionScrollResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionScrollResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScrollResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionScrollResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionSwipeResponseUnion contains all possible properties and values from
+// [V1BoxActionSwipeResponseActionIncludeScreenshotResult],
+// [V1BoxActionSwipeResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionSwipeResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionSwipeResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionSwipeResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionSwipeResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionSwipeResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionSwipeResponseUnion) AsActionCommonResult() (v V1BoxActionSwipeResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionSwipeResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionSwipeResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionSwipeResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionSwipeResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSwipeResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSwipeResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionTouchResponseUnion contains all possible properties and values from
+// [V1BoxActionTouchResponseActionIncludeScreenshotResult],
+// [V1BoxActionTouchResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionTouchResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionTouchResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionTouchResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionTouchResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionTouchResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionTouchResponseUnion) AsActionCommonResult() (v V1BoxActionTouchResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionTouchResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionTouchResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionTouchResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionTouchResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionTouchResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTouchResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionTouchResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionTypeResponseUnion contains all possible properties and values from
+// [V1BoxActionTypeResponseActionIncludeScreenshotResult],
+// [V1BoxActionTypeResponseActionCommonResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionTypeResponseUnion struct {
+	// This field is from variant
+	// [V1BoxActionTypeResponseActionIncludeScreenshotResult].
+	Screenshot V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot `json:"screenshot"`
+	// This field is from variant [V1BoxActionTypeResponseActionCommonResult].
+	Message string `json:"message"`
+	JSON    struct {
+		Screenshot respjson.Field
+		Message    respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionTypeResponseUnion) AsActionIncludeScreenshotResult() (v V1BoxActionTypeResponseActionIncludeScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionTypeResponseUnion) AsActionCommonResult() (v V1BoxActionTypeResponseActionCommonResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionTypeResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionTypeResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution with screenshots
+type V1BoxActionTypeResponseActionIncludeScreenshotResult struct {
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionIncludeScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionTypeResponseActionIncludeScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of an UI action execution
+type V1BoxActionTypeResponseActionCommonResult struct {
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionTypeResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionTypeResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type V1BoxActionClickParams struct {
 	// X coordinate of the click
 	X float64 `json:"x,required"`
@@ -292,6 +1772,9 @@ type V1BoxActionClickParams struct {
 	Y float64 `json:"y,required"`
 	// Whether to perform a double click
 	Double param.Opt[bool] `json:"double,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -302,7 +1785,7 @@ type V1BoxActionClickParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Mouse button to click
 	//
@@ -345,6 +1828,9 @@ type V1BoxActionDragParams struct {
 	Path []V1BoxActionDragParamsPath `json:"path,omitzero,required"`
 	// Time interval between points (e.g. "50ms")
 	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -355,7 +1841,7 @@ type V1BoxActionDragParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -404,6 +1890,9 @@ type V1BoxActionMoveParams struct {
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
 	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -414,7 +1903,7 @@ type V1BoxActionMoveParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -445,6 +1934,9 @@ type V1BoxActionPressButtonParams struct {
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
 	// "appSwitch".
 	Buttons []string `json:"buttons,omitzero,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -455,7 +1947,7 @@ type V1BoxActionPressButtonParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -498,6 +1990,9 @@ type V1BoxActionPressKeyParams struct {
 	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
 	// "mediaPreviousTrack".
 	Keys []string `json:"keys,omitzero,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -508,7 +2003,7 @@ type V1BoxActionPressKeyParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -619,6 +2114,9 @@ type V1BoxActionScrollParams struct {
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
 	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -629,7 +2127,7 @@ type V1BoxActionScrollParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -695,6 +2193,9 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	Distance param.Opt[float64] `json:"distance,omitzero"`
 	// Duration of the swipe
 	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -705,7 +2206,7 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -742,6 +2243,9 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
 	// Duration of the swipe
 	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -752,7 +2256,7 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -816,6 +2320,9 @@ func (r *V1BoxActionSwipeParamsBodySwipeAdvancedStart) UnmarshalJSON(data []byte
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionTouchParamsPoint `json:"points,omitzero,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -826,7 +2333,7 @@ type V1BoxActionTouchParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -892,6 +2399,9 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -902,7 +2412,7 @@ type V1BoxActionTypeParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
+	// screenshot. Maximum allowed delay is 30s.
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
