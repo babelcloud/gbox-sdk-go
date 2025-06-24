@@ -81,17 +81,16 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
-			Config: gboxsdk.CreateBoxConfigParam{
+			Config: gboxsdk.CreateAndroidBoxConfigParam{
+				DeviceType: "virtual",
 				Envs: map[string]interface{}{
-					"DEBUG":   "true",
-					"API_URL": "https://api.example.com",
+					"ANDROID_LOG_TAGS": "*:V",
+					"ADB_TRACE":        "all",
 				},
-				ExpiresIn: gboxsdk.String("60m"),
+				ExpiresIn: gboxsdk.String("15m"),
 				Labels: map[string]interface{}{
-					"project":     "web-automation",
-					"environment": "testing",
-					"owner":       "john-doe",
-					"purpose":     "e2e-testing",
+					"app":     "mobile-testing",
+					"version": "v1.0",
 				},
 			},
 			Wait: gboxsdk.Bool(true),

@@ -347,8 +347,8 @@ const (
 type CreateAndroidBoxParam struct {
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
-	// Configuration for a box instance
-	Config CreateBoxConfigParam `json:"config,omitzero"`
+	// Configuration for a Android box instance
+	Config CreateAndroidBoxConfigParam `json:"config,omitzero"`
 	paramObj
 }
 
@@ -358,6 +358,39 @@ func (r CreateAndroidBoxParam) MarshalJSON() (data []byte, err error) {
 }
 func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// Configuration for a Android box instance
+type CreateAndroidBoxConfigParam struct {
+	// The box will be alive for the given duration (e.g. '10m')
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	// Device type - virtual or physical Android device
+	//
+	// Any of "virtual", "physical".
+	DeviceType string `json:"deviceType,omitzero"`
+	// Environment variables for the box. These variables will be available in all
+	// operations including command execution, code running, and other box behaviors
+	Envs any `json:"envs,omitzero"`
+	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
+	// help identify, categorize, and manage boxes. Common use cases include project
+	// names, environments, teams, applications, or any other organizational tags that
+	// help you organize and filter your boxes.
+	Labels any `json:"labels,omitzero"`
+	paramObj
+}
+
+func (r CreateAndroidBoxConfigParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateAndroidBoxConfigParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateAndroidBoxConfigParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[CreateAndroidBoxConfigParam](
+		"deviceType", "virtual", "physical",
+	)
 }
 
 // Configuration for a box instance
