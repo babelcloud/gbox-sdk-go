@@ -362,7 +362,11 @@ type V1BoxAndroidInstallResponseActivity struct {
 	ClassName string `json:"className,required"`
 	// Activity class name
 	IsExported bool `json:"isExported,required"`
-	// Whether the activity is the main activity
+	// Whether the activity is a launcher activity. Launcher activities appear in the
+	// device's app launcher/home screen and can be directly launched by the user.
+	IsLauncher bool `json:"isLauncher,required"`
+	// Whether the activity is the main activity. Main activity is the entry point of
+	// the application and is typically launched when the app is started.
 	IsMain bool `json:"isMain,required"`
 	// Activity name
 	Name string `json:"name,required"`
@@ -372,6 +376,7 @@ type V1BoxAndroidInstallResponseActivity struct {
 	JSON struct {
 		ClassName   respjson.Field
 		IsExported  respjson.Field
+		IsLauncher  respjson.Field
 		IsMain      respjson.Field
 		Name        respjson.Field
 		PackageName respjson.Field
@@ -417,7 +422,11 @@ type V1BoxAndroidListActivitiesResponseData struct {
 	ClassName string `json:"className,required"`
 	// Activity class name
 	IsExported bool `json:"isExported,required"`
-	// Whether the activity is the main activity
+	// Whether the activity is a launcher activity. Launcher activities appear in the
+	// device's app launcher/home screen and can be directly launched by the user.
+	IsLauncher bool `json:"isLauncher,required"`
+	// Whether the activity is the main activity. Main activity is the entry point of
+	// the application and is typically launched when the app is started.
 	IsMain bool `json:"isMain,required"`
 	// Activity name
 	Name string `json:"name,required"`
@@ -427,6 +436,7 @@ type V1BoxAndroidListActivitiesResponseData struct {
 	JSON struct {
 		ClassName   respjson.Field
 		IsExported  respjson.Field
+		IsLauncher  respjson.Field
 		IsMain      respjson.Field
 		Name        respjson.Field
 		PackageName respjson.Field
