@@ -213,12 +213,12 @@ type AndroidBoxConfig struct {
 	CPU float64 `json:"cpu,required"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
-	Envs any `json:"envs,required"`
+	Envs map[string]string `json:"envs,required"`
 	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
 	// help identify, categorize, and manage boxes. Common use cases include project
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
-	Labels any `json:"labels,required"`
+	Labels map[string]string `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
@@ -370,12 +370,12 @@ type CreateAndroidBoxConfigParam struct {
 	DeviceType string `json:"deviceType,omitzero"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
-	Envs any `json:"envs,omitzero"`
+	Envs map[string]string `json:"envs,omitzero"`
 	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
 	// help identify, categorize, and manage boxes. Common use cases include project
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
-	Labels any `json:"labels,omitzero"`
+	Labels map[string]string `json:"labels,omitzero"`
 	paramObj
 }
 
@@ -399,12 +399,12 @@ type CreateBoxConfigParam struct {
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
-	Envs any `json:"envs,omitzero"`
+	Envs map[string]string `json:"envs,omitzero"`
 	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
 	// help identify, categorize, and manage boxes. Common use cases include project
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
-	Labels any `json:"labels,omitzero"`
+	Labels map[string]string `json:"labels,omitzero"`
 	paramObj
 }
 
@@ -479,12 +479,12 @@ type LinuxBoxConfig struct {
 	CPU float64 `json:"cpu,required"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
-	Envs any `json:"envs,required"`
+	Envs map[string]string `json:"envs,required"`
 	// Key-value pairs of labels for the box. Labels are used to add custom metadata to
 	// help identify, categorize, and manage boxes. Common use cases include project
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
-	Labels any `json:"labels,required"`
+	Labels map[string]string `json:"labels,required"`
 	// Memory allocated to the box in MB
 	Memory float64 `json:"memory,required"`
 	// Linux operating system configuration
@@ -652,8 +652,8 @@ func (r *V1BoxGetResponseUnion) UnmarshalJSON(data []byte) error {
 // [V1BoxGetResponseUnion].
 type V1BoxGetResponseUnionConfig struct {
 	CPU    float64 `json:"cpu"`
-	Envs   any     `json:"envs"`
-	Labels any     `json:"labels"`
+	Envs   string  `json:"envs"`
+	Labels string  `json:"labels"`
 	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxGetResponseUnionConfigOs `json:"os"`
@@ -820,8 +820,8 @@ func (r *V1BoxListResponseDataUnion) UnmarshalJSON(data []byte) error {
 // [V1BoxListResponseDataUnion].
 type V1BoxListResponseDataUnionConfig struct {
 	CPU    float64 `json:"cpu"`
-	Envs   any     `json:"envs"`
-	Labels any     `json:"labels"`
+	Envs   string  `json:"envs"`
+	Labels string  `json:"labels"`
 	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxListResponseDataUnionConfigOs `json:"os"`
@@ -1027,8 +1027,8 @@ func (r *V1BoxStartResponseUnion) UnmarshalJSON(data []byte) error {
 // [V1BoxStartResponseUnion].
 type V1BoxStartResponseUnionConfig struct {
 	CPU    float64 `json:"cpu"`
-	Envs   any     `json:"envs"`
-	Labels any     `json:"labels"`
+	Envs   string  `json:"envs"`
+	Labels string  `json:"labels"`
 	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxStartResponseUnionConfigOs `json:"os"`
@@ -1168,8 +1168,8 @@ func (r *V1BoxStopResponseUnion) UnmarshalJSON(data []byte) error {
 // [V1BoxStopResponseUnion].
 type V1BoxStopResponseUnionConfig struct {
 	CPU    float64 `json:"cpu"`
-	Envs   any     `json:"envs"`
-	Labels any     `json:"labels"`
+	Envs   string  `json:"envs"`
+	Labels string  `json:"labels"`
 	Memory float64 `json:"memory"`
 	// This field is a union of [LinuxBoxConfigOs], [AndroidBoxConfigOs]
 	Os V1BoxStopResponseUnionConfigOs `json:"os"`

@@ -83,12 +83,12 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
 			Config: gboxsdk.CreateAndroidBoxConfigParam{
 				DeviceType: "virtual",
-				Envs: map[string]interface{}{
+				Envs: map[string]string{
 					"ANDROID_LOG_TAGS": "*:V",
 					"ADB_TRACE":        "all",
 				},
 				ExpiresIn: gboxsdk.String("15m"),
-				Labels: map[string]interface{}{
+				Labels: map[string]string{
 					"app":     "mobile-testing",
 					"version": "v1.0",
 				},
@@ -121,12 +121,12 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
 			Config: gboxsdk.CreateBoxConfigParam{
-				Envs: map[string]interface{}{
+				Envs: map[string]string{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
 				ExpiresIn: gboxsdk.String("60m"),
-				Labels: map[string]interface{}{
+				Labels: map[string]string{
 					"project":     "web-automation",
 					"environment": "testing",
 					"owner":       "john-doe",
