@@ -253,7 +253,7 @@ type AndroidApp struct {
 	ApkPath string `json:"apkPath,required"`
 	// Application type: system or third-party
 	//
-	// Any of "system", "third-party".
+	// Any of "system", "thirdParty".
 	AppType AndroidAppAppType `json:"appType,required"`
 	// Whether the application is currently running
 	IsRunning bool `json:"isRunning,required"`
@@ -287,7 +287,7 @@ type AndroidAppAppType string
 
 const (
 	AndroidAppAppTypeSystem     AndroidAppAppType = "system"
-	AndroidAppAppTypeThirdParty AndroidAppAppType = "third-party"
+	AndroidAppAppTypeThirdParty AndroidAppAppType = "thirdParty"
 )
 
 // Response containing list of Android apps
@@ -335,7 +335,7 @@ type V1BoxAndroidInstallResponse struct {
 	ApkPath string `json:"apkPath,required"`
 	// Application type: system or third-party
 	//
-	// Any of "system", "third-party".
+	// Any of "system", "thirdParty".
 	AppType V1BoxAndroidInstallResponseAppType `json:"appType,required"`
 	// Android app package name
 	PackageName string `json:"packageName,required"`
@@ -396,7 +396,7 @@ type V1BoxAndroidInstallResponseAppType string
 
 const (
 	V1BoxAndroidInstallResponseAppTypeSystem     V1BoxAndroidInstallResponseAppType = "system"
-	V1BoxAndroidInstallResponseAppTypeThirdParty V1BoxAndroidInstallResponseAppType = "third-party"
+	V1BoxAndroidInstallResponseAppTypeThirdParty V1BoxAndroidInstallResponseAppType = "thirdParty"
 )
 
 type V1BoxAndroidListActivitiesResponse struct {
@@ -474,7 +474,7 @@ type V1BoxAndroidListSimpleResponseData struct {
 	ApkPath string `json:"apkPath,required"`
 	// Application type: system or third-party
 	//
-	// Any of "system", "third-party".
+	// Any of "system", "thirdParty".
 	AppType string `json:"appType,required"`
 	// Android app package name
 	PackageName string `json:"packageName,required"`
@@ -495,12 +495,15 @@ func (r *V1BoxAndroidListSimpleResponseData) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxAndroidListParams struct {
-	// Whether to include running apps, default is all
-	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
 	// Application type: system or third-party, default is third-party
 	//
-	// Any of "system", "third-party".
-	AppType V1BoxAndroidListParamsAppType `query:"appType,omitzero" json:"-"`
+	// Any of "system", "thirdParty".
+	AppType []string `query:"appType,omitzero" json:"-"`
+	// Filter apps by running status: running (show only running apps), notRunning
+	// (show only non-running apps). Default is all
+	//
+	// Any of "running", "notRunning".
+	RunningFilter []string `query:"runningFilter,omitzero" json:"-"`
 	paramObj
 }
 
@@ -511,14 +514,6 @@ func (r V1BoxAndroidListParams) URLQuery() (v url.Values, err error) {
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
-
-// Application type: system or third-party, default is third-party
-type V1BoxAndroidListParamsAppType string
-
-const (
-	V1BoxAndroidListParamsAppTypeSystem     V1BoxAndroidListParamsAppType = "system"
-	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
-)
 
 type V1BoxAndroidBackupParams struct {
 	BoxID string `path:"boxId,required" json:"-"`
@@ -611,8 +606,8 @@ type V1BoxAndroidListActivitiesParams struct {
 type V1BoxAndroidListSimpleParams struct {
 	// Application type: system or third-party, default is third-party
 	//
-	// Any of "system", "third-party".
-	AppType V1BoxAndroidListSimpleParamsAppType `query:"appType,omitzero" json:"-"`
+	// Any of "system", "thirdParty".
+	AppType []string `query:"appType,omitzero" json:"-"`
 	paramObj
 }
 
@@ -624,14 +619,6 @@ func (r V1BoxAndroidListSimpleParams) URLQuery() (v url.Values, err error) {
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
-
-// Application type: system or third-party, default is third-party
-type V1BoxAndroidListSimpleParamsAppType string
-
-const (
-	V1BoxAndroidListSimpleParamsAppTypeSystem     V1BoxAndroidListSimpleParamsAppType = "system"
-	V1BoxAndroidListSimpleParamsAppTypeThirdParty V1BoxAndroidListSimpleParamsAppType = "third-party"
-)
 
 type V1BoxAndroidOpenParams struct {
 	BoxID string `path:"boxId,required" json:"-"`

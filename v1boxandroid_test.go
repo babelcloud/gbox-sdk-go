@@ -34,8 +34,8 @@ func TestV1BoxAndroidListWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidListParams{
-			AppType:   gboxsdk.V1BoxAndroidListParamsAppTypeSystem,
-			IsRunning: gboxsdk.Bool(true),
+			AppType:       []string{"thirdParty"},
+			RunningFilter: []string{"running", "notRunning"},
 		},
 	)
 	if err != nil {
@@ -300,7 +300,7 @@ func TestV1BoxAndroidListSimpleWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxAndroidListSimpleParams{
-			AppType: gboxsdk.V1BoxAndroidListSimpleParamsAppTypeSystem,
+			AppType: []string{"thirdParty"},
 		},
 	)
 	if err != nil {
