@@ -269,7 +269,7 @@ type V1BoxAndroidGetResponse struct {
 	Name string `json:"name,required"`
 	// Android package name
 	PackageName string `json:"packageName,required"`
-	// Package type: system or third-party
+	// Package type: system or thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType V1BoxAndroidGetResponsePkgType `json:"pkgType,required"`
@@ -294,7 +294,7 @@ func (r *V1BoxAndroidGetResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Package type: system or third-party
+// Package type: system or thirdParty
 type V1BoxAndroidGetResponsePkgType string
 
 const (
@@ -329,7 +329,7 @@ type V1BoxAndroidInstallResponse struct {
 	ApkPath string `json:"apkPath,required"`
 	// Android pkg package name
 	PackageName string `json:"packageName,required"`
-	// Package type: system or third-party
+	// Package type: system or thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType V1BoxAndroidInstallResponsePkgType `json:"pkgType,required"`
@@ -385,7 +385,7 @@ func (r *V1BoxAndroidInstallResponseActivity) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Package type: system or third-party
+// Package type: system or thirdParty
 type V1BoxAndroidInstallResponsePkgType string
 
 const (
@@ -473,7 +473,7 @@ type V1BoxAndroidListAppResponseData struct {
 	Name string `json:"name,required"`
 	// Android package name
 	PackageName string `json:"packageName,required"`
-	// Package type: system or third-party
+	// Package type: system or thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType string `json:"pkgType,required"`
@@ -526,7 +526,7 @@ type V1BoxAndroidListPkgResponseData struct {
 	Name string `json:"name,required"`
 	// Android package name
 	PackageName string `json:"packageName,required"`
-	// Package type: system or third-party
+	// Package type: system or thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType string `json:"pkgType,required"`
@@ -574,7 +574,7 @@ type V1BoxAndroidListPkgSimpleResponseData struct {
 	ApkPath string `json:"apkPath,required"`
 	// Android pkg package name
 	PackageName string `json:"packageName,required"`
-	// Package type: system or third-party
+	// Package type: system or thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType string `json:"pkgType,required"`
@@ -683,7 +683,7 @@ type V1BoxAndroidListActivitiesParams struct {
 }
 
 type V1BoxAndroidListPkgParams struct {
-	// Package type: system or third-party, default is third-party
+	// Package type: system or thirdParty, default is thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType []string `query:"pkgType,omitzero" json:"-"`
@@ -705,7 +705,7 @@ func (r V1BoxAndroidListPkgParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxAndroidListPkgSimpleParams struct {
-	// Package type: system or third-party, default is third-party
+	// Package type: system or thirdParty, default is thirdParty
 	//
 	// Any of "system", "thirdParty".
 	PkgType []string `query:"pkgType,omitzero" json:"-"`
