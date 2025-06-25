@@ -219,13 +219,13 @@ type AndroidBoxConfig struct {
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
 	Labels map[string]string `json:"labels,required"`
-	// Memory allocated to the box in MB
+	// Memory allocated to the box in MiB
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
 	Os AndroidBoxConfigOs `json:"os,required"`
 	// Box display resolution configuration
 	Resolution AndroidBoxConfigResolution `json:"resolution,required"`
-	// Storage allocated to the box in GB
+	// Storage allocated to the box in GiB
 	Storage float64 `json:"storage,required"`
 	// Android browser configuration settings
 	Browser AndroidBoxConfigBrowser `json:"browser"`
@@ -490,13 +490,13 @@ type LinuxBoxConfig struct {
 	// names, environments, teams, applications, or any other organizational tags that
 	// help you organize and filter your boxes.
 	Labels map[string]string `json:"labels,required"`
-	// Memory allocated to the box in MB
+	// Memory allocated to the box in MiB
 	Memory float64 `json:"memory,required"`
 	// Linux operating system configuration
 	Os LinuxBoxConfigOs `json:"os,required"`
 	// Box display resolution configuration
 	Resolution LinuxBoxConfigResolution `json:"resolution,required"`
-	// Storage allocated to the box in GB.
+	// Storage allocated to the box in GiB.
 	Storage float64 `json:"storage,required"`
 	// Linux browser configuration settings
 	Browser LinuxBoxConfigBrowser `json:"browser"`
