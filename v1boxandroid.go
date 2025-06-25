@@ -117,9 +117,8 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 }
 
 // Get app
-func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -129,7 +128,7 @@ func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, qu
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.BoxID, packageName)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
@@ -274,6 +273,30 @@ func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string,
 	path := fmt.Sprintf("boxes/%s/android/packages/%s", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, params, nil, opts...)
 	return
+}
+
+// Android app
+type AndroidApp struct {
+	// Activity class name
+	ActivityClassName string `json:"activityClassName,required"`
+	// Activity name
+	ActivityName string `json:"activityName,required"`
+	// App package name
+	PkgName string `json:"pkgName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActivityClassName respjson.Field
+		ActivityName      respjson.Field
+		PkgName           respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AndroidApp) RawJSON() string { return r.JSON.raw }
+func (r *AndroidApp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // Android pkg information

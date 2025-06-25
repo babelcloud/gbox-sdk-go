@@ -187,7 +187,7 @@ func TestV1BoxAndroidGetApp(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Android.GetApp(
+	_, err := client.V1.Boxes.Android.GetApp(
 		context.TODO(),
 		"com.example.myapp",
 		gboxsdk.V1BoxAndroidGetAppParams{
