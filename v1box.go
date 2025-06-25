@@ -362,7 +362,10 @@ func (r *CreateAndroidBoxParam) UnmarshalJSON(data []byte) error {
 
 // Configuration for a Android box instance
 type CreateAndroidBoxConfigParam struct {
-	// The box will be alive for the given duration (e.g. '10m')
+	// The box will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	// Device type - virtual or physical Android device
 	//
@@ -395,7 +398,10 @@ func init() {
 
 // Configuration for a box instance
 type CreateBoxConfigParam struct {
-	// The box will be alive for the given duration (e.g. '10m')
+	// The box will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
@@ -1340,9 +1346,11 @@ func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
 type V1BoxExecuteCommandsParams struct {
 	// The command to run. Can be a single string or an array of strings
 	Commands V1BoxExecuteCommandsParamsCommandsUnion `json:"commands,omitzero,required"`
-	// The timeout of the command. e.g. '30s' or '1m' or '1h'. If the command times
-	// out, the exit code will be 124. For example: 'timeout 5s sleep 10s' will result
-	// in exit code 124.
+	// The timeout of the command. If the command times out, the exit code will be 124.
+	// For example: 'timeout 5s sleep 10s' will result in exit code 124.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30s
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the command. It not provided, the command will be run
 	// in the `box.config.workingDir` directory.
@@ -1386,8 +1394,10 @@ func (u *V1BoxExecuteCommandsParamsCommandsUnion) asAny() any {
 }
 
 type V1BoxLiveViewURLParams struct {
-	// The live view will be alive for the given duration (e.g. '10m' or '1h'). Default
-	// is 180m.
+	// The live view will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 180m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	paramObj
 }
@@ -1403,8 +1413,11 @@ func (r *V1BoxLiveViewURLParams) UnmarshalJSON(data []byte) error {
 type V1BoxRunCodeParams struct {
 	// The code to run
 	Code string `json:"code,required"`
-	// The timeout of the code execution. e.g. "30s" or "1m" or "1h". If the code
-	// execution times out, the exit code will be 124.
+	// The timeout of the code execution. If the code execution times out, the exit
+	// code will be 124.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30s
 	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// The working directory of the code. It not provided, the code will be run in the
 	// `box.config.workingDir` directory.
@@ -1481,8 +1494,10 @@ func (r *V1BoxTerminateParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxWebTerminalURLParams struct {
-	// The web terminal will be alive for the given duration (e.g. '10m' or '1h').
-	// Default is 180m.
+	// The web terminal will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 180m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	paramObj
 }

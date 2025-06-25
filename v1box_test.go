@@ -235,7 +235,7 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 				"DEBUG":      "true",
 			},
 			Language:   gboxsdk.V1BoxRunCodeParamsLanguagePython,
-			Timeout:    gboxsdk.String("timeout"),
+			Timeout:    gboxsdk.String("30s"),
 			WorkingDir: gboxsdk.String("/home/user/scripts"),
 		},
 	)
