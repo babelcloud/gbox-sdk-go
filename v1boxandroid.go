@@ -393,6 +393,7 @@ const (
 	V1BoxAndroidInstallResponsePkgTypeThirdParty V1BoxAndroidInstallResponsePkgType = "thirdParty"
 )
 
+// Android pkg activity list
 type V1BoxAndroidListActivitiesResponse struct {
 	// Activity list
 	Data []V1BoxAndroidListActivitiesResponseData `json:"data,required"`
@@ -569,6 +570,7 @@ func (r *V1BoxAndroidListPkgSimpleResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Android pkg simple
 type V1BoxAndroidListPkgSimpleResponseData struct {
 	// Android apk path
 	ApkPath string `json:"apkPath,required"`
