@@ -2264,9 +2264,9 @@ func init() {
 //
 // The properties End, Start are required.
 type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
-	// End point of the swipe path
+	// Swipe path
 	End V1BoxActionSwipeParamsBodySwipeAdvancedEnd `json:"end,omitzero,required"`
-	// Start point of the swipe path
+	// Swipe path
 	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
 	// Duration of the swipe
 	//
@@ -2312,7 +2312,7 @@ func init() {
 	)
 }
 
-// End point of the swipe path
+// Swipe path
 //
 // The properties X, Y are required.
 type V1BoxActionSwipeParamsBodySwipeAdvancedEnd struct {
@@ -2331,7 +2331,7 @@ func (r *V1BoxActionSwipeParamsBodySwipeAdvancedEnd) UnmarshalJSON(data []byte) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Start point of the swipe path
+// Swipe path
 //
 // The properties X, Y are required.
 type V1BoxActionSwipeParamsBodySwipeAdvancedStart struct {
