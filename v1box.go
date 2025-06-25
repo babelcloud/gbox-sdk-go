@@ -397,11 +397,6 @@ func init() {
 
 // Configuration for a box instance
 type CreateBoxConfigParam struct {
-	// The box will be alive for the given duration
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
-	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
 	Envs map[string]string `json:"envs,omitzero"`
@@ -423,6 +418,11 @@ func (r *CreateBoxConfigParam) UnmarshalJSON(data []byte) error {
 
 // Request body for creating a new Linux box instance
 type CreateLinuxBoxParam struct {
+	// The box will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a box instance
