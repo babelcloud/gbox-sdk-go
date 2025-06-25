@@ -125,7 +125,6 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
-				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]string{
 					"project":     "web-automation",
 					"environment": "testing",
@@ -133,7 +132,8 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"purpose":     "e2e-testing",
 				},
 			},
-			Wait: gboxsdk.Bool(true),
+			ExpiresIn: gboxsdk.String("60m"),
+			Wait:      gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
