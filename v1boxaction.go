@@ -1785,7 +1785,10 @@ type V1BoxActionClickParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Mouse button to click
 	//
@@ -1827,6 +1830,9 @@ type V1BoxActionDragParams struct {
 	// Path of the drag action as a series of coordinates
 	Path []V1BoxActionDragParamsPath `json:"path,omitzero,required"`
 	// Time interval between points (e.g. "50ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
@@ -1841,7 +1847,10 @@ type V1BoxActionDragParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -1903,7 +1912,10 @@ type V1BoxActionMoveParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -1947,7 +1959,10 @@ type V1BoxActionPressButtonParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2003,7 +2018,10 @@ type V1BoxActionPressKeyParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2127,7 +2145,10 @@ type V1BoxActionScrollParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2192,6 +2213,9 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// from the center of the screen to the screen edge
 	Distance param.Opt[float64] `json:"distance,omitzero"`
 	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
@@ -2206,7 +2230,10 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2242,6 +2269,9 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// Start point of the swipe path
 	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
 	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
@@ -2256,7 +2286,10 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2333,7 +2366,10 @@ type V1BoxActionTouchParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
@@ -2412,7 +2448,10 @@ type V1BoxActionTypeParams struct {
 	// 4. Take screenshot after action
 	//
 	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot. Maximum allowed delay is 30s.
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Type of the URI. default is base64.
 	//
