@@ -575,15 +575,32 @@ func (r *V1BoxFRenameResponseDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Response after writing file content
+// File system file representation
 type V1BoxFWriteResponse struct {
-	// Success message
-	Message string `json:"message,required"`
+	// Last modified time of the file
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// File metadata
+	Mode string `json:"mode,required"`
+	// Name of the file
+	Name string `json:"name,required"`
+	// Full path to the file in the box
+	Path string `json:"path,required"`
+	// Size of the file
+	Size string `json:"size,required"`
+	// File type indicator
+	//
+	// Any of "file".
+	Type V1BoxFWriteResponseType `json:"type,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -592,6 +609,13 @@ func (r V1BoxFWriteResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxFWriteResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// File type indicator
+type V1BoxFWriteResponseType string
+
+const (
+	V1BoxFWriteResponseTypeFile V1BoxFWriteResponseType = "file"
+)
 
 type V1BoxFListParams struct {
 	// Target directory path in the box
