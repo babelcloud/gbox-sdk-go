@@ -445,6 +445,7 @@ func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Android app list
 type V1BoxAndroidListAppResponse struct {
 	// App list
 	Data []V1BoxAndroidListAppResponseData `json:"data,required"`
