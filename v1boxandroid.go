@@ -100,7 +100,7 @@ func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts .
 	return
 }
 
-// Get app
+// Get pkg
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *V1BoxAndroidGetResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if query.BoxID == "" {
@@ -113,6 +113,23 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 	}
 	path := fmt.Sprintf("boxes/%s/android/packages/%s", query.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Get app
+func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.BoxID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
 	return
 }
 
@@ -607,6 +624,11 @@ type V1BoxAndroidCloseParams struct {
 }
 
 type V1BoxAndroidGetParams struct {
+	BoxID string `path:"boxId,required" json:"-"`
+	paramObj
+}
+
+type V1BoxAndroidGetAppParams struct {
 	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
