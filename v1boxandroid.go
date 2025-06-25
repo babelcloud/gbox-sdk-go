@@ -489,7 +489,7 @@ func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) erro
 // Android app list
 type V1BoxAndroidListAppResponse struct {
 	// App list
-	Data []V1BoxAndroidListAppResponseData `json:"data,required"`
+	Data []AndroidApp `json:"data,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -501,41 +501,6 @@ type V1BoxAndroidListAppResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxAndroidListAppResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidListAppResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Android pkg information
-type V1BoxAndroidListAppResponseData struct {
-	// Android apk path
-	ApkPath string `json:"apkPath,required"`
-	// Whether the pkg is currently running
-	IsRunning bool `json:"isRunning,required"`
-	// Android pkg name
-	Name string `json:"name,required"`
-	// Android package name
-	PackageName string `json:"packageName,required"`
-	// Package type: system or thirdParty
-	//
-	// Any of "system", "thirdParty".
-	PkgType string `json:"pkgType,required"`
-	// Android pkg version
-	Version string `json:"version,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		ApkPath     respjson.Field
-		IsRunning   respjson.Field
-		Name        respjson.Field
-		PackageName respjson.Field
-		PkgType     respjson.Field
-		Version     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxAndroidListAppResponseData) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxAndroidListAppResponseData) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
