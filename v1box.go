@@ -179,7 +179,7 @@ type AndroidBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error", "terminated".
+	// Any of "pending", "running", "error", "terminated".
 	Status AndroidBoxStatus `json:"status,required"`
 	// Box type is Android
 	//
@@ -331,7 +331,6 @@ type AndroidBoxStatus string
 const (
 	AndroidBoxStatusPending    AndroidBoxStatus = "pending"
 	AndroidBoxStatusRunning    AndroidBoxStatus = "running"
-	AndroidBoxStatusStopped    AndroidBoxStatus = "stopped"
 	AndroidBoxStatusError      AndroidBoxStatus = "error"
 	AndroidBoxStatusTerminated AndroidBoxStatus = "terminated"
 )
@@ -451,7 +450,7 @@ type LinuxBox struct {
 	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
-	// Any of "pending", "running", "stopped", "error", "terminated".
+	// Any of "pending", "running", "error", "terminated".
 	Status LinuxBoxStatus `json:"status,required"`
 	// Box type is Linux
 	//
@@ -596,7 +595,6 @@ type LinuxBoxStatus string
 const (
 	LinuxBoxStatusPending    LinuxBoxStatus = "pending"
 	LinuxBoxStatusRunning    LinuxBoxStatus = "running"
-	LinuxBoxStatusStopped    LinuxBoxStatus = "stopped"
 	LinuxBoxStatusError      LinuxBoxStatus = "error"
 	LinuxBoxStatusTerminated LinuxBoxStatus = "terminated"
 )
@@ -1299,7 +1297,7 @@ type V1BoxListParams struct {
 	// terminated, all). Must be an array of statuses. Use 'all' to get boxes with any
 	// status.
 	//
-	// Any of "all", "pending", "running", "stopped", "error", "terminated".
+	// Any of "all", "pending", "running", "error", "terminated".
 	Status []string `query:"status,omitzero" json:"-"`
 	// Filter boxes by their type (linux, android, all). Must be an array of types. Use
 	// 'all' to get boxes of any type.
