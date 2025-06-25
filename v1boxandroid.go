@@ -184,7 +184,7 @@ func (r *V1BoxAndroidService) ListApp(ctx context.Context, boxID string, opts ..
 	return
 }
 
-// Retrieve detailed information for all installed pkgs. This endpoint provides
+// Retrieve detailed information for all installed pkg. This endpoint provides
 // comprehensive pkg details
 func (r *V1BoxAndroidService) ListPkg(ctx context.Context, boxID string, query V1BoxAndroidListPkgParams, opts ...option.RequestOption) (res *V1BoxAndroidListPkgResponse, err error) {
 	opts = append(r.Options[:], opts...)
