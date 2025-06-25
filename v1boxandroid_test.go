@@ -17,36 +17,6 @@ import (
 
 )
 
-func TestV1BoxAndroidListWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Android.List(
-		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxAndroidListParams{
-			AppType:       []string{"thirdParty"},
-			RunningFilter: []string{"running", "notRunning"},
-		},
-	)
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
 func TestV1BoxAndroidBackup(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -283,7 +253,7 @@ func TestV1BoxAndroidListActivities(t *testing.T) {
 	}
 }
 
-func TestV1BoxAndroidListSimpleWithOptionalParams(t *testing.T) {
+func TestV1BoxAndroidListApp(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -296,11 +266,64 @@ func TestV1BoxAndroidListSimpleWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Android.ListSimple(
+	_, err := client.V1.Boxes.Android.ListApp(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxAndroidListPkgWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Android.ListPkg(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxAndroidListSimpleParams{
-			AppType: []string{"thirdParty"},
+		gboxsdk.V1BoxAndroidListPkgParams{
+			PkgType:       []string{"thirdParty"},
+			RunningFilter: []string{"running", "notRunning"},
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxAndroidListPkgSimpleWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Android.ListPkgSimple(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxAndroidListPkgSimpleParams{
+			PkgType: []string{"thirdParty"},
 		},
 	)
 	if err != nil {
