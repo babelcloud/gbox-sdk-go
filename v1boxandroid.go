@@ -282,12 +282,12 @@ type AndroidApp struct {
 	// Activity name
 	ActivityName string `json:"activityName,required"`
 	// App package name
-	PkgName string `json:"pkgName,required"`
+	PackageName string `json:"packageName,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ActivityClassName respjson.Field
 		ActivityName      respjson.Field
-		PkgName           respjson.Field
+		PackageName       respjson.Field
 		ExtraFields       map[string]respjson.Field
 		raw               string
 	} `json:"-"`
