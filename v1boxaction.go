@@ -190,13 +190,13 @@ func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxA
 
 // V1BoxActionAIResponseUnion contains all possible properties and values from
 // [V1BoxActionAIResponseAIActionScreenshotResult],
-// [V1BoxActionAIResponseAIActionResultDto].
+// [V1BoxActionAIResponseAIActionResult].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxActionAIResponseUnion struct {
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponse],
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponse]
+	// [V1BoxActionAIResponseAIActionResultAIResponse]
 	AIResponse V1BoxActionAIResponseUnionAIResponse `json:"aiResponse"`
 	Message    string                               `json:"message"`
 	// This field is from variant [V1BoxActionAIResponseAIActionScreenshotResult].
@@ -214,7 +214,7 @@ func (u V1BoxActionAIResponseUnion) AsAIActionScreenshotResult() (v V1BoxActionA
 	return
 }
 
-func (u V1BoxActionAIResponseUnion) AsV1BoxActionAIResponseAIActionResultDto() (v V1BoxActionAIResponseAIActionResultDto) {
+func (u V1BoxActionAIResponseUnion) AsAIActionResult() (v V1BoxActionAIResponseAIActionResult) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -235,7 +235,7 @@ func (r *V1BoxActionAIResponseUnion) UnmarshalJSON(data []byte) error {
 type V1BoxActionAIResponseUnionAIResponse struct {
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion],
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionUnion]
 	Action    V1BoxActionAIResponseUnionAIResponseAction `json:"action"`
 	Messages  [][]any                                    `json:"messages"`
 	Model     string                                     `json:"model"`
@@ -269,11 +269,11 @@ type V1BoxActionAIResponseUnionAIResponseAction struct {
 	ScreenshotDelay   string  `json:"screenshotDelay"`
 	// This field is a union of
 	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint],
-	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint]
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint]
 	Points V1BoxActionAIResponseUnionAIResponseActionPoints `json:"points"`
 	// This field is a union of
 	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath],
-	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath]
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath]
 	Path      V1BoxActionAIResponseUnionAIResponseActionPath `json:"path"`
 	Duration  string                                         `json:"duration"`
 	ScrollX   float64                                        `json:"scrollX"`
@@ -282,11 +282,11 @@ type V1BoxActionAIResponseUnionAIResponseAction struct {
 	Distance  float64                                        `json:"distance"`
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd],
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd]
 	End V1BoxActionAIResponseUnionAIResponseActionEnd `json:"end"`
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart],
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart]
 	Start   V1BoxActionAIResponseUnionAIResponseActionStart `json:"start"`
 	Keys    []string                                        `json:"keys"`
 	Buttons []string                                        `json:"buttons"`
@@ -294,7 +294,7 @@ type V1BoxActionAIResponseUnionAIResponseAction struct {
 	Angle   float64                                         `json:"angle"`
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip],
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip]
 	Clip V1BoxActionAIResponseUnionAIResponseActionClip `json:"clip"`
 	JSON struct {
 		X                 respjson.Field
@@ -336,19 +336,19 @@ func (r *V1BoxActionAIResponseUnionAIResponseAction) UnmarshalJSON(data []byte) 
 // If the underlying value is not a json object, one of the following properties
 // will be valid:
 // OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints
-// OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints]
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints]
 type V1BoxActionAIResponseUnionAIResponseActionPoints struct {
 	// This field will be present if the value is a
 	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint]
 	// instead of an object.
 	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:",inline"`
 	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint]
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint]
 	// instead of an object.
-	OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:",inline"`
-	JSON                                                                           struct {
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:",inline"`
+	JSON                                                                        struct {
 		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints respjson.Field
-		OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints        respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints           respjson.Field
 		raw                                                                                   string
 	} `json:"-"`
 }
@@ -367,19 +367,19 @@ func (r *V1BoxActionAIResponseUnionAIResponseActionPoints) UnmarshalJSON(data []
 // If the underlying value is not a json object, one of the following properties
 // will be valid:
 // OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray
-// OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray]
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray]
 type V1BoxActionAIResponseUnionAIResponseActionPath struct {
 	// This field will be present if the value is a
 	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath]
 	// instead of an object.
 	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:",inline"`
 	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath]
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath]
 	// instead of an object.
-	OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:",inline"`
-	JSON                                                                             struct {
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath `json:",inline"`
+	JSON                                                                          struct {
 		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray respjson.Field
-		OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray        respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray           respjson.Field
 		raw                                                                                     string
 	} `json:"-"`
 }
@@ -1452,9 +1452,10 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace) Unmarshal
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDto struct {
+// Result of AI action execution
+type V1BoxActionAIResponseAIActionResult struct {
 	// Response of AI action execution
-	AIResponse V1BoxActionAIResponseAIActionResultDtoAIResponse `json:"aiResponse,required"`
+	AIResponse V1BoxActionAIResponseAIActionResultAIResponse `json:"aiResponse,required"`
 	// message
 	Message string `json:"message,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -1467,15 +1468,15 @@ type V1BoxActionAIResponseAIActionResultDto struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDto) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionAIResponseAIActionResultDto) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionAIResponseAIActionResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Response of AI action execution
-type V1BoxActionAIResponseAIActionResultDtoAIResponse struct {
+type V1BoxActionAIResponseAIActionResultAIResponse struct {
 	// Action to be executed by the AI with type identifier
-	Action V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion `json:"action,required"`
+	Action V1BoxActionAIResponseAIActionResultAIResponseActionUnion `json:"action,required"`
 	// message
 	Messages [][]any `json:"messages,required"`
 	// model
@@ -1494,77 +1495,77 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionAIResponseAIActionResultAIResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionResultAIResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion contains all
-// possible properties and values from
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction],
-// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction].
+// V1BoxActionAIResponseAIActionResultAIResponseActionUnion contains all possible
+// properties and values from
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction].
 	Button string `json:"button"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction].
 	Double            bool   `json:"double"`
 	IncludeScreenshot bool   `json:"includeScreenshot"`
 	OutputFormat      string `json:"outputFormat"`
 	ScreenshotDelay   string `json:"screenshotDelay"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction].
-	Points []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:"points"`
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction].
+	Points []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:"points"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction].
-	Path     []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:"path"`
-	Duration string                                                                      `json:"duration"`
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction].
+	Path     []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath `json:"path"`
+	Duration string                                                                   `json:"duration"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction].
 	ScrollX float64 `json:"scrollX"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction].
 	ScrollY   float64 `json:"scrollY"`
 	Direction string  `json:"direction"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
 	Distance float64 `json:"distance"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction].
-	End V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd `json:"end"`
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction].
+	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction].
-	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart `json:"start"`
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction].
+	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction].
 	Buttons []string `json:"buttons"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction].
 	Text string `json:"text"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction].
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction].
 	Angle float64 `json:"angle"`
 	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction].
-	Clip V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
+	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	JSON struct {
 		X                 respjson.Field
 		Y                 respjson.Field
@@ -1591,76 +1592,74 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
 // Returns the unmodified JSON received from the API
-func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) RawJSON() string {
-	return u.JSON.raw
-}
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) RawJSON() string { return u.JSON.raw }
 
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction struct {
 	// X coordinate of the click
 	X float64 `json:"x,required"`
 	// Y coordinate of the click
@@ -1708,16 +1707,16 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction stru
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction struct {
 	// Array of touch points and their actions
-	Points []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:"points,required"`
+	Points []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
@@ -1752,17 +1751,17 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction stru
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Touch point configuration with start position and actions
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint struct {
 	// Initial touch point position
-	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart `json:"start,required"`
+	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart `json:"start,required"`
 	// Sequence of actions to perform after initial touch
 	Actions []any `json:"actions"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -1775,15 +1774,15 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Initial touch point position
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart struct {
 	// Starting X coordinate
 	X float64 `json:"x,required"`
 	// Starting Y coordinate
@@ -1798,16 +1797,16 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction struct {
 	// Path of the drag action as a series of coordinates
-	Path []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:"path,required"`
+	Path []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath `json:"path,required"`
 	// Time interval between points (e.g. "50ms")
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -1848,15 +1847,15 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction struc
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Single point in a drag path
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath struct {
 	// X coordinate of a point in the drag path
 	X float64 `json:"x,required"`
 	// Y coordinate of a point in the drag path
@@ -1871,14 +1870,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath s
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct {
 	// Horizontal scroll amount
 	ScrollX float64 `json:"scrollX,required"`
 	// Vertical scroll amount
@@ -1924,14 +1923,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction str
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction struct {
 	// Direction to swipe. The gesture will be performed from the center of the screen
 	// towards this direction.
 	//
@@ -1982,18 +1981,18 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleActio
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction struct {
 	// Swipe path
-	End V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
+	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
 	// Swipe path
-	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
+	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -2035,15 +2034,15 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAct
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Swipe path
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd struct {
 	// Start/end x coordinate of the swipe path
 	X float64 `json:"x,required"`
 	// Start/end y coordinate of the swipe path
@@ -2058,15 +2057,15 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAct
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Swipe path
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart struct {
 	// Start/end x coordinate of the swipe path
 	X float64 `json:"x,required"`
 	// Start/end y coordinate of the swipe path
@@ -2081,14 +2080,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAct
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction struct {
 	// This is an array of keyboard keys to press. Supports cross-platform
 	// compatibility.
 	//
@@ -2140,14 +2139,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction s
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction struct {
 	// Button to press
 	//
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
@@ -2187,14 +2186,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonActio
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	// Text to type
 	Text string `json:"text,required"`
 	// Whether to include screenshots in the action response. If false, the screenshot
@@ -2231,14 +2230,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction struc
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction struct {
 	// X coordinate to move to
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
@@ -2278,14 +2277,14 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction struc
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction struct {
 	// Rotation angle in degrees
 	//
 	// Any of 90, 180, 270.
@@ -2304,16 +2303,16 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAc
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction struct {
 	// Clipping region for screenshot capture
-	Clip V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -2328,15 +2327,15 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Clipping region for screenshot capture
-type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip struct {
 	// Height of the clip
 	Height float64 `json:"height,required"`
 	// Width of the clip
@@ -2357,10 +2356,10 @@ type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
