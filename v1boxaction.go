@@ -595,62 +595,62 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedClickAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedTouchAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedDragAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedScrollAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedPressKeyAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedPressButtonAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedTypeAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedMoveAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction) {
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedScreenshotAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -664,6 +664,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) Unm
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed click action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction struct {
 	// X coordinate of the click
 	X float64 `json:"x,required"`
@@ -719,6 +720,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClick
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed touch action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
@@ -809,6 +811,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouch
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed drag action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction struct {
 	// Path of the drag action as a series of coordinates
 	Path []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:"path,required"`
@@ -882,6 +885,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragA
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed scroll action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction struct {
 	// Horizontal scroll amount
 	ScrollX float64 `json:"scrollX,required"`
@@ -935,6 +939,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrol
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed swipe simple action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction struct {
 	// Direction to swipe. The gesture will be performed from the center of the screen
 	// towards this direction.
@@ -993,6 +998,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipe
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed swipe advanced action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction struct {
 	// Swipe path
 	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
@@ -1092,6 +1098,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipe
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed press key action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction struct {
 	// This is an array of keyboard keys to press. Supports cross-platform
 	// compatibility.
@@ -1151,6 +1158,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPress
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed press button action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction struct {
 	// Button to press
 	//
@@ -1198,6 +1206,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPress
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed type action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction struct {
 	// Text to type
 	Text string `json:"text,required"`
@@ -1242,6 +1251,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeA
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed move action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction struct {
 	// X coordinate to move to
 	X float64 `json:"x,required"`
@@ -1289,6 +1299,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveA
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed screen rotation action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction struct {
 	// Rotation angle in degrees
 	//
@@ -1315,6 +1326,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScree
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed screenshot action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction struct {
 	// Clipping region for screenshot capture
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
@@ -1592,62 +1604,62 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedClickAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedTouchAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedDragAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedScrollAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedPressKeyAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedPressButtonAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedTypeAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedMoveAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction) {
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedScreenshotAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -1659,6 +1671,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnion) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed click action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction struct {
 	// X coordinate of the click
 	X float64 `json:"x,required"`
@@ -1714,6 +1727,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed touch action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
@@ -1804,6 +1818,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoin
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed drag action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAction struct {
 	// Path of the drag action as a series of coordinates
 	Path []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath `json:"path,required"`
@@ -1877,6 +1892,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed scroll action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct {
 	// Horizontal scroll amount
 	ScrollX float64 `json:"scrollX,required"`
@@ -1930,6 +1946,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed swipe simple action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction struct {
 	// Direction to swipe. The gesture will be performed from the center of the screen
 	// towards this direction.
@@ -1988,6 +2005,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActi
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed swipe advanced action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction struct {
 	// Swipe path
 	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
@@ -2087,6 +2105,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAc
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed press key action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction struct {
 	// This is an array of keyboard keys to press. Supports cross-platform
 	// compatibility.
@@ -2146,6 +2165,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed press button action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction struct {
 	// Button to press
 	//
@@ -2193,6 +2213,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonActi
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed type action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	// Text to type
 	Text string `json:"text,required"`
@@ -2237,6 +2258,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction) Unm
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed move action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction struct {
 	// X coordinate to move to
 	X float64 `json:"x,required"`
@@ -2284,6 +2306,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction) Unm
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed screen rotation action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction struct {
 	// Rotation angle in degrees
 	//
@@ -2310,6 +2333,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationA
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed screenshot action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction struct {
 	// Clipping region for screenshot capture
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
