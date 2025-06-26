@@ -13,6 +13,39 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
+func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
+	t.Skip("skipped: tests are disabled for the time being")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Actions.AI(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionAIParams{
+			Instruction:       "click the login button",
+			Background:        gboxsdk.String("The user is on the login page"),
+			IncludeScreenshot: gboxsdk.Bool(false),
+			OutputFormat:      gboxsdk.V1BoxActionAIParamsOutputFormatBase64,
+			ScreenshotDelay:   gboxsdk.String("500ms"),
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
