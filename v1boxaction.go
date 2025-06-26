@@ -35,6 +35,22 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 	return
 }
 
+// Use natural language instructions to perform UI operations on the box. You can
+// describe what you want to do in plain language (e.g., 'click the login button',
+// 'scroll down to find settings', 'input my email address'), and the AI will
+// automatically convert your instruction into the appropriate UI action and
+// execute it on the box.
+func (r *V1BoxActionService) AI(ctx context.Context, boxID string, body V1BoxActionAIParams, opts ...option.RequestOption) (res *V1BoxActionAIResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/ai", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Click
 func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *V1BoxActionClickResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
@@ -170,6 +186,2182 @@ func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxA
 	path := fmt.Sprintf("boxes/%s/actions/type", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
+}
+
+// V1BoxActionAIResponseUnion contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionScreenshotResult],
+// [V1BoxActionAIResponseAIActionResultDto].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionAIResponseUnion struct {
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponse],
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponse]
+	AIResponse V1BoxActionAIResponseUnionAIResponse `json:"aiResponse"`
+	Message    string                               `json:"message"`
+	// This field is from variant [V1BoxActionAIResponseAIActionScreenshotResult].
+	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot"`
+	JSON       struct {
+		AIResponse respjson.Field
+		Message    respjson.Field
+		Screenshot respjson.Field
+		raw        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseUnion) AsAIActionScreenshotResult() (v V1BoxActionAIResponseAIActionScreenshotResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseUnion) AsV1BoxActionAIResponseAIActionResultDto() (v V1BoxActionAIResponseAIActionResultDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxActionAIResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponse is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponse provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+type V1BoxActionAIResponseUnionAIResponse struct {
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion],
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion]
+	Action    V1BoxActionAIResponseUnionAIResponseAction `json:"action"`
+	Messages  [][]any                                    `json:"messages"`
+	Model     string                                     `json:"model"`
+	Reasoning string                                     `json:"reasoning"`
+	JSON      struct {
+		Action    respjson.Field
+		Messages  respjson.Field
+		Model     respjson.Field
+		Reasoning respjson.Field
+		raw       string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseAction is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseAction
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+type V1BoxActionAIResponseUnionAIResponseAction struct {
+	X                 float64 `json:"x"`
+	Y                 float64 `json:"y"`
+	Button            string  `json:"button"`
+	Double            bool    `json:"double"`
+	IncludeScreenshot bool    `json:"includeScreenshot"`
+	OutputFormat      string  `json:"outputFormat"`
+	ScreenshotDelay   string  `json:"screenshotDelay"`
+	// This field is a union of
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint],
+	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint]
+	Points V1BoxActionAIResponseUnionAIResponseActionPoints `json:"points"`
+	// This field is a union of
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath],
+	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath]
+	Path      V1BoxActionAIResponseUnionAIResponseActionPath `json:"path"`
+	Duration  string                                         `json:"duration"`
+	ScrollX   float64                                        `json:"scrollX"`
+	ScrollY   float64                                        `json:"scrollY"`
+	Direction string                                         `json:"direction"`
+	Distance  float64                                        `json:"distance"`
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd],
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd]
+	End V1BoxActionAIResponseUnionAIResponseActionEnd `json:"end"`
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart],
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart]
+	Start   V1BoxActionAIResponseUnionAIResponseActionStart `json:"start"`
+	Keys    []string                                        `json:"keys"`
+	Buttons []string                                        `json:"buttons"`
+	Text    string                                          `json:"text"`
+	Angle   float64                                         `json:"angle"`
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip],
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip]
+	Clip V1BoxActionAIResponseUnionAIResponseActionClip `json:"clip"`
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		Button            respjson.Field
+		Double            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		Points            respjson.Field
+		Path              respjson.Field
+		Duration          respjson.Field
+		ScrollX           respjson.Field
+		ScrollY           respjson.Field
+		Direction         respjson.Field
+		Distance          respjson.Field
+		End               respjson.Field
+		Start             respjson.Field
+		Keys              respjson.Field
+		Buttons           respjson.Field
+		Text              respjson.Field
+		Angle             respjson.Field
+		Clip              respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseActionPoints is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionPoints
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid:
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints
+// OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints]
+type V1BoxActionAIResponseUnionAIResponseActionPoints struct {
+	// This field will be present if the value is a
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint]
+	// instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:",inline"`
+	// This field will be present if the value is a
+	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint]
+	// instead of an object.
+	OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:",inline"`
+	JSON                                                                           struct {
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints respjson.Field
+		OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoints        respjson.Field
+		raw                                                                                   string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseActionPoints) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseActionPath is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionPath
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid:
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray
+// OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray]
+type V1BoxActionAIResponseUnionAIResponseActionPath struct {
+	// This field will be present if the value is a
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath]
+	// instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:",inline"`
+	// This field will be present if the value is a
+	// [[]V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath]
+	// instead of an object.
+	OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:",inline"`
+	JSON                                                                             struct {
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray respjson.Field
+		OfV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPathArray        respjson.Field
+		raw                                                                                     string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseActionPath) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseActionEnd is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionEnd
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+type V1BoxActionAIResponseUnionAIResponseActionEnd struct {
+	X    float64 `json:"x"`
+	Y    float64 `json:"y"`
+	JSON struct {
+		X   respjson.Field
+		Y   respjson.Field
+		raw string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseActionEnd) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseActionStart is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionStart
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+type V1BoxActionAIResponseUnionAIResponseActionStart struct {
+	X    float64 `json:"x"`
+	Y    float64 `json:"y"`
+	JSON struct {
+		X   respjson.Field
+		Y   respjson.Field
+		raw string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseActionStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseUnionAIResponseActionClip is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionClip
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseUnion].
+type V1BoxActionAIResponseUnionAIResponseActionClip struct {
+	Height float64 `json:"height"`
+	Width  float64 `json:"width"`
+	X      float64 `json:"x"`
+	Y      float64 `json:"y"`
+	JSON   struct {
+		Height respjson.Field
+		Width  respjson.Field
+		X      respjson.Field
+		Y      respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseUnionAIResponseActionClip) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of AI action execution with screenshot
+type V1BoxActionAIResponseAIActionScreenshotResult struct {
+	// Response of AI action execution
+	AIResponse V1BoxActionAIResponseAIActionScreenshotResultAIResponse `json:"aiResponse,required"`
+	// message
+	Message string `json:"message,required"`
+	// Complete screenshot result with operation trace, before and after images
+	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AIResponse  respjson.Field
+		Message     respjson.Field
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionScreenshotResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response of AI action execution
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponse struct {
+	// Action to be executed by the AI with type identifier
+	Action V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion `json:"action,required"`
+	// message
+	Messages [][]any `json:"messages,required"`
+	// model
+	Model string `json:"model,required"`
+	// reasoning
+	Reasoning string `json:"reasoning"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Action      respjson.Field
+		Messages    respjson.Field
+		Model       respjson.Field
+		Reasoning   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion contains all
+// possible properties and values from
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction].
+	Button string `json:"button"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction].
+	Double            bool   `json:"double"`
+	IncludeScreenshot bool   `json:"includeScreenshot"`
+	OutputFormat      string `json:"outputFormat"`
+	ScreenshotDelay   string `json:"screenshotDelay"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction].
+	Points []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:"points"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction].
+	Path     []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:"path"`
+	Duration string                                                                             `json:"duration"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction].
+	ScrollX float64 `json:"scrollX"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction].
+	ScrollY   float64 `json:"scrollY"`
+	Direction string  `json:"direction"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
+	Distance float64 `json:"distance"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction].
+	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction].
+	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
+	Keys []string `json:"keys"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction].
+	Buttons []string `json:"buttons"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction].
+	Text string `json:"text"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction].
+	Angle float64 `json:"angle"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
+	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		Button            respjson.Field
+		Double            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		Points            respjson.Field
+		Path              respjson.Field
+		Duration          respjson.Field
+		ScrollX           respjson.Field
+		ScrollY           respjson.Field
+		Direction         respjson.Field
+		Distance          respjson.Field
+		End               respjson.Field
+		Start             respjson.Field
+		Keys              respjson.Field
+		Buttons           respjson.Field
+		Text              respjson.Field
+		Angle             respjson.Field
+		Clip              respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction struct {
+	// X coordinate of the click
+	X float64 `json:"x,required"`
+	// Y coordinate of the click
+	Y float64 `json:"y,required"`
+	// Mouse button to click
+	//
+	// Any of "left", "right", "middle".
+	Button string `json:"button"`
+	// Whether to perform a double click
+	Double bool `json:"double"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		Button            respjson.Field
+		Double            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction struct {
+	// Array of touch points and their actions
+	Points []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Points            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Touch point configuration with start position and actions
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint struct {
+	// Initial touch point position
+	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart `json:"start,required"`
+	// Sequence of actions to perform after initial touch
+	Actions []any `json:"actions"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Start       respjson.Field
+		Actions     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Initial touch point position
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart struct {
+	// Starting X coordinate
+	X float64 `json:"x,required"`
+	// Starting Y coordinate
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction struct {
+	// Path of the drag action as a series of coordinates
+	Path []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:"path,required"`
+	// Time interval between points (e.g. "50ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Path              respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Single point in a drag path
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath struct {
+	// X coordinate of a point in the drag path
+	X float64 `json:"x,required"`
+	// Y coordinate of a point in the drag path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction struct {
+	// Horizontal scroll amount
+	ScrollX float64 `json:"scrollX,required"`
+	// Vertical scroll amount
+	ScrollY float64 `json:"scrollY,required"`
+	// X coordinate of the scroll position
+	X float64 `json:"x,required"`
+	// Y coordinate of the scroll position
+	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ScrollX           respjson.Field
+		ScrollY           respjson.Field
+		X                 respjson.Field
+		Y                 respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction struct {
+	// Direction to swipe. The gesture will be performed from the center of the screen
+	// towards this direction.
+	//
+	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
+	// "downRight".
+	Direction string `json:"direction,required"`
+	// Distance of the swipe in pixels. If not provided, the swipe will be performed
+	// from the center of the screen to the screen edge
+	Distance float64 `json:"distance"`
+	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Direction         respjson.Field
+		Distance          respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction struct {
+	// Swipe path
+	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
+	// Swipe path
+	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
+	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		End               respjson.Field
+		Start             respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Swipe path
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Swipe path
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction struct {
+	// This is an array of keyboard keys to press. Supports cross-platform
+	// compatibility.
+	//
+	// Any of "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+	// "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3",
+	// "4", "5", "6", "7", "8", "9", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8",
+	// "f9", "f10", "f11", "f12", "control", "alt", "shift", "meta", "win", "cmd",
+	// "option", "arrowUp", "arrowDown", "arrowLeft", "arrowRight", "home", "end",
+	// "pageUp", "pageDown", "enter", "space", "tab", "escape", "backspace", "delete",
+	// "insert", "capsLock", "numLock", "scrollLock", "pause", "printScreen", ";", "=",
+	// ",", "-", ".", "/", "`", "[", "\\", "]", "'", "numpad0", "numpad1", "numpad2",
+	// "numpad3", "numpad4", "numpad5", "numpad6", "numpad7", "numpad8", "numpad9",
+	// "numpadAdd", "numpadSubtract", "numpadMultiply", "numpadDivide",
+	// "numpadDecimal", "numpadEnter", "numpadEqual", "volumeUp", "volumeDown",
+	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
+	// "mediaPreviousTrack".
+	Keys []string `json:"keys,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Keys              respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction struct {
+	// Button to press
+	//
+	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
+	// "appSwitch".
+	Buttons []string `json:"buttons,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Buttons           respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction struct {
+	// Text to type
+	Text string `json:"text,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Text              respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction struct {
+	// X coordinate to move to
+	X float64 `json:"x,required"`
+	// Y coordinate to move to
+	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction struct {
+	// Rotation angle in degrees
+	//
+	// Any of 90, 180, 270.
+	Angle float64 `json:"angle,required"`
+	// Rotation direction
+	//
+	// Any of "clockwise", "counter-clockwise".
+	Direction string `json:"direction,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Angle       respjson.Field
+		Direction   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction struct {
+	// Clipping region for screenshot capture
+	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Clip         respjson.Field
+		OutputFormat respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Clipping region for screenshot capture
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip struct {
+	// Height of the clip
+	Height float64 `json:"height,required"`
+	// Width of the clip
+	Width float64 `json:"width,required"`
+	// X coordinate of the clip
+	X float64 `json:"x,required"`
+	// Y coordinate of the clip
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Complete screenshot result with operation trace, before and after images
+type V1BoxActionAIResponseAIActionScreenshotResultScreenshot struct {
+	// Screenshot taken after action execution
+	After V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter `json:"after,required"`
+	// Screenshot taken before action execution
+	Before V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore `json:"before,required"`
+	// Screenshot with action operation trace
+	Trace V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace `json:"trace,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		After       respjson.Field
+		Before      respjson.Field
+		Trace       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultScreenshot) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken after action execution
+type V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter struct {
+	// URI of the screenshot after the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot taken before action execution
+type V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore struct {
+	// URI of the screenshot before the action
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screenshot with action operation trace
+type V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace struct {
+	// URI of the screenshot with operation trace
+	Uri string `json:"uri,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDto struct {
+	// Response of AI action execution
+	AIResponse V1BoxActionAIResponseAIActionResultDtoAIResponse `json:"aiResponse,required"`
+	// message
+	Message string `json:"message,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AIResponse  respjson.Field
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDto) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionResultDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response of AI action execution
+type V1BoxActionAIResponseAIActionResultDtoAIResponse struct {
+	// Action to be executed by the AI with type identifier
+	Action V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion `json:"action,required"`
+	// message
+	Messages [][]any `json:"messages,required"`
+	// model
+	Model string `json:"model,required"`
+	// reasoning
+	Reasoning string `json:"reasoning"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Action      respjson.Field
+		Messages    respjson.Field
+		Model       respjson.Field
+		Reasoning   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion contains all
+// possible properties and values from
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction],
+// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction].
+	Button string `json:"button"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction].
+	Double            bool   `json:"double"`
+	IncludeScreenshot bool   `json:"includeScreenshot"`
+	OutputFormat      string `json:"outputFormat"`
+	ScreenshotDelay   string `json:"screenshotDelay"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction].
+	Points []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:"points"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction].
+	Path     []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:"path"`
+	Duration string                                                                      `json:"duration"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction].
+	ScrollX float64 `json:"scrollX"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction].
+	ScrollY   float64 `json:"scrollY"`
+	Direction string  `json:"direction"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction].
+	Distance float64 `json:"distance"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction].
+	End V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd `json:"end"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction].
+	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart `json:"start"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction].
+	Keys []string `json:"keys"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction].
+	Buttons []string `json:"buttons"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction].
+	Text string `json:"text"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction].
+	Angle float64 `json:"angle"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction].
+	Clip V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		Button            respjson.Field
+		Double            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		Points            respjson.Field
+		Path              respjson.Field
+		Duration          respjson.Field
+		ScrollX           respjson.Field
+		ScrollY           respjson.Field
+		Direction         respjson.Field
+		Distance          respjson.Field
+		End               respjson.Field
+		Start             respjson.Field
+		Keys              respjson.Field
+		Buttons           respjson.Field
+		Text              respjson.Field
+		Angle             respjson.Field
+		Clip              respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) AsV1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction() (v V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction struct {
+	// X coordinate of the click
+	X float64 `json:"x,required"`
+	// Y coordinate of the click
+	Y float64 `json:"y,required"`
+	// Mouse button to click
+	//
+	// Any of "left", "right", "middle".
+	Button string `json:"button"`
+	// Whether to perform a double click
+	Double bool `json:"double"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		Button            respjson.Field
+		Double            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedClickAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction struct {
+	// Array of touch points and their actions
+	Points []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint `json:"points,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Points            respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Touch point configuration with start position and actions
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint struct {
+	// Initial touch point position
+	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart `json:"start,required"`
+	// Sequence of actions to perform after initial touch
+	Actions []any `json:"actions"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Start       respjson.Field
+		Actions     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPoint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Initial touch point position
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart struct {
+	// Starting X coordinate
+	X float64 `json:"x,required"`
+	// Starting Y coordinate
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction struct {
+	// Path of the drag action as a series of coordinates
+	Path []V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath `json:"path,required"`
+	// Time interval between points (e.g. "50ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Path              respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Single point in a drag path
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath struct {
+	// X coordinate of a point in the drag path
+	X float64 `json:"x,required"`
+	// Y coordinate of a point in the drag path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedDragActionPath) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction struct {
+	// Horizontal scroll amount
+	ScrollX float64 `json:"scrollX,required"`
+	// Vertical scroll amount
+	ScrollY float64 `json:"scrollY,required"`
+	// X coordinate of the scroll position
+	X float64 `json:"x,required"`
+	// Y coordinate of the scroll position
+	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ScrollX           respjson.Field
+		ScrollY           respjson.Field
+		X                 respjson.Field
+		Y                 respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction struct {
+	// Direction to swipe. The gesture will be performed from the center of the screen
+	// towards this direction.
+	//
+	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
+	// "downRight".
+	Direction string `json:"direction,required"`
+	// Distance of the swipe in pixels. If not provided, the swipe will be performed
+	// from the center of the screen to the screen edge
+	Distance float64 `json:"distance"`
+	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Direction         respjson.Field
+		Distance          respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction struct {
+	// Swipe path
+	End V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
+	// Swipe path
+	Start V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
+	// Duration of the swipe
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		End               respjson.Field
+		Start             respjson.Field
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Swipe path
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Swipe path
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart struct {
+	// Start/end x coordinate of the swipe path
+	X float64 `json:"x,required"`
+	// Start/end y coordinate of the swipe path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction struct {
+	// This is an array of keyboard keys to press. Supports cross-platform
+	// compatibility.
+	//
+	// Any of "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+	// "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3",
+	// "4", "5", "6", "7", "8", "9", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8",
+	// "f9", "f10", "f11", "f12", "control", "alt", "shift", "meta", "win", "cmd",
+	// "option", "arrowUp", "arrowDown", "arrowLeft", "arrowRight", "home", "end",
+	// "pageUp", "pageDown", "enter", "space", "tab", "escape", "backspace", "delete",
+	// "insert", "capsLock", "numLock", "scrollLock", "pause", "printScreen", ";", "=",
+	// ",", "-", ".", "/", "`", "[", "\\", "]", "'", "numpad0", "numpad1", "numpad2",
+	// "numpad3", "numpad4", "numpad5", "numpad6", "numpad7", "numpad8", "numpad9",
+	// "numpadAdd", "numpadSubtract", "numpadMultiply", "numpadDivide",
+	// "numpadDecimal", "numpadEnter", "numpadEqual", "volumeUp", "volumeDown",
+	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
+	// "mediaPreviousTrack".
+	Keys []string `json:"keys,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Keys              respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressKeyAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction struct {
+	// Button to press
+	//
+	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
+	// "appSwitch".
+	Buttons []string `json:"buttons,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Buttons           respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedPressButtonAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction struct {
+	// Text to type
+	Text string `json:"text,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Text              respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedTypeAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction struct {
+	// X coordinate to move to
+	X float64 `json:"x,required"`
+	// Y coordinate to move to
+	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X                 respjson.Field
+		Y                 respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedMoveAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction struct {
+	// Rotation angle in degrees
+	//
+	// Any of 90, 180, 270.
+	Angle float64 `json:"angle,required"`
+	// Rotation direction
+	//
+	// Any of "clockwise", "counter-clockwise".
+	Direction string `json:"direction,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Angle       respjson.Field
+		Direction   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenRotationAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction struct {
+	// Clipping region for screenshot capture
+	Clip V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Clip         respjson.Field
+		OutputFormat respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Clipping region for screenshot capture
+type V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip struct {
+	// Height of the clip
+	Height float64 `json:"height,required"`
+	// Width of the clip
+	Width float64 `json:"width,required"`
+	// X coordinate of the clip
+	X float64 `json:"x,required"`
+	// Y coordinate of the clip
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultDtoAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // V1BoxActionClickResponseUnion contains all possible properties and values from
@@ -1764,6 +3956,55 @@ func (r V1BoxActionTypeResponseActionCommonResult) RawJSON() string { return r.J
 func (r *V1BoxActionTypeResponseActionCommonResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type V1BoxActionAIParams struct {
+	// Direct instruction of the UI action to perform (e.g., 'click the login button',
+	// 'input username in the email field', 'scroll down', 'swipe left')
+	Instruction string `json:"instruction,required"`
+	// The background of the UI action to perform. The purpose of background is to let
+	// the action executor to understand the context of why the instruction is given
+	// including important previous actions and observations
+	Background param.Opt[string] `json:"background,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat V1BoxActionAIParamsOutputFormat `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionAIParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionAIParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionAIParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Type of the URI. default is base64.
+type V1BoxActionAIParamsOutputFormat string
+
+const (
+	V1BoxActionAIParamsOutputFormatBase64     V1BoxActionAIParamsOutputFormat = "base64"
+	V1BoxActionAIParamsOutputFormatStorageKey V1BoxActionAIParamsOutputFormat = "storageKey"
+)
 
 type V1BoxActionClickParams struct {
 	// X coordinate of the click
