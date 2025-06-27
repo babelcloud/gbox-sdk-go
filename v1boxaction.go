@@ -234,14 +234,14 @@ func (r *V1BoxActionAIResponseUnion) UnmarshalJSON(data []byte) error {
 // [V1BoxActionAIResponseUnion].
 type V1BoxActionAIResponseUnionAIResponse struct {
 	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionUnion]
-	Action    V1BoxActionAIResponseUnionAIResponseAction `json:"action"`
-	Messages  [][]any                                    `json:"messages"`
-	Model     string                                     `json:"model"`
-	Reasoning string                                     `json:"reasoning"`
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion],
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionUnion]
+	Actions   V1BoxActionAIResponseUnionAIResponseActions `json:"actions"`
+	Messages  []string                                    `json:"messages"`
+	Model     string                                      `json:"model"`
+	Reasoning string                                      `json:"reasoning"`
 	JSON      struct {
-		Action    respjson.Field
+		Actions   respjson.Field
 		Messages  respjson.Field
 		Model     respjson.Field
 		Reasoning respjson.Field
@@ -253,202 +253,33 @@ func (r *V1BoxActionAIResponseUnionAIResponse) UnmarshalJSON(data []byte) error 
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// V1BoxActionAIResponseUnionAIResponseAction is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseAction
-// provides convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxActionAIResponseUnion].
-type V1BoxActionAIResponseUnionAIResponseAction struct {
-	X                 float64 `json:"x"`
-	Y                 float64 `json:"y"`
-	Button            string  `json:"button"`
-	Double            bool    `json:"double"`
-	IncludeScreenshot bool    `json:"includeScreenshot"`
-	OutputFormat      string  `json:"outputFormat"`
-	ScreenshotDelay   string  `json:"screenshotDelay"`
-	// This field is a union of
-	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint],
-	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint]
-	Points V1BoxActionAIResponseUnionAIResponseActionPoints `json:"points"`
-	// This field is a union of
-	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath],
-	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath]
-	Path      V1BoxActionAIResponseUnionAIResponseActionPath `json:"path"`
-	Duration  string                                         `json:"duration"`
-	ScrollX   float64                                        `json:"scrollX"`
-	ScrollY   float64                                        `json:"scrollY"`
-	Direction string                                         `json:"direction"`
-	Distance  float64                                        `json:"distance"`
-	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd]
-	End V1BoxActionAIResponseUnionAIResponseActionEnd `json:"end"`
-	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart]
-	Start   V1BoxActionAIResponseUnionAIResponseActionStart `json:"start"`
-	Keys    []string                                        `json:"keys"`
-	Buttons []string                                        `json:"buttons"`
-	Text    string                                          `json:"text"`
-	Angle   float64                                         `json:"angle"`
-	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip]
-	Clip V1BoxActionAIResponseUnionAIResponseActionClip `json:"clip"`
-	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		Button            respjson.Field
-		Double            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		Points            respjson.Field
-		Path              respjson.Field
-		Duration          respjson.Field
-		ScrollX           respjson.Field
-		ScrollY           respjson.Field
-		Direction         respjson.Field
-		Distance          respjson.Field
-		End               respjson.Field
-		Start             respjson.Field
-		Keys              respjson.Field
-		Buttons           respjson.Field
-		Text              respjson.Field
-		Angle             respjson.Field
-		Clip              respjson.Field
-		raw               string
-	} `json:"-"`
-}
-
-func (r *V1BoxActionAIResponseUnionAIResponseAction) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxActionAIResponseUnionAIResponseActionPoints is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionPoints
+// V1BoxActionAIResponseUnionAIResponseActions is an implicit subunion of
+// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActions
 // provides convenient access to the sub-properties of the union.
 //
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxActionAIResponseUnion].
 //
 // If the underlying value is not a json object, one of the following properties
-// will be valid:
-// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints
-// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints]
-type V1BoxActionAIResponseUnionAIResponseActionPoints struct {
+// will be valid: OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActions
+// OfV1BoxActionAIResponseAIActionResultAIResponseActions]
+type V1BoxActionAIResponseUnionAIResponseActions struct {
 	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint]
-	// instead of an object.
-	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:",inline"`
+	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion] instead
+	// of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActions []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion `json:",inline"`
 	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint]
-	// instead of an object.
-	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:",inline"`
-	JSON                                                                        struct {
-		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoints respjson.Field
-		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoints           respjson.Field
-		raw                                                                                   string
+	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionUnion] instead of an
+	// object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActions []V1BoxActionAIResponseAIActionResultAIResponseActionUnion `json:",inline"`
+	JSON                                                   struct {
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActions respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActions           respjson.Field
+		raw                                                              string
 	} `json:"-"`
 }
 
-func (r *V1BoxActionAIResponseUnionAIResponseActionPoints) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxActionAIResponseUnionAIResponseActionPath is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionPath
-// provides convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxActionAIResponseUnion].
-//
-// If the underlying value is not a json object, one of the following properties
-// will be valid:
-// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray
-// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray]
-type V1BoxActionAIResponseUnionAIResponseActionPath struct {
-	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath]
-	// instead of an object.
-	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPath `json:",inline"`
-	// This field will be present if the value is a
-	// [[]V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath]
-	// instead of an object.
-	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPath `json:",inline"`
-	JSON                                                                          struct {
-		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragActionPathArray respjson.Field
-		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedDragActionPathArray           respjson.Field
-		raw                                                                                     string
-	} `json:"-"`
-}
-
-func (r *V1BoxActionAIResponseUnionAIResponseActionPath) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxActionAIResponseUnionAIResponseActionEnd is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionEnd
-// provides convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxActionAIResponseUnion].
-type V1BoxActionAIResponseUnionAIResponseActionEnd struct {
-	X    float64 `json:"x"`
-	Y    float64 `json:"y"`
-	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
-	} `json:"-"`
-}
-
-func (r *V1BoxActionAIResponseUnionAIResponseActionEnd) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxActionAIResponseUnionAIResponseActionStart is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionStart
-// provides convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxActionAIResponseUnion].
-type V1BoxActionAIResponseUnionAIResponseActionStart struct {
-	X    float64 `json:"x"`
-	Y    float64 `json:"y"`
-	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
-	} `json:"-"`
-}
-
-func (r *V1BoxActionAIResponseUnionAIResponseActionStart) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// V1BoxActionAIResponseUnionAIResponseActionClip is an implicit subunion of
-// [V1BoxActionAIResponseUnion]. V1BoxActionAIResponseUnionAIResponseActionClip
-// provides convenient access to the sub-properties of the union.
-//
-// For type safety it is recommended to directly use a variant of the
-// [V1BoxActionAIResponseUnion].
-type V1BoxActionAIResponseUnionAIResponseActionClip struct {
-	Height float64 `json:"height"`
-	Width  float64 `json:"width"`
-	X      float64 `json:"x"`
-	Y      float64 `json:"y"`
-	JSON   struct {
-		Height respjson.Field
-		Width  respjson.Field
-		X      respjson.Field
-		Y      respjson.Field
-		raw    string
-	} `json:"-"`
-}
-
-func (r *V1BoxActionAIResponseUnionAIResponseActionClip) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseUnionAIResponseActions) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -478,17 +309,17 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResult) UnmarshalJSON(data []byt
 
 // Response of AI action execution
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponse struct {
-	// Action to be executed by the AI with type identifier
-	Action V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion `json:"action,required"`
-	// message
-	Messages [][]any `json:"messages,required"`
+	// Actions to be executed by the AI with type identifier
+	Actions []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion `json:"actions,required"`
+	// messages
+	Messages []string `json:"messages,required"`
 	// model
 	Model string `json:"model,required"`
 	// reasoning
 	Reasoning string `json:"reasoning"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Action      respjson.Field
+		Actions     respjson.Field
 		Messages    respjson.Field
 		Model       respjson.Field
 		Reasoning   respjson.Field
@@ -1487,17 +1318,17 @@ func (r *V1BoxActionAIResponseAIActionResult) UnmarshalJSON(data []byte) error {
 
 // Response of AI action execution
 type V1BoxActionAIResponseAIActionResultAIResponse struct {
-	// Action to be executed by the AI with type identifier
-	Action V1BoxActionAIResponseAIActionResultAIResponseActionUnion `json:"action,required"`
-	// message
-	Messages [][]any `json:"messages,required"`
+	// Actions to be executed by the AI with type identifier
+	Actions []V1BoxActionAIResponseAIActionResultAIResponseActionUnion `json:"actions,required"`
+	// messages
+	Messages []string `json:"messages,required"`
 	// model
 	Model string `json:"model,required"`
 	// reasoning
 	Reasoning string `json:"reasoning"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Action      respjson.Field
+		Actions     respjson.Field
 		Messages    respjson.Field
 		Model       respjson.Field
 		Reasoning   respjson.Field
