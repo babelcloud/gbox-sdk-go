@@ -82,7 +82,9 @@ func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, o
 	return
 }
 
-// Get box display
+// Retrieve the current display properties for a running box. This endpoint
+// provides details about the box's screen resolution, orientation, and other
+// visual properties
 func (r *V1BoxService) Display(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxDisplayResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -94,7 +96,8 @@ func (r *V1BoxService) Display(ctx context.Context, boxID string, opts ...option
 	return
 }
 
-// Exec command
+// Execute a command on a running box. This endpoint allows you to send commands to
+// the box and receive the output
 func (r *V1BoxService) ExecuteCommands(ctx context.Context, boxID string, body V1BoxExecuteCommandsParams, opts ...option.RequestOption) (res *V1BoxExecuteCommandsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -106,7 +109,9 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, boxID string, body V
 	return
 }
 
-// Generate pre-signed live view url
+// This endpoint allows you to generate a pre-signed URL for accessing the live
+// view of a running box. The URL is valid for a limited time and can be used to
+// view the box's live stream
 func (r *V1BoxService) LiveViewURL(ctx context.Context, boxID string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -154,7 +159,7 @@ func (r *V1BoxService) Stop(ctx context.Context, boxID string, body V1BoxStopPar
 	return
 }
 
-// Terminate box
+// Terminate a running box. This action will stop the box and release its resources
 func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -167,7 +172,9 @@ func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTe
 	return
 }
 
-// Generate pre-signed web terminal url
+// This endpoint allows you to generate a pre-signed URL for accessing the web
+// terminal of a running box. The URL is valid for a limited time and can be used
+// to access the box's terminal interface
 func (r *V1BoxService) WebTerminalURL(ctx context.Context, boxID string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {

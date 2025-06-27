@@ -33,7 +33,9 @@ func NewV1BoxBrowserService(opts ...option.RequestOption) (r V1BoxBrowserService
 	return
 }
 
-// Generate pre-signed CDP url
+// This endpoint allows you to generate a pre-signed URL for accessing the Chrome
+// DevTools Protocol (CDP) of a running box. The URL is valid for a limited time
+// and can be used to interact with the box's browser environment
 func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1BoxBrowserCdpURLParams, opts ...option.RequestOption) (res *string, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
