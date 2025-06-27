@@ -116,7 +116,7 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 	return
 }
 
-// Get app
+// Get installed app info by package name
 func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
 	opts = append(r.Options[:], opts...)
 	if query.BoxID == "" {
@@ -172,7 +172,7 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 	return
 }
 
-// List apps
+// List all installed apps on the launcher
 func (r *V1BoxAndroidService) ListApp(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidListAppResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
