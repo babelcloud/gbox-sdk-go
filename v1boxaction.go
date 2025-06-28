@@ -75,6 +75,18 @@ func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxA
 	return
 }
 
+// Extract data from the UI interface using a JSON schema.
+func (r *V1BoxActionService) Extract(ctx context.Context, boxID string, body V1BoxActionExtractParams, opts ...option.RequestOption) (res *V1BoxActionExtractResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/extract", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Move to position
 func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *V1BoxActionMoveResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
@@ -2532,6 +2544,8 @@ func (r *V1BoxActionDragResponseActionCommonResult) UnmarshalJSON(data []byte) e
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type V1BoxActionExtractResponse = any
+
 // V1BoxActionMoveResponseUnion contains all possible properties and values from
 // [V1BoxActionMoveResponseActionIncludeScreenshotResult],
 // [V1BoxActionMoveResponseActionCommonResult].
@@ -3988,6 +4002,31 @@ const (
 	V1BoxActionDragParamsOutputFormatBase64     V1BoxActionDragParamsOutputFormat = "base64"
 	V1BoxActionDragParamsOutputFormatStorageKey V1BoxActionDragParamsOutputFormat = "storageKey"
 )
+
+type V1BoxActionExtractParams struct {
+	// The instruction of the action to extract data from the UI interface
+	Instruction string `json:"instruction,required"`
+	// JSON Schema defining the structure of data to extract. Supports object, array,
+	// string, number, boolean types with validation rules.
+	//
+	// Common use cases:
+	//
+	//   - Extract text content: { "type": "string" }
+	//   - Extract structured data: { "type": "object", "properties": {...} }
+	//   - Extract lists: { "type": "array", "items": {...} }
+	//   - Extract with validation: Add constraints like "required", "enum", "pattern",
+	//     etc.
+	Schema any `json:"schema,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionExtractParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionExtractParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionExtractParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type V1BoxActionMoveParams struct {
 	// X coordinate to move to
