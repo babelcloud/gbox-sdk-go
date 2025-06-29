@@ -210,12 +210,12 @@ type V1BoxActionAIResponseUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponse],
 	// [V1BoxActionAIResponseAIActionResultAIResponse]
 	AIResponse V1BoxActionAIResponseUnionAIResponse `json:"aiResponse"`
-	Message    string                               `json:"message"`
+	Output     string                               `json:"output"`
 	// This field is from variant [V1BoxActionAIResponseAIActionScreenshotResult].
 	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot"`
 	JSON       struct {
 		AIResponse respjson.Field
-		Message    respjson.Field
+		Output     respjson.Field
 		Screenshot respjson.Field
 		raw        string
 	} `json:"-"`
@@ -299,14 +299,14 @@ func (r *V1BoxActionAIResponseUnionAIResponseActions) UnmarshalJSON(data []byte)
 type V1BoxActionAIResponseAIActionScreenshotResult struct {
 	// Response of AI action execution
 	AIResponse V1BoxActionAIResponseAIActionScreenshotResultAIResponse `json:"aiResponse,required"`
-	// message
-	Message string `json:"message,required"`
+	// output
+	Output string `json:"output,required"`
 	// Complete screenshot result with operation trace, before and after images
 	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AIResponse  respjson.Field
-		Message     respjson.Field
+		Output      respjson.Field
 		Screenshot  respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -323,9 +323,9 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResult) UnmarshalJSON(data []byt
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponse struct {
 	// Actions to be executed by the AI with type identifier
 	Actions []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion `json:"actions,required"`
-	// messages
+	// messages returned by the model
 	Messages []string `json:"messages,required"`
-	// model
+	// The name of the model that processed this request
 	Model string `json:"model,required"`
 	// reasoning
 	Reasoning string `json:"reasoning"`
@@ -1311,12 +1311,12 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotTrace) Unmarshal
 type V1BoxActionAIResponseAIActionResult struct {
 	// Response of AI action execution
 	AIResponse V1BoxActionAIResponseAIActionResultAIResponse `json:"aiResponse,required"`
-	// message
-	Message string `json:"message,required"`
+	// output
+	Output string `json:"output,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AIResponse  respjson.Field
-		Message     respjson.Field
+		Output      respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -1332,9 +1332,9 @@ func (r *V1BoxActionAIResponseAIActionResult) UnmarshalJSON(data []byte) error {
 type V1BoxActionAIResponseAIActionResultAIResponse struct {
 	// Actions to be executed by the AI with type identifier
 	Actions []V1BoxActionAIResponseAIActionResultAIResponseActionUnion `json:"actions,required"`
-	// messages
+	// messages returned by the model
 	Messages []string `json:"messages,required"`
-	// model
+	// The name of the model that processed this request
 	Model string `json:"model,required"`
 	// reasoning
 	Reasoning string `json:"reasoning"`
