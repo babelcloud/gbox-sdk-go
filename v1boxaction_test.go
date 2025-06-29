@@ -98,17 +98,21 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionDragParams{
-			Path: []gboxsdk.V1BoxActionDragParamsPath{{
-				X: 100,
-				Y: 100,
-			}, {
-				X: 200,
-				Y: 200,
-			}},
-			Duration:          gboxsdk.String("50ms"),
-			IncludeScreenshot: gboxsdk.Bool(false),
-			OutputFormat:      gboxsdk.V1BoxActionDragParamsOutputFormatBase64,
-			ScreenshotDelay:   gboxsdk.String("500ms"),
+			OfDragSimple: &gboxsdk.V1BoxActionDragParamsBodyDragSimple{
+				End: gboxsdk.V1BoxActionDragParamsBodyDragSimpleEnd{
+					X: 200,
+					Y: 200,
+				},
+				Start: gboxsdk.V1BoxActionDragParamsBodyDragSimpleStart{
+					X: 100,
+					Y: 100,
+				},
+				Duration:          gboxsdk.String("500ms"),
+				IncludeScreenshot: gboxsdk.Bool(false),
+				OutputFormat:      "base64",
+				ScreenshotDelay:   gboxsdk.String("500ms"),
+				Wait:              gboxsdk.String("500ms"),
+			},
 		},
 	)
 	if err != nil {
