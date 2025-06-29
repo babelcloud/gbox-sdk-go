@@ -4512,9 +4512,13 @@ type V1BoxActionDragParams struct {
 	//
 
 	// This field is a request body variant, only one variant field can be set. Drag
-	// action configuration with start and end points. Operation flow: 1. Touch finger
-	// at start coordinates 2. Wait for the specified wait time 3. Move to end
-	// coordinates within the duration time and lift finger
+	// action configuration with start and end points.
+	//
+	// Operation flow:
+	//
+	// 1. Touch finger at "start" coordinates
+	// 2. Wait for the specified "wait" time
+	// 3. Move to "end" coordinates within the "duration" time and lift finger
 	OfDragSimple *V1BoxActionDragParamsBodyDragSimple `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Drag
 	// action configuration with path points
@@ -4530,9 +4534,13 @@ func (r *V1BoxActionDragParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Drag action configuration with start and end points. Operation flow: 1. Touch
-// finger at start coordinates 2. Wait for the specified wait time 3. Move to end
-// coordinates within the duration time and lift finger
+// Drag action configuration with start and end points.
+//
+// Operation flow:
+//
+// 1. Touch finger at "start" coordinates
+// 2. Wait for the specified "wait" time
+// 3. Move to "end" coordinates within the "duration" time and lift finger
 //
 // The properties End, Start are required.
 type V1BoxActionDragParamsBodyDragSimple struct {

@@ -141,7 +141,7 @@ func TestV1BoxActionExtractWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionExtractParams{
-			Instruction: "extract the product information including title, price, and availability status",
+			Instruction: "Extract the email address from the UI interface",
 			Schema:      map[string]interface{}{},
 		},
 	)
@@ -410,11 +410,10 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 					Y: 150,
 				},
 				Actions: []any{map[string]interface{}{
+					"type":     "move",
 					"x":        400,
 					"y":        300,
 					"duration": "200ms",
-				}, map[string]interface{}{
-					"duration": "500ms",
 				}},
 			}},
 			IncludeScreenshot: gboxsdk.Bool(false),
