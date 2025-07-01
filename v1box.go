@@ -469,7 +469,7 @@ type LinuxBoxConfig struct {
 	// starting point for all operations including command execution, code running, and
 	// file system operations. When you execute commands or run code, they will start
 	// from this directory unless explicitly specified otherwise.
-	WorkingDir string `json:"workingDir"`
+	WorkingDir string `json:"workingDir,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		CPU         respjson.Field
