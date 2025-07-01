@@ -242,6 +242,8 @@ type AndroidBoxConfig struct {
 	Memory float64 `json:"memory,required"`
 	// Android operating system configuration
 	Os AndroidBoxConfigOs `json:"os,required"`
+	// Resolution of the box
+	Resolution any `json:"resolution,required"`
 	// Storage allocated to the box in GiB
 	Storage float64 `json:"storage,required"`
 	// Device type - virtual or physical Android device
@@ -260,6 +262,7 @@ type AndroidBoxConfig struct {
 		Labels      respjson.Field
 		Memory      respjson.Field
 		Os          respjson.Field
+		Resolution  respjson.Field
 		Storage     respjson.Field
 		DeviceType  respjson.Field
 		WorkingDir  respjson.Field
@@ -583,6 +586,8 @@ type V1BoxGetResponseUnionConfig struct {
 	Storage    float64                       `json:"storage"`
 	WorkingDir string                        `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
+	Resolution any `json:"resolution"`
+	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		CPU        respjson.Field
@@ -592,6 +597,7 @@ type V1BoxGetResponseUnionConfig struct {
 		Os         respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		Resolution respjson.Field
 		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
@@ -704,6 +710,8 @@ type V1BoxListResponseDataUnionConfig struct {
 	Storage    float64                            `json:"storage"`
 	WorkingDir string                             `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
+	Resolution any `json:"resolution"`
+	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		CPU        respjson.Field
@@ -713,6 +721,7 @@ type V1BoxListResponseDataUnionConfig struct {
 		Os         respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		Resolution respjson.Field
 		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
@@ -918,6 +927,8 @@ type V1BoxStartResponseUnionConfig struct {
 	Storage    float64                         `json:"storage"`
 	WorkingDir string                          `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
+	Resolution any `json:"resolution"`
+	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		CPU        respjson.Field
@@ -927,6 +938,7 @@ type V1BoxStartResponseUnionConfig struct {
 		Os         respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		Resolution respjson.Field
 		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
@@ -1012,6 +1024,8 @@ type V1BoxStopResponseUnionConfig struct {
 	Storage    float64                        `json:"storage"`
 	WorkingDir string                         `json:"workingDir"`
 	// This field is from variant [AndroidBoxConfig].
+	Resolution any `json:"resolution"`
+	// This field is from variant [AndroidBoxConfig].
 	DeviceType string `json:"deviceType"`
 	JSON       struct {
 		CPU        respjson.Field
@@ -1021,6 +1035,7 @@ type V1BoxStopResponseUnionConfig struct {
 		Os         respjson.Field
 		Storage    respjson.Field
 		WorkingDir respjson.Field
+		Resolution respjson.Field
 		DeviceType respjson.Field
 		raw        string
 	} `json:"-"`
