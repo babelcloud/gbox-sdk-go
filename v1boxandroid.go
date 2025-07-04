@@ -661,6 +661,11 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
 	// APK file to install (max file size: 512MB)
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
+	// Whether to open the app after installation. Will find and launch the launcher
+	// activity of the installed app. If there are multiple launcher activities, only
+	// one will be opened. If the installed APK has no launcher activity, this
+	// parameter will have no effect.
+	Open param.Opt[bool] `json:"open,omitzero"`
 	paramObj
 }
 
@@ -678,6 +683,11 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile) UnmarshalJSON(dat
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL struct {
 	// HTTP URL to download APK file (max file size: 512MB)
 	Apk string `json:"apk,required"`
+	// Whether to open the app after installation. Will find and launch the launcher
+	// activity of the installed app. If there are multiple launcher activities, only
+	// one will be opened. If the installed APK has no launcher activity, this
+	// parameter will have no effect.
+	Open param.Opt[bool] `json:"open,omitzero"`
 	paramObj
 }
 
