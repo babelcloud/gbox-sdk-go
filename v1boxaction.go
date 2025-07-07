@@ -4405,6 +4405,8 @@ type V1BoxActionAIParams struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionAIParamsOutputFormat `json:"outputFormat,omitzero"`
+	// AI action settings
+	Settings V1BoxActionAIParamsSettings `json:"settings,omitzero"`
 	paramObj
 }
 
@@ -4423,6 +4425,27 @@ const (
 	V1BoxActionAIParamsOutputFormatBase64     V1BoxActionAIParamsOutputFormat = "base64"
 	V1BoxActionAIParamsOutputFormatStorageKey V1BoxActionAIParamsOutputFormat = "storageKey"
 )
+
+// AI action settings
+type V1BoxActionAIParamsSettings struct {
+	// System prompt that defines the AI's behavior and capabilities when executing UI
+	// actions. This prompt instructs the AI on how to interpret the screen, understand
+	// user instructions, and determine the appropriate UI actions to take. A
+	// well-crafted system prompt can significantly improve the accuracy and
+	// reliability of AI-driven UI automation. If not provided, uses the default
+	// computer use instruction template that includes basic screen interaction
+	// guidelines.
+	SystemPrompt param.Opt[string] `json:"systemPrompt,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionAIParamsSettings) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionAIParamsSettings
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionAIParamsSettings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type V1BoxActionClickParams struct {
 	// X coordinate of the click
