@@ -194,8 +194,6 @@ type AndroidBox struct {
 	Config AndroidBoxConfig `json:"config,required"`
 	// Creation timestamp of the box
 	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
-	// Expiration timestamp of the box
-	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
 	// Any of "pending", "running", "error", "terminated".
@@ -206,15 +204,17 @@ type AndroidBox struct {
 	Type AndroidBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
+	// Expiration timestamp of the box
+	ExpiresAt time.Time `json:"expiresAt" format:"date-time"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
 		Config      respjson.Field
 		CreatedAt   respjson.Field
-		ExpiresAt   respjson.Field
 		Status      respjson.Field
 		Type        respjson.Field
 		UpdatedAt   respjson.Field
+		ExpiresAt   respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -418,8 +418,6 @@ type LinuxBox struct {
 	Config LinuxBoxConfig `json:"config,required"`
 	// Creation timestamp of the box
 	CreatedAt time.Time `json:"createdAt,required" format:"date-time"`
-	// Expiration timestamp of the box
-	ExpiresAt time.Time `json:"expiresAt,required" format:"date-time"`
 	// The current status of a box instance
 	//
 	// Any of "pending", "running", "error", "terminated".
@@ -430,15 +428,17 @@ type LinuxBox struct {
 	Type LinuxBoxType `json:"type,required"`
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
+	// Expiration timestamp of the box
+	ExpiresAt time.Time `json:"expiresAt" format:"date-time"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
 		Config      respjson.Field
 		CreatedAt   respjson.Field
-		ExpiresAt   respjson.Field
 		Status      respjson.Field
 		Type        respjson.Field
 		UpdatedAt   respjson.Field
+		ExpiresAt   respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -537,18 +537,18 @@ type V1BoxGetResponseUnion struct {
 	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
 	Config    V1BoxGetResponseUnionConfig `json:"config"`
 	CreatedAt time.Time                   `json:"createdAt"`
-	ExpiresAt time.Time                   `json:"expiresAt"`
 	Status    string                      `json:"status"`
 	Type      string                      `json:"type"`
 	UpdatedAt time.Time                   `json:"updatedAt"`
+	ExpiresAt time.Time                   `json:"expiresAt"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
 		CreatedAt respjson.Field
-		ExpiresAt respjson.Field
 		Status    respjson.Field
 		Type      respjson.Field
 		UpdatedAt respjson.Field
+		ExpiresAt respjson.Field
 		raw       string
 	} `json:"-"`
 }
@@ -661,18 +661,18 @@ type V1BoxListResponseDataUnion struct {
 	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
 	Config    V1BoxListResponseDataUnionConfig `json:"config"`
 	CreatedAt time.Time                        `json:"createdAt"`
-	ExpiresAt time.Time                        `json:"expiresAt"`
 	Status    string                           `json:"status"`
 	Type      string                           `json:"type"`
 	UpdatedAt time.Time                        `json:"updatedAt"`
+	ExpiresAt time.Time                        `json:"expiresAt"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
 		CreatedAt respjson.Field
-		ExpiresAt respjson.Field
 		Status    respjson.Field
 		Type      respjson.Field
 		UpdatedAt respjson.Field
+		ExpiresAt respjson.Field
 		raw       string
 	} `json:"-"`
 }
@@ -878,18 +878,18 @@ type V1BoxStartResponseUnion struct {
 	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
 	Config    V1BoxStartResponseUnionConfig `json:"config"`
 	CreatedAt time.Time                     `json:"createdAt"`
-	ExpiresAt time.Time                     `json:"expiresAt"`
 	Status    string                        `json:"status"`
 	Type      string                        `json:"type"`
 	UpdatedAt time.Time                     `json:"updatedAt"`
+	ExpiresAt time.Time                     `json:"expiresAt"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
 		CreatedAt respjson.Field
-		ExpiresAt respjson.Field
 		Status    respjson.Field
 		Type      respjson.Field
 		UpdatedAt respjson.Field
+		ExpiresAt respjson.Field
 		raw       string
 	} `json:"-"`
 }
@@ -975,18 +975,18 @@ type V1BoxStopResponseUnion struct {
 	// This field is a union of [LinuxBoxConfig], [AndroidBoxConfig]
 	Config    V1BoxStopResponseUnionConfig `json:"config"`
 	CreatedAt time.Time                    `json:"createdAt"`
-	ExpiresAt time.Time                    `json:"expiresAt"`
 	Status    string                       `json:"status"`
 	Type      string                       `json:"type"`
 	UpdatedAt time.Time                    `json:"updatedAt"`
+	ExpiresAt time.Time                    `json:"expiresAt"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
 		CreatedAt respjson.Field
-		ExpiresAt respjson.Field
 		Status    respjson.Field
 		Type      respjson.Field
 		UpdatedAt respjson.Field
+		ExpiresAt respjson.Field
 		raw       string
 	} `json:"-"`
 }
