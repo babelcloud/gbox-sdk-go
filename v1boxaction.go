@@ -417,9 +417,6 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleAction].
-	Wait string `json:"wait"`
 	JSON struct {
 		X                 respjson.Field
 		Y                 respjson.Field
@@ -442,7 +439,6 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Text              respjson.Field
 		Angle             respjson.Field
 		Clip              respjson.Field
-		Wait              respjson.Field
 		raw               string
 	} `json:"-"`
 }
@@ -1352,11 +1348,6 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay string `json:"screenshotDelay"`
-	// Time to wait at the start point after initial touch before beginning movement
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
-	Wait string `json:"wait"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		End               respjson.Field
@@ -1365,7 +1356,6 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 		IncludeScreenshot respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
-		Wait              respjson.Field
 		ExtraFields       map[string]respjson.Field
 		raw               string
 	} `json:"-"`
@@ -1702,9 +1692,6 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction].
-	Wait string `json:"wait"`
 	JSON struct {
 		X                 respjson.Field
 		Y                 respjson.Field
@@ -1727,7 +1714,6 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Text              respjson.Field
 		Angle             respjson.Field
 		Clip              respjson.Field
-		Wait              respjson.Field
 		raw               string
 	} `json:"-"`
 }
@@ -2632,11 +2618,6 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction st
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay string `json:"screenshotDelay"`
-	// Time to wait at the start point after initial touch before beginning movement
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
-	Wait string `json:"wait"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		End               respjson.Field
@@ -2645,7 +2626,6 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction st
 		IncludeScreenshot respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
-		Wait              respjson.Field
 		ExtraFields       map[string]respjson.Field
 		raw               string
 	} `json:"-"`
@@ -4517,8 +4497,7 @@ type V1BoxActionDragParams struct {
 	// Operation flow:
 	//
 	// 1. Touch finger at "start" coordinates
-	// 2. Wait for the specified "wait" time
-	// 3. Move to "end" coordinates within the "duration" time and lift finger
+	// 2. Move to "end" coordinates within the "duration" time and lift finger
 	OfDragSimple *V1BoxActionDragParamsBodyDragSimple `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Drag
 	// action configuration with path points
@@ -4539,8 +4518,7 @@ func (r *V1BoxActionDragParams) UnmarshalJSON(data []byte) error {
 // Operation flow:
 //
 // 1. Touch finger at "start" coordinates
-// 2. Wait for the specified "wait" time
-// 3. Move to "end" coordinates within the "duration" time and lift finger
+// 2. Move to "end" coordinates within the "duration" time and lift finger
 //
 // The properties End, Start are required.
 type V1BoxActionDragParamsBodyDragSimple struct {
@@ -4571,11 +4549,6 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Time to wait at the start point after initial touch before beginning movement
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
-	Wait param.Opt[string] `json:"wait,omitzero"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".

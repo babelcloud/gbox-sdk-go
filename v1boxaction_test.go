@@ -111,7 +111,6 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				OutputFormat:      "base64",
 				ScreenshotDelay:   gboxsdk.String("500ms"),
-				Wait:              gboxsdk.String("500ms"),
 			},
 		},
 	)
