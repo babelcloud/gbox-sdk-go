@@ -5,7 +5,6 @@
 Params Types:
 
 - <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#CreateAndroidBoxParam">CreateAndroidBoxParam</a>
-- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#CreateBoxConfigParam">CreateBoxConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#CreateLinuxBoxParam">CreateLinuxBoxParam</a>
 
 Response Types:
