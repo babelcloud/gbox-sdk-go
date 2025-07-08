@@ -120,20 +120,18 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
-			Config: gboxsdk.CreateBoxConfigParam{
+			Config: gboxsdk.CreateLinuxBoxConfigParam{
 				Envs: map[string]string{
 					"DEBUG":   "true",
 					"API_URL": "https://api.example.com",
 				},
+				ExpiresIn: gboxsdk.String("60m"),
 				Labels: map[string]string{
 					"project":     "web-automation",
 					"environment": "testing",
-					"owner":       "john-doe",
-					"purpose":     "e2e-testing",
 				},
 			},
-			ExpiresIn: gboxsdk.String("60m"),
-			Wait:      gboxsdk.Bool(true),
+			Wait: gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
