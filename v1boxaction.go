@@ -126,6 +126,24 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 	return
 }
 
+// Get the current structured screen layout information. This endpoint returns
+// detailed structural information about the UI elements currently displayed on the
+// screen, which can be used for UI automation, element analysis, and accessibility
+// purposes. The format varies by box type: Android boxes return XML format with
+// detailed UI hierarchy information including element bounds, text content,
+// resource IDs, and properties, while other box types may return different
+// structured formats.
+func (r *V1BoxActionService) ScreenLayout(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionScreenLayoutResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/screen-layout", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Rotate screen
 func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *V1BoxActionScreenRotationResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
@@ -3566,6 +3584,27 @@ type V1BoxActionPressKeyResponseActionCommonResult struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxActionPressKeyResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxActionPressKeyResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Screen layout content. The format varies by box type: Android boxes return XML
+// format, while other box types may return different formats.
+type V1BoxActionScreenLayoutResponse struct {
+	// Screen layout content. For Android boxes, this is XML content containing the UI
+	// hierarchy with detailed element information including bounds, text, resource
+	// IDs, and other properties. The format may vary for different box types.
+	Content string `json:"content,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Content     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionScreenLayoutResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionScreenLayoutResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
