@@ -207,7 +207,7 @@ type AndroidBox struct {
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
 	// The reason for the current status, if any
-	Reason any `json:"reason"`
+	Reason any `json:"reason,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -431,7 +431,7 @@ type LinuxBox struct {
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
 	// The reason for the current status, if any
-	Reason any `json:"reason"`
+	Reason any `json:"reason,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
