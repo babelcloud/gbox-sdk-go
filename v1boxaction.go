@@ -379,7 +379,8 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponse) UnmarshalJSON(
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleAction],
-// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvancedAction].
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvancedAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitAction].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
@@ -527,6 +528,11 @@ func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTy
 }
 
 func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedDragAdvancedAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvancedAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedWaitAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -1507,6 +1513,54 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragA
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Typed wait action
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitAction struct {
+	// Duration of the wait (e.g. '3s')
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 3s
+	Duration string `json:"duration,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Complete screenshot result with operation trace, before and after images
 type V1BoxActionAIResponseAIActionScreenshotResultScreenshot struct {
 	// Screenshot taken after action execution
@@ -1654,7 +1708,8 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponse) UnmarshalJSON(data []byt
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction],
-// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction].
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
@@ -1802,6 +1857,11 @@ func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedDragSim
 }
 
 func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedDragAdvancedAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedWaitAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -2774,6 +2834,54 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedActi
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedActionPath) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Typed wait action
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction struct {
+	// Duration of the wait (e.g. '3s')
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 3s
+	Duration string `json:"duration,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration          respjson.Field
+		IncludeScreenshot respjson.Field
+		OutputFormat      respjson.Field
+		ScreenshotDelay   respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
