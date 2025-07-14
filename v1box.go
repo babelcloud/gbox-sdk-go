@@ -207,7 +207,7 @@ type AndroidBox struct {
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
 	// The reason for the current status, if any
-	Reason any `json:"reason,nullable"`
+	Reason string `json:"reason,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -431,7 +431,7 @@ type LinuxBox struct {
 	// Last update timestamp of the box
 	UpdatedAt time.Time `json:"updatedAt,required" format:"date-time"`
 	// The reason for the current status, if any
-	Reason any `json:"reason,nullable"`
+	Reason string `json:"reason,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -544,7 +544,7 @@ type V1BoxGetResponseUnion struct {
 	Status    string                      `json:"status"`
 	Type      string                      `json:"type"`
 	UpdatedAt time.Time                   `json:"updatedAt"`
-	Reason    any                         `json:"reason"`
+	Reason    string                      `json:"reason"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
@@ -667,7 +667,7 @@ type V1BoxListResponseDataUnion struct {
 	Status    string                           `json:"status"`
 	Type      string                           `json:"type"`
 	UpdatedAt time.Time                        `json:"updatedAt"`
-	Reason    any                              `json:"reason"`
+	Reason    string                           `json:"reason"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
@@ -883,7 +883,7 @@ type V1BoxStartResponseUnion struct {
 	Status    string                        `json:"status"`
 	Type      string                        `json:"type"`
 	UpdatedAt time.Time                     `json:"updatedAt"`
-	Reason    any                           `json:"reason"`
+	Reason    string                        `json:"reason"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
@@ -979,7 +979,7 @@ type V1BoxStopResponseUnion struct {
 	Status    string                       `json:"status"`
 	Type      string                       `json:"type"`
 	UpdatedAt time.Time                    `json:"updatedAt"`
-	Reason    any                          `json:"reason"`
+	Reason    string                       `json:"reason"`
 	JSON      struct {
 		ID        respjson.Field
 		Config    respjson.Field
