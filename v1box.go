@@ -846,10 +846,15 @@ func (r *V1BoxExecuteCommandsResponse) UnmarshalJSON(data []byte) error {
 
 // Live view result
 type V1BoxLiveViewURLResponse struct {
-	// Live view url
+	// Raw live view url without additional layout content, typically used for
+	// embedding into your own application
+	RawURL string `json:"rawUrl,required"`
+	// Live view url with Gbox interface and basic information, typically used for
+	// real-time observation of box usage status
 	URL string `json:"url,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		RawURL      respjson.Field
 		URL         respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
