@@ -93,7 +93,8 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 					"version": "v1.0",
 				},
 			},
-			Wait: gboxsdk.Bool(true),
+			Timeout: gboxsdk.String("30s"),
+			Wait:    gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
@@ -131,7 +132,8 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"environment": "testing",
 				},
 			},
-			Wait: gboxsdk.Bool(true),
+			Timeout: gboxsdk.String("30s"),
+			Wait:    gboxsdk.Bool(true),
 		},
 	})
 	if err != nil {
