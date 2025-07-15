@@ -316,6 +316,14 @@ const (
 
 // Request body for creating a new Android box instance
 type CreateAndroidBoxParam struct {
+	// Timeout for waiting the box to transition from pending to running state, default
+	// is 30s. If the box doesn't reach running state within this timeout, the API will
+	// return HTTP status code 408. The timed-out box will be automatically deleted and
+	// will not count towards your quota.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30s Maximum allowed: 5m
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a Android box instance
@@ -369,6 +377,14 @@ func init() {
 
 // Request body for creating a new Linux box instance
 type CreateLinuxBoxParam struct {
+	// Timeout for waiting the box to transition from pending to running state, default
+	// is 30s. If the box doesn't reach running state within this timeout, the API will
+	// return HTTP status code 408. The timed-out box will be automatically deleted and
+	// will not count towards your quota.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30s Maximum allowed: 5m
+	Timeout param.Opt[string] `json:"timeout,omitzero"`
 	// Wait for the box operation to be completed, default is true
 	Wait param.Opt[bool] `json:"wait,omitzero"`
 	// Configuration for a Linux box instance
