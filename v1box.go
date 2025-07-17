@@ -772,7 +772,7 @@ type V1BoxDisplayResponse struct {
 	//
 	// Any of "portrait", "landscape", "landscape-reverse", "portrait-reverse".
 	Orientation V1BoxDisplayResponseOrientation `json:"orientation,required"`
-	// Box display resolution configuration
+	// Resolution configuration
 	Resolution V1BoxDisplayResponseResolution `json:"resolution,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -799,11 +799,11 @@ const (
 	V1BoxDisplayResponseOrientationPortraitReverse  V1BoxDisplayResponseOrientation = "portrait-reverse"
 )
 
-// Box display resolution configuration
+// Resolution configuration
 type V1BoxDisplayResponseResolution struct {
-	// Height of the box
+	// Height of the screen
 	Height float64 `json:"height,required"`
-	// Width of the box
+	// Width of the screen
 	Width float64 `json:"width,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
