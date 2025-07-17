@@ -57,7 +57,7 @@ func TestV1BoxBrowserCloseTab(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Browser.CloseTab(
 		context.TODO(),
-		"tabIndex",
+		"tabId",
 		gboxsdk.V1BoxBrowserCloseTabParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
@@ -138,7 +138,7 @@ func TestV1BoxBrowserUpdateTab(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Browser.UpdateTab(
 		context.TODO(),
-		"tabIndex",
+		"tabId",
 		gboxsdk.V1BoxBrowserUpdateTabParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 			URL:   "https://www.google.com",

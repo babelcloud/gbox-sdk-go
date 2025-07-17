@@ -48,31 +48,28 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1B
 	return
 }
 
-// Close a specific browser tab identified by its index. This endpoint will
-// permanently close the tab and free up the associated resources. The tab index
-// corresponds to the index returned when listing tabs or opening new tabs. After
-// closing a tab, the indices of subsequent tabs may shift down to fill the gap.
-// It's important to refresh the tab list after closing tabs to get the current
-// indices. You cannot close the last remaining tab - at least one tab must remain
-// open in the browser context.
-func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabIndex string, body V1BoxBrowserCloseTabParams, opts ...option.RequestOption) (res *V1BoxBrowserCloseTabResponse, err error) {
+// Close a specific browser tab identified by its id. This endpoint will
+// permanently close the tab and free up the associated resources. After closing a
+// tab, the ids of subsequent tabs may change. You cannot close the last remaining
+// tab - at least one tab must remain open in the browser context.
+func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabID string, body V1BoxBrowserCloseTabParams, opts ...option.RequestOption) (res *V1BoxBrowserCloseTabResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	if tabIndex == "" {
-		err = errors.New("missing required tabIndex parameter")
+	if tabID == "" {
+		err = errors.New("missing required tabId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/browser/tabs/%s", body.BoxID, tabIndex)
+	path := fmt.Sprintf("boxes/%s/browser/tabs/%s", body.BoxID, tabID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
 	return
 }
 
 // Retrieve a comprehensive list of all currently open browser tabs in the
 // specified box. This endpoint returns detailed information about each tab
-// including its index, title, current URL, and favicon. The tab index can be used
+// including its id, title, current URL, and favicon. The returned id can be used
 // for subsequent operations like navigation, closing, or updating tabs. This is
 // essential for managing multiple browser sessions and understanding the current
 // state of the browser environment.
@@ -89,8 +86,8 @@ func (r *V1BoxBrowserService) GetTabs(ctx context.Context, boxID string, opts ..
 
 // Create and open a new browser tab with the specified URL. This endpoint will
 // navigate to the provided URL and return the new tab's information including its
-// assigned index, loaded title, final URL (after any redirects), and favicon. The
-// returned tab index can be used for future operations on this specific tab. The
+// assigned id, loaded title, final URL (after any redirects), and favicon. The
+// returned tab id can be used for future operations on this specific tab. The
 // browser will attempt to load the page and will wait for the DOM content to be
 // loaded before returning the response. If the URL is invalid or unreachable, an
 // error will be returned.
@@ -108,22 +105,20 @@ func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1
 // Navigate an existing browser tab to a new URL. This endpoint updates the
 // specified tab by navigating it to the provided URL and returns the updated tab
 // information. The browser will wait for the DOM content to be loaded before
-// returning the response. This operation preserves the tab's position and index
-// while updating its content. If the navigation fails due to an invalid URL or
-// network issues, an error will be returned. The updated tab information will
-// include the new title, final URL (after any redirects), and favicon from the new
-// page.
-func (r *V1BoxBrowserService) UpdateTab(ctx context.Context, tabIndex string, params V1BoxBrowserUpdateTabParams, opts ...option.RequestOption) (res *V1BoxBrowserUpdateTabResponse, err error) {
+// returning the response. If the navigation fails due to an invalid URL or network
+// issues, an error will be returned. The updated tab information will include the
+// new title, final URL (after any redirects), and favicon from the new page.
+func (r *V1BoxBrowserService) UpdateTab(ctx context.Context, tabID string, params V1BoxBrowserUpdateTabParams, opts ...option.RequestOption) (res *V1BoxBrowserUpdateTabResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	if tabIndex == "" {
-		err = errors.New("missing required tabIndex parameter")
+	if tabID == "" {
+		err = errors.New("missing required tabId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/browser/tabs/%s", params.BoxID, tabIndex)
+	path := fmt.Sprintf("boxes/%s/browser/tabs/%s", params.BoxID, tabID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, params, &res, opts...)
 	return
 }
@@ -164,18 +159,29 @@ func (r *V1BoxBrowserGetTabsResponse) UnmarshalJSON(data []byte) error {
 
 // Browser tab
 type V1BoxBrowserGetTabsResponseTab struct {
+	// The tab id
+	ID string `json:"id,required"`
+	// Whether the tab is the current active (frontmost) tab
+	Active bool `json:"active,required"`
 	// The tab favicon
 	Favicon string `json:"favicon,required"`
-	// The tab index, starting from 0
-	Index float64 `json:"index,required"`
+	// Whether the tab is currently in a loading state.
+	//
+	// The value is **true** while the browser is still navigating to the target URL or
+	// fetching sub-resources (i.e. `document.readyState` is not "complete"). It
+	// typically switches to **false** once the `load` event fires and all major
+	// network activity has settled.
+	Loading bool `json:"loading,required"`
 	// The tab title
 	Title string `json:"title,required"`
 	// The tab url
 	URL string `json:"url,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ID          respjson.Field
+		Active      respjson.Field
 		Favicon     respjson.Field
-		Index       respjson.Field
+		Loading     respjson.Field
 		Title       respjson.Field
 		URL         respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -191,18 +197,29 @@ func (r *V1BoxBrowserGetTabsResponseTab) UnmarshalJSON(data []byte) error {
 
 // Browser tab
 type V1BoxBrowserOpenTabResponse struct {
+	// The tab id
+	ID string `json:"id,required"`
+	// Whether the tab is the current active (frontmost) tab
+	Active bool `json:"active,required"`
 	// The tab favicon
 	Favicon string `json:"favicon,required"`
-	// The tab index, starting from 0
-	Index float64 `json:"index,required"`
+	// Whether the tab is currently in a loading state.
+	//
+	// The value is **true** while the browser is still navigating to the target URL or
+	// fetching sub-resources (i.e. `document.readyState` is not "complete"). It
+	// typically switches to **false** once the `load` event fires and all major
+	// network activity has settled.
+	Loading bool `json:"loading,required"`
 	// The tab title
 	Title string `json:"title,required"`
 	// The tab url
 	URL string `json:"url,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ID          respjson.Field
+		Active      respjson.Field
 		Favicon     respjson.Field
-		Index       respjson.Field
+		Loading     respjson.Field
 		Title       respjson.Field
 		URL         respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -218,18 +235,29 @@ func (r *V1BoxBrowserOpenTabResponse) UnmarshalJSON(data []byte) error {
 
 // Browser tab
 type V1BoxBrowserUpdateTabResponse struct {
+	// The tab id
+	ID string `json:"id,required"`
+	// Whether the tab is the current active (frontmost) tab
+	Active bool `json:"active,required"`
 	// The tab favicon
 	Favicon string `json:"favicon,required"`
-	// The tab index, starting from 0
-	Index float64 `json:"index,required"`
+	// Whether the tab is currently in a loading state.
+	//
+	// The value is **true** while the browser is still navigating to the target URL or
+	// fetching sub-resources (i.e. `document.readyState` is not "complete"). It
+	// typically switches to **false** once the `load` event fires and all major
+	// network activity has settled.
+	Loading bool `json:"loading,required"`
 	// The tab title
 	Title string `json:"title,required"`
 	// The tab url
 	URL string `json:"url,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ID          respjson.Field
+		Active      respjson.Field
 		Favicon     respjson.Field
-		Index       respjson.Field
+		Loading     respjson.Field
 		Title       respjson.Field
 		URL         respjson.Field
 		ExtraFields map[string]respjson.Field
