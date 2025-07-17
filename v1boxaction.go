@@ -3695,12 +3695,61 @@ func (r *V1BoxActionPressKeyResponseActionCommonResult) UnmarshalJSON(data []byt
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Screen layout content. The format varies by box type: Android boxes return XML
-// format, while other box types may return different formats.
+// Screen layout content.
+//
+// Android boxes (XML):
+//
+// ```xml
+// <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+// <hierarchy rotation="0">
+//
+//	<node ... />
+//
+// </hierarchy>
+// ```
+//
+// Browser (Linux) boxes (HTML):
+//
+// ```html
+// <html>
+//
+//	<head>
+//	  <title>Example</title>
+//	</head>
+//	<body>
+//	  <h1>Hello World</h1>
+//	</body>
+//
+// </html>
+// ```
 type V1BoxActionScreenLayoutResponse struct {
-	// Screen layout content. For Android boxes, this is XML content containing the UI
-	// hierarchy with detailed element information including bounds, text, resource
-	// IDs, and other properties. The format may vary for different box types.
+	// Screen layout content.
+	//
+	// Android boxes (XML):
+	//
+	// ```xml
+	// <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+	// <hierarchy rotation="0">
+	//
+	//	<node ... />
+	//
+	// </hierarchy>
+	// ```
+	//
+	// Browser (Linux) boxes (HTML):
+	//
+	// ```html
+	// <html>
+	//
+	//	<head>
+	//	  <title>Example</title>
+	//	</head>
+	//	<body>
+	//	  <h1>Hello World</h1>
+	//	</body>
+	//
+	// </html>
+	// ```
 	Content string `json:"content,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
