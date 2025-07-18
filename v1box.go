@@ -186,6 +186,21 @@ func (r *V1BoxService) WebTerminalURL(ctx context.Context, boxID string, body V1
 	return
 }
 
+// Get the websocket url for the box. This endpoint provides the WebSocket URLs for
+// executing shell commands and running code snippets in the box environment. These
+// URLs allow real-time communication and data exchange with the box, enabling
+// interactive terminal sessions and code execution.
+func (r *V1BoxService) WebsocketURL(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxWebsocketURLResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/websocket-url", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Android box instance with full configuration and status
 type AndroidBox struct {
 	// Unique identifier for the box
@@ -1098,6 +1113,30 @@ type V1BoxWebTerminalURLResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxWebTerminalURLResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxWebTerminalURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxWebsocketURLResponse struct {
+	// WebSocket URL for executing shell commands in the box. This endpoint allows
+	// real-time command execution with streaming output, supporting interactive
+	// terminal sessions and long-running processes.
+	Command string `json:"command,required"`
+	// WebSocket URL for running code snippets in the box environment. This endpoint
+	// enables execution of code in various programming languages with real-time output
+	// streaming, perfect for interactive coding sessions and script execution.
+	RunCode string `json:"runCode,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Command     respjson.Field
+		RunCode     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxWebsocketURLResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxWebsocketURLResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
