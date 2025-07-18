@@ -425,11 +425,17 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
 	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
+	Combination bool `json:"combination"`
+	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButtonAction].
 	Buttons []string `json:"buttons"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction].
 	Text string `json:"text"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction].
+	Mode string `json:"mode"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction].
 	Angle float64 `json:"angle"`
@@ -454,8 +460,10 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Direction         respjson.Field
 		Distance          respjson.Field
 		Keys              respjson.Field
+		Combination       respjson.Field
 		Buttons           respjson.Field
 		Text              respjson.Field
+		Mode              respjson.Field
 		Angle             respjson.Field
 		Clip              respjson.Field
 		raw               string
@@ -1148,6 +1156,10 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyA
 	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
 	// "mediaPreviousTrack".
 	Keys []string `json:"keys,required"`
+	// Whether to press keys as combination (simultaneously) or sequentially. When
+	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
+	// keys are pressed one by one in sequence.
+	Combination bool `json:"combination"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
@@ -1173,6 +1185,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyA
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Keys              respjson.Field
+		Combination       respjson.Field
 		IncludeScreenshot respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
@@ -1244,6 +1257,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Text input mode: 'append' to add text to existing content, 'replace' to replace
+	// all existing text
+	//
+	// Any of "append", "replace".
+	Mode string `json:"mode"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -1267,6 +1285,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 	JSON struct {
 		Text              respjson.Field
 		IncludeScreenshot respjson.Field
+		Mode              respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
 		ExtraFields       map[string]respjson.Field
@@ -1652,11 +1671,17 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
 	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
+	Combination bool `json:"combination"`
+	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction].
 	Buttons []string `json:"buttons"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction].
 	Text string `json:"text"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction].
+	Mode string `json:"mode"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction].
 	Angle float64 `json:"angle"`
@@ -1681,8 +1706,10 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Direction         respjson.Field
 		Distance          respjson.Field
 		Keys              respjson.Field
+		Combination       respjson.Field
 		Buttons           respjson.Field
 		Text              respjson.Field
+		Mode              respjson.Field
 		Angle             respjson.Field
 		Clip              respjson.Field
 		raw               string
@@ -2371,6 +2398,10 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction stru
 	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
 	// "mediaPreviousTrack".
 	Keys []string `json:"keys,required"`
+	// Whether to press keys as combination (simultaneously) or sequentially. When
+	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
+	// keys are pressed one by one in sequence.
+	Combination bool `json:"combination"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
@@ -2396,6 +2427,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction stru
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Keys              respjson.Field
+		Combination       respjson.Field
 		IncludeScreenshot respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
@@ -2467,6 +2499,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Text input mode: 'append' to add text to existing content, 'replace' to replace
+	// all existing text
+	//
+	// Any of "append", "replace".
+	Mode string `json:"mode"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -2490,6 +2527,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	JSON struct {
 		Text              respjson.Field
 		IncludeScreenshot respjson.Field
+		Mode              respjson.Field
 		OutputFormat      respjson.Field
 		ScreenshotDelay   respjson.Field
 		ExtraFields       map[string]respjson.Field
@@ -4831,6 +4869,10 @@ type V1BoxActionPressKeyParams struct {
 	// "volumeMute", "mediaPlayPause", "mediaStop", "mediaNextTrack",
 	// "mediaPreviousTrack".
 	Keys []string `json:"keys,omitzero,required"`
+	// Whether to press keys as combination (simultaneously) or sequentially. When
+	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
+	// keys are pressed one by one in sequence.
+	Combination param.Opt[bool] `json:"combination,omitzero"`
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
@@ -5279,6 +5321,11 @@ type V1BoxActionTypeParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Text input mode: 'append' to add text to existing content, 'replace' to replace
+	// all existing text
+	//
+	// Any of "append", "replace".
+	Mode V1BoxActionTypeParamsMode `json:"mode,omitzero"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -5293,6 +5340,15 @@ func (r V1BoxActionTypeParams) MarshalJSON() (data []byte, err error) {
 func (r *V1BoxActionTypeParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Text input mode: 'append' to add text to existing content, 'replace' to replace
+// all existing text
+type V1BoxActionTypeParamsMode string
+
+const (
+	V1BoxActionTypeParamsModeAppend  V1BoxActionTypeParamsMode = "append"
+	V1BoxActionTypeParamsModeReplace V1BoxActionTypeParamsMode = "replace"
+)
 
 // Type of the URI. default is base64.
 type V1BoxActionTypeParamsOutputFormat string

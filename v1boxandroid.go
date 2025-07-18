@@ -628,10 +628,10 @@ type V1BoxAndroidInstallParams struct {
 	//
 
 	// This field is a request body variant, only one variant field can be set. Request
-	// for installing Android pkg from uploaded APK file
+	// for installing Android pkg from uploaded APK file or ZIP archive
 	OfInstallAndroidPkgByFile *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Request
-	// for installing Android pkg from HTTP URL
+	// for installing Android pkg from HTTP URL (APK file or ZIP archive)
 	OfInstallAndroidPkgByURL *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL `json:",inline"`
 
 	paramObj
@@ -655,12 +655,35 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
-// Request for installing Android pkg from uploaded APK file
+// Request for installing Android pkg from uploaded APK file or ZIP archive
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
-	// APK file to install (max file size: 512MB)
+	// APK file or ZIP archive to install (max file size: 512MB).
+	//
+	// **Single APK mode (installMultiple: false):**
+	//
+	// - Upload a single APK file (e.g., app.apk)
+	//
+	// **Install-Multiple mode (installMultiple: true):**
+	//
+	// - Upload a ZIP archive containing multiple APK files
+	// - ZIP filename example: com.reddit.frontpage-gplay.zip
+	// - ZIP contents example:
+	//
+	// com.reddit.frontpage-gplay.zip └── com.reddit.frontpage-gplay/ (folder) ├──
+	// reddit-base.apk (base APK) ├── reddit-arm64.apk (architecture-specific) ├──
+	// reddit-en.apk (language pack) └── reddit-mdpi.apk (density-specific resources)
+	//
+	// This is commonly used for split APKs where different components are separated by
+	// architecture, language, or screen density.
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
+	// Whether to use 'adb install-multiple' command for installation. When true, uses
+	// install-multiple which is useful for split APKs or when installing multiple
+	// related packages. When false, uses standard 'adb install' command. Split APKs
+	// are commonly used for apps with different architecture variants, language packs,
+	// or modular components.
+	InstallMultiple param.Opt[bool] `json:"installMultiple,omitzero"`
 	// Whether to open the app after installation. Will find and launch the launcher
 	// activity of the installed app. If there are multiple launcher activities, only
 	// one will be opened. If the installed APK has no launcher activity, this
@@ -677,12 +700,38 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Request for installing Android pkg from HTTP URL
+// Request for installing Android pkg from HTTP URL (APK file or ZIP archive)
 //
 // The property Apk is required.
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL struct {
-	// HTTP URL to download APK file (max file size: 512MB)
+	// HTTP URL to download APK file or ZIP archive (max file size: 512MB).
+	//
+	// **Single APK mode (installMultiple: false):**
+	//
+	// - Provide URL to a single APK file
+	// - Example: https://example.com/app.apk
+	//
+	// **Install-Multiple mode (installMultiple: true):**
+	//
+	// - Provide URL to a ZIP archive containing multiple APK files
+	// - ZIP filename example: com.reddit.frontpage-gplay.zip
+	// - ZIP contents example:
+	//
+	// com.reddit.frontpage-gplay.zip └── com.reddit.frontpage-gplay/ (folder) ├──
+	// reddit-base.apk (base APK) ├── reddit-arm64.apk (architecture-specific) ├──
+	// reddit-en.apk (language pack) └── reddit-mdpi.apk (density-specific resources)
+	//
+	// - Example URL: https://example.com/com.reddit.frontpage-gplay.zip
+	//
+	// This is commonly used for split APKs where different components are separated by
+	// architecture, language, or screen density.
 	Apk string `json:"apk,required"`
+	// Whether to use 'adb install-multiple' command for installation. When true, uses
+	// install-multiple which is useful for split APKs or when installing multiple
+	// related packages. When false, uses standard 'adb install' command. Split APKs
+	// are commonly used for apps with different architecture variants, language packs,
+	// or modular components.
+	InstallMultiple param.Opt[bool] `json:"installMultiple,omitzero"`
 	// Whether to open the app after installation. Will find and launch the launcher
 	// activity of the installed app. If there are multiple launcher activities, only
 	// one will be opened. If the installed APK has no launcher activity, this

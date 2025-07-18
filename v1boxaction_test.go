@@ -240,6 +240,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionPressKeyParams{
 			Keys:              []string{"enter"},
+			Combination:       gboxsdk.Bool(true),
 			IncludeScreenshot: gboxsdk.Bool(false),
 			OutputFormat:      gboxsdk.V1BoxActionPressKeyParamsOutputFormatBase64,
 			ScreenshotDelay:   gboxsdk.String("500ms"),
@@ -475,6 +476,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionTypeParams{
 			Text:              "Hello World",
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Mode:              gboxsdk.V1BoxActionTypeParamsModeAppend,
 			OutputFormat:      gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
 			ScreenshotDelay:   gboxsdk.String("500ms"),
 		},
