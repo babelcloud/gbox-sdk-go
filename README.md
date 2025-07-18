@@ -24,7 +24,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.3'
+go get -u 'github.com/babelcloud/gbox-sdk-go@v0.1.0-alpha.4'
 ```
 
 <!-- x-release-please-end -->
@@ -50,8 +50,8 @@ import (
 
 func main() {
 	client := gboxsdk.NewClient(
-		option.WithAPIKey("My API Key"),  // defaults to os.LookupEnv("GBOX_API_KEY")
-		option.WithEnvironmentSelfHost(), // defaults to option.WithEnvironmentProduction()
+		option.WithAPIKey("My API Key"),     // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithEnvironmentSelfHosting(), // or option.WithEnvironmentProduction() | option.WithEnvironmentInternal(); defaults to option.WithEnvironmentProduction()
 	)
 	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},
@@ -350,24 +350,27 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 ```go
 // A file from the file system
 file, err := os.Open("/path/to/file")
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: file,
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: file,
+	Path:    "/home/user/documents/output.txt",
 }
 
 // A file from a string
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: strings.NewReader("my file contents"),
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: strings.NewReader("my file contents"),
+	Path:    "/home/user/documents/output.txt",
 }
 
 // With a custom filename and contentType
-gboxsdk.V1BoxAndroidInstallParamsInstallAndroidAppByFile{
-	Apk: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+gboxsdk.V1BoxFWriteParamsWriteFileByBinary{
+	Content: gboxsdk.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+	Path:    "/home/user/documents/output.txt",
 }
 ```
 
 ### Retries
 
-Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
+Certain errors will be automatically retried 0 times by default, with a short exponential backoff.
 We retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,
 and >=500 Internal errors.
 
