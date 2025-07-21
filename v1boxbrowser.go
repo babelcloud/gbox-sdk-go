@@ -142,10 +142,10 @@ func (r *V1BoxBrowserCloseTabResponse) UnmarshalJSON(data []byte) error {
 // List tabs
 type V1BoxBrowserGetTabsResponse struct {
 	// The tabs
-	Tabs []V1BoxBrowserGetTabsResponseTab `json:"tabs,required"`
+	Data []V1BoxBrowserGetTabsResponseData `json:"data,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Tabs        respjson.Field
+		Data        respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -158,7 +158,7 @@ func (r *V1BoxBrowserGetTabsResponse) UnmarshalJSON(data []byte) error {
 }
 
 // Browser tab
-type V1BoxBrowserGetTabsResponseTab struct {
+type V1BoxBrowserGetTabsResponseData struct {
 	// The tab id
 	ID string `json:"id,required"`
 	// Whether the tab is the current active (frontmost) tab
@@ -190,8 +190,8 @@ type V1BoxBrowserGetTabsResponseTab struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxBrowserGetTabsResponseTab) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxBrowserGetTabsResponseTab) UnmarshalJSON(data []byte) error {
+func (r V1BoxBrowserGetTabsResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxBrowserGetTabsResponseData) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
