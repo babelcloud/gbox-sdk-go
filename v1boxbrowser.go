@@ -50,8 +50,7 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1B
 
 // Close a specific browser tab identified by its id. This endpoint will
 // permanently close the tab and free up the associated resources. After closing a
-// tab, the ids of subsequent tabs may change. You cannot close the last remaining
-// tab - at least one tab must remain open in the browser context.
+// tab, the ids of subsequent tabs may change.
 func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabID string, body V1BoxBrowserCloseTabParams, opts ...option.RequestOption) (res *V1BoxBrowserCloseTabResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if body.BoxID == "" {
@@ -99,6 +98,26 @@ func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1
 	}
 	path := fmt.Sprintf("boxes/%s/browser/tabs", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// Switch to a specific browser tab by bringing it to the foreground (making it the
+// active/frontmost tab). This operation sets the specified tab as the currently
+// active tab without changing its URL or content. The tab will receive focus and
+// become visible to the user. This is useful for managing multiple browser
+// sessions and controlling which tab is currently in focus.
+func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, params V1BoxBrowserSwitchTabParams, opts ...option.RequestOption) (res *V1BoxBrowserSwitchTabResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	if tabID == "" {
+		err = errors.New("missing required tabId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/tabs/%s/switch", params.BoxID, tabID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return
 }
 
@@ -234,6 +253,44 @@ func (r *V1BoxBrowserOpenTabResponse) UnmarshalJSON(data []byte) error {
 }
 
 // Browser tab
+type V1BoxBrowserSwitchTabResponse struct {
+	// The tab id
+	ID string `json:"id,required"`
+	// Whether the tab is the current active (frontmost) tab
+	Active bool `json:"active,required"`
+	// The tab favicon
+	Favicon string `json:"favicon,required"`
+	// Whether the tab is currently in a loading state.
+	//
+	// The value is **true** while the browser is still navigating to the target URL or
+	// fetching sub-resources (i.e. `document.readyState` is not "complete"). It
+	// typically switches to **false** once the `load` event fires and all major
+	// network activity has settled.
+	Loading bool `json:"loading,required"`
+	// The tab title
+	Title string `json:"title,required"`
+	// The tab url
+	URL string `json:"url,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Active      respjson.Field
+		Favicon     respjson.Field
+		Loading     respjson.Field
+		Title       respjson.Field
+		URL         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxBrowserSwitchTabResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxBrowserSwitchTabResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Browser tab
 type V1BoxBrowserUpdateTabResponse struct {
 	// The tab id
 	ID string `json:"id,required"`
@@ -304,6 +361,21 @@ func (r V1BoxBrowserOpenTabParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxBrowserOpenTabParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxBrowserSwitchTabParams struct {
+	BoxID string `path:"boxId,required" json:"-"`
+	// The tab id
+	ID param.Opt[string] `json:"id,omitzero"`
+	paramObj
+}
+
+func (r V1BoxBrowserSwitchTabParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxBrowserSwitchTabParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxBrowserSwitchTabParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
