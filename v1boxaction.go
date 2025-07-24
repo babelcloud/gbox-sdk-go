@@ -709,7 +709,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActi
 	// Initial touch point position
 	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart `json:"start,required"`
 	// Sequence of actions to perform after initial touch
-	Actions []any `json:"actions"`
+	Actions []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion `json:"actions"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Start       respjson.Field
@@ -747,6 +747,106 @@ func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchA
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion struct {
+	Duration string `json:"duration"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction].
+	Y    float64 `json:"y"`
+	JSON struct {
+		Duration respjson.Field
+		Type     respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion) AsTouchPointMoveAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Touch point movement action configuration
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction struct {
+	// Duration of the movement (e.g. "200ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 200ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	// Target X coordinate
+	X float64 `json:"x,required"`
+	// Target Y coordinate
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto struct {
+	// Duration to wait (e.g. "500ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1951,7 +2051,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint st
 	// Initial touch point position
 	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart `json:"start,required"`
 	// Sequence of actions to perform after initial touch
-	Actions []any `json:"actions"`
+	Actions []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion `json:"actions"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Start       respjson.Field
@@ -1989,6 +2089,106 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion struct {
+	Duration string `json:"duration"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction].
+	Y    float64 `json:"y"`
+	JSON struct {
+		Duration respjson.Field
+		Type     respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion) AsTouchPointMoveAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Touch point movement action configuration
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction struct {
+	// Duration of the movement (e.g. "200ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 200ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	// Target X coordinate
+	X float64 `json:"x,required"`
+	// Target Y coordinate
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointMoveAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto struct {
+	// Duration to wait (e.g. "500ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Duration    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPointActionTouchPointWaitActionDto) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -5261,7 +5461,7 @@ type V1BoxActionTouchParamsPoint struct {
 	// Initial touch point position
 	Start V1BoxActionTouchParamsPointStart `json:"start,omitzero,required"`
 	// Sequence of actions to perform after initial touch
-	Actions []any `json:"actions,omitzero"`
+	Actions []V1BoxActionTouchParamsPointActionUnion `json:"actions,omitzero"`
 	paramObj
 }
 
@@ -5289,6 +5489,113 @@ func (r V1BoxActionTouchParamsPointStart) MarshalJSON() (data []byte, err error)
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxActionTouchParamsPointStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxActionTouchParamsPointActionUnion struct {
+	OfTouchPointMoveAction                                *V1BoxActionTouchParamsPointActionTouchPointMoveAction    `json:",omitzero,inline"`
+	OfV1BoxActionTouchsPointActionTouchPointWaitActionDto *V1BoxActionTouchParamsPointActionTouchPointWaitActionDto `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxActionTouchParamsPointActionUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfTouchPointMoveAction, u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto)
+}
+func (u *V1BoxActionTouchParamsPointActionUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxActionTouchParamsPointActionUnion) asAny() any {
+	if !param.IsOmitted(u.OfTouchPointMoveAction) {
+		return u.OfTouchPointMoveAction
+	} else if !param.IsOmitted(u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto) {
+		return u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto
+	}
+	return nil
+}
+
+// Returns a pointer to the underlying variant's property, if present.
+func (u V1BoxActionTouchParamsPointActionUnion) GetX() *float64 {
+	if vt := u.OfTouchPointMoveAction; vt != nil {
+		return &vt.X
+	}
+	return nil
+}
+
+// Returns a pointer to the underlying variant's property, if present.
+func (u V1BoxActionTouchParamsPointActionUnion) GetY() *float64 {
+	if vt := u.OfTouchPointMoveAction; vt != nil {
+		return &vt.Y
+	}
+	return nil
+}
+
+// Returns a pointer to the underlying variant's property, if present.
+func (u V1BoxActionTouchParamsPointActionUnion) GetDuration() *string {
+	if vt := u.OfTouchPointMoveAction; vt != nil {
+		return (*string)(&vt.Duration)
+	} else if vt := u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto; vt != nil {
+		return (*string)(&vt.Duration)
+	}
+	return nil
+}
+
+// Returns a pointer to the underlying variant's property, if present.
+func (u V1BoxActionTouchParamsPointActionUnion) GetType() *string {
+	if vt := u.OfTouchPointMoveAction; vt != nil {
+		return (*string)(&vt.Type)
+	} else if vt := u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto; vt != nil {
+		return (*string)(&vt.Type)
+	}
+	return nil
+}
+
+// Touch point movement action configuration
+//
+// The properties Duration, Type, X, Y are required.
+type V1BoxActionTouchParamsPointActionTouchPointMoveAction struct {
+	// Duration of the movement (e.g. "200ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 200ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	// Target X coordinate
+	X float64 `json:"x,required"`
+	// Target Y coordinate
+	Y float64 `json:"y,required"`
+	paramObj
+}
+
+func (r V1BoxActionTouchParamsPointActionTouchPointMoveAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTouchParamsPointActionTouchPointMoveAction
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionTouchParamsPointActionTouchPointMoveAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties Duration, Type are required.
+type V1BoxActionTouchParamsPointActionTouchPointWaitActionDto struct {
+	// Duration to wait (e.g. "500ms")
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration,required"`
+	// Type of the action
+	Type string `json:"type,required"`
+	paramObj
+}
+
+func (r V1BoxActionTouchParamsPointActionTouchPointWaitActionDto) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTouchParamsPointActionTouchPointWaitActionDto
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionTouchParamsPointActionTouchPointWaitActionDto) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
