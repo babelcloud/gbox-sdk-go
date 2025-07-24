@@ -436,11 +436,13 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 					X: 100,
 					Y: 150,
 				},
-				Actions: []any{map[string]interface{}{
-					"type":     "move",
-					"x":        400,
-					"y":        300,
-					"duration": "200ms",
+				Actions: []gboxsdk.V1BoxActionTouchParamsPointActionUnion{{
+					OfTouchPointMoveAction: &gboxsdk.V1BoxActionTouchParamsPointActionTouchPointMoveAction{
+						Duration: "200ms",
+						Type:     "move",
+						X:        400,
+						Y:        300,
+					},
 				}},
 			}},
 			IncludeScreenshot: gboxsdk.Bool(false),
