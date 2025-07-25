@@ -106,9 +106,9 @@ func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1
 // active tab without changing its URL or content. The tab will receive focus and
 // become visible to the user. This is useful for managing multiple browser
 // sessions and controlling which tab is currently in focus.
-func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, params V1BoxBrowserSwitchTabParams, opts ...option.RequestOption) (res *V1BoxBrowserSwitchTabResponse, err error) {
+func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, body V1BoxBrowserSwitchTabParams, opts ...option.RequestOption) (res *V1BoxBrowserSwitchTabResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if params.BoxID == "" {
+	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
@@ -116,8 +116,8 @@ func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, param
 		err = errors.New("missing required tabId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/browser/tabs/%s/switch", params.BoxID, tabID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	path := fmt.Sprintf("boxes/%s/browser/tabs/%s/switch", body.BoxID, tabID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -366,17 +366,7 @@ func (r *V1BoxBrowserOpenTabParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxBrowserSwitchTabParams struct {
 	BoxID string `path:"boxId,required" json:"-"`
-	// The tab id
-	ID param.Opt[string] `json:"id,omitzero"`
 	paramObj
-}
-
-func (r V1BoxBrowserSwitchTabParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxBrowserSwitchTabParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxBrowserSwitchTabParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxBrowserUpdateTabParams struct {
