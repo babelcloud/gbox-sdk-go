@@ -123,7 +123,7 @@ func TestV1BoxBrowserOpenTab(t *testing.T) {
 	}
 }
 
-func TestV1BoxBrowserSwitchTabWithOptionalParams(t *testing.T) {
+func TestV1BoxBrowserSwitchTab(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -141,7 +141,6 @@ func TestV1BoxBrowserSwitchTabWithOptionalParams(t *testing.T) {
 		"tabId",
 		gboxsdk.V1BoxBrowserSwitchTabParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-			ID:    gboxsdk.String("1"),
 		},
 	)
 	if err != nil {
