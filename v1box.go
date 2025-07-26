@@ -159,6 +159,17 @@ func (r *V1BoxService) Stop(ctx context.Context, boxID string, body V1BoxStopPar
 	return
 }
 
+func (r *V1BoxService) StorageKey(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/storage-key", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
 // Terminate a running box. This action will stop the box and release its resources
 func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
