@@ -392,10 +392,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Button string `json:"button"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickAction].
-	Double            bool   `json:"double"`
-	IncludeScreenshot bool   `json:"includeScreenshot"`
-	OutputFormat      string `json:"outputFormat"`
-	ScreenshotDelay   string `json:"screenshotDelay"`
+	Double             bool   `json:"double"`
+	IncludeScreenshot  bool   `json:"includeScreenshot"`
+	OutputFormat       string `json:"outputFormat"`
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	ScreenshotDelay    string `json:"screenshotDelay"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction].
 	Points []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:"points"`
@@ -443,30 +444,31 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		Button            respjson.Field
-		Double            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		Points            respjson.Field
-		Path              respjson.Field
-		Duration          respjson.Field
-		End               respjson.Field
-		Start             respjson.Field
-		ScrollX           respjson.Field
-		ScrollY           respjson.Field
-		Direction         respjson.Field
-		Distance          respjson.Field
-		Keys              respjson.Field
-		Combination       respjson.Field
-		Buttons           respjson.Field
-		Text              respjson.Field
-		Mode              respjson.Field
-		Angle             respjson.Field
-		Clip              respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		Button             respjson.Field
+		Double             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		Points             respjson.Field
+		Path               respjson.Field
+		Duration           respjson.Field
+		End                respjson.Field
+		Start              respjson.Field
+		ScrollX            respjson.Field
+		ScrollY            respjson.Field
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Keys               respjson.Field
+		Combination        respjson.Field
+		Buttons            respjson.Field
+		Text               respjson.Field
+		Mode               respjson.Field
+		Angle              respjson.Field
+		Clip               respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -622,6 +624,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickActi
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -639,15 +646,16 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickActi
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		Button            respjson.Field
-		Double            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		Button             respjson.Field
+		Double             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -670,6 +678,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActi
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -687,12 +700,13 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActi
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Points            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Points             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -866,6 +880,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvan
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -883,13 +902,14 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvan
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Path              respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Path               respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -942,6 +962,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -959,14 +984,15 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		End               respjson.Field
-		Start             respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		End                respjson.Field
+		Start              respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1041,6 +1067,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAct
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1058,15 +1089,16 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAct
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ScrollX           respjson.Field
-		ScrollY           respjson.Field
-		X                 respjson.Field
-		Y                 respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		ScrollX            respjson.Field
+		ScrollY            respjson.Field
+		X                  respjson.Field
+		Y                  respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1101,6 +1133,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1118,14 +1155,15 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Direction         respjson.Field
-		Distance          respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1155,6 +1193,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdva
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1172,14 +1215,15 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdva
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		End               respjson.Field
-		Start             respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		End                respjson.Field
+		Start              respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1267,6 +1311,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyA
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1284,13 +1333,14 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyA
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Keys              respjson.Field
-		Combination       respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Keys               respjson.Field
+		Combination        respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1316,6 +1366,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButt
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1333,12 +1388,13 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButt
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Buttons           respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Buttons            respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1366,6 +1422,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1383,13 +1444,14 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Text              respjson.Field
-		IncludeScreenshot respjson.Field
-		Mode              respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Text               respjson.Field
+		IncludeScreenshot  respjson.Field
+		Mode               respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1414,6 +1476,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveActio
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1431,13 +1498,14 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveActio
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1544,6 +1612,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitActio
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1561,12 +1634,13 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitActio
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1604,13 +1678,16 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshot) UnmarshalJSON(
 
 // Screenshot taken after action execution
 type V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -1624,13 +1701,16 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter) Unmarshal
 
 // Screenshot taken before action execution
 type V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -1738,10 +1818,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Button string `json:"button"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction].
-	Double            bool   `json:"double"`
-	IncludeScreenshot bool   `json:"includeScreenshot"`
-	OutputFormat      string `json:"outputFormat"`
-	ScreenshotDelay   string `json:"screenshotDelay"`
+	Double             bool   `json:"double"`
+	IncludeScreenshot  bool   `json:"includeScreenshot"`
+	OutputFormat       string `json:"outputFormat"`
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	ScreenshotDelay    string `json:"screenshotDelay"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction].
 	Points []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:"points"`
@@ -1789,30 +1870,31 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		Button            respjson.Field
-		Double            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		Points            respjson.Field
-		Path              respjson.Field
-		Duration          respjson.Field
-		End               respjson.Field
-		Start             respjson.Field
-		ScrollX           respjson.Field
-		ScrollY           respjson.Field
-		Direction         respjson.Field
-		Distance          respjson.Field
-		Keys              respjson.Field
-		Combination       respjson.Field
-		Buttons           respjson.Field
-		Text              respjson.Field
-		Mode              respjson.Field
-		Angle             respjson.Field
-		Clip              respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		Button             respjson.Field
+		Double             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		Points             respjson.Field
+		Path               respjson.Field
+		Duration           respjson.Field
+		End                respjson.Field
+		Start              respjson.Field
+		ScrollX            respjson.Field
+		ScrollY            respjson.Field
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Keys               respjson.Field
+		Combination        respjson.Field
+		Buttons            respjson.Field
+		Text               respjson.Field
+		Mode               respjson.Field
+		Angle              respjson.Field
+		Clip               respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -1964,6 +2046,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction struct 
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1981,15 +2068,16 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction struct 
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		Button            respjson.Field
-		Double            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		Button             respjson.Field
+		Double             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2012,6 +2100,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction struct 
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2029,12 +2122,13 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction struct 
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Points            respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Points             respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2208,6 +2302,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction 
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2225,13 +2324,14 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction 
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Path              respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Path               respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2284,6 +2384,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction st
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2301,14 +2406,15 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction st
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		End               respjson.Field
-		Start             respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		End                respjson.Field
+		Start              respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2383,6 +2489,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2400,15 +2511,16 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ScrollX           respjson.Field
-		ScrollY           respjson.Field
-		X                 respjson.Field
-		Y                 respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		ScrollX            respjson.Field
+		ScrollY            respjson.Field
+		X                  respjson.Field
+		Y                  respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2443,6 +2555,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2460,14 +2577,15 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Direction         respjson.Field
-		Distance          respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2497,6 +2615,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2514,14 +2637,15 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		End               respjson.Field
-		Start             respjson.Field
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		End                respjson.Field
+		Start              respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2609,6 +2733,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction stru
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2626,13 +2755,14 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction stru
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Keys              respjson.Field
-		Combination       respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Keys               respjson.Field
+		Combination        respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2658,6 +2788,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction s
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2675,12 +2810,13 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction s
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Buttons           respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Buttons            respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2708,6 +2844,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2725,13 +2866,14 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Text              respjson.Field
-		IncludeScreenshot respjson.Field
-		Mode              respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Text               respjson.Field
+		IncludeScreenshot  respjson.Field
+		Mode               respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2756,6 +2898,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2773,13 +2920,14 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction struct {
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		X                 respjson.Field
-		Y                 respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		X                  respjson.Field
+		Y                  respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -2886,6 +3034,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2903,12 +3056,13 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction struct {
 	ScreenshotDelay string `json:"screenshotDelay"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Duration          respjson.Field
-		IncludeScreenshot respjson.Field
-		OutputFormat      respjson.Field
-		ScreenshotDelay   respjson.Field
-		ExtraFields       map[string]respjson.Field
-		raw               string
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
 	} `json:"-"`
 }
 
@@ -3001,13 +3155,16 @@ func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3021,13 +3178,16 @@ func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3158,13 +3318,16 @@ func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3178,13 +3341,16 @@ func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3338,13 +3504,16 @@ func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3358,13 +3527,16 @@ func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3497,13 +3669,16 @@ func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot) 
 
 // Screenshot taken after action execution
 type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3517,13 +3692,16 @@ func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAf
 
 // Screenshot taken before action execution
 type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3654,13 +3832,16 @@ func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot) Unm
 
 // Screenshot taken after action execution
 type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3674,13 +3855,16 @@ func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter
 
 // Screenshot taken before action execution
 type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3884,13 +4068,16 @@ func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreensho
 
 // Screenshot taken after action execution
 type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3904,13 +4091,16 @@ func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreensho
 
 // Screenshot taken before action execution
 type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -3964,11 +4154,14 @@ func (r *V1BoxActionScreenRotationResponseActionCommonResult) UnmarshalJSON(data
 type V1BoxActionScreenshotResponse struct {
 	// URL of the screenshot
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		Uri          respjson.Field
+		PresignedURL respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4059,13 +4252,16 @@ func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot) Unmar
 
 // Screenshot taken after action execution
 type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4079,13 +4275,16 @@ func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter) 
 
 // Screenshot taken before action execution
 type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4216,13 +4415,16 @@ func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4236,13 +4438,16 @@ func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4373,13 +4578,16 @@ func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4393,13 +4601,16 @@ func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4530,13 +4741,16 @@ func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4550,13 +4764,16 @@ func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore struct {
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Uri         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		PresignedURL respjson.Field
+		Uri          respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -4617,6 +4834,11 @@ type V1BoxActionAIParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4690,6 +4912,11 @@ type V1BoxActionClickParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4790,6 +5017,11 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4878,6 +5110,11 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4966,6 +5203,11 @@ type V1BoxActionMoveParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5013,6 +5255,11 @@ type V1BoxActionPressButtonParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5076,6 +5323,11 @@ type V1BoxActionPressKeyParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5203,6 +5455,11 @@ type V1BoxActionScrollParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5288,6 +5545,11 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5344,6 +5606,11 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5424,6 +5691,11 @@ type V1BoxActionTouchParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5613,6 +5885,11 @@ type V1BoxActionTypeParams struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:

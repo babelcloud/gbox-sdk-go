@@ -27,6 +27,7 @@ import (
 // the [NewV1BoxService] method instead.
 type V1BoxService struct {
 	Options []option.RequestOption
+	Storage V1BoxStorageService
 	Actions V1BoxActionService
 	Fs      V1BoxFService
 	Browser V1BoxBrowserService
@@ -39,6 +40,7 @@ type V1BoxService struct {
 func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	r = V1BoxService{}
 	r.Options = opts
+	r.Storage = NewV1BoxStorageService(opts...)
 	r.Actions = NewV1BoxActionService(opts...)
 	r.Fs = NewV1BoxFService(opts...)
 	r.Browser = NewV1BoxBrowserService(opts...)
@@ -156,17 +158,6 @@ func (r *V1BoxService) Stop(ctx context.Context, boxID string, body V1BoxStopPar
 	}
 	path := fmt.Sprintf("boxes/%s/stop", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
-func (r *V1BoxService) StorageKey(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
-	opts = append(r.Options[:], opts...)
-	if boxID == "" {
-		err = errors.New("missing required boxId parameter")
-		return
-	}
-	path := fmt.Sprintf("boxes/%s/storage-key", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -1127,6 +1118,7 @@ func (r *V1BoxWebTerminalURLResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Box WebSocket Url
 type V1BoxWebsocketURLResponse struct {
 	// WebSocket URL for executing shell commands in the box. This endpoint allows
 	// real-time command execution with streaming output, supporting interactive
