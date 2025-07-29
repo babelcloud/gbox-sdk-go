@@ -787,7 +787,7 @@ func (r *V1BoxListResponseDataUnionConfigOs) UnmarshalJSON(data []byte) error {
 type V1BoxDisplayResponse struct {
 	// Orientation of the box
 	//
-	// Any of "portrait", "landscape", "landscape-reverse", "portrait-reverse".
+	// Any of "portrait", "landscapeLeft", "portraitUpsideDown", "landscapeRight".
 	Orientation V1BoxDisplayResponseOrientation `json:"orientation,required"`
 	// Resolution configuration
 	Resolution V1BoxDisplayResponseResolution `json:"resolution,required"`
@@ -810,10 +810,10 @@ func (r *V1BoxDisplayResponse) UnmarshalJSON(data []byte) error {
 type V1BoxDisplayResponseOrientation string
 
 const (
-	V1BoxDisplayResponseOrientationPortrait         V1BoxDisplayResponseOrientation = "portrait"
-	V1BoxDisplayResponseOrientationLandscape        V1BoxDisplayResponseOrientation = "landscape"
-	V1BoxDisplayResponseOrientationLandscapeReverse V1BoxDisplayResponseOrientation = "landscape-reverse"
-	V1BoxDisplayResponseOrientationPortraitReverse  V1BoxDisplayResponseOrientation = "portrait-reverse"
+	V1BoxDisplayResponseOrientationPortrait           V1BoxDisplayResponseOrientation = "portrait"
+	V1BoxDisplayResponseOrientationLandscapeLeft      V1BoxDisplayResponseOrientation = "landscapeLeft"
+	V1BoxDisplayResponseOrientationPortraitUpsideDown V1BoxDisplayResponseOrientation = "portraitUpsideDown"
+	V1BoxDisplayResponseOrientationLandscapeRight     V1BoxDisplayResponseOrientation = "landscapeRight"
 )
 
 // Resolution configuration
