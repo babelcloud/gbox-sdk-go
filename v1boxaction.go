@@ -1708,14 +1708,14 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshot) UnmarshalJSON(
 
 // Screenshot taken after action execution
 type V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -1731,14 +1731,14 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultScreenshotAfter) Unmarshal
 
 // Screenshot taken before action execution
 type V1BoxActionAIResponseAIActionScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3213,14 +3213,14 @@ func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3236,14 +3236,14 @@ func (r *V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionClickResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3376,14 +3376,14 @@ func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3399,14 +3399,14 @@ func (r *V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionDragResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3562,14 +3562,14 @@ func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3585,14 +3585,14 @@ func (r *V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionMoveResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3727,14 +3727,14 @@ func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshot) 
 
 // Screenshot taken after action execution
 type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3750,14 +3750,14 @@ func (r *V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotAf
 
 // Screenshot taken before action execution
 type V1BoxActionPressButtonResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3890,14 +3890,14 @@ func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshot) Unm
 
 // Screenshot taken after action execution
 type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -3913,14 +3913,14 @@ func (r *V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotAfter
 
 // Screenshot taken before action execution
 type V1BoxActionPressKeyResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4126,14 +4126,14 @@ func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreensho
 
 // Screenshot taken after action execution
 type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4149,14 +4149,14 @@ func (r *V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreensho
 
 // Screenshot taken before action execution
 type V1BoxActionScreenRotationResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4310,14 +4310,14 @@ func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshot) Unmar
 
 // Screenshot taken after action execution
 type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4333,14 +4333,14 @@ func (r *V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotAfter) 
 
 // Screenshot taken before action execution
 type V1BoxActionScrollResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4473,14 +4473,14 @@ func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4496,14 +4496,14 @@ func (r *V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionSwipeResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4636,14 +4636,14 @@ func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshot) Unmars
 
 // Screenshot taken after action execution
 type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4659,14 +4659,14 @@ func (r *V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotAfter) U
 
 // Screenshot taken before action execution
 type V1BoxActionTouchResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4799,14 +4799,14 @@ func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshot) Unmarsh
 
 // Screenshot taken after action execution
 type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot after the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -4822,14 +4822,14 @@ func (r *V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotAfter) Un
 
 // Screenshot taken before action execution
 type V1BoxActionTypeResponseActionIncludeScreenshotResultScreenshotBefore struct {
-	// Presigned url of the screenshot before the action
-	PresignedURL string `json:"presignedUrl,required"`
 	// URI of the screenshot before the action
 	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot before the action
+	PresignedURL string `json:"presignedUrl"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		PresignedURL respjson.Field
 		Uri          respjson.Field
+		PresignedURL respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
