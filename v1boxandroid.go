@@ -661,11 +661,11 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
 	// APK file or ZIP archive to install (max file size: 512MB).
 	//
-	// **Single APK mode (installMultiple: false):**
+	// **Single APK mode:**
 	//
 	// - Upload a single APK file (e.g., app.apk)
 	//
-	// **Install-Multiple mode (installMultiple: true):**
+	// **Install-Multiple mode:**
 	//
 	// - Upload a ZIP archive containing multiple APK files
 	// - ZIP filename example: com.reddit.frontpage-gplay.zip
@@ -678,12 +678,6 @@ type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
 	// This is commonly used for split APKs where different components are separated by
 	// architecture, language, or screen density.
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
-	// Whether to use 'adb install-multiple' command for installation. When true, uses
-	// install-multiple which is useful for split APKs or when installing multiple
-	// related packages. When false, uses standard 'adb install' command. Split APKs
-	// are commonly used for apps with different architecture variants, language packs,
-	// or modular components.
-	InstallMultiple param.Opt[bool] `json:"installMultiple,omitzero"`
 	// Whether to open the app after installation. Will find and launch the launcher
 	// activity of the installed app. If there are multiple launcher activities, only
 	// one will be opened. If the installed APK has no launcher activity, this
@@ -726,12 +720,6 @@ type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL struct {
 	// This is commonly used for split APKs where different components are separated by
 	// architecture, language, or screen density.
 	Apk string `json:"apk,required"`
-	// Whether to use 'adb install-multiple' command for installation. When true, uses
-	// install-multiple which is useful for split APKs or when installing multiple
-	// related packages. When false, uses standard 'adb install' command. Split APKs
-	// are commonly used for apps with different architecture variants, language packs,
-	// or modular components.
-	InstallMultiple param.Opt[bool] `json:"installMultiple,omitzero"`
 	// Whether to open the app after installation. Will find and launch the launcher
 	// activity of the installed app. If there are multiple launcher activities, only
 	// one will be opened. If the installed APK has no launcher activity, this
