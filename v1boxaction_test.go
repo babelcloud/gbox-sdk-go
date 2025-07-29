@@ -284,7 +284,7 @@ func TestV1BoxActionScreenLayout(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionScreenRotation(t *testing.T) {
+func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -301,8 +301,11 @@ func TestV1BoxActionScreenRotation(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScreenRotationParams{
-			Angle:     90,
-			Direction: gboxsdk.V1BoxActionScreenRotationParamsDirectionClockwise,
+			Orientation:        gboxsdk.V1BoxActionScreenRotationParamsOrientationLandscapeLeft,
+			IncludeScreenshot:  gboxsdk.Bool(false),
+			OutputFormat:       gboxsdk.V1BoxActionScreenRotationParamsOutputFormatBase64,
+			PresignedExpiresIn: gboxsdk.String("30m"),
+			ScreenshotDelay:    gboxsdk.String("500ms"),
 		},
 	)
 	if err != nil {
