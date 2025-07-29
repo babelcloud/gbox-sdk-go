@@ -664,10 +664,12 @@ type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
 	// **Single APK mode:**
 	//
 	// - Upload a single APK file (e.g., app.apk)
+	// - System will automatically detect and install as single APK
 	//
-	// **Install-Multiple mode:**
+	// **Multi-APK mode (automatically detected):**
 	//
 	// - Upload a ZIP archive containing multiple APK files
+	// - System will automatically detect ZIP format and install all APKs inside
 	// - ZIP filename example: com.reddit.frontpage-gplay.zip
 	// - ZIP contents example:
 	//
@@ -700,14 +702,16 @@ func (r *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile) UnmarshalJSON(dat
 type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL struct {
 	// HTTP URL to download APK file or ZIP archive (max file size: 512MB).
 	//
-	// **Single APK mode (installMultiple: false):**
+	// **Single APK mode (automatically detected):**
 	//
 	// - Provide URL to a single APK file
+	// - System will automatically detect .apk extension and install as single APK
 	// - Example: https://example.com/app.apk
 	//
-	// **Install-Multiple mode (installMultiple: true):**
+	// **Multi-APK mode (automatically detected):**
 	//
 	// - Provide URL to a ZIP archive containing multiple APK files
+	// - System will automatically detect .zip extension and install all APKs inside
 	// - ZIP filename example: com.reddit.frontpage-gplay.zip
 	// - ZIP contents example:
 	//
