@@ -26,7 +26,7 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.AI(
+	err := client.V1.Boxes.Actions.AI(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionAIParams{
@@ -40,6 +40,7 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 				DisableActions: []string{"swipe"},
 				SystemPrompt:   gboxsdk.String("You are a helpful assistant specialized in UI automation. When given a screenshot and instruction, analyze the visual elements carefully and execute the most appropriate action. Always prioritize user safety and avoid destructive actions unless explicitly requested."),
 			},
+			Stream: gboxsdk.Bool(false),
 		},
 	)
 	if err != nil {
