@@ -62,7 +62,7 @@ func TestV1BoxMediaDeleteAlbum(t *testing.T) {
 	)
 	err := client.V1.Boxes.Media.DeleteAlbum(
 		context.TODO(),
-		"albumName",
+		"Pictures",
 		gboxsdk.V1BoxMediaDeleteAlbumParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
@@ -91,10 +91,10 @@ func TestV1BoxMediaDeleteMedia(t *testing.T) {
 	)
 	err := client.V1.Boxes.Media.DeleteMedia(
 		context.TODO(),
-		"mediaName",
+		"IMG_001.jpg",
 		gboxsdk.V1BoxMediaDeleteMediaParams{
 			BoxID:     "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-			AlbumName: "albumName",
+			AlbumName: "Pictures",
 		},
 	)
 	if err != nil {
@@ -120,10 +120,10 @@ func TestV1BoxMediaDownloadMedia(t *testing.T) {
 	)
 	resp, err := client.V1.Boxes.Media.DownloadMedia(
 		context.TODO(),
-		"mediaName",
+		"IMG_001.jpg",
 		gboxsdk.V1BoxMediaDownloadMediaParams{
 			BoxID:     "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-			AlbumName: "albumName",
+			AlbumName: "Pictures",
 		},
 	)
 	if err != nil {
@@ -163,7 +163,7 @@ func TestV1BoxMediaGetAlbumDetail(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Media.GetAlbumDetail(
 		context.TODO(),
-		"albumName",
+		"Pictures",
 		gboxsdk.V1BoxMediaGetAlbumDetailParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
@@ -215,7 +215,7 @@ func TestV1BoxMediaUpdateAlbum(t *testing.T) {
 	)
 	_, err := client.V1.Boxes.Media.UpdateAlbum(
 		context.TODO(),
-		"albumName",
+		"Pictures",
 		gboxsdk.V1BoxMediaUpdateAlbumParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 			Media: []io.Reader{io.Reader(bytes.NewBuffer([]byte("some file contents")))},
