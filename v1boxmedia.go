@@ -105,7 +105,7 @@ func (r *V1BoxMediaService) DownloadMedia(ctx context.Context, mediaName string,
 		err = errors.New("missing required mediaName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/media/albums/%s/media/%s", query.BoxID, query.AlbumName, mediaName)
+	path := fmt.Sprintf("boxes/%s/media/albums/%s/media/%s/download", query.BoxID, query.AlbumName, mediaName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -122,6 +122,26 @@ func (r *V1BoxMediaService) GetAlbumDetail(ctx context.Context, albumName string
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/media/albums/%s", query.BoxID, albumName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Get detailed information about a specific media file
+func (r *V1BoxMediaService) GetMedia(ctx context.Context, mediaName string, query V1BoxMediaGetMediaParams, opts ...option.RequestOption) (res *V1BoxMediaGetMediaResponseUnion, err error) {
+	opts = append(r.Options[:], opts...)
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	if query.AlbumName == "" {
+		err = errors.New("missing required albumName parameter")
+		return
+	}
+	if mediaName == "" {
+		err = errors.New("missing required mediaName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/media/albums/%s/media/%s", query.BoxID, query.AlbumName, mediaName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
@@ -178,14 +198,11 @@ type V1BoxMediaNewAlbumResponse struct {
 	Name string `json:"name,required"`
 	// Full path to the album in the box
 	Path string `json:"path,required"`
-	// Size of the album
-	Size string `json:"size,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
-		Size         respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -205,14 +222,11 @@ type V1BoxMediaGetAlbumDetailResponse struct {
 	Name string `json:"name,required"`
 	// Full path to the album in the box
 	Path string `json:"path,required"`
-	// Size of the album
-	Size string `json:"size,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
-		Size         respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -221,6 +235,115 @@ type V1BoxMediaGetAlbumDetailResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxMediaGetAlbumDetailResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxMediaGetAlbumDetailResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxMediaGetMediaResponseUnion contains all possible properties and values from
+// [V1BoxMediaGetMediaResponsePhoto], [V1BoxMediaGetMediaResponseVideo].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxMediaGetMediaResponseUnion struct {
+	LastModified time.Time `json:"lastModified"`
+	MimeType     string    `json:"mimeType"`
+	Name         string    `json:"name"`
+	Path         string    `json:"path"`
+	Size         string    `json:"size"`
+	Type         string    `json:"type"`
+	JSON         struct {
+		LastModified respjson.Field
+		MimeType     respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u V1BoxMediaGetMediaResponseUnion) AsPhoto() (v V1BoxMediaGetMediaResponsePhoto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxMediaGetMediaResponseUnion) AsVideo() (v V1BoxMediaGetMediaResponseVideo) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxMediaGetMediaResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxMediaGetMediaResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Photo representation
+type V1BoxMediaGetMediaResponsePhoto struct {
+	// Last modified time of the photo
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// MIME type of the photo
+	MimeType string `json:"mimeType,required"`
+	// Name of the photo
+	Name string `json:"name,required"`
+	// Full path to the photo in the box
+	Path string `json:"path,required"`
+	// Size of the photo
+	Size string `json:"size,required"`
+	// Photo type indicator
+	//
+	// Any of "photo".
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		MimeType     respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxMediaGetMediaResponsePhoto) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxMediaGetMediaResponsePhoto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Video representation
+type V1BoxMediaGetMediaResponseVideo struct {
+	// Last modified time of the video
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// MIME type of the video
+	MimeType string `json:"mimeType,required"`
+	// Name of the video
+	Name string `json:"name,required"`
+	// Full path to the video in the box
+	Path string `json:"path,required"`
+	// Size of the video
+	Size string `json:"size,required"`
+	// Video type indicator
+	//
+	// Any of "video".
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		MimeType     respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxMediaGetMediaResponseVideo) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxMediaGetMediaResponseVideo) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -250,14 +373,11 @@ type V1BoxMediaListAlbumsResponseData struct {
 	Name string `json:"name,required"`
 	// Full path to the album in the box
 	Path string `json:"path,required"`
-	// Size of the album
-	Size string `json:"size,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
-		Size         respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -294,12 +414,14 @@ func (r *V1BoxMediaListMediaResponse) UnmarshalJSON(data []byte) error {
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxMediaListMediaResponseDataUnion struct {
 	LastModified time.Time `json:"lastModified"`
+	MimeType     string    `json:"mimeType"`
 	Name         string    `json:"name"`
 	Path         string    `json:"path"`
 	Size         string    `json:"size"`
 	Type         string    `json:"type"`
 	JSON         struct {
 		LastModified respjson.Field
+		MimeType     respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		Size         respjson.Field
@@ -329,6 +451,8 @@ func (r *V1BoxMediaListMediaResponseDataUnion) UnmarshalJSON(data []byte) error 
 type V1BoxMediaListMediaResponseDataPhoto struct {
 	// Last modified time of the photo
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// MIME type of the photo
+	MimeType string `json:"mimeType,required"`
 	// Name of the photo
 	Name string `json:"name,required"`
 	// Full path to the photo in the box
@@ -342,6 +466,7 @@ type V1BoxMediaListMediaResponseDataPhoto struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MimeType     respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		Size         respjson.Field
@@ -361,6 +486,8 @@ func (r *V1BoxMediaListMediaResponseDataPhoto) UnmarshalJSON(data []byte) error 
 type V1BoxMediaListMediaResponseDataVideo struct {
 	// Last modified time of the video
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// MIME type of the video
+	MimeType string `json:"mimeType,required"`
 	// Name of the video
 	Name string `json:"name,required"`
 	// Full path to the video in the box
@@ -374,6 +501,7 @@ type V1BoxMediaListMediaResponseDataVideo struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MimeType     respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		Size         respjson.Field
@@ -397,14 +525,11 @@ type V1BoxMediaUpdateAlbumResponse struct {
 	Name string `json:"name,required"`
 	// Full path to the album in the box
 	Path string `json:"path,required"`
-	// Size of the album
-	Size string `json:"size,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
-		Size         respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -461,6 +586,12 @@ type V1BoxMediaDownloadMediaParams struct {
 
 type V1BoxMediaGetAlbumDetailParams struct {
 	BoxID string `path:"boxId,required" json:"-"`
+	paramObj
+}
+
+type V1BoxMediaGetMediaParams struct {
+	BoxID     string `path:"boxId,required" json:"-"`
+	AlbumName string `path:"albumName,required" json:"-"`
 	paramObj
 }
 
