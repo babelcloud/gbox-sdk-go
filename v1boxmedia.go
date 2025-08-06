@@ -90,8 +90,9 @@ func (r *V1BoxMediaService) DeleteMedia(ctx context.Context, mediaName string, b
 }
 
 // Download a specific media file from an album
-func (r *V1BoxMediaService) DownloadMedia(ctx context.Context, mediaName string, query V1BoxMediaDownloadMediaParams, opts ...option.RequestOption) (res *V1BoxMediaDownloadMediaResponse, err error) {
+func (r *V1BoxMediaService) DownloadMedia(ctx context.Context, mediaName string, query V1BoxMediaDownloadMediaParams, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -285,33 +286,6 @@ func (r *V1BoxMediaNewAlbumResponseDataVideo) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Media file representation for download
-type V1BoxMediaDownloadMediaResponse struct {
-	// Content of the media file (base64 encoded)
-	Content string `json:"content,required"`
-	// MIME type of the media file
-	MimeType string `json:"mimeType,required"`
-	// Name of the media file
-	Name string `json:"name,required"`
-	// Size of the media file
-	Size string `json:"size,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Content     respjson.Field
-		MimeType    respjson.Field
-		Name        respjson.Field
-		Size        respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxMediaDownloadMediaResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxMediaDownloadMediaResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 // Detailed album information with media files
 type V1BoxMediaGetAlbumDetailResponse struct {
 	// List of media files (photos and videos) in the album
@@ -444,7 +418,50 @@ func (r *V1BoxMediaGetAlbumDetailResponseDataVideo) UnmarshalJSON(data []byte) e
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxMediaListAlbumsResponse = any
+// List albums
+type V1BoxMediaListAlbumsResponse struct {
+	// List of albums
+	Data []V1BoxMediaListAlbumsResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxMediaListAlbumsResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxMediaListAlbumsResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Album representation
+type V1BoxMediaListAlbumsResponseData struct {
+	// Last modified time of the album
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Name of the album
+	Name string `json:"name,required"`
+	// Full path to the album in the box
+	Path string `json:"path,required"`
+	// Size of the album
+	Size string `json:"size,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxMediaListAlbumsResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxMediaListAlbumsResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 // Detailed album information with media files
 type V1BoxMediaUpdateAlbumResponse struct {

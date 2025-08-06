@@ -7,6 +7,8 @@ import (
 	"context"
 	"errors"
 	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
@@ -106,18 +108,17 @@ func TestV1BoxMediaDeleteMedia(t *testing.T) {
 
 func TestV1BoxMediaDownloadMedia(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("abc"))
+	}))
+	defer server.Close()
+	baseURL := server.URL
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Media.DownloadMedia(
+	resp, err := client.V1.Boxes.Media.DownloadMedia(
 		context.TODO(),
 		"mediaName",
 		gboxsdk.V1BoxMediaDownloadMediaParams{
@@ -131,6 +132,19 @@ func TestV1BoxMediaDownloadMedia(t *testing.T) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
 		t.Fatalf("err should be nil: %s", err.Error())
+	}
+	defer resp.Body.Close()
+
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+	if !bytes.Equal(b, []byte("abc")) {
+		t.Fatalf("return value not %s: %s", "abc", b)
 	}
 }
 
