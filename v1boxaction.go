@@ -124,6 +124,34 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 	return
 }
 
+// Start recording the box screen. Only one recording can be active at a time. If a
+// recording is already in progress, starting a new recording will stop the
+// previous one and keep only the latest recording.
+func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/recording/start", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
+// Stop recording the box screen
+func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/recording/stop", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
 // Get the current structured screen layout information. This endpoint returns
 // detailed structural information about the UI elements currently displayed on the
 // screen, which can be used for UI automation, element analysis, and accessibility
