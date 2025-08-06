@@ -29,6 +29,7 @@ type V1BoxService struct {
 	Options []option.RequestOption
 	Storage V1BoxStorageService
 	Actions V1BoxActionService
+	Proxy   V1BoxProxyService
 	Media   V1BoxMediaService
 	Fs      V1BoxFService
 	Browser V1BoxBrowserService
@@ -43,6 +44,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	r.Options = opts
 	r.Storage = NewV1BoxStorageService(opts...)
 	r.Actions = NewV1BoxActionService(opts...)
+	r.Proxy = NewV1BoxProxyService(opts...)
 	r.Media = NewV1BoxMediaService(opts...)
 	r.Fs = NewV1BoxFService(opts...)
 	r.Browser = NewV1BoxBrowserService(opts...)
