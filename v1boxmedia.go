@@ -126,7 +126,7 @@ func (r *V1BoxMediaService) GetAlbumDetail(ctx context.Context, albumName string
 }
 
 // Get a list of albums in the box
-func (r *V1BoxMediaService) ListAlbums(ctx context.Context, boxID string, opts ...option.RequestOption) (res *[]V1BoxMediaListAlbumsResponse, err error) {
+func (r *V1BoxMediaService) ListAlbums(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxMediaListAlbumsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -444,32 +444,7 @@ func (r *V1BoxMediaGetAlbumDetailResponseDataVideo) UnmarshalJSON(data []byte) e
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Album representation
-type V1BoxMediaListAlbumsResponse struct {
-	// Last modified time of the album
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// Name of the album
-	Name string `json:"name,required"`
-	// Full path to the album in the box
-	Path string `json:"path,required"`
-	// Size of the album
-	Size string `json:"size,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Size         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxMediaListAlbumsResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxMediaListAlbumsResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
+type V1BoxMediaListAlbumsResponse = any
 
 // Detailed album information with media files
 type V1BoxMediaUpdateAlbumResponse struct {
