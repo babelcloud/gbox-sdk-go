@@ -146,6 +146,18 @@ func (r *V1BoxMediaService) GetMedia(ctx context.Context, mediaName string, quer
 	return
 }
 
+// Get supported media file extensions for photos and videos
+func (r *V1BoxMediaService) GetMediaSupport(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxMediaGetMediaSupportResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/media/support", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
 // Get a list of albums in the box
 func (r *V1BoxMediaService) ListAlbums(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxMediaListAlbumsResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -344,6 +356,27 @@ type V1BoxMediaGetMediaResponseVideo struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxMediaGetMediaResponseVideo) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxMediaGetMediaResponseVideo) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Supported media extensions
+type V1BoxMediaGetMediaSupportResponse struct {
+	// Supported photo extensions
+	Photo []string `json:"photo,required"`
+	// Supported video extensions
+	Video []string `json:"video,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Photo       respjson.Field
+		Video       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxMediaGetMediaSupportResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxMediaGetMediaSupportResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
