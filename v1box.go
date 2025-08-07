@@ -13,6 +13,7 @@ import (
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
+	shimjson "github.com/babelcloud/gbox-sdk-go/internal/encoding/json"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
@@ -1188,7 +1189,7 @@ type V1BoxNewAndroidParams struct {
 }
 
 func (r V1BoxNewAndroidParams) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(r.CreateAndroidBox)
+	return shimjson.Marshal(r.CreateAndroidBox)
 }
 func (r *V1BoxNewAndroidParams) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &r.CreateAndroidBox)
@@ -1201,7 +1202,7 @@ type V1BoxNewLinuxParams struct {
 }
 
 func (r V1BoxNewLinuxParams) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(r.CreateLinuxBox)
+	return shimjson.Marshal(r.CreateLinuxBox)
 }
 func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &r.CreateLinuxBox)
