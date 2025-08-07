@@ -206,6 +206,8 @@ func (r *V1BoxMediaService) UpdateAlbum(ctx context.Context, albumName string, p
 type V1BoxMediaNewAlbumResponse struct {
 	// Last modified time of the album
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Number of media files in the album
+	MediaCount float64 `json:"mediaCount,required"`
 	// Name of the album
 	Name string `json:"name,required"`
 	// Full path to the album in the box
@@ -213,6 +215,7 @@ type V1BoxMediaNewAlbumResponse struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MediaCount   respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -230,6 +233,8 @@ func (r *V1BoxMediaNewAlbumResponse) UnmarshalJSON(data []byte) error {
 type V1BoxMediaGetAlbumDetailResponse struct {
 	// Last modified time of the album
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Number of media files in the album
+	MediaCount float64 `json:"mediaCount,required"`
 	// Name of the album
 	Name string `json:"name,required"`
 	// Full path to the album in the box
@@ -237,6 +242,7 @@ type V1BoxMediaGetAlbumDetailResponse struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MediaCount   respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -402,6 +408,8 @@ func (r *V1BoxMediaListAlbumsResponse) UnmarshalJSON(data []byte) error {
 type V1BoxMediaListAlbumsResponseData struct {
 	// Last modified time of the album
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Number of media files in the album
+	MediaCount float64 `json:"mediaCount,required"`
 	// Name of the album
 	Name string `json:"name,required"`
 	// Full path to the album in the box
@@ -409,6 +417,7 @@ type V1BoxMediaListAlbumsResponseData struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MediaCount   respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -554,6 +563,8 @@ func (r *V1BoxMediaListMediaResponseDataVideo) UnmarshalJSON(data []byte) error 
 type V1BoxMediaUpdateAlbumResponse struct {
 	// Last modified time of the album
 	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Number of media files in the album
+	MediaCount float64 `json:"mediaCount,required"`
 	// Name of the album
 	Name string `json:"name,required"`
 	// Full path to the album in the box
@@ -561,6 +572,7 @@ type V1BoxMediaUpdateAlbumResponse struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LastModified respjson.Field
+		MediaCount   respjson.Field
 		Name         respjson.Field
 		Path         respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -575,10 +587,10 @@ func (r *V1BoxMediaUpdateAlbumResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxMediaNewAlbumParams struct {
-	// Media files to include in the album (max size: 512MB per file)
-	Media []io.Reader `json:"media,omitzero,required" format:"binary"`
 	// Name of the album to create
 	Name string `json:"name,required"`
+	// Media files to include in the album (max size: 512MB per file)
+	Media []io.Reader `json:"media,omitzero" format:"binary"`
 	paramObj
 }
 

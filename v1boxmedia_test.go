@@ -17,7 +17,7 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
-func TestV1BoxMediaNewAlbum(t *testing.T) {
+func TestV1BoxMediaNewAlbumWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -34,8 +34,8 @@ func TestV1BoxMediaNewAlbum(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxMediaNewAlbumParams{
-			Media: []io.Reader{io.Reader(bytes.NewBuffer([]byte("some file contents")))},
 			Name:  "Vacation Photos",
+			Media: []io.Reader{io.Reader(bytes.NewBuffer([]byte("some file contents")))},
 		},
 	)
 	if err != nil {
