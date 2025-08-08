@@ -262,7 +262,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionRecordingStart(t *testing.T) {
+func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
 	t.Skip("skipped: tests are disabled for the time being")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -275,7 +275,13 @@ func TestV1BoxActionRecordingStart(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Actions.RecordingStart(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	err := client.V1.Boxes.Actions.RecordingStart(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionRecordingStartParams{
+			Duration: gboxsdk.String("10s"),
+		},
+	)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -298,7 +304,7 @@ func TestV1BoxActionRecordingStop(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Actions.RecordingStop(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Actions.RecordingStop(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
