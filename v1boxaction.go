@@ -127,7 +127,7 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 // Start recording the box screen. Only one recording can be active at a time. If a
 // recording is already in progress, starting a new recording will stop the
 // previous one and keep only the latest recording.
-func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, body V1BoxActionRecordingStartParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
@@ -135,20 +135,19 @@ func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, o
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/actions/recording/start", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
 
 // Stop recording the box screen
-func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionRecordingStopResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/actions/recording/stop", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -3998,6 +3997,30 @@ func (r *V1BoxActionPressKeyResponseActionCommonResult) UnmarshalJSON(data []byt
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Recording stop result
+type V1BoxActionRecordingStopResponse struct {
+	// Presigned URL of the recording. This is a temporary downloadable URL with an
+	// expiration time for accessing the recording file.
+	PresignedURL string `json:"presignedUrl,required"`
+	// Storage key of the recording. Before the box is deleted, you can use this
+	// storageKey with the endpoint `box/:boxId/storage/presigned-url` to get a
+	// downloadable URL for the recording.
+	StorageKey string `json:"storageKey,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		PresignedURL respjson.Field
+		StorageKey   respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionRecordingStopResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionRecordingStopResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Screen layout content.
 //
 // Android boxes (XML):
@@ -5453,6 +5476,24 @@ const (
 	V1BoxActionPressKeyParamsOutputFormatBase64     V1BoxActionPressKeyParamsOutputFormat = "base64"
 	V1BoxActionPressKeyParamsOutputFormatStorageKey V1BoxActionPressKeyParamsOutputFormat = "storageKey"
 )
+
+type V1BoxActionRecordingStartParams struct {
+	// Duration of the recording. Default is 30m, max is 30m. The recording will
+	// automatically stop when the duration time is reached.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Maximum allowed: 30m
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionRecordingStartParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionRecordingStartParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionRecordingStartParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type V1BoxActionScreenRotationParams struct {
 	// Target screen orientation
