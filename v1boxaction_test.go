@@ -14,7 +14,7 @@ import (
 )
 
 func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -53,7 +53,7 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -89,7 +89,7 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -132,7 +132,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionExtractWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -162,7 +162,7 @@ func TestV1BoxActionExtractWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -196,7 +196,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -229,7 +229,7 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -263,7 +263,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -292,7 +292,7 @@ func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionRecordingStop(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -315,7 +315,7 @@ func TestV1BoxActionRecordingStop(t *testing.T) {
 }
 
 func TestV1BoxActionScreenLayout(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -338,7 +338,7 @@ func TestV1BoxActionScreenLayout(t *testing.T) {
 }
 
 func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -371,7 +371,7 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -406,7 +406,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -442,7 +442,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -479,7 +479,7 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -525,7 +525,7 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL

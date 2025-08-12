@@ -18,7 +18,6 @@ import (
 )
 
 func TestV1BoxAndroidBackup(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte("abc"))
@@ -59,7 +58,6 @@ func TestV1BoxAndroidBackup(t *testing.T) {
 }
 
 func TestV1BoxAndroidBackupAll(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte("abc"))
@@ -94,7 +92,7 @@ func TestV1BoxAndroidBackupAll(t *testing.T) {
 }
 
 func TestV1BoxAndroidClose(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -123,7 +121,7 @@ func TestV1BoxAndroidClose(t *testing.T) {
 }
 
 func TestV1BoxAndroidCloseAll(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -146,7 +144,7 @@ func TestV1BoxAndroidCloseAll(t *testing.T) {
 }
 
 func TestV1BoxAndroidGet(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -175,7 +173,7 @@ func TestV1BoxAndroidGet(t *testing.T) {
 }
 
 func TestV1BoxAndroidGetApp(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -204,7 +202,7 @@ func TestV1BoxAndroidGetApp(t *testing.T) {
 }
 
 func TestV1BoxAndroidGetConnectAddress(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -227,7 +225,7 @@ func TestV1BoxAndroidGetConnectAddress(t *testing.T) {
 }
 
 func TestV1BoxAndroidInstallWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -254,7 +252,7 @@ func TestV1BoxAndroidInstallWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxAndroidListActivities(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -283,7 +281,7 @@ func TestV1BoxAndroidListActivities(t *testing.T) {
 }
 
 func TestV1BoxAndroidListApp(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -306,7 +304,7 @@ func TestV1BoxAndroidListApp(t *testing.T) {
 }
 
 func TestV1BoxAndroidListPkgWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -336,7 +334,7 @@ func TestV1BoxAndroidListPkgWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxAndroidListPkgSimpleWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -365,7 +363,7 @@ func TestV1BoxAndroidListPkgSimpleWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxAndroidOpenWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -395,7 +393,7 @@ func TestV1BoxAndroidOpenWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxAndroidRestartWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -425,7 +423,7 @@ func TestV1BoxAndroidRestartWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxAndroidRestore(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -454,7 +452,7 @@ func TestV1BoxAndroidRestore(t *testing.T) {
 }
 
 func TestV1BoxAndroidUninstallWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL

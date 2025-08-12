@@ -18,7 +18,7 @@ import (
 )
 
 func TestV1BoxMediaNewAlbumWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -48,7 +48,7 @@ func TestV1BoxMediaNewAlbumWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxMediaDeleteAlbum(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -77,7 +77,7 @@ func TestV1BoxMediaDeleteAlbum(t *testing.T) {
 }
 
 func TestV1BoxMediaDeleteMedia(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -107,7 +107,6 @@ func TestV1BoxMediaDeleteMedia(t *testing.T) {
 }
 
 func TestV1BoxMediaDownloadMedia(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte("abc"))
@@ -149,7 +148,7 @@ func TestV1BoxMediaDownloadMedia(t *testing.T) {
 }
 
 func TestV1BoxMediaGetAlbumDetail(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -178,7 +177,7 @@ func TestV1BoxMediaGetAlbumDetail(t *testing.T) {
 }
 
 func TestV1BoxMediaGetMedia(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -208,7 +207,7 @@ func TestV1BoxMediaGetMedia(t *testing.T) {
 }
 
 func TestV1BoxMediaGetMediaSupport(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -231,7 +230,7 @@ func TestV1BoxMediaGetMediaSupport(t *testing.T) {
 }
 
 func TestV1BoxMediaListAlbums(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -254,7 +253,7 @@ func TestV1BoxMediaListAlbums(t *testing.T) {
 }
 
 func TestV1BoxMediaListMedia(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -283,7 +282,7 @@ func TestV1BoxMediaListMedia(t *testing.T) {
 }
 
 func TestV1BoxMediaUpdateAlbum(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
