@@ -546,6 +546,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 			Mode:               gboxsdk.V1BoxActionTypeParamsModeAppend,
 			OutputFormat:       gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
+			PressEnter:         gboxsdk.Bool(false),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
 		},
 	)
