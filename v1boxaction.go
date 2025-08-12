@@ -467,6 +467,9 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction].
 	Mode string `json:"mode"`
 	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction].
+	PressEnter bool `json:"pressEnter"`
+	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRotationAction].
 	Orientation string `json:"orientation"`
 	// This field is from variant
@@ -495,6 +498,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Buttons            respjson.Field
 		Text               respjson.Field
 		Mode               respjson.Field
+		PressEnter         respjson.Field
 		Orientation        respjson.Field
 		Clip               respjson.Field
 		raw                string
@@ -1456,6 +1460,8 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	// Whether to press Enter after typing the text
+	PressEnter bool `json:"pressEnter"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -1478,6 +1484,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeActio
 		Mode               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
+		PressEnter         respjson.Field
 		ScreenshotDelay    respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
@@ -1921,6 +1928,9 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction].
 	Mode string `json:"mode"`
 	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction].
+	PressEnter bool `json:"pressEnter"`
+	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationAction].
 	Orientation string `json:"orientation"`
 	// This field is from variant
@@ -1949,6 +1959,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Buttons            respjson.Field
 		Text               respjson.Field
 		Mode               respjson.Field
+		PressEnter         respjson.Field
 		Orientation        respjson.Field
 		Clip               respjson.Field
 		raw                string
@@ -2906,6 +2917,8 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	// Whether to press Enter after typing the text
+	PressEnter bool `json:"pressEnter"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2928,6 +2941,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 		Mode               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
+		PressEnter         respjson.Field
 		ScreenshotDelay    respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
@@ -6052,6 +6066,8 @@ type V1BoxActionTypeParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Whether to press Enter after typing the text
+	PressEnter param.Opt[bool] `json:"pressEnter,omitzero"`
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
