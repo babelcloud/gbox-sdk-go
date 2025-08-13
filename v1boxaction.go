@@ -464,7 +464,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Direction string `json:"direction"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
-	Distance float64 `json:"distance"`
+	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -1170,9 +1170,10 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
 	// "downRight".
 	Direction string `json:"direction,required"`
-	// Distance of the swipe in pixels. If not provided, the swipe will be performed
+	// Distance of the swipe. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the swipe will be performed
 	// from the center of the screen to the screen edge
-	Distance float64 `json:"distance"`
+	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -1226,6 +1227,54 @@ func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeS
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion
+// contains all possible properties and values from [float64], [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                                struct {
+		OfFloat                                                                                             respjson.Field
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString respjson.Field
+		raw                                                                                                 string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) AsFloat() (v float64) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString string
+
+const (
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceStringTiny   V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString = "tiny"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceStringShort  V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString = "short"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceStringMedium V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString = "medium"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceStringLong   V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString = "long"
+)
 
 // Typed swipe advanced action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction struct {
@@ -1991,7 +2040,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Direction string `json:"direction"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
-	Distance float64 `json:"distance"`
+	Distance V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -2693,9 +2742,10 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
 	// "downRight".
 	Direction string `json:"direction,required"`
-	// Distance of the swipe in pixels. If not provided, the swipe will be performed
+	// Distance of the swipe. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the swipe will be performed
 	// from the center of the screen to the screen edge
-	Distance float64 `json:"distance"`
+	Distance V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -2749,6 +2799,54 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActio
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion
+// contains all possible properties and values from [float64], [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                      struct {
+		OfFloat                                                                                   respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString respjson.Field
+		raw                                                                                       string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) AsFloat() (v float64) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString string
+
+const (
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceStringTiny   V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString = "tiny"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceStringShort  V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString = "short"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceStringMedium V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString = "medium"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceStringLong   V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString = "long"
+)
 
 // Typed swipe advanced action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction struct {
@@ -6076,9 +6174,6 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// Any of "up", "down", "left", "right", "upLeft", "upRight", "downLeft",
 	// "downRight".
 	Direction string `json:"direction,omitzero,required"`
-	// Distance of the swipe in pixels. If not provided, the swipe will be performed
-	// from the center of the screen to the screen edge
-	Distance param.Opt[float64] `json:"distance,omitzero"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -6107,6 +6202,10 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Distance of the swipe. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the swipe will be performed
+	// from the center of the screen to the screen edge
+	Distance V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion `json:"distance,omitzero"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -6130,6 +6229,42 @@ func init() {
 		"outputFormat", "base64", "storageKey",
 	)
 }
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion struct {
+	OfFloat param.Opt[float64] `json:",omitzero,inline"`
+	// Check if union is this variant with
+	// !param.IsOmitted(union.OfV1BoxActionSwipesBodySwipeSimpleDistanceString)
+	OfV1BoxActionSwipesBodySwipeSimpleDistanceString param.Opt[string] `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfFloat, u.OfV1BoxActionSwipesBodySwipeSimpleDistanceString)
+}
+func (u *V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion) asAny() any {
+	if !param.IsOmitted(u.OfFloat) {
+		return &u.OfFloat.Value
+	} else if !param.IsOmitted(u.OfV1BoxActionSwipesBodySwipeSimpleDistanceString) {
+		return &u.OfV1BoxActionSwipesBodySwipeSimpleDistanceString
+	}
+	return nil
+}
+
+type V1BoxActionSwipeParamsBodySwipeSimpleDistanceString string
+
+const (
+	V1BoxActionSwipeParamsBodySwipeSimpleDistanceStringTiny   V1BoxActionSwipeParamsBodySwipeSimpleDistanceString = "tiny"
+	V1BoxActionSwipeParamsBodySwipeSimpleDistanceStringShort  V1BoxActionSwipeParamsBodySwipeSimpleDistanceString = "short"
+	V1BoxActionSwipeParamsBodySwipeSimpleDistanceStringMedium V1BoxActionSwipeParamsBodySwipeSimpleDistanceString = "medium"
+	V1BoxActionSwipeParamsBodySwipeSimpleDistanceStringLong   V1BoxActionSwipeParamsBodySwipeSimpleDistanceString = "long"
+)
 
 // Swipe action configuration. The gesture will start from the specified start
 // point and move towards the end point.
