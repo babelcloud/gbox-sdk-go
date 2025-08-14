@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
+	shimjson "github.com/babelcloud/gbox-sdk-go/internal/encoding/json"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
@@ -208,7 +209,8 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body 
 	return
 }
 
-// Scroll
+// Performs a scroll action. Supports both advanced scroll with coordinates and
+// simple scroll with direction.
 func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *V1BoxActionScrollResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -423,6 +425,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponse) UnmarshalJSON(
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvancedAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction],
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction],
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction],
@@ -470,13 +473,12 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	ScrollX float64 `json:"scrollX"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction].
-	ScrollY float64 `json:"scrollY"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
-	Direction string `json:"direction"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
-	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
+	ScrollY   float64 `json:"scrollY"`
+	Direction string  `json:"direction"`
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
+	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance `json:"distance"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -552,6 +554,11 @@ func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTy
 }
 
 func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedScrollAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) AsTypedScrollSimpleAction() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -666,6 +673,34 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionStart str
 }
 
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance is an
+// implicit subunion of
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion].
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance
+// provides convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                                struct {
+		OfFloat                                                                                             respjson.Field
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceString respjson.Field
+		raw                                                                                                 string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1116,9 +1151,12 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragS
 
 // Typed scroll action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction struct {
-	// Horizontal scroll amount
+	// Horizontal scroll amount. Positive values scroll content rightward (reveals
+	// content on the left), negative values scroll content leftward (reveals content
+	// on the right).
 	ScrollX float64 `json:"scrollX,required"`
-	// Vertical scroll amount
+	// Vertical scroll amount. Positive values scroll content downward (reveals content
+	// above), negative values scroll content upward (reveals content below).
 	ScrollY float64 `json:"scrollY,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
@@ -1173,6 +1211,122 @@ func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScroll
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Typed scroll simple action
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleAction struct {
+	// Direction to scroll. The scroll will be performed from the center of the screen
+	// towards this direction. 'up' scrolls content upward (reveals content below),
+	// 'down' scrolls content downward (reveals content above), 'left' scrolls content
+	// leftward (reveals content on the right), 'right' scrolls content rightward
+	// (reveals content on the left).
+	//
+	// Any of "up", "down", "left", "right".
+	Direction string `json:"direction,required"`
+	// Distance of the scroll. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the scroll will be performed
+	// from the center of the screen to the screen edge
+	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion `json:"distance"`
+	// Duration of the scroll
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion
+// contains all possible properties and values from [float64], [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                                 struct {
+		OfFloat                                                                                              respjson.Field
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString respjson.Field
+		raw                                                                                                  string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion) AsFloat() (v float64) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion) AsV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString string
+
+const (
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceStringTiny   V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString = "tiny"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceStringShort  V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString = "short"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceStringMedium V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString = "medium"
+	V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceStringLong   V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceString = "long"
+)
 
 // Typed swipe simple action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction struct {
@@ -1999,6 +2153,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponse) UnmarshalJSON(data []byt
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction],
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction],
 // [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction],
@@ -2046,13 +2201,12 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	ScrollX float64 `json:"scrollX"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction].
-	ScrollY float64 `json:"scrollY"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
-	Direction string `json:"direction"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
-	Distance V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion `json:"distance"`
+	ScrollY   float64 `json:"scrollY"`
+	Direction string  `json:"direction"`
+	// This field is a union of
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
+	Distance V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance `json:"distance"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -2128,6 +2282,11 @@ func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedDragSim
 }
 
 func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedScrollAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionUnion) AsTypedScrollSimpleAction() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -2238,6 +2397,33 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnionStart struct {
 }
 
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnionStart) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance is an implicit
+// subunion of [V1BoxActionAIResponseAIActionResultAIResponseActionUnion].
+// V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance provides
+// convenient access to the sub-properties of the union.
+//
+// For type safety it is recommended to directly use a variant of the
+// [V1BoxActionAIResponseAIActionResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                      struct {
+		OfFloat                                                                                   respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceString respjson.Field
+		raw                                                                                       string
+	} `json:"-"`
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -2688,9 +2874,12 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActio
 
 // Typed scroll action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct {
-	// Horizontal scroll amount
+	// Horizontal scroll amount. Positive values scroll content rightward (reveals
+	// content on the left), negative values scroll content leftward (reveals content
+	// on the right).
 	ScrollX float64 `json:"scrollX,required"`
-	// Vertical scroll amount
+	// Vertical scroll amount. Positive values scroll content downward (reveals content
+	// above), negative values scroll content upward (reveals content below).
 	ScrollY float64 `json:"scrollY,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
@@ -2745,6 +2934,122 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) Ra
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Typed scroll simple action
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction struct {
+	// Direction to scroll. The scroll will be performed from the center of the screen
+	// towards this direction. 'up' scrolls content upward (reveals content below),
+	// 'down' scrolls content downward (reveals content above), 'left' scrolls content
+	// leftward (reveals content on the right), 'right' scrolls content rightward
+	// (reveals content on the left).
+	//
+	// Any of "up", "down", "left", "right".
+	Direction string `json:"direction,required"`
+	// Distance of the scroll. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the scroll will be performed
+	// from the center of the screen to the screen edge
+	Distance V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion `json:"distance"`
+	// Duration of the scroll
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration string `json:"duration"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay string `json:"screenshotDelay"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Direction          respjson.Field
+		Distance           respjson.Field
+		Duration           respjson.Field
+		IncludeScreenshot  respjson.Field
+		OutputFormat       respjson.Field
+		PresignedExpiresIn respjson.Field
+		ScreenshotDelay    respjson.Field
+		ExtraFields        map[string]respjson.Field
+		raw                string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion
+// contains all possible properties and values from [float64], [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfFloat
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString]
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion struct {
+	// This field will be present if the value is a [float64] instead of an object.
+	OfFloat float64 `json:",inline"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString string `json:",inline"`
+	JSON                                                                                       struct {
+		OfFloat                                                                                    respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString respjson.Field
+		raw                                                                                        string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion) AsFloat() (v float64) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion) AsV1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString string
+
+const (
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceStringTiny   V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString = "tiny"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceStringShort  V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString = "short"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceStringMedium V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString = "medium"
+	V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceStringLong   V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceString = "long"
+)
 
 // Typed swipe simple action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction struct {
@@ -6259,59 +6564,16 @@ const (
 )
 
 type V1BoxActionScrollParams struct {
-	// Horizontal scroll amount
-	ScrollX float64 `json:"scrollX,required"`
-	// Vertical scroll amount
-	ScrollY float64 `json:"scrollY,required"`
-	// X coordinate of the scroll position
-	X float64 `json:"x,required"`
-	// Y coordinate of the scroll position
-	Y float64 `json:"y,required"`
-	// Whether to include screenshots in the action response. If false, the screenshot
-	// object will still be returned but with empty URIs. Default is false.
-	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionScrollParamsOutputFormat `json:"outputFormat,omitzero"`
+	Body any
 	paramObj
 }
 
 func (r V1BoxActionScrollParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParams
-	return param.MarshalObject(r, (*shadow)(&r))
+	return shimjson.Marshal(r.Body)
 }
 func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	return json.Unmarshal(data, &r.Body)
 }
-
-// Type of the URI. default is base64.
-type V1BoxActionScrollParamsOutputFormat string
-
-const (
-	V1BoxActionScrollParamsOutputFormatBase64     V1BoxActionScrollParamsOutputFormat = "base64"
-	V1BoxActionScrollParamsOutputFormatStorageKey V1BoxActionScrollParamsOutputFormat = "storageKey"
-)
 
 type V1BoxActionSwipeParams struct {
 

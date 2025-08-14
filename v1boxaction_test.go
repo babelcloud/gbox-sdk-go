@@ -440,7 +440,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
+func TestV1BoxActionScroll(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -457,14 +457,12 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScrollParams{
-			ScrollX:            0,
-			ScrollY:            100,
-			X:                  100,
-			Y:                  100,
-			IncludeScreenshot:  gboxsdk.Bool(false),
-			OutputFormat:       gboxsdk.V1BoxActionScrollParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
-			ScreenshotDelay:    gboxsdk.String("500ms"),
+			Body: map[string]interface{}{
+				"x":       100,
+				"y":       100,
+				"scrollX": 0,
+				"scrollY": 100,
+			},
 		},
 	)
 	if err != nil {
