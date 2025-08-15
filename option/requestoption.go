@@ -27,14 +27,15 @@ type RequestOption = requestconfig.RequestOption
 // For security reasons, ensure that the base URL is trusted.
 func WithBaseURL(base string) RequestOption {
 	u, err := url.Parse(base)
+	if err == nil && u.Path != "" && !strings.HasSuffix(u.Path, "/") {
+		u.Path += "/"
+	}
+
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		if err != nil {
-			return fmt.Errorf("requestoption: WithBaseURL failed to parse url %s\n", err)
+			return fmt.Errorf("requestoption: WithBaseURL failed to parse url %s", err)
 		}
 
-		if u.Path != "" && !strings.HasSuffix(u.Path, "/") {
-			u.Path += "/"
-		}
 		r.BaseURL = u
 		return nil
 	})
@@ -265,11 +266,18 @@ func WithEnvironmentProduction() RequestOption {
 	return requestconfig.WithDefaultBaseURL("https://gbox.ai/api/v1/")
 }
 
-// WithEnvironmentSelfHost returns a RequestOption that sets the current
-// environment to be the "selfHost" environment. An environment specifies which base URL
+// WithEnvironmentSelfHosting returns a RequestOption that sets the current
+// environment to be the "selfHosting" environment. An environment specifies which base URL
 // to use by default.
-func WithEnvironmentSelfHost() RequestOption {
+func WithEnvironmentSelfHosting() RequestOption {
 	return requestconfig.WithDefaultBaseURL("http://localhost:28080/api/v1/")
+}
+
+// WithEnvironmentInternal returns a RequestOption that sets the current
+// environment to be the "internal" environment. An environment specifies which base URL
+// to use by default.
+func WithEnvironmentInternal() RequestOption {
+	return requestconfig.WithDefaultBaseURL("http://gru.localhost:2080/api/v1/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".
