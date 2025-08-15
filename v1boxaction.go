@@ -10,7 +10,6 @@ import (
 	"net/http"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
-	shimjson "github.com/babelcloud/gbox-sdk-go/internal/encoding/json"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
@@ -6564,16 +6563,202 @@ const (
 )
 
 type V1BoxActionScrollParams struct {
-	Body any
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set.
+	// Advanced scroll action configuration. The scroll will be performed from the
+	// specified coordinates with the given scroll amounts. Use positive scrollY to
+	// scroll content downward (reveal content above), negative scrollY to scroll
+	// content upward (reveal content below). Use positive scrollX to scroll content
+	// rightward (reveal content on the left), negative scrollX to scroll content
+	// leftward (reveal content on the right).
+	OfScrollAction *V1BoxActionScrollParamsBodyScrollAction `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Simple
+	// scroll action configuration. The scroll will be performed from the center of the
+	// screen towards the specified direction.
+	OfScrollSimple *V1BoxActionScrollParamsBodyScrollSimple `json:",inline"`
+
 	paramObj
 }
 
-func (r V1BoxActionScrollParams) MarshalJSON() (data []byte, err error) {
-	return shimjson.Marshal(r.Body)
+func (u V1BoxActionScrollParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfScrollAction, u.OfScrollSimple)
 }
 func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.Body)
+	return apijson.UnmarshalRoot(data, r)
 }
+
+// Advanced scroll action configuration. The scroll will be performed from the
+// specified coordinates with the given scroll amounts. Use positive scrollY to
+// scroll content downward (reveal content above), negative scrollY to scroll
+// content upward (reveal content below). Use positive scrollX to scroll content
+// rightward (reveal content on the left), negative scrollX to scroll content
+// leftward (reveal content on the right).
+//
+// The properties ScrollX, ScrollY, X, Y are required.
+type V1BoxActionScrollParamsBodyScrollAction struct {
+	// Horizontal scroll amount. Positive values scroll content rightward (reveals
+	// content on the left), negative values scroll content leftward (reveals content
+	// on the right).
+	ScrollX float64 `json:"scrollX,required"`
+	// Vertical scroll amount. Positive values scroll content downward (reveals content
+	// above), negative values scroll content upward (reveals content below).
+	ScrollY float64 `json:"scrollY,required"`
+	// X coordinate of the scroll position
+	X float64 `json:"x,required"`
+	// Y coordinate of the scroll position
+	Y float64 `json:"y,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionScrollParamsBodyScrollAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScrollParamsBodyScrollAction
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionScrollParamsBodyScrollAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAction](
+		"outputFormat", "base64", "storageKey",
+	)
+}
+
+// Simple scroll action configuration. The scroll will be performed from the center
+// of the screen towards the specified direction.
+//
+// The property Direction is required.
+type V1BoxActionScrollParamsBodyScrollSimple struct {
+	// Direction to scroll. The scroll will be performed from the center of the screen
+	// towards this direction. 'up' scrolls content upward (reveals content below),
+	// 'down' scrolls content downward (reveals content above), 'left' scrolls content
+	// leftward (reveals content on the right), 'right' scrolls content rightward
+	// (reveals content on the left).
+	//
+	// Any of "up", "down", "left", "right".
+	Direction string `json:"direction,omitzero,required"`
+	// Duration of the scroll
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Distance of the scroll. Can be either a number (in pixels) or a predefined enum
+	// value (tiny, short, medium, long). If not provided, the scroll will be performed
+	// from the center of the screen to the screen edge
+	Distance V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion `json:"distance,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionScrollParamsBodyScrollSimple) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScrollParamsBodyScrollSimple
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionScrollParamsBodyScrollSimple) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimple](
+		"direction", "up", "down", "left", "right",
+	)
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimple](
+		"outputFormat", "base64", "storageKey",
+	)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion struct {
+	OfFloat param.Opt[float64] `json:",omitzero,inline"`
+	// Check if union is this variant with
+	// !param.IsOmitted(union.OfV1BoxActionScrollsBodyScrollSimpleDistanceString)
+	OfV1BoxActionScrollsBodyScrollSimpleDistanceString param.Opt[string] `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfFloat, u.OfV1BoxActionScrollsBodyScrollSimpleDistanceString)
+}
+func (u *V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion) asAny() any {
+	if !param.IsOmitted(u.OfFloat) {
+		return &u.OfFloat.Value
+	} else if !param.IsOmitted(u.OfV1BoxActionScrollsBodyScrollSimpleDistanceString) {
+		return &u.OfV1BoxActionScrollsBodyScrollSimpleDistanceString
+	}
+	return nil
+}
+
+type V1BoxActionScrollParamsBodyScrollSimpleDistanceString string
+
+const (
+	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringTiny   V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "tiny"
+	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringShort  V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "short"
+	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringMedium V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "medium"
+	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringLong   V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "long"
+)
 
 type V1BoxActionSwipeParams struct {
 

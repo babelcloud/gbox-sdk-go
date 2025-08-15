@@ -1,4 +1,4 @@
 configured_endpoints: 74
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/gbox%2Fgbox-sdk-d542eca036a656ccc65a87069776401ae3a3c0652ab8b0d23a2d0e0f0dde5afd.yml
-openapi_spec_hash: be049f4071f0578595735fd861e62346
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/gbox%2Fgbox-sdk-7d34da447f513faabd8923a130ceabd63d22f7ed60194ca8df0b7c38f5f53daa.yml
+openapi_spec_hash: 02f490a2d8428faeec091999680f6643
 config_hash: 2071eacb5a47c22830c0435e39906dda
