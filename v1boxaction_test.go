@@ -184,13 +184,15 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionLongPressParams{
-			X:                  350,
-			Y:                  250,
-			Duration:           gboxsdk.String("1s"),
-			IncludeScreenshot:  gboxsdk.Bool(false),
-			OutputFormat:       gboxsdk.V1BoxActionLongPressParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
-			ScreenshotDelay:    gboxsdk.String("500ms"),
+			OfLongPressAction: &gboxsdk.V1BoxActionLongPressParamsBodyLongPressAction{
+				X:                  350,
+				Y:                  250,
+				Duration:           gboxsdk.String("1s"),
+				IncludeScreenshot:  gboxsdk.Bool(false),
+				OutputFormat:       "base64",
+				PresignedExpiresIn: gboxsdk.String("30m"),
+				ScreenshotDelay:    gboxsdk.String("500ms"),
+			},
 		},
 	)
 	if err != nil {
