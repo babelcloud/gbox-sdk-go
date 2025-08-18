@@ -460,12 +460,12 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Path     []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvancedActionPath `json:"path"`
 	Duration string                                                                                     `json:"duration"`
 	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEnd],
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd]
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion],
+	// [any]
 	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionEnd `json:"end"`
 	// This field is a union of
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStart],
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart]
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion],
+	// [any]
 	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionStart `json:"start"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction].
@@ -478,6 +478,9 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
 	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance `json:"distance"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
+	Location string `json:"location"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -520,6 +523,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		ScrollY            respjson.Field
 		Direction          respjson.Field
 		Distance           respjson.Field
+		Location           respjson.Field
 		Keys               respjson.Field
 		Combination        respjson.Field
 		Buttons            respjson.Field
@@ -639,13 +643,27 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion) Unm
 //
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd]
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionEnd struct {
-	X    float64 `json:"x"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field will be present if the value is a [any] instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd any `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion].
 	Y    float64 `json:"y"`
 	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
+		OfString                                                                                   respjson.Field
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd respjson.Field
+		X                                                                                          respjson.Field
+		Y                                                                                          respjson.Field
+		raw                                                                                        string
 	} `json:"-"`
 }
 
@@ -661,13 +679,27 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionEnd) 
 //
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString
+// OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart]
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionStart struct {
-	X    float64 `json:"x"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field will be present if the value is a [any] instead of an object.
+	OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart any `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion].
 	Y    float64 `json:"y"`
 	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
+		OfString                                                                                     respjson.Field
+		OfV1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart respjson.Field
+		X                                                                                            respjson.Field
+		Y                                                                                            respjson.Field
+		raw                                                                                          string
 	} `json:"-"`
 }
 
@@ -1044,10 +1076,10 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragA
 
 // Typed drag simple action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleAction struct {
-	// Single point in a drag path
-	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEnd `json:"end,required"`
-	// Single point in a drag path
-	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStart `json:"start,required"`
+	// End point of the drag path (coordinates or natural language)
+	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion `json:"end,required"`
+	// Start point of the drag path (coordinates or natural language)
+	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion `json:"start,required"`
 	// Duration to complete the movement from start to end coordinates
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -1102,31 +1134,53 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragS
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Single point in a drag path
-type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEnd struct {
-	// X coordinate of a point in the drag path
-	X float64 `json:"x,required"`
-	// Y coordinate of a point in the drag path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint],
+// [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString]
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion struct {
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint].
+	Y    float64 `json:"y"`
 	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		OfString respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
 	} `json:"-"`
 }
 
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEnd) RawJSON() string {
-	return r.JSON.raw
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion) AsDragPathPoint() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
 }
-func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEnd) UnmarshalJSON(data []byte) error {
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion) AsString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Single point in a drag path
-type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStart struct {
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint struct {
 	// X coordinate of a point in the drag path
 	X float64 `json:"x,required"`
 	// Y coordinate of a point in the drag path
@@ -1141,10 +1195,78 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStart) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStart) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint],
+// [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString]
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion struct {
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint].
+	Y    float64 `json:"y"`
+	JSON struct {
+		OfString respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion) AsDragPathPoint() (v V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion) AsString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Single point in a drag path
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint struct {
+	// X coordinate of a point in the drag path
+	X float64 `json:"x,required"`
+	// Y coordinate of a point in the drag path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1347,6 +1469,9 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Natural language description of the location where the swipe should originate.
+	// If not provided, the swipe will be performed from the center of the screen.
+	Location string `json:"location"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -1377,6 +1502,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 		Distance           respjson.Field
 		Duration           respjson.Field
 		IncludeScreenshot  respjson.Field
+		Location           respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
 		ScreenshotDelay    respjson.Field
@@ -1443,10 +1569,10 @@ const (
 
 // Typed swipe advanced action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction struct {
-	// Swipe path
-	End V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
-	// Swipe path
-	Start V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
+	// End point of the swipe path (coordinates or natural language)
+	End any `json:"end,required"`
+	// Start point of the swipe path (coordinates or natural language)
+	Start any `json:"start,required"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -1498,52 +1624,6 @@ func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeA
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Swipe path
-type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
-	return r.JSON.raw
-}
-func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Swipe path
-type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
-	return r.JSON.raw
-}
-func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -2188,12 +2268,12 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Path     []V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedActionPath `json:"path"`
 	Duration string                                                                           `json:"duration"`
 	// This field is a union of
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEnd],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion],
+	// [any]
 	End V1BoxActionAIResponseAIActionResultAIResponseActionUnionEnd `json:"end"`
 	// This field is a union of
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStart],
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart]
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion],
+	// [any]
 	Start V1BoxActionAIResponseAIActionResultAIResponseActionUnionStart `json:"start"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction].
@@ -2206,6 +2286,9 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
 	Distance V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance `json:"distance"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
+	Location string `json:"location"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -2248,6 +2331,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		ScrollY            respjson.Field
 		Direction          respjson.Field
 		Distance           respjson.Field
+		Location           respjson.Field
 		Keys               respjson.Field
 		Combination        respjson.Field
 		Buttons            respjson.Field
@@ -2364,13 +2448,27 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnion) UnmarshalJSON
 //
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxActionAIResponseAIActionResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd]
 type V1BoxActionAIResponseAIActionResultAIResponseActionUnionEnd struct {
-	X    float64 `json:"x"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field will be present if the value is a [any] instead of an object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd any `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion].
 	Y    float64 `json:"y"`
 	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
+		OfString                                                                         respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd respjson.Field
+		X                                                                                respjson.Field
+		Y                                                                                respjson.Field
+		raw                                                                              string
 	} `json:"-"`
 }
 
@@ -2385,13 +2483,27 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionUnionEnd) UnmarshalJ
 //
 // For type safety it is recommended to directly use a variant of the
 // [V1BoxActionAIResponseAIActionResultAIResponseActionUnion].
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString
+// OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart]
 type V1BoxActionAIResponseAIActionResultAIResponseActionUnionStart struct {
-	X    float64 `json:"x"`
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field will be present if the value is a [any] instead of an object.
+	OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart any `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion].
 	Y    float64 `json:"y"`
 	JSON struct {
-		X   respjson.Field
-		Y   respjson.Field
-		raw string
+		OfString                                                                           respjson.Field
+		OfV1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart respjson.Field
+		X                                                                                  respjson.Field
+		Y                                                                                  respjson.Field
+		raw                                                                                string
 	} `json:"-"`
 }
 
@@ -2767,10 +2879,10 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAct
 
 // Typed drag simple action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction struct {
-	// Single point in a drag path
-	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEnd `json:"end,required"`
-	// Single point in a drag path
-	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStart `json:"start,required"`
+	// End point of the drag path (coordinates or natural language)
+	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion `json:"end,required"`
+	// Start point of the drag path (coordinates or natural language)
+	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion `json:"start,required"`
 	// Duration to complete the movement from start to end coordinates
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -2825,31 +2937,53 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActio
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Single point in a drag path
-type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEnd struct {
-	// X coordinate of a point in the drag path
-	X float64 `json:"x,required"`
-	// Y coordinate of a point in the drag path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+// V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint],
+// [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString]
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion struct {
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint].
+	Y    float64 `json:"y"`
 	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		OfString respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
 	} `json:"-"`
 }
 
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEnd) RawJSON() string {
-	return r.JSON.raw
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion) AsDragPathPoint() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
 }
-func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEnd) UnmarshalJSON(data []byte) error {
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion) AsString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Single point in a drag path
-type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStart struct {
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint struct {
 	// X coordinate of a point in the drag path
 	X float64 `json:"x,required"`
 	// Y coordinate of a point in the drag path
@@ -2864,10 +2998,78 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionSta
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStart) RawJSON() string {
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) RawJSON() string {
 	return r.JSON.raw
 }
-func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStart) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionEndDragPathPoint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion
+// contains all possible properties and values from
+// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint],
+// [string].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+//
+// If the underlying value is not a json object, one of the following properties
+// will be valid: OfString]
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion struct {
+	// This field will be present if the value is a [string] instead of an object.
+	OfString string `json:",inline"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint].
+	X float64 `json:"x"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint].
+	Y    float64 `json:"y"`
+	JSON struct {
+		OfString respjson.Field
+		X        respjson.Field
+		Y        respjson.Field
+		raw      string
+	} `json:"-"`
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion) AsDragPathPoint() (v V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion) AsString() (v string) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Single point in a drag path
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint struct {
+	// X coordinate of a point in the drag path
+	X float64 `json:"x,required"`
+	// Y coordinate of a point in the drag path
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActionStartDragPathPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -3070,6 +3272,9 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Natural language description of the location where the swipe should originate.
+	// If not provided, the swipe will be performed from the center of the screen.
+	Location string `json:"location"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
@@ -3100,6 +3305,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 		Distance           respjson.Field
 		Duration           respjson.Field
 		IncludeScreenshot  respjson.Field
+		Location           respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
 		ScreenshotDelay    respjson.Field
@@ -3166,10 +3372,10 @@ const (
 
 // Typed swipe advanced action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction struct {
-	// Swipe path
-	End V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd `json:"end,required"`
-	// Swipe path
-	Start V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart `json:"start,required"`
+	// End point of the swipe path (coordinates or natural language)
+	End any `json:"end,required"`
+	// Start point of the swipe path (coordinates or natural language)
+	Start any `json:"start,required"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -3221,52 +3427,6 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAct
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Swipe path
-type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd) RawJSON() string {
-	return r.JSON.raw
-}
-func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionEnd) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Swipe path
-type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart) RawJSON() string {
-	return r.JSON.raw
-}
-func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedActionStart) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -5915,6 +6075,32 @@ func (r *V1BoxActionAIParamsSettings) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxActionClickParams struct {
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Mouse
+	// click action configuration
+	OfClickAction *V1BoxActionClickParamsBodyClickAction `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Click
+	// action configuration with natural language
+	OfClickActionWithNaturalLanguage *V1BoxActionClickParamsBodyClickActionWithNaturalLanguage `json:",inline"`
+
+	paramObj
+}
+
+func (u V1BoxActionClickParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfClickAction, u.OfClickActionWithNaturalLanguage)
+}
+func (r *V1BoxActionClickParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Mouse click action configuration
+//
+// The properties X, Y are required.
+type V1BoxActionClickParamsBodyClickAction struct {
 	// X coordinate of the click
 	X float64 `json:"x,required"`
 	// Y coordinate of the click
@@ -5947,38 +6133,90 @@ type V1BoxActionClickParams struct {
 	// Mouse button to click
 	//
 	// Any of "left", "right", "middle".
-	Button V1BoxActionClickParamsButton `json:"button,omitzero"`
+	Button string `json:"button,omitzero"`
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionClickParamsOutputFormat `json:"outputFormat,omitzero"`
+	OutputFormat string `json:"outputFormat,omitzero"`
 	paramObj
 }
 
-func (r V1BoxActionClickParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionClickParams
+func (r V1BoxActionClickParamsBodyClickAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClickParamsBodyClickAction
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionClickParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionClickParamsBodyClickAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Mouse button to click
-type V1BoxActionClickParamsButton string
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickAction](
+		"button", "left", "right", "middle",
+	)
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickAction](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
-const (
-	V1BoxActionClickParamsButtonLeft   V1BoxActionClickParamsButton = "left"
-	V1BoxActionClickParamsButtonRight  V1BoxActionClickParamsButton = "right"
-	V1BoxActionClickParamsButtonMiddle V1BoxActionClickParamsButton = "middle"
-)
+// Click action configuration with natural language
+//
+// The property Target is required.
+type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
+	// Describe the target to operate using natural language, e.g., 'login button' or
+	// 'Chrome'.
+	Target string `json:"target,required"`
+	// Whether to perform a double click
+	Double param.Opt[bool] `json:"double,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Mouse button to click
+	//
+	// Any of "left", "right", "middle".
+	Button string `json:"button,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
 
-// Type of the URI. default is base64.
-type V1BoxActionClickParamsOutputFormat string
+func (r V1BoxActionClickParamsBodyClickActionWithNaturalLanguage) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClickParamsBodyClickActionWithNaturalLanguage
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguage) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
-const (
-	V1BoxActionClickParamsOutputFormatBase64     V1BoxActionClickParamsOutputFormat = "base64"
-	V1BoxActionClickParamsOutputFormatStorageKey V1BoxActionClickParamsOutputFormat = "storageKey"
-)
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
+		"button", "left", "right", "middle",
+	)
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
 type V1BoxActionDragParams struct {
 
@@ -6017,10 +6255,10 @@ func (r *V1BoxActionDragParams) UnmarshalJSON(data []byte) error {
 //
 // The properties End, Start are required.
 type V1BoxActionDragParamsBodyDragSimple struct {
-	// Single point in a drag path
-	End V1BoxActionDragParamsBodyDragSimpleEnd `json:"end,omitzero,required"`
-	// Single point in a drag path
-	Start V1BoxActionDragParamsBodyDragSimpleStart `json:"start,omitzero,required"`
+	// End point of the drag path (coordinates or natural language)
+	End V1BoxActionDragParamsBodyDragSimpleEndUnion `json:"end,omitzero,required"`
+	// Start point of the drag path (coordinates or natural language)
+	Start V1BoxActionDragParamsBodyDragSimpleStartUnion `json:"start,omitzero,required"`
 	// Duration to complete the movement from start to end coordinates
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -6070,10 +6308,35 @@ func init() {
 	)
 }
 
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxActionDragParamsBodyDragSimpleEndUnion struct {
+	OfDragPathPoint *V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint `json:",omitzero,inline"`
+	OfString        param.Opt[string]                                    `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxActionDragParamsBodyDragSimpleEndUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfDragPathPoint, u.OfString)
+}
+func (u *V1BoxActionDragParamsBodyDragSimpleEndUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxActionDragParamsBodyDragSimpleEndUnion) asAny() any {
+	if !param.IsOmitted(u.OfDragPathPoint) {
+		return u.OfDragPathPoint
+	} else if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	}
+	return nil
+}
+
 // Single point in a drag path
 //
 // The properties X, Y are required.
-type V1BoxActionDragParamsBodyDragSimpleEnd struct {
+type V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint struct {
 	// X coordinate of a point in the drag path
 	X float64 `json:"x,required"`
 	// Y coordinate of a point in the drag path
@@ -6081,18 +6344,43 @@ type V1BoxActionDragParamsBodyDragSimpleEnd struct {
 	paramObj
 }
 
-func (r V1BoxActionDragParamsBodyDragSimpleEnd) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragSimpleEnd
+func (r V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionDragParamsBodyDragSimpleEnd) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type V1BoxActionDragParamsBodyDragSimpleStartUnion struct {
+	OfDragPathPoint *V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint `json:",omitzero,inline"`
+	OfString        param.Opt[string]                                      `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u V1BoxActionDragParamsBodyDragSimpleStartUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfDragPathPoint, u.OfString)
+}
+func (u *V1BoxActionDragParamsBodyDragSimpleStartUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *V1BoxActionDragParamsBodyDragSimpleStartUnion) asAny() any {
+	if !param.IsOmitted(u.OfDragPathPoint) {
+		return u.OfDragPathPoint
+	} else if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	}
+	return nil
+}
+
 // Single point in a drag path
 //
 // The properties X, Y are required.
-type V1BoxActionDragParamsBodyDragSimpleStart struct {
+type V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint struct {
 	// X coordinate of a point in the drag path
 	X float64 `json:"x,required"`
 	// Y coordinate of a point in the drag path
@@ -6100,11 +6388,11 @@ type V1BoxActionDragParamsBodyDragSimpleStart struct {
 	paramObj
 }
 
-func (r V1BoxActionDragParamsBodyDragSimpleStart) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragSimpleStart
+func (r V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionDragParamsBodyDragSimpleStart) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -6804,6 +7092,9 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// Whether to include screenshots in the action response. If false, the screenshot
 	// object will still be returned but with empty URIs. Default is false.
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Natural language description of the location where the swipe should originate.
+	// If not provided, the swipe will be performed from the center of the screen.
+	Location param.Opt[string] `json:"location,omitzero"`
 	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -6893,10 +7184,10 @@ const (
 //
 // The properties End, Start are required.
 type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
-	// Swipe path
-	End V1BoxActionSwipeParamsBodySwipeAdvancedEnd `json:"end,omitzero,required"`
-	// Swipe path
-	Start V1BoxActionSwipeParamsBodySwipeAdvancedStart `json:"start,omitzero,required"`
+	// End point of the swipe path (coordinates or natural language)
+	End any `json:"end,omitzero,required"`
+	// Start point of the swipe path (coordinates or natural language)
+	Start any `json:"start,omitzero,required"`
 	// Duration of the swipe
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -6946,45 +7237,33 @@ func init() {
 	)
 }
 
-// Swipe path
-//
-// The properties X, Y are required.
-type V1BoxActionSwipeParamsBodySwipeAdvancedEnd struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	paramObj
-}
-
-func (r V1BoxActionSwipeParamsBodySwipeAdvancedEnd) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedEnd
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionSwipeParamsBodySwipeAdvancedEnd) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Swipe path
-//
-// The properties X, Y are required.
-type V1BoxActionSwipeParamsBodySwipeAdvancedStart struct {
-	// Start/end x coordinate of the swipe path
-	X float64 `json:"x,required"`
-	// Start/end y coordinate of the swipe path
-	Y float64 `json:"y,required"`
-	paramObj
-}
-
-func (r V1BoxActionSwipeParamsBodySwipeAdvancedStart) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedStart
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionSwipeParamsBodySwipeAdvancedStart) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type V1BoxActionTapParams struct {
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Tap
+	// action configuration
+	OfTapAction *V1BoxActionTapParamsBodyTapAction `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Tap
+	// action configuration with natural language
+	OfTapActionWithNaturalLanguage *V1BoxActionTapParamsBodyTapActionWithNaturalLanguage `json:",inline"`
+
+	paramObj
+}
+
+func (u V1BoxActionTapParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfTapAction, u.OfTapActionWithNaturalLanguage)
+}
+func (r *V1BoxActionTapParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Tap action configuration
+//
+// The properties X, Y are required.
+type V1BoxActionTapParamsBodyTapAction struct {
 	// X coordinate of the tap
 	X float64 `json:"x,required"`
 	// Y coordinate of the tap
@@ -7015,25 +7294,74 @@ type V1BoxActionTapParams struct {
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionTapParamsOutputFormat `json:"outputFormat,omitzero"`
+	OutputFormat string `json:"outputFormat,omitzero"`
 	paramObj
 }
 
-func (r V1BoxActionTapParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTapParams
+func (r V1BoxActionTapParamsBodyTapAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTapParamsBodyTapAction
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTapParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTapParamsBodyTapAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI. default is base64.
-type V1BoxActionTapParamsOutputFormat string
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapAction](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
-const (
-	V1BoxActionTapParamsOutputFormatBase64     V1BoxActionTapParamsOutputFormat = "base64"
-	V1BoxActionTapParamsOutputFormatStorageKey V1BoxActionTapParamsOutputFormat = "storageKey"
-)
+// Tap action configuration with natural language
+//
+// The property Target is required.
+type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
+	// Describe the target to operate using natural language, e.g., 'login button' or
+	// 'Chrome'.
+	Target string `json:"target,required"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionTapParamsBodyTapActionWithNaturalLanguage) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTapParamsBodyTapActionWithNaturalLanguage
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguage) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions

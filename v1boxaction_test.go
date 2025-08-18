@@ -69,14 +69,16 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionClickParams{
-			X:                  100,
-			Y:                  100,
-			Button:             gboxsdk.V1BoxActionClickParamsButtonLeft,
-			Double:             gboxsdk.Bool(false),
-			IncludeScreenshot:  gboxsdk.Bool(false),
-			OutputFormat:       gboxsdk.V1BoxActionClickParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
-			ScreenshotDelay:    gboxsdk.String("500ms"),
+			OfClickAction: &gboxsdk.V1BoxActionClickParamsBodyClickAction{
+				X:                  100,
+				Y:                  100,
+				Button:             "left",
+				Double:             gboxsdk.Bool(false),
+				IncludeScreenshot:  gboxsdk.Bool(false),
+				OutputFormat:       "base64",
+				PresignedExpiresIn: gboxsdk.String("30m"),
+				ScreenshotDelay:    gboxsdk.String("500ms"),
+			},
 		},
 	)
 	if err != nil {
@@ -106,13 +108,17 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionDragParams{
 			OfDragSimple: &gboxsdk.V1BoxActionDragParamsBodyDragSimple{
-				End: gboxsdk.V1BoxActionDragParamsBodyDragSimpleEnd{
-					X: 200,
-					Y: 200,
+				End: gboxsdk.V1BoxActionDragParamsBodyDragSimpleEndUnion{
+					OfDragPathPoint: &gboxsdk.V1BoxActionDragParamsBodyDragSimpleEndDragPathPoint{
+						X: 200,
+						Y: 200,
+					},
 				},
-				Start: gboxsdk.V1BoxActionDragParamsBodyDragSimpleStart{
-					X: 100,
-					Y: 100,
+				Start: gboxsdk.V1BoxActionDragParamsBodyDragSimpleStartUnion{
+					OfDragPathPoint: &gboxsdk.V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint{
+						X: 100,
+						Y: 100,
+					},
 				},
 				Duration:           gboxsdk.String("500ms"),
 				IncludeScreenshot:  gboxsdk.Bool(false),
@@ -502,6 +508,7 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				},
 				Duration:           gboxsdk.String("500ms"),
 				IncludeScreenshot:  gboxsdk.Bool(false),
+				Location:           gboxsdk.String("Chrome App"),
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -534,12 +541,14 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTapParams{
-			X:                  100,
-			Y:                  100,
-			IncludeScreenshot:  gboxsdk.Bool(false),
-			OutputFormat:       gboxsdk.V1BoxActionTapParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
-			ScreenshotDelay:    gboxsdk.String("500ms"),
+			OfTapAction: &gboxsdk.V1BoxActionTapParamsBodyTapAction{
+				X:                  100,
+				Y:                  100,
+				IncludeScreenshot:  gboxsdk.Bool(false),
+				OutputFormat:       "base64",
+				PresignedExpiresIn: gboxsdk.String("30m"),
+				ScreenshotDelay:    gboxsdk.String("500ms"),
+			},
 		},
 	)
 	if err != nil {
