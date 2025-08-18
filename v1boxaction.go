@@ -6496,6 +6496,50 @@ func (r *V1BoxActionExtractParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxActionLongPressParams struct {
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Long
+	// press action configuration.
+	//
+	// Operation flow:
+	//
+	// 1. Touch finger at specified coordinates
+	// 2. Hold for the specified duration
+	// 3. Release finger
+	//
+	// This is useful for triggering context menus, drag operations, or other
+	// long-press interactions.
+	OfLongPressAction *V1BoxActionLongPressParamsBodyLongPressAction `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Long
+	// press action configuration using natural language target
+	OfLongPressActionWithNaturalLanguage *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage `json:",inline"`
+
+	paramObj
+}
+
+func (u V1BoxActionLongPressParams) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfLongPressAction, u.OfLongPressActionWithNaturalLanguage)
+}
+func (r *V1BoxActionLongPressParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Long press action configuration.
+//
+// Operation flow:
+//
+// 1. Touch finger at specified coordinates
+// 2. Hold for the specified duration
+// 3. Release finger
+//
+// This is useful for triggering context menus, drag operations, or other
+// long-press interactions.
+//
+// The properties X, Y are required.
+type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	// X coordinate of the long press
 	X float64 `json:"x,required"`
 	// Y coordinate of the long press
@@ -6531,25 +6575,79 @@ type V1BoxActionLongPressParams struct {
 	// Type of the URI. default is base64.
 	//
 	// Any of "base64", "storageKey".
-	OutputFormat V1BoxActionLongPressParamsOutputFormat `json:"outputFormat,omitzero"`
+	OutputFormat string `json:"outputFormat,omitzero"`
 	paramObj
 }
 
-func (r V1BoxActionLongPressParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionLongPressParams
+func (r V1BoxActionLongPressParamsBodyLongPressAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionLongPressParamsBodyLongPressAction
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionLongPressParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionLongPressParamsBodyLongPressAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Type of the URI. default is base64.
-type V1BoxActionLongPressParamsOutputFormat string
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressAction](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
-const (
-	V1BoxActionLongPressParamsOutputFormatBase64     V1BoxActionLongPressParamsOutputFormat = "base64"
-	V1BoxActionLongPressParamsOutputFormatStorageKey V1BoxActionLongPressParamsOutputFormat = "storageKey"
-)
+// Long press action configuration using natural language target
+//
+// The property Target is required.
+type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
+	// Describe the target to operate using natural language, e.g., 'Chrome icon',
+	// 'login button'
+	Target string `json:"target,required"`
+	// Duration to hold the press (e.g. '1s', '500ms')
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	// Whether to include screenshots in the action response. If false, the screenshot
+	// object will still be returned but with empty URIs. Default is false.
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
 
 type V1BoxActionMoveParams struct {
 	// X coordinate to move to
