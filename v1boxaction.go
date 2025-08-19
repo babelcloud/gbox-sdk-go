@@ -221,6 +221,42 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1Bo
 	return
 }
 
+// Get the box action setting
+func (r *V1BoxActionService) Setting(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/setting", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Reset the box setting
+func (r *V1BoxActionService) SettingReset(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingResetResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/setting/reset", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+// Setting the box action setting
+func (r *V1BoxActionService) SettingUpdate(ctx context.Context, boxID string, body V1BoxActionSettingUpdateParams, opts ...option.RequestOption) (res *V1BoxActionSettingUpdateResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/setting", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // Performs a swipe in the specified direction
 func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *V1BoxActionSwipeResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
@@ -504,6 +540,9 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Orientation string `json:"orientation"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
+	Scale float64 `json:"scale"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	JSON struct {
 		X                  respjson.Field
@@ -531,6 +570,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Mode               respjson.Field
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
+		Scale              respjson.Field
 		Clip               respjson.Field
 		raw                string
 	} `json:"-"`
@@ -2101,6 +2141,17 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScree
 
 // Typed screenshot action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// Type of the URI. default is base64.
@@ -2109,6 +2160,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreensho
 	OutputFormat string `json:"outputFormat"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Scale        respjson.Field
 		Clip         respjson.Field
 		OutputFormat respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -2432,6 +2484,9 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Orientation string `json:"orientation"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
+	Scale float64 `json:"scale"`
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	JSON struct {
 		X                  respjson.Field
@@ -2459,6 +2514,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Mode               respjson.Field
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
+		Scale              respjson.Field
 		Clip               respjson.Field
 		raw                string
 	} `json:"-"`
@@ -4024,6 +4080,17 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationA
 
 // Typed screenshot action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// Type of the URI. default is base64.
@@ -4032,6 +4099,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction st
 	OutputFormat string `json:"outputFormat"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Scale        respjson.Field
 		Clip         respjson.Field
 		OutputFormat respjson.Field
 		ExtraFields  map[string]respjson.Field
@@ -5576,6 +5644,87 @@ type V1BoxActionScrollResponseActionCommonResult struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxActionScrollResponseActionCommonResult) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxActionScrollResponseActionCommonResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Action setting
+type V1BoxActionSettingResponse struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Scale       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSettingResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Action setting
+type V1BoxActionSettingResetResponse struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Scale       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSettingResetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingResetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Action setting
+type V1BoxActionSettingUpdateResponse struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Scale       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionSettingUpdateResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingUpdateResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -7140,6 +7289,17 @@ const (
 )
 
 type V1BoxActionScreenshotParams struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
 	// Type of the URI. default is base64.
@@ -7385,6 +7545,29 @@ const (
 	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringMedium V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "medium"
 	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringLong   V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "long"
 )
+
+type V1BoxActionSettingUpdateParams struct {
+	// The scale of the action to be performed. Must be greater than 0.1 and less than
+	// or equal to 1.
+	//
+	// Notes:
+	//
+	//   - Scale does not change the box's actual screen resolution.
+	//   - It affects the size of the output screenshot and the coordinates/distances of
+	//     actions. Coordinates and distances are scaled by this factor. Example: when
+	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
+	//     Click({x:50, y:50}).
+	Scale float64 `json:"scale,required"`
+	paramObj
+}
+
+func (r V1BoxActionSettingUpdateParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSettingUpdateParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionSettingUpdateParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type V1BoxActionSwipeParams struct {
 
