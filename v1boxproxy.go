@@ -75,9 +75,9 @@ func (r *V1BoxProxyService) Set(ctx context.Context, boxID string, body V1BoxPro
 type V1BoxProxySetParams struct {
 	// Box Proxy Auth
 	Auth V1BoxProxySetParamsAuth `json:"auth,omitzero,required"`
-	// Exclude IPs from the proxy. Default is ['127.0.0.1', 'localhost']
+	// Exclude IPs and domains from the proxy. Default is ['127.0.0.1', 'localhost']
 	Excludes []string `json:"excludes,omitzero,required"`
-	// Proxy URL
+	// The URL of the proxy server
 	URL string `json:"url,required"`
 	paramObj
 }
