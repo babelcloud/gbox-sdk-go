@@ -77,8 +77,7 @@ type V1BoxProxySetParams struct {
 	Host string `json:"host,required"`
 	// The port number of the proxy server
 	Port float64 `json:"port,required"`
-	// PAC (Proxy Auto-Configuration) URL. Either this or url should be provided, but
-	// not both.
+	// PAC (Proxy Auto-Configuration) URL.
 	PacURL param.Opt[string] `json:"pacUrl,omitzero"`
 	// Box Proxy Auth
 	Auth V1BoxProxySetParamsAuth `json:"auth,omitzero"`
