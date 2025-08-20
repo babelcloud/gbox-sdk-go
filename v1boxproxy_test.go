@@ -59,7 +59,7 @@ func TestV1BoxProxyGet(t *testing.T) {
 	}
 }
 
-func TestV1BoxProxySet(t *testing.T) {
+func TestV1BoxProxySetWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -76,12 +76,14 @@ func TestV1BoxProxySet(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxProxySetParams{
+			Host: "127.0.0.1",
+			Port: 8080,
 			Auth: gboxsdk.V1BoxProxySetParamsAuth{
 				Password: "password",
 				Username: "admin",
 			},
 			Excludes: []string{"127.0.0.1", "localhost"},
-			URL:      "http://127.0.0.1:8080",
+			PacURL:   gboxsdk.String("http://proxy.company.com/proxy.pac"),
 		},
 	)
 	if err != nil {
