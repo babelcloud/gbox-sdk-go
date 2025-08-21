@@ -5231,29 +5231,23 @@ func (r *V1BoxActionRecordingStopResponse) UnmarshalJSON(data []byte) error {
 //
 // Android boxes (XML):
 //
-// ```xml
 // <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 // <hierarchy rotation="0">
 //
 //	<node ... />
 //
 // </hierarchy>
-// ```
 //
 // Browser (Linux) boxes (HTML):
 //
-// ```html
 // <html>
 //
-//	<head>
-//	  <title>Example</title>
-//	</head>
+//	<head><title>Example</title></head>
 //	<body>
 //	  <h1>Hello World</h1>
 //	</body>
 //
 // </html>
-// ```
 type V1BoxActionScreenLayoutResponse struct {
 	// Screen layout content.
 	//
