@@ -430,7 +430,6 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScreenshotParams{
-			Scale: 1,
 			Clip: gboxsdk.V1BoxActionScreenshotParamsClip{
 				Height: 600,
 				Width:  800,
@@ -438,6 +437,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 				Y:      50,
 			},
 			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
+			Scale:        gboxsdk.Float(1),
 		},
 	)
 	if err != nil {
@@ -533,7 +533,7 @@ func TestV1BoxActionSettingReset(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSettingUpdate(t *testing.T) {
+func TestV1BoxActionSettingUpdateWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -550,7 +550,7 @@ func TestV1BoxActionSettingUpdate(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionSettingUpdateParams{
-			Scale: 1,
+			Scale: gboxsdk.Float(1),
 		},
 	)
 	if err != nil {

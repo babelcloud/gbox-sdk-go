@@ -540,11 +540,11 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Orientation string `json:"orientation"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
-	Scale float64 `json:"scale"`
+	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
-	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	JSON struct {
+	Scale float64 `json:"scale"`
+	JSON  struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -570,8 +570,8 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Mode               respjson.Field
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
-		Scale              respjson.Field
 		Clip               respjson.Field
+		Scale              respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -2141,6 +2141,12 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScree
 
 // Typed screenshot action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction struct {
+	// Clipping region for screenshot capture
+	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -2151,18 +2157,12 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreensho
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
-	// Clipping region for screenshot capture
-	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat"`
+	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Scale        respjson.Field
 		Clip         respjson.Field
 		OutputFormat respjson.Field
+		Scale        respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -2484,11 +2484,11 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Orientation string `json:"orientation"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
-	Scale float64 `json:"scale"`
+	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
-	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	JSON struct {
+	Scale float64 `json:"scale"`
+	JSON  struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -2514,8 +2514,8 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Mode               respjson.Field
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
-		Scale              respjson.Field
 		Clip               respjson.Field
+		Scale              respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -4080,6 +4080,12 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationA
 
 // Typed screenshot action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction struct {
+	// Clipping region for screenshot capture
+	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat string `json:"outputFormat"`
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -4090,18 +4096,12 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction st
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
-	// Clipping region for screenshot capture
-	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat"`
+	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Scale        respjson.Field
 		Clip         respjson.Field
 		OutputFormat respjson.Field
+		Scale        respjson.Field
 		ExtraFields  map[string]respjson.Field
 		raw          string
 	} `json:"-"`
@@ -5659,7 +5659,7 @@ type V1BoxActionSettingResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
+	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -5686,7 +5686,7 @@ type V1BoxActionSettingResetResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
+	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -5713,7 +5713,7 @@ type V1BoxActionSettingUpdateResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
+	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -7299,7 +7299,7 @@ type V1BoxActionScreenshotParams struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
+	Scale param.Opt[float64] `json:"scale,omitzero"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
 	// Type of the URI. default is base64.
@@ -7557,7 +7557,7 @@ type V1BoxActionSettingUpdateParams struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale,required"`
+	Scale param.Opt[float64] `json:"scale,omitzero"`
 	paramObj
 }
 
