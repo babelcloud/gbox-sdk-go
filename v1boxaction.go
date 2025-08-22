@@ -8,8 +8,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
+	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
@@ -161,6 +163,39 @@ func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, op
 	}
 	path := fmt.Sprintf("boxes/%s/actions/recording/stop", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxActionService) ReplayRecordingGet(ctx context.Context, boxID string, query V1BoxActionReplayRecordingGetParams, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/recording/replay", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
+func (r *V1BoxActionService) ReplayRecordingStart(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/recording/replay", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxActionService) ReplayRecordingStop(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/recording/replay", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
 	return
 }
 
@@ -7219,6 +7254,20 @@ func (r V1BoxActionRecordingStartParams) MarshalJSON() (data []byte, err error) 
 }
 func (r *V1BoxActionRecordingStartParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionReplayRecordingGetParams struct {
+	Seconds float64 `query:"seconds,required" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxActionReplayRecordingGetParams]'s query parameters as
+// `url.Values`.
+func (r V1BoxActionReplayRecordingGetParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
 
 type V1BoxActionScreenRotationParams struct {
