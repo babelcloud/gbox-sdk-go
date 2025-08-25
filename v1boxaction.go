@@ -2192,6 +2192,8 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreensho
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
+	//   - If not provided, uses the scale value from UI action settings; otherwise uses
+	//     the passed value.
 	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -4131,6 +4133,8 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction st
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
+	//   - If not provided, uses the scale value from UI action settings; otherwise uses
+	//     the passed value.
 	Scale float64 `json:"scale"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -5688,7 +5692,7 @@ type V1BoxActionSettingResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale"`
+	Scale float64 `json:"scale,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -5715,7 +5719,7 @@ type V1BoxActionSettingResetResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale"`
+	Scale float64 `json:"scale,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -5742,7 +5746,7 @@ type V1BoxActionSettingUpdateResponse struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale float64 `json:"scale"`
+	Scale float64 `json:"scale,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Scale       respjson.Field
@@ -7342,6 +7346,8 @@ type V1BoxActionScreenshotParams struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
+	//   - If not provided, uses the scale value from UI action settings; otherwise uses
+	//     the passed value.
 	Scale param.Opt[float64] `json:"scale,omitzero"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
@@ -7600,7 +7606,7 @@ type V1BoxActionSettingUpdateParams struct {
 	//     actions. Coordinates and distances are scaled by this factor. Example: when
 	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
 	//     Click({x:50, y:50}).
-	Scale param.Opt[float64] `json:"scale,omitzero"`
+	Scale float64 `json:"scale,required"`
 	paramObj
 }
 
