@@ -12,6 +12,7 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
+	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
 )
 
 // V1BoxProxyService contains methods and other services that help with interacting
@@ -47,29 +48,133 @@ func (r *V1BoxProxyService) Clear(ctx context.Context, boxID string, opts ...opt
 }
 
 // Get the proxy for the box
-func (r *V1BoxProxyService) Get(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxProxyService) Get(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxProxyGetResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/proxy", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
 // Set the proxy for the box
-func (r *V1BoxProxyService) Set(ctx context.Context, boxID string, body V1BoxProxySetParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxProxyService) Set(ctx context.Context, boxID string, body V1BoxProxySetParams, opts ...option.RequestOption) (res *V1BoxProxySetResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/proxy", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
+}
+
+// Box Http Proxy
+type V1BoxProxyGetResponse struct {
+	// The host address of the proxy server
+	Host string `json:"host,required"`
+	// The port number of the proxy server
+	Port float64 `json:"port,required"`
+	// Box Proxy Auth
+	Auth V1BoxProxyGetResponseAuth `json:"auth"`
+	// List of IP addresses and domains that should bypass the proxy. These addresses
+	// will be accessed directly without going through the proxy server. Default is
+	// ['127.0.0.1', 'localhost']
+	Excludes []string `json:"excludes"`
+	// PAC (Proxy Auto-Configuration) URL.
+	PacURL string `json:"pacUrl"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Host        respjson.Field
+		Port        respjson.Field
+		Auth        respjson.Field
+		Excludes    respjson.Field
+		PacURL      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxProxyGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxProxyGetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Box Proxy Auth
+type V1BoxProxyGetResponseAuth struct {
+	// Password for the proxy
+	Password string `json:"password,required"`
+	// Username for the proxy
+	Username string `json:"username,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Password    respjson.Field
+		Username    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxProxyGetResponseAuth) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxProxyGetResponseAuth) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Box Http Proxy
+type V1BoxProxySetResponse struct {
+	// The host address of the proxy server
+	Host string `json:"host,required"`
+	// The port number of the proxy server
+	Port float64 `json:"port,required"`
+	// Box Proxy Auth
+	Auth V1BoxProxySetResponseAuth `json:"auth"`
+	// List of IP addresses and domains that should bypass the proxy. These addresses
+	// will be accessed directly without going through the proxy server. Default is
+	// ['127.0.0.1', 'localhost']
+	Excludes []string `json:"excludes"`
+	// PAC (Proxy Auto-Configuration) URL.
+	PacURL string `json:"pacUrl"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Host        respjson.Field
+		Port        respjson.Field
+		Auth        respjson.Field
+		Excludes    respjson.Field
+		PacURL      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxProxySetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxProxySetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Box Proxy Auth
+type V1BoxProxySetResponseAuth struct {
+	// Password for the proxy
+	Password string `json:"password,required"`
+	// Username for the proxy
+	Username string `json:"username,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Password    respjson.Field
+		Username    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxProxySetResponseAuth) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxProxySetResponseAuth) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxProxySetParams struct {

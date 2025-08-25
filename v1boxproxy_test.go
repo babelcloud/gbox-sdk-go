@@ -49,7 +49,7 @@ func TestV1BoxProxyGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Proxy.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Proxy.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -72,7 +72,7 @@ func TestV1BoxProxySetWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Proxy.Set(
+	_, err := client.V1.Boxes.Proxy.Set(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxProxySetParams{
