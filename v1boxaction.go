@@ -1332,11 +1332,11 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragS
 // Typed scroll action
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAction struct {
 	// Horizontal scroll amount. Positive values scroll content rightward (reveals
-	// content on the left), negative values scroll content leftward (reveals content
-	// on the right).
+	// content on the right), negative values scroll content leftward (reveals content
+	// on the left).
 	ScrollX float64 `json:"scrollX,required"`
 	// Vertical scroll amount. Positive values scroll content downward (reveals content
-	// above), negative values scroll content upward (reveals content below).
+	// below), negative values scroll content upward (reveals content above).
 	ScrollY float64 `json:"scrollY,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
@@ -3273,11 +3273,11 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleActio
 // Typed scroll action
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct {
 	// Horizontal scroll amount. Positive values scroll content rightward (reveals
-	// content on the left), negative values scroll content leftward (reveals content
-	// on the right).
+	// content on the right), negative values scroll content leftward (reveals content
+	// on the left).
 	ScrollX float64 `json:"scrollX,required"`
 	// Vertical scroll amount. Positive values scroll content downward (reveals content
-	// above), negative values scroll content upward (reveals content below).
+	// below), negative values scroll content upward (reveals content above).
 	ScrollY float64 `json:"scrollY,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
@@ -7406,10 +7406,10 @@ type V1BoxActionScrollParams struct {
 	// This field is a request body variant, only one variant field can be set.
 	// Advanced scroll action configuration. The scroll will be performed from the
 	// specified coordinates with the given scroll amounts. Use positive scrollY to
-	// scroll content downward (reveal content above), negative scrollY to scroll
-	// content upward (reveal content below). Use positive scrollX to scroll content
-	// rightward (reveal content on the left), negative scrollX to scroll content
-	// leftward (reveal content on the right).
+	// scroll content downward (reveal content below), negative scrollY to scroll
+	// content upward (reveal content above). Use positive scrollX to scroll content
+	// rightward (reveal content on the right), negative scrollX to scroll content
+	// leftward (reveal content on the left).
 	OfScrollAction *V1BoxActionScrollParamsBodyScrollAction `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Simple
 	// scroll action configuration. The scroll will be performed from the center of the
@@ -7428,19 +7428,19 @@ func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
 
 // Advanced scroll action configuration. The scroll will be performed from the
 // specified coordinates with the given scroll amounts. Use positive scrollY to
-// scroll content downward (reveal content above), negative scrollY to scroll
-// content upward (reveal content below). Use positive scrollX to scroll content
-// rightward (reveal content on the left), negative scrollX to scroll content
-// leftward (reveal content on the right).
+// scroll content downward (reveal content below), negative scrollY to scroll
+// content upward (reveal content above). Use positive scrollX to scroll content
+// rightward (reveal content on the right), negative scrollX to scroll content
+// leftward (reveal content on the left).
 //
 // The properties ScrollX, ScrollY, X, Y are required.
 type V1BoxActionScrollParamsBodyScrollAction struct {
 	// Horizontal scroll amount. Positive values scroll content rightward (reveals
-	// content on the left), negative values scroll content leftward (reveals content
-	// on the right).
+	// content on the right), negative values scroll content leftward (reveals content
+	// on the left).
 	ScrollX float64 `json:"scrollX,required"`
 	// Vertical scroll amount. Positive values scroll content downward (reveals content
-	// above), negative values scroll content upward (reveals content below).
+	// below), negative values scroll content upward (reveals content above).
 	ScrollY float64 `json:"scrollY,required"`
 	// X coordinate of the scroll position
 	X float64 `json:"x,required"`
