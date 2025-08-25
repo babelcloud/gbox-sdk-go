@@ -98,11 +98,16 @@ Methods:
 
 ### Proxy
 
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyGetResponse">V1BoxProxyGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxySetResponse">V1BoxProxySetResponse</a>
+
 Methods:
 
 - <code title="delete /boxes/{boxId}/proxy">client.V1.Boxes.Proxy.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyService.Clear">Clear</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, boxID <a href="https://pkg.go.dev/builtin#string">string</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
-- <code title="get /boxes/{boxId}/proxy">client.V1.Boxes.Proxy.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, boxID <a href="https://pkg.go.dev/builtin#string">string</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
-- <code title="post /boxes/{boxId}/proxy">client.V1.Boxes.Proxy.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyService.Set">Set</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, boxID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxySetParams">V1BoxProxySetParams</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
+- <code title="get /boxes/{boxId}/proxy">client.V1.Boxes.Proxy.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, boxID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyGetResponse">V1BoxProxyGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /boxes/{boxId}/proxy">client.V1.Boxes.Proxy.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxyService.Set">Set</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, boxID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxySetParams">V1BoxProxySetParams</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1BoxProxySetResponse">V1BoxProxySetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ### Media
 
