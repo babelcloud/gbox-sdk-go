@@ -608,7 +608,7 @@ func TestV1BoxActionSettingReset(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSettingUpdateWithOptionalParams(t *testing.T) {
+func TestV1BoxActionSettingUpdate(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -625,7 +625,7 @@ func TestV1BoxActionSettingUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionSettingUpdateParams{
-			Scale: gboxsdk.Float(1),
+			Scale: 1,
 		},
 	)
 	if err != nil {
