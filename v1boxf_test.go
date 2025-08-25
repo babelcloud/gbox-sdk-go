@@ -14,7 +14,7 @@ import (
 )
 
 func TestV1BoxFListWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -45,7 +45,7 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFExistsWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -75,7 +75,7 @@ func TestV1BoxFExistsWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFInfoWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -105,7 +105,7 @@ func TestV1BoxFInfoWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFReadWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -135,7 +135,7 @@ func TestV1BoxFReadWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFRemoveWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -165,7 +165,7 @@ func TestV1BoxFRemoveWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFRenameWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -196,7 +196,7 @@ func TestV1BoxFRenameWithOptionalParams(t *testing.T) {
 }
 
 func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
-	t.Skip("skipped: tests are disabled for the time being")
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -212,9 +212,11 @@ func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxFWriteParams{
-			Content:    "Hello, World!\nThis is file content.",
-			Path:       "/home/user/documents/output.txt",
-			WorkingDir: gboxsdk.String("/home/user/documents"),
+			OfWriteFile: &gboxsdk.V1BoxFWriteParamsBodyWriteFile{
+				Content:    "Hello, World!\nThis is file content.",
+				Path:       "/home/user/documents/output.txt",
+				WorkingDir: gboxsdk.String("/home/user/documents"),
+			},
 		},
 	)
 	if err != nil {

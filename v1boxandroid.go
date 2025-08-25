@@ -40,15 +40,33 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
-// List apps
-func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAndroidListParams, opts ...option.RequestOption) (res *V1BoxAndroidListResponse, err error) {
+// Backup
+func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if body.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/packages/%s/backup", body.BoxID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
+// Backup all
+func (r *V1BoxAndroidService) BackupAll(ctx context.Context, boxID string, opts ...option.RequestOption) (res *http.Response, err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/packages/backup-all", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -56,86 +74,140 @@ func (r *V1BoxAndroidService) List(ctx context.Context, id string, query V1BoxAn
 func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, body V1BoxAndroidCloseParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if body.ID == "" {
-		err = errors.New("missing required id parameter")
+	if body.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/close", body.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s/close", body.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
 
 // Close all apps
-func (r *V1BoxAndroidService) CloseAll(ctx context.Context, id string, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/close-all", id)
+	path := fmt.Sprintf("boxes/%s/android/packages/close-all", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
 
-// Get app
-func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
+// Get pkg
+func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *V1BoxAndroidGetResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if query.ID == "" {
-		err = errors.New("missing required id parameter")
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s", query.BoxID, packageName)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Get installed app info by package name
+func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
+	opts = append(r.Options[:], opts...)
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	if packageName == "" {
+		err = errors.New("missing required packageName parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps/%s", query.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
 // Get connect address
-func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, id string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
+func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/connect-address", id)
+	path := fmt.Sprintf("boxes/%s/android/connect-address", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
 // Install app
-func (r *V1BoxAndroidService) Install(ctx context.Context, id string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (res *V1BoxAndroidInstallResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	path := fmt.Sprintf("boxes/%s/android/packages", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
-// Get app activities
+// Get pkg activities
 func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName string, query V1BoxAndroidListActivitiesParams, opts ...option.RequestOption) (res *V1BoxAndroidListActivitiesResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if query.ID == "" {
-		err = errors.New("missing required id parameter")
+	if query.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/activities", query.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s/activities", query.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// List all installed apps on the launcher
+func (r *V1BoxAndroidService) ListApp(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidListAppResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/apps", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Retrieve detailed information for all installed pkg. This endpoint provides
+// comprehensive pkg details
+func (r *V1BoxAndroidService) ListPkg(ctx context.Context, boxID string, query V1BoxAndroidListPkgParams, opts ...option.RequestOption) (res *V1BoxAndroidListPkgResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/packages", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
+// A faster endpoint to quickly retrieve basic pkg information. This API provides
+// better performance for scenarios where you need to get essential pkg details
+// quickly
+func (r *V1BoxAndroidService) ListPkgSimple(ctx context.Context, boxID string, query V1BoxAndroidListPkgSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListPkgSimpleResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/packages/simple", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
@@ -143,15 +215,15 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/open", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s/open", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
@@ -160,28 +232,28 @@ func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, para
 func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, params V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s/restart", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s/restart", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
 
-// Rotate screen
-func (r *V1BoxAndroidService) RotateScreen(ctx context.Context, id string, body V1BoxAndroidRotateScreenParams, opts ...option.RequestOption) (err error) {
+// Restore
+func (r *V1BoxAndroidService) Restore(ctx context.Context, boxID string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/screen/rotate", id)
+	path := fmt.Sprintf("boxes/%s/android/packages/restore", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
@@ -190,45 +262,34 @@ func (r *V1BoxAndroidService) RotateScreen(ctx context.Context, id string, body 
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if params.ID == "" {
-		err = errors.New("missing required id parameter")
+	if params.BoxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
 	if packageName == "" {
 		err = errors.New("missing required packageName parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/android/apps/%s", params.ID, packageName)
+	path := fmt.Sprintf("boxes/%s/android/packages/%s", params.BoxID, packageName)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, params, nil, opts...)
 	return
 }
 
-// Android app information
+// Android app
 type AndroidApp struct {
-	// Android app apk path
-	ApkPath string `json:"apkPath,required"`
-	// Application type: system or third-party
-	//
-	// Any of "system", "third-party".
-	AppType AndroidAppAppType `json:"appType,required"`
-	// Whether the application is currently running
-	IsRunning bool `json:"isRunning,required"`
-	// Android app name
-	Name string `json:"name,required"`
-	// Android app package name
+	// Activity class name
+	ActivityClassName string `json:"activityClassName,required"`
+	// Activity name
+	ActivityName string `json:"activityName,required"`
+	// App package name
 	PackageName string `json:"packageName,required"`
-	// Android app version
-	Version string `json:"version,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ApkPath     respjson.Field
-		AppType     respjson.Field
-		IsRunning   respjson.Field
-		Name        respjson.Field
-		PackageName respjson.Field
-		Version     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		ActivityClassName respjson.Field
+		ActivityName      respjson.Field
+		PackageName       respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
 	} `json:"-"`
 }
 
@@ -238,31 +299,48 @@ func (r *AndroidApp) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Application type: system or third-party
-type AndroidAppAppType string
-
-const (
-	AndroidAppAppTypeSystem     AndroidAppAppType = "system"
-	AndroidAppAppTypeThirdParty AndroidAppAppType = "third-party"
-)
-
-// Response containing list of Android apps
-type V1BoxAndroidListResponse struct {
-	// Android app list
-	Data []AndroidApp `json:"data,required"`
+// Android pkg information
+type V1BoxAndroidGetResponse struct {
+	// Android apk path
+	ApkPath string `json:"apkPath,required"`
+	// Whether the pkg is currently running
+	IsRunning bool `json:"isRunning,required"`
+	// Android pkg name
+	Name string `json:"name,required"`
+	// Android package name
+	PackageName string `json:"packageName,required"`
+	// system or thirdParty
+	//
+	// Any of "system", "thirdParty".
+	PkgType V1BoxAndroidGetResponsePkgType `json:"pkgType,required"`
+	// Android pkg version
+	Version string `json:"version,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Data        respjson.Field
+		ApkPath     respjson.Field
+		IsRunning   respjson.Field
+		Name        respjson.Field
+		PackageName respjson.Field
+		PkgType     respjson.Field
+		Version     respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxAndroidListResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxAndroidListResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxAndroidGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidGetResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// system or thirdParty
+type V1BoxAndroidGetResponsePkgType string
+
+const (
+	V1BoxAndroidGetResponsePkgTypeSystem     V1BoxAndroidGetResponsePkgType = "system"
+	V1BoxAndroidGetResponsePkgTypeThirdParty V1BoxAndroidGetResponsePkgType = "thirdParty"
+)
 
 // Android connection information
 type V1BoxAndroidGetConnectAddressResponse struct {
@@ -283,6 +361,79 @@ func (r *V1BoxAndroidGetConnectAddressResponse) UnmarshalJSON(data []byte) error
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response containing the result of installing an Android pkg
+type V1BoxAndroidInstallResponse struct {
+	// Activity list
+	Activities []V1BoxAndroidInstallResponseActivity `json:"activities,required"`
+	// Android apk path
+	ApkPath string `json:"apkPath,required"`
+	// Android pkg package name
+	PackageName string `json:"packageName,required"`
+	// system or thirdParty
+	//
+	// Any of "system", "thirdParty".
+	PkgType V1BoxAndroidInstallResponsePkgType `json:"pkgType,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Activities  respjson.Field
+		ApkPath     respjson.Field
+		PackageName respjson.Field
+		PkgType     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidInstallResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidInstallResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android pkg activity
+type V1BoxAndroidInstallResponseActivity struct {
+	// Activity class name
+	ClassName string `json:"className,required"`
+	// Activity class name
+	IsExported bool `json:"isExported,required"`
+	// Whether the activity is a launcher activity. Launcher activities appear in the
+	// device's pkg launcher/home screen and can be directly launched by the user.
+	IsLauncher bool `json:"isLauncher,required"`
+	// Whether the activity is the main activity. Main activity is the entry point of
+	// the pkg and is typically launched when the pkg is started.
+	IsMain bool `json:"isMain,required"`
+	// Activity name
+	Name string `json:"name,required"`
+	// Activity package name
+	PackageName string `json:"packageName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ClassName   respjson.Field
+		IsExported  respjson.Field
+		IsLauncher  respjson.Field
+		IsMain      respjson.Field
+		Name        respjson.Field
+		PackageName respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidInstallResponseActivity) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidInstallResponseActivity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// system or thirdParty
+type V1BoxAndroidInstallResponsePkgType string
+
+const (
+	V1BoxAndroidInstallResponsePkgTypeSystem     V1BoxAndroidInstallResponsePkgType = "system"
+	V1BoxAndroidInstallResponsePkgTypeThirdParty V1BoxAndroidInstallResponsePkgType = "thirdParty"
+)
+
+// Android pkg activity list
 type V1BoxAndroidListActivitiesResponse struct {
 	// Activity list
 	Data []V1BoxAndroidListActivitiesResponseData `json:"data,required"`
@@ -300,13 +451,17 @@ func (r *V1BoxAndroidListActivitiesResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Android app activity
+// Android pkg activity
 type V1BoxAndroidListActivitiesResponseData struct {
 	// Activity class name
 	ClassName string `json:"className,required"`
 	// Activity class name
 	IsExported bool `json:"isExported,required"`
-	// Whether the activity is the main activity
+	// Whether the activity is a launcher activity. Launcher activities appear in the
+	// device's pkg launcher/home screen and can be directly launched by the user.
+	IsLauncher bool `json:"isLauncher,required"`
+	// Whether the activity is the main activity. Main activity is the entry point of
+	// the pkg and is typically launched when the pkg is started.
 	IsMain bool `json:"isMain,required"`
 	// Activity name
 	Name string `json:"name,required"`
@@ -316,6 +471,7 @@ type V1BoxAndroidListActivitiesResponseData struct {
 	JSON struct {
 		ClassName   respjson.Field
 		IsExported  respjson.Field
+		IsLauncher  respjson.Field
 		IsMain      respjson.Field
 		Name        respjson.Field
 		PackageName respjson.Field
@@ -330,39 +486,138 @@ func (r *V1BoxAndroidListActivitiesResponseData) UnmarshalJSON(data []byte) erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxAndroidListParams struct {
-	// Whether to include running apps, default is all
-	IsRunning param.Opt[bool] `query:"isRunning,omitzero" json:"-"`
-	// Application type: system or third-party, default is all
+// Android app list
+type V1BoxAndroidListAppResponse struct {
+	// App list
+	Data []AndroidApp `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListAppResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListAppResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response containing list of Android pkgs
+type V1BoxAndroidListPkgResponse struct {
+	// Android pkg list
+	Data []V1BoxAndroidListPkgResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListPkgResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListPkgResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android pkg information
+type V1BoxAndroidListPkgResponseData struct {
+	// Android apk path
+	ApkPath string `json:"apkPath,required"`
+	// Whether the pkg is currently running
+	IsRunning bool `json:"isRunning,required"`
+	// Android pkg name
+	Name string `json:"name,required"`
+	// Android package name
+	PackageName string `json:"packageName,required"`
+	// system or thirdParty
 	//
-	// Any of "system", "third-party".
-	AppType V1BoxAndroidListParamsAppType `query:"appType,omitzero" json:"-"`
+	// Any of "system", "thirdParty".
+	PkgType string `json:"pkgType,required"`
+	// Android pkg version
+	Version string `json:"version,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ApkPath     respjson.Field
+		IsRunning   respjson.Field
+		Name        respjson.Field
+		PackageName respjson.Field
+		PkgType     respjson.Field
+		Version     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListPkgResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListPkgResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response containing list of Android pkgs
+type V1BoxAndroidListPkgSimpleResponse struct {
+	// Android pkg simple list
+	Data []V1BoxAndroidListPkgSimpleResponseData `json:"data,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListPkgSimpleResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListPkgSimpleResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Android pkg simple
+type V1BoxAndroidListPkgSimpleResponseData struct {
+	// Android apk path
+	ApkPath string `json:"apkPath,required"`
+	// Android pkg package name
+	PackageName string `json:"packageName,required"`
+	// system or thirdParty
+	//
+	// Any of "system", "thirdParty".
+	PkgType string `json:"pkgType,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ApkPath     respjson.Field
+		PackageName respjson.Field
+		PkgType     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidListPkgSimpleResponseData) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidListPkgSimpleResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidBackupParams struct {
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
-// URLQuery serializes [V1BoxAndroidListParams]'s query parameters as `url.Values`.
-func (r V1BoxAndroidListParams) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
-}
-
-// Application type: system or third-party, default is all
-type V1BoxAndroidListParamsAppType string
-
-const (
-	V1BoxAndroidListParamsAppTypeSystem     V1BoxAndroidListParamsAppType = "system"
-	V1BoxAndroidListParamsAppTypeThirdParty V1BoxAndroidListParamsAppType = "third-party"
-)
-
 type V1BoxAndroidCloseParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
 type V1BoxAndroidGetParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
+	paramObj
+}
+
+type V1BoxAndroidGetAppParams struct {
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
@@ -373,11 +628,11 @@ type V1BoxAndroidInstallParams struct {
 	//
 
 	// This field is a request body variant, only one variant field can be set. Request
-	// for installing Android app from uploaded APK file
-	OfInstallAndroidAppByFile *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile `json:",inline"`
+	// for installing Android pkg from uploaded APK file or ZIP archive
+	OfInstallAndroidPkgByFile *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Request
-	// for installing Android app from HTTP URL
-	OfInstallAndroidAppByURL *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL `json:",inline"`
+	// for installing Android pkg from HTTP URL (APK file or ZIP archive)
+	OfInstallAndroidPkgByURL *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL `json:",inline"`
 
 	paramObj
 }
@@ -400,47 +655,137 @@ func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType 
 	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
-// Request for installing Android app from uploaded APK file
+// Request for installing Android pkg from uploaded APK file or ZIP archive
 //
 // The property Apk is required.
-type V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile struct {
-	// APK file to install (max file size: 200MB)
+type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile struct {
+	// APK file or ZIP archive to install (max file size: 512MB).
+	//
+	// **Single APK mode:**
+	//
+	// - Upload a single APK file (e.g., app.apk)
+	// - System will automatically detect and install as single APK
+	//
+	// **Multi-APK mode (automatically detected):**
+	//
+	// - Upload a ZIP archive containing multiple APK files
+	// - System will automatically detect ZIP format and install all APKs inside
+	// - ZIP filename example: com.reddit.frontpage-gplay.zip
+	// - ZIP contents example:
+	//
+	// com.reddit.frontpage-gplay.zip └── com.reddit.frontpage-gplay/ (folder) ├──
+	// reddit-base.apk (base APK) ├── reddit-arm64.apk (architecture-specific) ├──
+	// reddit-en.apk (language pack) └── reddit-mdpi.apk (density-specific resources)
+	//
+	// This is commonly used for split APKs where different components are separated by
+	// architecture, language, or screen density.
 	Apk io.Reader `json:"apk,omitzero,required" format:"binary"`
+	// Whether to open the app after installation. Will find and launch the launcher
+	// activity of the installed app. If there are multiple launcher activities, only
+	// one will be opened. If the installed APK has no launcher activity, this
+	// parameter will have no effect.
+	Open param.Opt[bool] `json:"open,omitzero"`
 	paramObj
 }
 
-func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile
+func (r V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByFile) UnmarshalJSON(data []byte) error {
+func (r *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByFile) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Request for installing Android app from HTTP URL
+// Request for installing Android pkg from HTTP URL (APK file or ZIP archive)
 //
 // The property Apk is required.
-type V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL struct {
-	// HTTP URL to download APK file (max file size: 200MB)
+type V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL struct {
+	// HTTP URL to download APK file or ZIP archive (max file size: 512MB).
+	//
+	// **Single APK mode (automatically detected):**
+	//
+	// - Provide URL to a single APK file
+	// - System will automatically detect .apk extension and install as single APK
+	// - Example: https://example.com/app.apk
+	//
+	// **Multi-APK mode (automatically detected):**
+	//
+	// - Provide URL to a ZIP archive containing multiple APK files
+	// - System will automatically detect .zip extension and install all APKs inside
+	// - ZIP filename example: com.reddit.frontpage-gplay.zip
+	// - ZIP contents example:
+	//
+	// com.reddit.frontpage-gplay.zip └── com.reddit.frontpage-gplay/ (folder) ├──
+	// reddit-base.apk (base APK) ├── reddit-arm64.apk (architecture-specific) ├──
+	// reddit-en.apk (language pack) └── reddit-mdpi.apk (density-specific resources)
+	//
+	// - Example URL: https://example.com/com.reddit.frontpage-gplay.zip
+	//
+	// This is commonly used for split APKs where different components are separated by
+	// architecture, language, or screen density.
 	Apk string `json:"apk,required"`
+	// Whether to open the app after installation. Will find and launch the launcher
+	// activity of the installed app. If there are multiple launcher activities, only
+	// one will be opened. If the installed APK has no launcher activity, this
+	// parameter will have no effect.
+	Open param.Opt[bool] `json:"open,omitzero"`
 	paramObj
 }
 
-func (r V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL
+func (r V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxAndroidInstallParamsBodyInstallAndroidAppByURL) UnmarshalJSON(data []byte) error {
+func (r *V1BoxAndroidInstallParamsBodyInstallAndroidPkgByURL) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxAndroidListActivitiesParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
 }
 
+type V1BoxAndroidListPkgParams struct {
+	// system or thirdParty, default is thirdParty
+	//
+	// Any of "system", "thirdParty".
+	PkgType []string `query:"pkgType,omitzero" json:"-"`
+	// Filter pkgs by running status: running (show only running pkgs), notRunning
+	// (show only non-running pkgs). Default is all
+	//
+	// Any of "running", "notRunning".
+	RunningFilter []string `query:"runningFilter,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxAndroidListPkgParams]'s query parameters as
+// `url.Values`.
+func (r V1BoxAndroidListPkgParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type V1BoxAndroidListPkgSimpleParams struct {
+	// system or thirdParty, default is thirdParty
+	//
+	// Any of "system", "thirdParty".
+	PkgType []string `query:"pkgType,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1BoxAndroidListPkgSimpleParams]'s query parameters as
+// `url.Values`.
+func (r V1BoxAndroidListPkgSimpleParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
 type V1BoxAndroidOpenParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	// Activity name, default is the main activity.
 	ActivityName param.Opt[string] `json:"activityName,omitzero"`
 	paramObj
@@ -455,7 +800,7 @@ func (r *V1BoxAndroidOpenParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxAndroidRestartParams struct {
-	ID string `path:"id,required" json:"-"`
+	BoxID string `path:"boxId,required" json:"-"`
 	// Activity name, default is the main activity.
 	ActivityName param.Opt[string] `json:"activityName,omitzero"`
 	paramObj
@@ -469,37 +814,33 @@ func (r *V1BoxAndroidRestartParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type V1BoxAndroidRotateScreenParams struct {
-	// Rotation angle in degrees
-	//
-	// Any of 90, 180, 270.
-	Angle float64 `json:"angle,omitzero,required"`
-	// Rotation direction
-	//
-	// Any of "clockwise", "counter-clockwise".
-	Direction V1BoxAndroidRotateScreenParamsDirection `json:"direction,omitzero,required"`
+type V1BoxAndroidRestoreParams struct {
+	// Backup file to restore (max file size: 100MB)
+	Backup io.Reader `json:"backup,omitzero,required" format:"binary"`
 	paramObj
 }
 
-func (r V1BoxAndroidRotateScreenParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxAndroidRotateScreenParams
-	return param.MarshalObject(r, (*shadow)(&r))
+func (r V1BoxAndroidRestoreParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
-func (r *V1BoxAndroidRotateScreenParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Rotation direction
-type V1BoxAndroidRotateScreenParamsDirection string
-
-const (
-	V1BoxAndroidRotateScreenParamsDirectionClockwise        V1BoxAndroidRotateScreenParamsDirection = "clockwise"
-	V1BoxAndroidRotateScreenParamsDirectionCounterClockwise V1BoxAndroidRotateScreenParamsDirection = "counter-clockwise"
-)
 
 type V1BoxAndroidUninstallParams struct {
-	ID string `path:"id,required" json:"-"`
-	// uninstalls the application while retaining the data/cache
+	BoxID string `path:"boxId,required" json:"-"`
+	// uninstalls the pkg while retaining the data/cache
 	KeepData param.Opt[bool] `json:"keepData,omitzero"`
 	paramObj
 }

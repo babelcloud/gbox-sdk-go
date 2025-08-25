@@ -3,14 +3,18 @@
 package gboxsdk
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"time"
 
+	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -39,86 +43,87 @@ func NewV1BoxFService(opts ...option.RequestOption) (r V1BoxFService) {
 }
 
 // List box files
-func (r *V1BoxFService) List(ctx context.Context, id string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
+func (r *V1BoxFService) List(ctx context.Context, boxID string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/list", id)
+	path := fmt.Sprintf("boxes/%s/fs/list", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
-// Check if file exists
-func (r *V1BoxFService) Exists(ctx context.Context, id string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponse, err error) {
+// Check if file/dir exists
+func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/exists", id)
+	path := fmt.Sprintf("boxes/%s/fs/exists", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
-// Get file/directory
-func (r *V1BoxFService) Info(ctx context.Context, id string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
+// Get file/dir
+func (r *V1BoxFService) Info(ctx context.Context, boxID string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/info", id)
+	path := fmt.Sprintf("boxes/%s/fs/info", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
 // Read box file
-func (r *V1BoxFService) Read(ctx context.Context, id string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
+func (r *V1BoxFService) Read(ctx context.Context, boxID string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/read", id)
+	path := fmt.Sprintf("boxes/%s/fs/read", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
-// Delete box file/directory
-func (r *V1BoxFService) Remove(ctx context.Context, id string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
+// Delete a file or dir. If target path is not exists, the delete will be failed.
+func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs", id)
+	path := fmt.Sprintf("boxes/%s/fs", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, body, &res, opts...)
 	return
 }
 
-// Rename box file
-func (r *V1BoxFService) Rename(ctx context.Context, id string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponse, err error) {
+// Rename a file or dir. If target newPath is already exists, the rename will be
+// failed.
+func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/rename", id)
+	path := fmt.Sprintf("boxes/%s/fs/rename", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
 // Creates or overwrites a file. Creates necessary directories in the path if they
-// don't exist. if the path is a directory, the write will be failed.
-func (r *V1BoxFService) Write(ctx context.Context, id string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
+// don't exist. If target path is already exists, the write will be failed.
+func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/fs/write", id)
+	path := fmt.Sprintf("boxes/%s/fs/write", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
@@ -189,7 +194,7 @@ type V1BoxFListResponseDataFile struct {
 	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
-	// Full path to the file
+	// Full path to the file in the box
 	Path string `json:"path,required"`
 	// Size of the file
 	Size string `json:"size,required"`
@@ -224,7 +229,7 @@ type V1BoxFListResponseDataDirectory struct {
 	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
-	// Full path to the directory
+	// Full path to the directory in the box
 	Path string `json:"path,required"`
 	// Directory type indicator
 	//
@@ -248,8 +253,62 @@ func (r *V1BoxFListResponseDataDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// V1BoxFExistsResponseUnion contains all possible properties and values from
+// [V1BoxFExistsResponseExistsFileDirectoryResult],
+// [V1BoxFExistsResponseNotExistsFileDirectoryResult].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxFExistsResponseUnion struct {
+	Exists bool `json:"exists"`
+	// This field is from variant [V1BoxFExistsResponseExistsFileDirectoryResult].
+	Type string `json:"type"`
+	JSON struct {
+		Exists respjson.Field
+		Type   respjson.Field
+		raw    string
+	} `json:"-"`
+}
+
+func (u V1BoxFExistsResponseUnion) AsExistsFileDirectoryResult() (v V1BoxFExistsResponseExistsFileDirectoryResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxFExistsResponseUnion) AsNotExistsFileDirectoryResult() (v V1BoxFExistsResponseNotExistsFileDirectoryResult) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxFExistsResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxFExistsResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Response after checking if a file/directory exists
-type V1BoxFExistsResponse struct {
+type V1BoxFExistsResponseExistsFileDirectoryResult struct {
+	// Exists
+	Exists bool `json:"exists,required"`
+	// Type
+	Type string `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Exists      respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFExistsResponseExistsFileDirectoryResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFExistsResponseExistsFileDirectoryResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Response after checking if a file/directory not exists
+type V1BoxFExistsResponseNotExistsFileDirectoryResult struct {
 	// Exists
 	Exists bool `json:"exists,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -261,8 +320,8 @@ type V1BoxFExistsResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxFExistsResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFExistsResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxFExistsResponseNotExistsFileDirectoryResult) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFExistsResponseNotExistsFileDirectoryResult) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -314,7 +373,7 @@ type V1BoxFInfoResponseFile struct {
 	Mode string `json:"mode,required"`
 	// Name of the file
 	Name string `json:"name,required"`
-	// Full path to the file
+	// Full path to the file in the box
 	Path string `json:"path,required"`
 	// Size of the file
 	Size string `json:"size,required"`
@@ -349,7 +408,7 @@ type V1BoxFInfoResponseDirectory struct {
 	Mode string `json:"mode,required"`
 	// Name of the directory
 	Name string `json:"name,required"`
-	// Full path to the directory
+	// Full path to the directory in the box
 	Path string `json:"path,required"`
 	// Directory type indicator
 	//
@@ -409,33 +468,139 @@ func (r *V1BoxFRemoveResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Response after renaming file/directory
-type V1BoxFRenameResponse struct {
-	// Success message
-	Message string `json:"message,required"`
+// V1BoxFRenameResponseUnion contains all possible properties and values from
+// [V1BoxFRenameResponseFile], [V1BoxFRenameResponseDirectory].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type V1BoxFRenameResponseUnion struct {
+	LastModified time.Time `json:"lastModified"`
+	Mode         string    `json:"mode"`
+	Name         string    `json:"name"`
+	Path         string    `json:"path"`
+	// This field is from variant [V1BoxFRenameResponseFile].
+	Size string `json:"size"`
+	Type string `json:"type"`
+	JSON struct {
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u V1BoxFRenameResponseUnion) AsFile() (v V1BoxFRenameResponseFile) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u V1BoxFRenameResponseUnion) AsDirectory() (v V1BoxFRenameResponseDirectory) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u V1BoxFRenameResponseUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *V1BoxFRenameResponseUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// File system file representation
+type V1BoxFRenameResponseFile struct {
+	// Last modified time of the file
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// File metadata
+	Mode string `json:"mode,required"`
+	// Name of the file
+	Name string `json:"name,required"`
+	// Full path to the file in the box
+	Path string `json:"path,required"`
+	// Size of the file
+	Size string `json:"size,required"`
+	// File type indicator
+	//
+	// Any of "file".
+	Type string `json:"type,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxFRenameResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFRenameResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxFRenameResponseFile) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFRenameResponseFile) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Response after writing file content
-type V1BoxFWriteResponse struct {
-	// Success message
-	Message string `json:"message,required"`
+// File system directory representation
+type V1BoxFRenameResponseDirectory struct {
+	// Last modified time of the directory
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Directory metadata
+	Mode string `json:"mode,required"`
+	// Name of the directory
+	Name string `json:"name,required"`
+	// Full path to the directory in the box
+	Path string `json:"path,required"`
+	// Directory type indicator
+	//
+	// Any of "dir".
+	Type string `json:"type,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Message     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxFRenameResponseDirectory) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxFRenameResponseDirectory) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// File system file representation
+type V1BoxFWriteResponse struct {
+	// Last modified time of the file
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// File metadata
+	Mode string `json:"mode,required"`
+	// Name of the file
+	Name string `json:"name,required"`
+	// Full path to the file in the box
+	Path string `json:"path,required"`
+	// Size of the file
+	Size string `json:"size,required"`
+	// File type indicator
+	//
+	// Any of "file".
+	Type V1BoxFWriteResponseType `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
 	} `json:"-"`
 }
 
@@ -445,13 +610,20 @@ func (r *V1BoxFWriteResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// File type indicator
+type V1BoxFWriteResponseType string
+
+const (
+	V1BoxFWriteResponseTypeFile V1BoxFWriteResponseType = "file"
+)
+
 type V1BoxFListParams struct {
-	// Path to the directory
+	// Target directory path in the box
 	Path string `query:"path,required" json:"-"`
 	// Depth of the directory
 	Depth param.Opt[float64] `query:"depth,omitzero" json:"-"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
 	paramObj
 }
@@ -465,11 +637,11 @@ func (r V1BoxFListParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFExistsParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be checked from the working directory
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be checked relative to the working directory
 	Path string `json:"path,required"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
@@ -483,11 +655,11 @@ func (r *V1BoxFExistsParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFInfoParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be checked from the working directory
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be checked relative to the working directory
 	Path string `query:"path,required" json:"-"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
 	paramObj
 }
@@ -501,11 +673,11 @@ func (r V1BoxFInfoParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFReadParams struct {
-	// Path to the file. If the path is not start with '/', the file will be read from
-	// the working directory.
+	// Target path in the box. If the path does not start with '/', the file will be
+	// read from the working directory.
 	Path string `query:"path,required" json:"-"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `query:"workingDir,omitzero" json:"-"`
 	paramObj
 }
@@ -519,11 +691,12 @@ func (r V1BoxFReadParams) URLQuery() (v url.Values, err error) {
 }
 
 type V1BoxFRemoveParams struct {
-	// Path to the file/directory. If the path is not start with '/', the
-	// file/directory will be deleted from the working directory
+	// Target path in the box. If the path does not start with '/', the file/directory
+	// will be deleted relative to the working directory. If the target path does not
+	// exist, the delete will fail.
 	Path string `json:"path,required"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
@@ -537,14 +710,16 @@ func (r *V1BoxFRemoveParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFRenameParams struct {
-	// New path for the file/directory. If the path is not start with '/', the
-	// file/directory will be renamed to the working directory
+	// New path in the box. If the path does not start with '/', the file/directory
+	// will be renamed relative to the working directory. If the newPath already
+	// exists, the rename will fail.
 	NewPath string `json:"newPath,required"`
-	// Old path to the file/directory. If the path is not start with '/', the
-	// file/directory will be renamed from the working directory
+	// Old path in the box. If the path does not start with '/', the file/directory
+	// will be renamed relative to the working directory. If the oldPath does not
+	// exist, the rename will fail.
 	OldPath string `json:"oldPath,required"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
@@ -558,21 +733,85 @@ func (r *V1BoxFRenameParams) UnmarshalJSON(data []byte) error {
 }
 
 type V1BoxFWriteParams struct {
-	// Content of the file
+
+	//
+	// Request body variants
+	//
+
+	// This field is a request body variant, only one variant field can be set. Request
+	// parameters for writing content to a file
+	OfWriteFile *V1BoxFWriteParamsBodyWriteFile `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Request
+	// parameters for writing binary content to a file
+	OfWriteFileByBinary *V1BoxFWriteParamsBodyWriteFileByBinary `json:",inline"`
+
+	paramObj
+}
+
+func (r V1BoxFWriteParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
+}
+
+// Request parameters for writing content to a file
+//
+// The properties Content, Path are required.
+type V1BoxFWriteParamsBodyWriteFile struct {
+	// Content of the file (Max size: 512MB)
 	Content string `json:"content,required"`
-	// Path to the file. If the path is not start with '/', the file will be written to
-	// the working directory
+	// Target path in the box. If the path does not start with '/', the file will be
+	// written relative to the working directory. Creates necessary directories in the
+	// path if they don't exist. If the target path already exists, the write will
+	// fail.
 	Path string `json:"path,required"`
-	// Working directory. If not provided, the file will be read from the root
-	// directory.
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
 	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
 	paramObj
 }
 
-func (r V1BoxFWriteParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxFWriteParams
+func (r V1BoxFWriteParamsBodyWriteFile) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFWriteParamsBodyWriteFile
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxFWriteParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxFWriteParamsBodyWriteFile) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Request parameters for writing binary content to a file
+//
+// The properties Content, Path are required.
+type V1BoxFWriteParamsBodyWriteFileByBinary struct {
+	// Binary content of the file (Max file size: 512MB)
+	Content io.Reader `json:"content,omitzero,required" format:"binary"`
+	// Target path in the box. If the path does not start with '/', the file will be
+	// written relative to the working directory. Creates necessary directories in the
+	// path if they don't exist. If the target path already exists, the write will
+	// fail.
+	Path string `json:"path,required"`
+	// Working directory. If not provided, the file will be read from the
+	// `box.config.workingDir` directory.
+	WorkingDir param.Opt[string] `json:"workingDir,omitzero"`
+	paramObj
+}
+
+func (r V1BoxFWriteParamsBodyWriteFileByBinary) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxFWriteParamsBodyWriteFileByBinary
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxFWriteParamsBodyWriteFileByBinary) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
