@@ -25,6 +25,7 @@ func TestV1BoxStoragePresignedURLWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Storage.PresignedURL(
 		context.TODO(),

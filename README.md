@@ -51,6 +51,7 @@ import (
 func main() {
 	client := gboxsdk.NewClient(
 		option.WithAPIKey("My API Key"),     // defaults to os.LookupEnv("GBOX_API_KEY")
+		option.WithBaseURL("My Base URL"),   // defaults to os.LookupEnv("GBOX_BASE_URL")
 		option.WithEnvironmentSelfHosting(), // or option.WithEnvironmentProduction() | option.WithEnvironmentInternal(); defaults to option.WithEnvironmentProduction()
 	)
 	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
