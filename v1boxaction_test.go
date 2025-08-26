@@ -357,7 +357,7 @@ func TestV1BoxActionRecordingStop(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionReplayRecordingDisable(t *testing.T) {
+func TestV1BoxActionRewindDisable(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -370,7 +370,7 @@ func TestV1BoxActionReplayRecordingDisable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.ReplayRecordingDisable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	err := client.V1.Boxes.Actions.RewindDisable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -380,7 +380,7 @@ func TestV1BoxActionReplayRecordingDisable(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionReplayRecordingEnable(t *testing.T) {
+func TestV1BoxActionRewindEnable(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -393,7 +393,7 @@ func TestV1BoxActionReplayRecordingEnable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.ReplayRecordingEnable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	err := client.V1.Boxes.Actions.RewindEnable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -403,7 +403,7 @@ func TestV1BoxActionReplayRecordingEnable(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionReplayRecordingGet(t *testing.T) {
+func TestV1BoxActionRewindExtractWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -416,7 +416,13 @@ func TestV1BoxActionReplayRecordingGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.ReplayRecordingGet(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Actions.RewindExtract(
+		context.TODO(),
+		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+		gboxsdk.V1BoxActionRewindExtractParams{
+			Duration: gboxsdk.String("10s"),
+		},
+	)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
