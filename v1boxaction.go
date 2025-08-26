@@ -7443,7 +7443,7 @@ type V1BoxActionScrollParams struct {
 	// content upward (reveal content above). Use positive scrollX to scroll content
 	// rightward (reveal content on the right), negative scrollX to scroll content
 	// leftward (reveal content on the left).
-	OfScrollAction *V1BoxActionScrollParamsBodyScrollAction `json:",inline"`
+	OfScrollAdvanced *V1BoxActionScrollParamsBodyScrollAdvanced `json:",inline"`
 	// This field is a request body variant, only one variant field can be set. Simple
 	// scroll action configuration. The scroll will be performed from the center of the
 	// screen towards the specified direction.
@@ -7453,7 +7453,7 @@ type V1BoxActionScrollParams struct {
 }
 
 func (u V1BoxActionScrollParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfScrollAction, u.OfScrollSimple)
+	return param.MarshalUnion(u, u.OfScrollAdvanced, u.OfScrollSimple)
 }
 func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -7467,7 +7467,7 @@ func (r *V1BoxActionScrollParams) UnmarshalJSON(data []byte) error {
 // leftward (reveal content on the left).
 //
 // The properties ScrollX, ScrollY, X, Y are required.
-type V1BoxActionScrollParamsBodyScrollAction struct {
+type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	// Horizontal scroll amount. Positive values scroll content rightward (reveals
 	// content on the right), negative values scroll content leftward (reveals content
 	// on the left).
@@ -7509,16 +7509,16 @@ type V1BoxActionScrollParamsBodyScrollAction struct {
 	paramObj
 }
 
-func (r V1BoxActionScrollParamsBodyScrollAction) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParamsBodyScrollAction
+func (r V1BoxActionScrollParamsBodyScrollAdvanced) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScrollParamsBodyScrollAdvanced
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionScrollParamsBodyScrollAction) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionScrollParamsBodyScrollAdvanced) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAction](
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
 }

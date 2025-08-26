@@ -541,7 +541,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScrollParams{
-			OfScrollAction: &gboxsdk.V1BoxActionScrollParamsBodyScrollAction{
+			OfScrollAdvanced: &gboxsdk.V1BoxActionScrollParamsBodyScrollAdvanced{
 				ScrollX:            0,
 				ScrollY:            100,
 				X:                  100,
