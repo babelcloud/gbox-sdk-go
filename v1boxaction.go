@@ -164,36 +164,42 @@ func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, op
 	return
 }
 
-func (r *V1BoxActionService) ReplayRecordingDisable(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+// Stop the device's background screen rewind recording.
+func (r *V1BoxActionService) RewindDisable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/recording/replay", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
+	path := fmt.Sprintf("boxes/%s/actions/recording/rewind", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return
 }
 
-func (r *V1BoxActionService) ReplayRecordingEnable(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+// Start the device's background screen rewind recording.
+func (r *V1BoxActionService) RewindEnable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/recording/replay", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	path := fmt.Sprintf("boxes/%s/actions/recording/rewind", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
 
-func (r *V1BoxActionService) ReplayRecordingGet(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+// Rewind and capture the device's background screen recording from a specified
+// time period.
+func (r *V1BoxActionService) RewindExtract(ctx context.Context, boxID string, body V1BoxActionRewindExtractParams, opts ...option.RequestOption) (res *V1BoxActionRewindExtractResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/recording/replay/clip", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	path := fmt.Sprintf("boxes/%s/actions/recording/rewind/extract", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -273,8 +279,8 @@ func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, op
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/settings/reset", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	path := fmt.Sprintf("boxes/%s/actions/settings", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
 	return
 }
 
@@ -5264,6 +5270,30 @@ func (r *V1BoxActionRecordingStopResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Result of extracting the recording rewind
+type V1BoxActionRewindExtractResponse struct {
+	// Presigned URL of the recording. This is a temporary downloadable URL with an
+	// expiration time for accessing the recording file.
+	PresignedURL string `json:"presignedUrl,required"`
+	// Storage key of the recording. Before the box is deleted, you can use this
+	// storageKey with the endpoint `box/:boxId/storage/presigned-url` to get a
+	// downloadable URL for the recording.
+	StorageKey string `json:"storageKey,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		PresignedURL respjson.Field
+		StorageKey   respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionRewindExtractResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionRewindExtractResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Screen layout content.
 //
 // Android boxes (XML):
@@ -7255,6 +7285,25 @@ func (r V1BoxActionRecordingStartParams) MarshalJSON() (data []byte, err error) 
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxActionRecordingStartParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxActionRewindExtractParams struct {
+	// How far back in time to rewind for extracting recorded video. This specifies the
+	// duration to go back from the current moment (e.g., '30s' rewinds 30 seconds to
+	// get recent recorded activity). Default is 30s, max is 5m.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Maximum allowed: 5m
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionRewindExtractParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionRewindExtractParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionRewindExtractParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
