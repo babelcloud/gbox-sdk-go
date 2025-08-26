@@ -25,7 +25,6 @@ func TestV1BoxFListWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.List(
 		context.TODO(),
@@ -57,7 +56,6 @@ func TestV1BoxFExistsWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Exists(
 		context.TODO(),
@@ -88,7 +86,6 @@ func TestV1BoxFInfoWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Info(
 		context.TODO(),
@@ -119,7 +116,6 @@ func TestV1BoxFReadWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Read(
 		context.TODO(),
@@ -150,7 +146,6 @@ func TestV1BoxFRemoveWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Remove(
 		context.TODO(),
@@ -181,7 +176,6 @@ func TestV1BoxFRenameWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Rename(
 		context.TODO(),
@@ -213,7 +207,6 @@ func TestV1BoxFWriteWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Fs.Write(
 		context.TODO(),
