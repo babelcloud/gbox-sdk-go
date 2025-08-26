@@ -25,6 +25,7 @@ func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.CdpURL(
 		context.TODO(),
@@ -54,6 +55,7 @@ func TestV1BoxBrowserCloseTab(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.CloseTab(
 		context.TODO(),
@@ -83,6 +85,7 @@ func TestV1BoxBrowserGetTabs(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.GetTabs(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -106,6 +109,7 @@ func TestV1BoxBrowserOpenTab(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.OpenTab(
 		context.TODO(),
@@ -135,6 +139,7 @@ func TestV1BoxBrowserSwitchTab(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.SwitchTab(
 		context.TODO(),
@@ -164,6 +169,7 @@ func TestV1BoxBrowserUpdateTab(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Browser.UpdateTab(
 		context.TODO(),

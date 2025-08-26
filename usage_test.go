@@ -23,6 +23,7 @@ func TestUsage(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	androidBox, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{},

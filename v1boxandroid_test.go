@@ -27,6 +27,7 @@ func TestV1BoxAndroidBackup(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	resp, err := client.V1.Boxes.Android.Backup(
 		context.TODO(),
@@ -67,6 +68,7 @@ func TestV1BoxAndroidBackupAll(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	resp, err := client.V1.Boxes.Android.BackupAll(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -103,6 +105,7 @@ func TestV1BoxAndroidClose(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.Close(
 		context.TODO(),
@@ -132,6 +135,7 @@ func TestV1BoxAndroidCloseAll(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.CloseAll(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -155,6 +159,7 @@ func TestV1BoxAndroidGet(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.Get(
 		context.TODO(),
@@ -184,6 +189,7 @@ func TestV1BoxAndroidGetApp(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.GetApp(
 		context.TODO(),
@@ -213,6 +219,7 @@ func TestV1BoxAndroidGetConnectAddress(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.GetConnectAddress(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -236,6 +243,7 @@ func TestV1BoxAndroidInstallWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.Install(
 		context.TODO(),
@@ -263,6 +271,7 @@ func TestV1BoxAndroidListActivities(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.ListActivities(
 		context.TODO(),
@@ -292,6 +301,7 @@ func TestV1BoxAndroidListApp(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.ListApp(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -315,6 +325,7 @@ func TestV1BoxAndroidListPkgWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.ListPkg(
 		context.TODO(),
@@ -345,6 +356,7 @@ func TestV1BoxAndroidListPkgSimpleWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Android.ListPkgSimple(
 		context.TODO(),
@@ -374,6 +386,7 @@ func TestV1BoxAndroidOpenWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.Open(
 		context.TODO(),
@@ -404,6 +417,7 @@ func TestV1BoxAndroidRestartWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.Restart(
 		context.TODO(),
@@ -434,6 +448,7 @@ func TestV1BoxAndroidRestore(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.Restore(
 		context.TODO(),
@@ -463,6 +478,7 @@ func TestV1BoxAndroidUninstallWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Android.Uninstall(
 		context.TODO(),

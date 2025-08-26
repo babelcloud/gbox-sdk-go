@@ -25,6 +25,7 @@ func TestV1BoxProxyClear(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Proxy.Clear(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -48,6 +49,7 @@ func TestV1BoxProxyGet(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Proxy.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -71,6 +73,7 @@ func TestV1BoxProxySetWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Proxy.Set(
 		context.TODO(),
