@@ -556,7 +556,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSetting(t *testing.T) {
+func TestV1BoxActionSettings(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -569,7 +569,7 @@ func TestV1BoxActionSetting(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.Setting(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Actions.Settings(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -579,7 +579,7 @@ func TestV1BoxActionSetting(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSettingReset(t *testing.T) {
+func TestV1BoxActionSettingsReset(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -592,7 +592,7 @@ func TestV1BoxActionSettingReset(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.SettingReset(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	_, err := client.V1.Boxes.Actions.SettingsReset(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -602,7 +602,7 @@ func TestV1BoxActionSettingReset(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionSettingUpdate(t *testing.T) {
+func TestV1BoxActionSettingsUpdate(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -615,10 +615,10 @@ func TestV1BoxActionSettingUpdate(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Actions.SettingUpdate(
+	_, err := client.V1.Boxes.Actions.SettingsUpdate(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxActionSettingUpdateParams{
+		gboxsdk.V1BoxActionSettingsUpdateParams{
 			Scale: 1,
 		},
 	)

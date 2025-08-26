@@ -254,38 +254,38 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1Bo
 	return
 }
 
-// Get the box action setting
-func (r *V1BoxActionService) Setting(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingResponse, err error) {
+// Get the box action settings
+func (r *V1BoxActionService) Settings(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/setting", boxID)
+	path := fmt.Sprintf("boxes/%s/actions/settings", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
-// Reset the box setting
-func (r *V1BoxActionService) SettingReset(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingResetResponse, err error) {
+// Reset the box settings to default
+func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResetResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/setting/reset", boxID)
+	path := fmt.Sprintf("boxes/%s/actions/settings/reset", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
-// Setting the box action setting
-func (r *V1BoxActionService) SettingUpdate(ctx context.Context, boxID string, body V1BoxActionSettingUpdateParams, opts ...option.RequestOption) (res *V1BoxActionSettingUpdateResponse, err error) {
+// Update the box action settings
+func (r *V1BoxActionService) SettingsUpdate(ctx context.Context, boxID string, body V1BoxActionSettingsUpdateParams, opts ...option.RequestOption) (res *V1BoxActionSettingsUpdateResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
-	path := fmt.Sprintf("boxes/%s/actions/setting", boxID)
+	path := fmt.Sprintf("boxes/%s/actions/settings", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
 }
@@ -5679,7 +5679,7 @@ func (r *V1BoxActionScrollResponseActionCommonResult) UnmarshalJSON(data []byte)
 }
 
 // Action setting
-type V1BoxActionSettingResponse struct {
+type V1BoxActionSettingsResponse struct {
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -5700,13 +5700,13 @@ type V1BoxActionSettingResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionSettingResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionSettingResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionSettingsResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingsResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Action setting
-type V1BoxActionSettingResetResponse struct {
+type V1BoxActionSettingsResetResponse struct {
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -5727,13 +5727,13 @@ type V1BoxActionSettingResetResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionSettingResetResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionSettingResetResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionSettingsResetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingsResetResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // Action setting
-type V1BoxActionSettingUpdateResponse struct {
+type V1BoxActionSettingsUpdateResponse struct {
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -5754,8 +5754,8 @@ type V1BoxActionSettingUpdateResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxActionSettingUpdateResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionSettingUpdateResponse) UnmarshalJSON(data []byte) error {
+func (r V1BoxActionSettingsUpdateResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionSettingsUpdateResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -7579,7 +7579,7 @@ const (
 	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringLong   V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "long"
 )
 
-type V1BoxActionSettingUpdateParams struct {
+type V1BoxActionSettingsUpdateParams struct {
 	// The scale of the action to be performed. Must be greater than 0.1 and less than
 	// or equal to 1.
 	//
@@ -7594,11 +7594,11 @@ type V1BoxActionSettingUpdateParams struct {
 	paramObj
 }
 
-func (r V1BoxActionSettingUpdateParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSettingUpdateParams
+func (r V1BoxActionSettingsUpdateParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSettingsUpdateParams
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionSettingUpdateParams) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionSettingsUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
