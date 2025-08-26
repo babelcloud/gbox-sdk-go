@@ -25,7 +25,6 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.AI(
 		context.TODO(),
@@ -65,7 +64,6 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Click(
 		context.TODO(),
@@ -104,7 +102,6 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Drag(
 		context.TODO(),
@@ -152,7 +149,6 @@ func TestV1BoxActionExtractWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Extract(
 		context.TODO(),
@@ -183,7 +179,6 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.LongPress(
 		context.TODO(),
@@ -221,7 +216,6 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Move(
 		context.TODO(),
@@ -256,7 +250,6 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.PressButton(
 		context.TODO(),
@@ -290,7 +283,6 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.PressKey(
 		context.TODO(),
@@ -325,7 +317,6 @@ func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Actions.RecordingStart(
 		context.TODO(),
@@ -355,7 +346,6 @@ func TestV1BoxActionRecordingStop(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.RecordingStop(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -379,7 +369,6 @@ func TestV1BoxActionRewindDisable(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Actions.RewindDisable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -403,7 +392,6 @@ func TestV1BoxActionRewindEnable(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Actions.RewindEnable(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -427,7 +415,6 @@ func TestV1BoxActionRewindExtractWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.RewindExtract(
 		context.TODO(),
@@ -457,7 +444,6 @@ func TestV1BoxActionScreenLayout(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.ScreenLayout(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -481,7 +467,6 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.ScreenRotation(
 		context.TODO(),
@@ -515,7 +500,6 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Screenshot(
 		context.TODO(),
@@ -552,7 +536,6 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Scroll(
 		context.TODO(),
@@ -591,7 +574,6 @@ func TestV1BoxActionSettings(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Settings(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -615,7 +597,6 @@ func TestV1BoxActionSettingsReset(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.SettingsReset(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -639,7 +620,6 @@ func TestV1BoxActionSettingsUpdate(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.SettingsUpdate(
 		context.TODO(),
@@ -669,7 +649,6 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Swipe(
 		context.TODO(),
@@ -710,7 +689,6 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Tap(
 		context.TODO(),
@@ -747,7 +725,6 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Touch(
 		context.TODO(),
@@ -794,7 +771,6 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Actions.Type(
 		context.TODO(),

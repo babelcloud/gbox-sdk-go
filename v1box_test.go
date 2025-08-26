@@ -25,7 +25,6 @@ func TestV1BoxGet(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Get(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -49,7 +48,6 @@ func TestV1BoxListWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.List(context.TODO(), gboxsdk.V1BoxListParams{
 		DeviceType: gboxsdk.String("virtual"),
@@ -80,7 +78,6 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.NewAndroid(context.TODO(), gboxsdk.V1BoxNewAndroidParams{
 		CreateAndroidBox: gboxsdk.CreateAndroidBoxParam{
@@ -121,7 +118,6 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.NewLinux(context.TODO(), gboxsdk.V1BoxNewLinuxParams{
 		CreateLinuxBox: gboxsdk.CreateLinuxBoxParam{
@@ -161,7 +157,6 @@ func TestV1BoxDisplay(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Display(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -185,7 +180,6 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.ExecuteCommands(
 		context.TODO(),
@@ -223,7 +217,6 @@ func TestV1BoxLiveViewURLWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.LiveViewURL(
 		context.TODO(),
@@ -253,7 +246,6 @@ func TestV1BoxRunCodeWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.RunCode(
 		context.TODO(),
@@ -291,7 +283,6 @@ func TestV1BoxStartWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Start(
 		context.TODO(),
@@ -321,7 +312,6 @@ func TestV1BoxStopWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Stop(
 		context.TODO(),
@@ -351,7 +341,6 @@ func TestV1BoxTerminateWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Terminate(
 		context.TODO(),
@@ -381,7 +370,6 @@ func TestV1BoxWebTerminalURLWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.WebTerminalURL(
 		context.TODO(),
@@ -411,7 +399,6 @@ func TestV1BoxWebsocketURL(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.WebsocketURL(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {

@@ -29,7 +29,6 @@ func TestV1BoxMediaNewAlbumWithOptionalParams(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.NewAlbum(
 		context.TODO(),
@@ -60,7 +59,6 @@ func TestV1BoxMediaDeleteAlbum(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Media.DeleteAlbum(
 		context.TODO(),
@@ -90,7 +88,6 @@ func TestV1BoxMediaDeleteMedia(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	err := client.V1.Boxes.Media.DeleteMedia(
 		context.TODO(),
@@ -119,7 +116,6 @@ func TestV1BoxMediaDownloadMedia(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	resp, err := client.V1.Boxes.Media.DownloadMedia(
 		context.TODO(),
@@ -163,7 +159,6 @@ func TestV1BoxMediaGetAlbumDetail(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.GetAlbumDetail(
 		context.TODO(),
@@ -193,7 +188,6 @@ func TestV1BoxMediaGetMedia(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.GetMedia(
 		context.TODO(),
@@ -224,7 +218,6 @@ func TestV1BoxMediaGetMediaSupport(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.GetMediaSupport(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -248,7 +241,6 @@ func TestV1BoxMediaListAlbums(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.ListAlbums(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
@@ -272,7 +264,6 @@ func TestV1BoxMediaListMedia(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.ListMedia(
 		context.TODO(),
@@ -302,7 +293,6 @@ func TestV1BoxMediaUpdateAlbum(t *testing.T) {
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
-		option.WithBaseURL("My Base URL"),
 	)
 	_, err := client.V1.Boxes.Media.UpdateAlbum(
 		context.TODO(),
