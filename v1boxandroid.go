@@ -101,7 +101,7 @@ func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts .
 }
 
 // Get pkg
-func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *V1BoxAndroidGetResponse, err error) {
+func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidPkg, err error) {
 	opts = append(r.Options[:], opts...)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -300,7 +300,7 @@ func (r *AndroidApp) UnmarshalJSON(data []byte) error {
 }
 
 // Android pkg information
-type V1BoxAndroidGetResponse struct {
+type AndroidPkg struct {
 	// Android apk path
 	ApkPath string `json:"apkPath,required"`
 	// Whether the pkg is currently running
@@ -312,7 +312,7 @@ type V1BoxAndroidGetResponse struct {
 	// system or thirdParty
 	//
 	// Any of "system", "thirdParty".
-	PkgType V1BoxAndroidGetResponsePkgType `json:"pkgType,required"`
+	PkgType AndroidPkgPkgType `json:"pkgType,required"`
 	// Android pkg version
 	Version string `json:"version,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -329,17 +329,17 @@ type V1BoxAndroidGetResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r V1BoxAndroidGetResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxAndroidGetResponse) UnmarshalJSON(data []byte) error {
+func (r AndroidPkg) RawJSON() string { return r.JSON.raw }
+func (r *AndroidPkg) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // system or thirdParty
-type V1BoxAndroidGetResponsePkgType string
+type AndroidPkgPkgType string
 
 const (
-	V1BoxAndroidGetResponsePkgTypeSystem     V1BoxAndroidGetResponsePkgType = "system"
-	V1BoxAndroidGetResponsePkgTypeThirdParty V1BoxAndroidGetResponsePkgType = "thirdParty"
+	AndroidPkgPkgTypeSystem     AndroidPkgPkgType = "system"
+	AndroidPkgPkgTypeThirdParty AndroidPkgPkgType = "thirdParty"
 )
 
 // Android connection information
@@ -507,7 +507,7 @@ func (r *V1BoxAndroidListAppResponse) UnmarshalJSON(data []byte) error {
 // Response containing list of Android pkgs
 type V1BoxAndroidListPkgResponse struct {
 	// Android pkg list
-	Data []V1BoxAndroidListPkgResponseData `json:"data,required"`
+	Data []AndroidPkg `json:"data,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -519,41 +519,6 @@ type V1BoxAndroidListPkgResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxAndroidListPkgResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidListPkgResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Android pkg information
-type V1BoxAndroidListPkgResponseData struct {
-	// Android apk path
-	ApkPath string `json:"apkPath,required"`
-	// Whether the pkg is currently running
-	IsRunning bool `json:"isRunning,required"`
-	// Android pkg name
-	Name string `json:"name,required"`
-	// Android package name
-	PackageName string `json:"packageName,required"`
-	// system or thirdParty
-	//
-	// Any of "system", "thirdParty".
-	PkgType string `json:"pkgType,required"`
-	// Android pkg version
-	Version string `json:"version,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		ApkPath     respjson.Field
-		IsRunning   respjson.Field
-		Name        respjson.Field
-		PackageName respjson.Field
-		PkgType     respjson.Field
-		Version     respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxAndroidListPkgResponseData) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxAndroidListPkgResponseData) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

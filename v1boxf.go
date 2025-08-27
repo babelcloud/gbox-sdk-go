@@ -117,7 +117,7 @@ func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRen
 
 // Creates or overwrites a file. Creates necessary directories in the path if they
 // don't exist. If target path is already exists, the write will be failed.
-func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *V1BoxFWriteResponse, err error) {
+func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *File, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -127,6 +127,87 @@ func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWrit
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
+
+// File system directory representation
+type Dir struct {
+	// Last modified time of the directory
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// Directory metadata
+	Mode string `json:"mode,required"`
+	// Name of the directory
+	Name string `json:"name,required"`
+	// Full path to the directory in the box
+	Path string `json:"path,required"`
+	// Directory type indicator
+	//
+	// Any of "dir".
+	Type DirType `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r Dir) RawJSON() string { return r.JSON.raw }
+func (r *Dir) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Directory type indicator
+type DirType string
+
+const (
+	DirTypeDir DirType = "dir"
+)
+
+// File system file representation
+type File struct {
+	// Last modified time of the file
+	LastModified time.Time `json:"lastModified,required" format:"date-time"`
+	// File metadata
+	Mode string `json:"mode,required"`
+	// Name of the file
+	Name string `json:"name,required"`
+	// Full path to the file in the box
+	Path string `json:"path,required"`
+	// Size of the file
+	Size string `json:"size,required"`
+	// File type indicator
+	//
+	// Any of "file".
+	Type FileType `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LastModified respjson.Field
+		Mode         respjson.Field
+		Name         respjson.Field
+		Path         respjson.Field
+		Size         respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r File) RawJSON() string { return r.JSON.raw }
+func (r *File) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// File type indicator
+type FileType string
+
+const (
+	FileTypeFile FileType = "file"
+)
 
 // Response containing directory listing results
 type V1BoxFListResponse struct {
@@ -147,7 +228,7 @@ func (r *V1BoxFListResponse) UnmarshalJSON(data []byte) error {
 }
 
 // V1BoxFListResponseDataUnion contains all possible properties and values from
-// [V1BoxFListResponseDataFile], [V1BoxFListResponseDataDirectory].
+// [File], [Dir].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxFListResponseDataUnion struct {
@@ -155,7 +236,7 @@ type V1BoxFListResponseDataUnion struct {
 	Mode         string    `json:"mode"`
 	Name         string    `json:"name"`
 	Path         string    `json:"path"`
-	// This field is from variant [V1BoxFListResponseDataFile].
+	// This field is from variant [File].
 	Size string `json:"size"`
 	Type string `json:"type"`
 	JSON struct {
@@ -169,12 +250,12 @@ type V1BoxFListResponseDataUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxFListResponseDataUnion) AsFile() (v V1BoxFListResponseDataFile) {
+func (u V1BoxFListResponseDataUnion) AsFile() (v File) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxFListResponseDataUnion) AsDirectory() (v V1BoxFListResponseDataDirectory) {
+func (u V1BoxFListResponseDataUnion) AsDirectory() (v Dir) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -183,73 +264,6 @@ func (u V1BoxFListResponseDataUnion) AsDirectory() (v V1BoxFListResponseDataDire
 func (u V1BoxFListResponseDataUnion) RawJSON() string { return u.JSON.raw }
 
 func (r *V1BoxFListResponseDataUnion) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system file representation
-type V1BoxFListResponseDataFile struct {
-	// Last modified time of the file
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// File metadata
-	Mode string `json:"mode,required"`
-	// Name of the file
-	Name string `json:"name,required"`
-	// Full path to the file in the box
-	Path string `json:"path,required"`
-	// Size of the file
-	Size string `json:"size,required"`
-	// File type indicator
-	//
-	// Any of "file".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Size         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFListResponseDataFile) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFListResponseDataFile) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system directory representation
-type V1BoxFListResponseDataDirectory struct {
-	// Last modified time of the directory
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// Directory metadata
-	Mode string `json:"mode,required"`
-	// Name of the directory
-	Name string `json:"name,required"`
-	// Full path to the directory in the box
-	Path string `json:"path,required"`
-	// Directory type indicator
-	//
-	// Any of "dir".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFListResponseDataDirectory) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFListResponseDataDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -325,8 +339,8 @@ func (r *V1BoxFExistsResponseNotExistsFileDirectoryResult) UnmarshalJSON(data []
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// V1BoxFInfoResponseUnion contains all possible properties and values from
-// [V1BoxFInfoResponseFile], [V1BoxFInfoResponseDirectory].
+// V1BoxFInfoResponseUnion contains all possible properties and values from [File],
+// [Dir].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxFInfoResponseUnion struct {
@@ -334,7 +348,7 @@ type V1BoxFInfoResponseUnion struct {
 	Mode         string    `json:"mode"`
 	Name         string    `json:"name"`
 	Path         string    `json:"path"`
-	// This field is from variant [V1BoxFInfoResponseFile].
+	// This field is from variant [File].
 	Size string `json:"size"`
 	Type string `json:"type"`
 	JSON struct {
@@ -348,12 +362,12 @@ type V1BoxFInfoResponseUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxFInfoResponseUnion) AsFile() (v V1BoxFInfoResponseFile) {
+func (u V1BoxFInfoResponseUnion) AsFile() (v File) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxFInfoResponseUnion) AsDirectory() (v V1BoxFInfoResponseDirectory) {
+func (u V1BoxFInfoResponseUnion) AsDirectory() (v Dir) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -362,73 +376,6 @@ func (u V1BoxFInfoResponseUnion) AsDirectory() (v V1BoxFInfoResponseDirectory) {
 func (u V1BoxFInfoResponseUnion) RawJSON() string { return u.JSON.raw }
 
 func (r *V1BoxFInfoResponseUnion) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system file representation
-type V1BoxFInfoResponseFile struct {
-	// Last modified time of the file
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// File metadata
-	Mode string `json:"mode,required"`
-	// Name of the file
-	Name string `json:"name,required"`
-	// Full path to the file in the box
-	Path string `json:"path,required"`
-	// Size of the file
-	Size string `json:"size,required"`
-	// File type indicator
-	//
-	// Any of "file".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Size         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFInfoResponseFile) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFInfoResponseFile) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system directory representation
-type V1BoxFInfoResponseDirectory struct {
-	// Last modified time of the directory
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// Directory metadata
-	Mode string `json:"mode,required"`
-	// Name of the directory
-	Name string `json:"name,required"`
-	// Full path to the directory in the box
-	Path string `json:"path,required"`
-	// Directory type indicator
-	//
-	// Any of "dir".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFInfoResponseDirectory) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFInfoResponseDirectory) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -469,7 +416,7 @@ func (r *V1BoxFRemoveResponse) UnmarshalJSON(data []byte) error {
 }
 
 // V1BoxFRenameResponseUnion contains all possible properties and values from
-// [V1BoxFRenameResponseFile], [V1BoxFRenameResponseDirectory].
+// [File], [Dir].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxFRenameResponseUnion struct {
@@ -477,7 +424,7 @@ type V1BoxFRenameResponseUnion struct {
 	Mode         string    `json:"mode"`
 	Name         string    `json:"name"`
 	Path         string    `json:"path"`
-	// This field is from variant [V1BoxFRenameResponseFile].
+	// This field is from variant [File].
 	Size string `json:"size"`
 	Type string `json:"type"`
 	JSON struct {
@@ -491,12 +438,12 @@ type V1BoxFRenameResponseUnion struct {
 	} `json:"-"`
 }
 
-func (u V1BoxFRenameResponseUnion) AsFile() (v V1BoxFRenameResponseFile) {
+func (u V1BoxFRenameResponseUnion) AsFile() (v File) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u V1BoxFRenameResponseUnion) AsDirectory() (v V1BoxFRenameResponseDirectory) {
+func (u V1BoxFRenameResponseUnion) AsDirectory() (v Dir) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -507,115 +454,6 @@ func (u V1BoxFRenameResponseUnion) RawJSON() string { return u.JSON.raw }
 func (r *V1BoxFRenameResponseUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// File system file representation
-type V1BoxFRenameResponseFile struct {
-	// Last modified time of the file
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// File metadata
-	Mode string `json:"mode,required"`
-	// Name of the file
-	Name string `json:"name,required"`
-	// Full path to the file in the box
-	Path string `json:"path,required"`
-	// Size of the file
-	Size string `json:"size,required"`
-	// File type indicator
-	//
-	// Any of "file".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Size         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFRenameResponseFile) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFRenameResponseFile) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system directory representation
-type V1BoxFRenameResponseDirectory struct {
-	// Last modified time of the directory
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// Directory metadata
-	Mode string `json:"mode,required"`
-	// Name of the directory
-	Name string `json:"name,required"`
-	// Full path to the directory in the box
-	Path string `json:"path,required"`
-	// Directory type indicator
-	//
-	// Any of "dir".
-	Type string `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFRenameResponseDirectory) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFRenameResponseDirectory) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File system file representation
-type V1BoxFWriteResponse struct {
-	// Last modified time of the file
-	LastModified time.Time `json:"lastModified,required" format:"date-time"`
-	// File metadata
-	Mode string `json:"mode,required"`
-	// Name of the file
-	Name string `json:"name,required"`
-	// Full path to the file in the box
-	Path string `json:"path,required"`
-	// Size of the file
-	Size string `json:"size,required"`
-	// File type indicator
-	//
-	// Any of "file".
-	Type V1BoxFWriteResponseType `json:"type,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		LastModified respjson.Field
-		Mode         respjson.Field
-		Name         respjson.Field
-		Path         respjson.Field
-		Size         respjson.Field
-		Type         respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxFWriteResponse) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxFWriteResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// File type indicator
-type V1BoxFWriteResponseType string
-
-const (
-	V1BoxFWriteResponseTypeFile V1BoxFWriteResponseType = "file"
-)
 
 type V1BoxFListParams struct {
 	// Target directory path in the box
