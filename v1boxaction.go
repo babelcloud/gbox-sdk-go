@@ -2282,6 +2282,8 @@ type V1BoxActionClickParamsBodyClickAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -2300,6 +2302,8 @@ type V1BoxActionClickParamsBodyClickAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Mouse button to click
 	//
@@ -2550,6 +2554,8 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -2568,6 +2574,8 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Mouse button to click
 	//
@@ -2855,6 +2863,8 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -2873,6 +2883,8 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -3206,6 +3218,8 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -3224,6 +3238,8 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -3556,6 +3572,8 @@ type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -3574,6 +3592,8 @@ type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -3820,6 +3840,8 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -3838,6 +3860,8 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -5281,6 +5305,8 @@ type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -5299,6 +5325,8 @@ type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -5551,6 +5579,8 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -5569,6 +5599,8 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Distance of the scroll. Can be either a number (in pixels) or a predefined enum
 	// value (tiny, short, medium, long). If not provided, the scroll will be performed
@@ -5913,6 +5945,8 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -5931,6 +5965,8 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Distance of the swipe. Can be either a number (in pixels) or a predefined enum
 	// value (tiny, short, medium, long). If not provided, the swipe will be performed
@@ -6222,6 +6258,8 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -6240,6 +6278,8 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -6593,6 +6633,8 @@ type V1BoxActionTapParamsBodyTapAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -6611,6 +6653,8 @@ type V1BoxActionTapParamsBodyTapAction struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
@@ -6852,6 +6896,8 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
 	// ignored when `options.screenshot` is provided.
@@ -6870,6 +6916,8 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
 	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
 	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
