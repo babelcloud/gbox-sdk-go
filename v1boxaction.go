@@ -2030,68 +2030,29 @@ func (r *V1BoxActionAIParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionAIParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionAIsOptionsScreenshotObject                    *V1BoxActionAIParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto *V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                             `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionAIParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionAIsOptionsScreenshotObject, u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionAIParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionAIParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionAIsOptionsScreenshotObject) {
-		return u.OfV1BoxActionAIsOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionAIParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionAIsOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionAIParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionAIsOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionAIParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionAIsOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionAIParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionAIsOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionAIsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionAIParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2131,70 +2092,16 @@ type V1BoxActionAIParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionAIParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionAIParamsOptionsScreenshotObject
+func (r V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionAIParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionAIParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionAIParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -2355,68 +2262,29 @@ func (r *V1BoxActionClickParamsBodyClickActionOptions) UnmarshalJSON(data []byte
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion struct {
-	OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject                    *V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto *V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                               `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject, u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject) {
-		return u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2456,70 +2324,16 @@ type V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject
+func (r V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -2623,68 +2437,29 @@ func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptions) Unmars
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion struct {
-	OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject                    *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                                  `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject, u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject) {
-		return u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionClicksBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -2724,70 +2499,16 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotOb
 	paramObj
 }
 
-func (r V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject
+func (r V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -3009,68 +2730,29 @@ func (r *V1BoxActionDragParamsBodyDragSimpleOptions) UnmarshalJSON(data []byte) 
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion struct {
-	OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject                    *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                             `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject, u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject) {
-		return u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -3110,70 +2792,16 @@ type V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject
+func (r V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -3291,68 +2919,29 @@ func (r *V1BoxActionDragParamsBodyDragAdvancedOptions) UnmarshalJSON(data []byte
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion struct {
-	OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject                    *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                               `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject, u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject) {
-		return u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionDragsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -3392,70 +2981,16 @@ type V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject
+func (r V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragAdvancedOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -3622,68 +3157,29 @@ func (r *V1BoxActionLongPressParamsBodyLongPressActionOptions) UnmarshalJSON(dat
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion struct {
-	OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject                    *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                       `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject, u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject) {
-		return u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -3723,70 +3219,16 @@ type V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject struct
 	paramObj
 }
 
-func (r V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject
+func (r V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -3886,68 +3328,29 @@ func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptions
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion struct {
-	OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject                    *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                                          `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject, u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject) {
-		return u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionLongPresssBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -3987,70 +3390,16 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScre
 	paramObj
 }
 
-func (r V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject
+func (r V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -4129,68 +3478,29 @@ func (r *V1BoxActionMoveParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionMoveParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionMovesOptionsScreenshotObject                    *V1BoxActionMoveParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto *V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                               `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionMoveParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionMovesOptionsScreenshotObject, u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionMoveParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionMoveParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionMovesOptionsScreenshotObject) {
-		return u.OfV1BoxActionMovesOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionMoveParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionMovesOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionMoveParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionMovesOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionMoveParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionMovesOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionMoveParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionMovesOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionMovesOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionMoveParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4230,70 +3540,16 @@ type V1BoxActionMoveParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionMoveParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionMoveParamsOptionsScreenshotObject
+func (r V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionMoveParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionMoveParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -4383,68 +3639,29 @@ func (r *V1BoxActionPressButtonParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionPressButtonParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionPressButtonsOptionsScreenshotObject                    *V1BoxActionPressButtonParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto *V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                      `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionPressButtonParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionPressButtonsOptionsScreenshotObject, u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionPressButtonParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionPressButtonParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionPressButtonsOptionsScreenshotObject) {
-		return u.OfV1BoxActionPressButtonsOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressButtonParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressButtonParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressButtonParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionPressButtonParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionPressButtonsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionPressButtonParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4484,70 +3701,16 @@ type V1BoxActionPressButtonParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionPressButtonParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionPressButtonParamsOptionsScreenshotObject
+func (r V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionPressButtonParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionPressButtonParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -4653,68 +3816,29 @@ func (r *V1BoxActionPressKeyParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionPressKeyParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionPressKeysOptionsScreenshotObject                    *V1BoxActionPressKeyParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto *V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                   `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionPressKeyParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionPressKeysOptionsScreenshotObject, u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionPressKeyParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionPressKeyParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionPressKeysOptionsScreenshotObject) {
-		return u.OfV1BoxActionPressKeysOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressKeyParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionPressKeysOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressKeyParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionPressKeysOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionPressKeyParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionPressKeysOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionPressKeyParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionPressKeysOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionPressKeysOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionPressKeyParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -4754,70 +3878,16 @@ type V1BoxActionPressKeyParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionPressKeyParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionPressKeyParamsOptionsScreenshotObject
+func (r V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionPressKeyParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionPressKeyParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -4953,68 +4023,29 @@ func (r *V1BoxActionScreenRotationParamsOptions) UnmarshalJSON(data []byte) erro
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionScreenRotationParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionScreenRotationsOptionsScreenshotObject                    *V1BoxActionScreenRotationParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto *V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                         `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionScreenRotationParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionScreenRotationsOptionsScreenshotObject, u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionScreenRotationParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionScreenRotationParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionScreenRotationsOptionsScreenshotObject) {
-		return u.OfV1BoxActionScreenRotationsOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScreenRotationParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScreenRotationParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScreenRotationParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionScreenRotationParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionScreenRotationsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionScreenRotationParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5054,70 +4085,16 @@ type V1BoxActionScreenRotationParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionScreenRotationParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScreenRotationParamsOptionsScreenshotObject
+func (r V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionScreenRotationParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScreenRotationParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -5331,68 +4308,29 @@ func (r *V1BoxActionScrollParamsBodyScrollAdvancedOptions) UnmarshalJSON(data []
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion struct {
-	OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject                    *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                   `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject, u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject) {
-		return u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5432,70 +4370,16 @@ type V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject
+func (r V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -5644,68 +4528,29 @@ func (r *V1BoxActionScrollParamsBodyScrollSimpleOptions) UnmarshalJSON(data []by
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion struct {
-	OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject                    *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                 `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject, u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject) {
-		return u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionScrollsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -5745,70 +4590,16 @@ type V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject
+func (r V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimpleOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -6006,68 +4797,29 @@ func (r *V1BoxActionSwipeParamsBodySwipeSimpleOptions) UnmarshalJSON(data []byte
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion struct {
-	OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject                    *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                               `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject, u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject) {
-		return u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -6107,70 +4859,16 @@ type V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject
+func (r V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -6360,68 +5058,29 @@ func (r *V1BoxActionSwipeParamsBodySwipeAdvancedOptions) UnmarshalJSON(data []by
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion struct {
-	OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject                    *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                 `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject, u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject) {
-		return u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionSwipesBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -6461,70 +5120,16 @@ type V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject
+func (r V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvancedOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -6643,68 +5248,29 @@ func (r *V1BoxActionTapParamsBodyTapActionOptions) UnmarshalJSON(data []byte) er
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion struct {
-	OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject                    *V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto *V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                           `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject, u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject) {
-		return u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -6744,70 +5310,16 @@ type V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject
+func (r V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -6902,68 +5414,29 @@ func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptions) UnmarshalJ
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion struct {
-	OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject                    *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                                              `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject, u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject) {
-		return u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionTapsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -7003,70 +5476,16 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject
 	paramObj
 }
 
-func (r V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject
+func (r V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -7165,13 +5584,13 @@ func (r *V1BoxActionTouchParamsPointStart) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionTouchParamsPointActionUnion struct {
-	OfTouchPointMoveAction                                *V1BoxActionTouchParamsPointActionTouchPointMoveAction    `json:",omitzero,inline"`
-	OfV1BoxActionTouchsPointActionTouchPointWaitActionDto *V1BoxActionTouchParamsPointActionTouchPointWaitActionDto `json:",omitzero,inline"`
+	OfTouchPointMoveAction *V1BoxActionTouchParamsPointActionTouchPointMoveAction `json:",omitzero,inline"`
+	OfTouchPointWaitAction *V1BoxActionTouchParamsPointActionTouchPointWaitAction `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionTouchParamsPointActionUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfTouchPointMoveAction, u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto)
+	return param.MarshalUnion(u, u.OfTouchPointMoveAction, u.OfTouchPointWaitAction)
 }
 func (u *V1BoxActionTouchParamsPointActionUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -7180,8 +5599,8 @@ func (u *V1BoxActionTouchParamsPointActionUnion) UnmarshalJSON(data []byte) erro
 func (u *V1BoxActionTouchParamsPointActionUnion) asAny() any {
 	if !param.IsOmitted(u.OfTouchPointMoveAction) {
 		return u.OfTouchPointMoveAction
-	} else if !param.IsOmitted(u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto) {
-		return u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto
+	} else if !param.IsOmitted(u.OfTouchPointWaitAction) {
+		return u.OfTouchPointWaitAction
 	}
 	return nil
 }
@@ -7206,7 +5625,7 @@ func (u V1BoxActionTouchParamsPointActionUnion) GetY() *float64 {
 func (u V1BoxActionTouchParamsPointActionUnion) GetDuration() *string {
 	if vt := u.OfTouchPointMoveAction; vt != nil {
 		return (*string)(&vt.Duration)
-	} else if vt := u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto; vt != nil {
+	} else if vt := u.OfTouchPointWaitAction; vt != nil {
 		return (*string)(&vt.Duration)
 	}
 	return nil
@@ -7216,7 +5635,7 @@ func (u V1BoxActionTouchParamsPointActionUnion) GetDuration() *string {
 func (u V1BoxActionTouchParamsPointActionUnion) GetType() *string {
 	if vt := u.OfTouchPointMoveAction; vt != nil {
 		return (*string)(&vt.Type)
-	} else if vt := u.OfV1BoxActionTouchsPointActionTouchPointWaitActionDto; vt != nil {
+	} else if vt := u.OfTouchPointWaitAction; vt != nil {
 		return (*string)(&vt.Type)
 	}
 	return nil
@@ -7248,8 +5667,10 @@ func (r *V1BoxActionTouchParamsPointActionTouchPointMoveAction) UnmarshalJSON(da
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Touch point wait action configuration
+//
 // The properties Duration, Type are required.
-type V1BoxActionTouchParamsPointActionTouchPointWaitActionDto struct {
+type V1BoxActionTouchParamsPointActionTouchPointWaitAction struct {
 	// Duration to wait (e.g. "500ms")
 	//
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
@@ -7260,11 +5681,11 @@ type V1BoxActionTouchParamsPointActionTouchPointWaitActionDto struct {
 	paramObj
 }
 
-func (r V1BoxActionTouchParamsPointActionTouchPointWaitActionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTouchParamsPointActionTouchPointWaitActionDto
+func (r V1BoxActionTouchParamsPointActionTouchPointWaitAction) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTouchParamsPointActionTouchPointWaitAction
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTouchParamsPointActionTouchPointWaitActionDto) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTouchParamsPointActionTouchPointWaitAction) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -7288,68 +5709,29 @@ func (r *V1BoxActionTouchParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionTouchParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionTouchsOptionsScreenshotObject                    *V1BoxActionTouchParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto *V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                                `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionTouchParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionTouchsOptionsScreenshotObject, u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionTouchParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionTouchParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionTouchsOptionsScreenshotObject) {
-		return u.OfV1BoxActionTouchsOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTouchParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionTouchsOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTouchParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionTouchsOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTouchParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionTouchsOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionTouchParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionTouchsOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionTouchsOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionTouchParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -7389,70 +5771,16 @@ type V1BoxActionTouchParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionTouchParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTouchParamsOptionsScreenshotObject
+func (r V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTouchParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTouchParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -7555,68 +5883,29 @@ func (r *V1BoxActionTypeParamsOptions) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type V1BoxActionTypeParamsOptionsScreenshotUnion struct {
-	OfV1BoxActionTypesOptionsScreenshotObject                    *V1BoxActionTypeParamsOptionsScreenshotObject                    `json:",omitzero,inline"`
-	OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto *V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto `json:",omitzero,inline"`
+	OfBool                   param.Opt[bool]                                               `json:",omitzero,inline"`
+	OfActionScreenshotOption *V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u V1BoxActionTypeParamsOptionsScreenshotUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfV1BoxActionTypesOptionsScreenshotObject, u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto)
+	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOption)
 }
 func (u *V1BoxActionTypeParamsOptionsScreenshotUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *V1BoxActionTypeParamsOptionsScreenshotUnion) asAny() any {
-	if !param.IsOmitted(u.OfV1BoxActionTypesOptionsScreenshotObject) {
-		return u.OfV1BoxActionTypesOptionsScreenshotObject
-	} else if !param.IsOmitted(u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto) {
-		return u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto
+	if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
+	} else if !param.IsOmitted(u.OfActionScreenshotOption) {
+		return u.OfActionScreenshotOption
 	}
 	return nil
 }
 
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTypeParamsOptionsScreenshotUnion) GetDelay() *string {
-	if vt := u.OfV1BoxActionTypesOptionsScreenshotObject; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	} else if vt := u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.Delay.Valid() {
-		return &vt.Delay.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTypeParamsOptionsScreenshotUnion) GetOutputFormat() *string {
-	if vt := u.OfV1BoxActionTypesOptionsScreenshotObject; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	} else if vt := u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return (*string)(&vt.OutputFormat)
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's property, if present.
-func (u V1BoxActionTypeParamsOptionsScreenshotUnion) GetPresignedExpiresIn() *string {
-	if vt := u.OfV1BoxActionTypesOptionsScreenshotObject; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	} else if vt := u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto; vt != nil && vt.PresignedExpiresIn.Valid() {
-		return &vt.PresignedExpiresIn.Value
-	}
-	return nil
-}
-
-// Returns a pointer to the underlying variant's Range property, if present.
-func (u V1BoxActionTypeParamsOptionsScreenshotUnion) GetRange() []string {
-	if vt := u.OfV1BoxActionTypesOptionsScreenshotObject; vt != nil {
-		return vt.Range
-	} else if vt := u.OfV1BoxActionTypesOptionsScreenshotActionScreenshotOptionDto; vt != nil {
-		return vt.Range
-	}
-	return nil
-}
-
-type V1BoxActionTypeParamsOptionsScreenshotObject struct {
+// Action screenshot option
+type V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption struct {
 	// Delay after performing the action, before taking the final screenshot.
 	//
 	// Execution flow:
@@ -7656,70 +5945,16 @@ type V1BoxActionTypeParamsOptionsScreenshotObject struct {
 	paramObj
 }
 
-func (r V1BoxActionTypeParamsOptionsScreenshotObject) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTypeParamsOptionsScreenshotObject
+func (r V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *V1BoxActionTypeParamsOptionsScreenshotObject) UnmarshalJSON(data []byte) error {
+func (r *V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTypeParamsOptionsScreenshotObject](
-		"outputFormat", "base64", "storageKey",
-	)
-}
-
-type V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto struct {
-	// Delay after performing the action, before taking the final screenshot.
-	//
-	// Execution flow:
-	//
-	// 1. Take screenshot before action
-	// 2. Perform the action
-	// 3. Wait for screenshotDelay (this parameter)
-	// 4. Take screenshot after action
-	//
-	// Example: '500ms' means wait 500ms after the action before capturing the final
-	// screenshot.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
-	Delay param.Opt[string] `json:"delay,omitzero"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// Type of the URI. default is base64.
-	//
-	// Any of "base64", "storageKey".
-	OutputFormat string `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
-	//
-	// Available options:
-	//
-	// - before: Screenshot before the action
-	// - after: Screenshot after the action
-	// - trace: Screenshot with operation trace
-	//
-	// Default captures all three types. Can specify one or multiple in an array.
-	//
-	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOptionDto](
+	apijson.RegisterFieldValidator[V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption](
 		"outputFormat", "base64", "storageKey",
 	)
 }

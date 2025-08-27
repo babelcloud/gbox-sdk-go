@@ -35,7 +35,7 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionAIParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionAIParamsOptionsScreenshotUnion{
-					OfV1BoxActionAIsOptionsScreenshotObject: &gboxsdk.V1BoxActionAIParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionAIParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -87,7 +87,7 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.V1BoxActionClickParamsBodyClickActionOptions{
 					Screenshot: gboxsdk.V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion{
-						OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject: &gboxsdk.V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionClickParamsBodyClickActionOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -144,7 +144,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptions{
 					Screenshot: gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion{
-						OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject: &gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -221,7 +221,7 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptions{
 					Screenshot: gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion{
-						OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject: &gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -266,7 +266,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionMoveParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionMoveParamsOptionsScreenshotUnion{
-					OfV1BoxActionMovesOptionsScreenshotObject: &gboxsdk.V1BoxActionMoveParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionMoveParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -309,7 +309,7 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionPressButtonParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionPressButtonParamsOptionsScreenshotUnion{
-					OfV1BoxActionPressButtonsOptionsScreenshotObject: &gboxsdk.V1BoxActionPressButtonParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionPressButtonParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -353,7 +353,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionPressKeyParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionPressKeyParamsOptionsScreenshotUnion{
-					OfV1BoxActionPressKeysOptionsScreenshotObject: &gboxsdk.V1BoxActionPressKeyParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionPressKeyParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -546,7 +546,7 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionScreenRotationParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionScreenRotationParamsOptionsScreenshotUnion{
-					OfV1BoxActionScreenRotationsOptionsScreenshotObject: &gboxsdk.V1BoxActionScreenRotationParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionScreenRotationParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -630,7 +630,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptions{
 					Screenshot: gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion{
-						OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject: &gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -755,7 +755,7 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				Location:          gboxsdk.String("Chrome App"),
 				Options: gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptions{
 					Screenshot: gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion{
-						OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -801,7 +801,7 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.V1BoxActionTapParamsBodyTapActionOptions{
 					Screenshot: gboxsdk.V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion{
-						OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject: &gboxsdk.V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject{
+						OfActionScreenshotOption: &gboxsdk.V1BoxActionTapParamsBodyTapActionOptionsScreenshotActionScreenshotOption{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       "base64",
 							PresignedExpiresIn: gboxsdk.String("30m"),
@@ -858,7 +858,7 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Options: gboxsdk.V1BoxActionTouchParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionTouchParamsOptionsScreenshotUnion{
-					OfV1BoxActionTouchsOptionsScreenshotObject: &gboxsdk.V1BoxActionTouchParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionTouchParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
@@ -902,7 +902,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 			Mode:              gboxsdk.V1BoxActionTypeParamsModeAppend,
 			Options: gboxsdk.V1BoxActionTypeParamsOptions{
 				Screenshot: gboxsdk.V1BoxActionTypeParamsOptionsScreenshotUnion{
-					OfV1BoxActionTypesOptionsScreenshotObject: &gboxsdk.V1BoxActionTypeParamsOptionsScreenshotObject{
+					OfActionScreenshotOption: &gboxsdk.V1BoxActionTypeParamsOptionsScreenshotActionScreenshotOption{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       "base64",
 						PresignedExpiresIn: gboxsdk.String("30m"),
