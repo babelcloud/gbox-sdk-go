@@ -1989,9 +1989,7 @@ type V1BoxActionAIParams struct {
 	// API returns an event stream. When false or omitted, the API returns a normal
 	// JSON response.
 	Stream param.Opt[bool] `json:"stream,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionAIParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -2012,9 +2010,7 @@ func (r *V1BoxActionAIParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionAIParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -2309,9 +2305,7 @@ type V1BoxActionClickParamsBodyClickAction struct {
 	//
 	// Any of "left", "right", "middle".
 	Button string `json:"button,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionClickParamsBodyClickActionOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -2341,9 +2335,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionClickParamsBodyClickActionOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -2581,9 +2573,7 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
 	//
 	// Any of "left", "right", "middle".
 	Button string `json:"button,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -2613,9 +2603,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionClickParamsBodyClickActionWithNaturalLanguageOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -2886,9 +2874,7 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionDragParamsBodyDragSimpleOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -3003,9 +2989,7 @@ func (r *V1BoxActionDragParamsBodyDragSimpleStartDragPathPoint) UnmarshalJSON(da
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionDragParamsBodyDragSimpleOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -3241,9 +3225,7 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionDragParamsBodyDragAdvancedOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -3289,9 +3271,7 @@ func (r *V1BoxActionDragParamsBodyDragAdvancedPath) UnmarshalJSON(data []byte) e
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionDragParamsBodyDragAdvancedOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -3595,9 +3575,7 @@ type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionLongPressParamsBodyLongPressActionOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -3624,9 +3602,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionLongPressParamsBodyLongPressActionOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -3863,9 +3839,7 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -3892,9 +3866,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguageOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -4118,9 +4090,7 @@ type V1BoxActionMoveParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionMoveParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -4139,9 +4109,7 @@ func (r *V1BoxActionMoveParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionMoveParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -4376,9 +4344,7 @@ type V1BoxActionPressButtonParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionPressButtonParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -4397,9 +4363,7 @@ func (r *V1BoxActionPressButtonParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionPressButtonParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -4650,9 +4614,7 @@ type V1BoxActionPressKeyParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionPressKeyParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -4671,9 +4633,7 @@ func (r *V1BoxActionPressKeyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionPressKeyParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -4944,9 +4904,7 @@ type V1BoxActionScreenRotationParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionScreenRotationParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -4975,9 +4933,7 @@ const (
 	V1BoxActionScreenRotationParamsOrientationLandscapeRight     V1BoxActionScreenRotationParamsOrientation = "landscapeRight"
 )
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionScreenRotationParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -5328,9 +5284,7 @@ type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionScrollParamsBodyScrollAdvancedOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -5357,9 +5311,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionScrollParamsBodyScrollAdvancedOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -5606,9 +5558,7 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	// value (tiny, short, medium, long). If not provided, the scroll will be performed
 	// from the center of the screen to the screen edge
 	Distance V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion `json:"distance,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionScrollParamsBodyScrollSimpleOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -5674,9 +5624,7 @@ const (
 	V1BoxActionScrollParamsBodyScrollSimpleDistanceStringLong   V1BoxActionScrollParamsBodyScrollSimpleDistanceString = "long"
 )
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionScrollParamsBodyScrollSimpleOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -5972,9 +5920,7 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// value (tiny, short, medium, long). If not provided, the swipe will be performed
 	// from the center of the screen to the screen edge
 	Distance V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion `json:"distance,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionSwipeParamsBodySwipeSimpleOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -6040,9 +5986,7 @@ const (
 	V1BoxActionSwipeParamsBodySwipeSimpleDistanceStringLong   V1BoxActionSwipeParamsBodySwipeSimpleDistanceString = "long"
 )
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionSwipeParamsBodySwipeSimpleOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -6281,9 +6225,7 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionSwipeParamsBodySwipeAdvancedOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -6398,9 +6340,7 @@ func (r *V1BoxActionSwipeParamsBodySwipeAdvancedStartSwipePath) UnmarshalJSON(da
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionSwipeParamsBodySwipeAdvancedOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -6656,9 +6596,7 @@ type V1BoxActionTapParamsBodyTapAction struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionTapParamsBodyTapActionOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -6685,9 +6623,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionTapParamsBodyTapActionOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -6919,9 +6855,7 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -6948,9 +6882,7 @@ func init() {
 	)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionTapParamsBodyTapActionWithNaturalLanguageOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -7172,9 +7104,7 @@ type V1BoxActionTouchParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionTouchParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -7338,9 +7268,7 @@ func (r *V1BoxActionTouchParamsPointActionTouchPointWaitActionDto) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionTouchParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
@@ -7579,9 +7507,7 @@ type V1BoxActionTypeParams struct {
 	//
 	// Any of "append", "replace".
 	Mode V1BoxActionTypeParamsMode `json:"mode,omitzero"`
-	// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-	// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-	// includeScreenshot) will be completely ignored.
+	// Action common option
 	Options V1BoxActionTypeParamsOptions `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 	// default is base64. This field will be ignored when `options.screenshot` is
@@ -7609,9 +7535,7 @@ const (
 	V1BoxActionTypeParamsModeReplace V1BoxActionTypeParamsMode = "replace"
 )
 
-// Action options. When `options.screenshot` is provided, ALL deprecated screenshot
-// fields (outputFormat, presignedExpiresIn, screenshotDelay, screenshotRange,
-// includeScreenshot) will be completely ignored.
+// Action common option
 type V1BoxActionTypeParamsOptions struct {
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
