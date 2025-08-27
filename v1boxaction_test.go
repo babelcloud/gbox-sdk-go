@@ -30,9 +30,19 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionAIParams{
-			Instruction:        "click the login button",
-			Background:         gboxsdk.String("The user is on the login page"),
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			Instruction:       "click the login button",
+			Background:        gboxsdk.String("The user is on the login page"),
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionAIParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionAIParamsOptionsScreenshotUnion{
+					OfV1BoxActionAIsOptionsScreenshotObject: &gboxsdk.V1BoxActionAIParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionAIParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -70,11 +80,21 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionClickParams{
 			OfClickAction: &gboxsdk.V1BoxActionClickParamsBodyClickAction{
-				X:                  100,
-				Y:                  100,
-				Button:             "left",
-				Double:             gboxsdk.Bool(false),
-				IncludeScreenshot:  gboxsdk.Bool(false),
+				X:                 100,
+				Y:                 100,
+				Button:            "left",
+				Double:            gboxsdk.Bool(false),
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Options: gboxsdk.V1BoxActionClickParamsBodyClickActionOptions{
+					Screenshot: gboxsdk.V1BoxActionClickParamsBodyClickActionOptionsScreenshotUnion{
+						OfV1BoxActionClicksBodyClickActionOptionsScreenshotObject: &gboxsdk.V1BoxActionClickParamsBodyClickActionOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -120,8 +140,18 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 						Y: 100,
 					},
 				},
-				Duration:           gboxsdk.String("500ms"),
-				IncludeScreenshot:  gboxsdk.Bool(false),
+				Duration:          gboxsdk.String("500ms"),
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Options: gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptions{
+					Screenshot: gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotUnion{
+						OfV1BoxActionDragsBodyDragSimpleOptionsScreenshotObject: &gboxsdk.V1BoxActionDragParamsBodyDragSimpleOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -185,10 +215,20 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionLongPressParams{
 			OfLongPressAction: &gboxsdk.V1BoxActionLongPressParamsBodyLongPressAction{
-				X:                  350,
-				Y:                  250,
-				Duration:           gboxsdk.String("1s"),
-				IncludeScreenshot:  gboxsdk.Bool(false),
+				X:                 350,
+				Y:                 250,
+				Duration:          gboxsdk.String("1s"),
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Options: gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptions{
+					Screenshot: gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotUnion{
+						OfV1BoxActionLongPresssBodyLongPressActionOptionsScreenshotObject: &gboxsdk.V1BoxActionLongPressParamsBodyLongPressActionOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -221,9 +261,19 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionMoveParams{
-			X:                  200,
-			Y:                  300,
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			X:                 200,
+			Y:                 300,
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionMoveParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionMoveParamsOptionsScreenshotUnion{
+					OfV1BoxActionMovesOptionsScreenshotObject: &gboxsdk.V1BoxActionMoveParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionMoveParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -255,8 +305,18 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionPressButtonParams{
-			Buttons:            []string{"power"},
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			Buttons:           []string{"power"},
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionPressButtonParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionPressButtonParamsOptionsScreenshotUnion{
+					OfV1BoxActionPressButtonsOptionsScreenshotObject: &gboxsdk.V1BoxActionPressButtonParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionPressButtonParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -288,9 +348,19 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionPressKeyParams{
-			Keys:               []string{"enter"},
-			Combination:        gboxsdk.Bool(true),
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			Keys:              []string{"enter"},
+			Combination:       gboxsdk.Bool(true),
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionPressKeyParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionPressKeyParamsOptionsScreenshotUnion{
+					OfV1BoxActionPressKeysOptionsScreenshotObject: &gboxsdk.V1BoxActionPressKeyParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionPressKeyParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -472,8 +542,18 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScreenRotationParams{
-			Orientation:        gboxsdk.V1BoxActionScreenRotationParamsOrientationLandscapeLeft,
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			Orientation:       gboxsdk.V1BoxActionScreenRotationParamsOrientationLandscapeLeft,
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionScreenRotationParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionScreenRotationParamsOptionsScreenshotUnion{
+					OfV1BoxActionScreenRotationsOptionsScreenshotObject: &gboxsdk.V1BoxActionScreenRotationParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionScreenRotationParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -511,8 +591,9 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 				X:      100,
 				Y:      50,
 			},
-			OutputFormat: gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
-			Scale:        gboxsdk.Float(1),
+			OutputFormat:       gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
+			PresignedExpiresIn: gboxsdk.String("30m"),
+			Scale:              gboxsdk.Float(1),
 		},
 	)
 	if err != nil {
@@ -542,11 +623,21 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionScrollParams{
 			OfScrollAdvanced: &gboxsdk.V1BoxActionScrollParamsBodyScrollAdvanced{
-				ScrollX:            0,
-				ScrollY:            100,
-				X:                  100,
-				Y:                  100,
-				IncludeScreenshot:  gboxsdk.Bool(false),
+				ScrollX:           0,
+				ScrollY:           100,
+				X:                 100,
+				Y:                 100,
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Options: gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptions{
+					Screenshot: gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotUnion{
+						OfV1BoxActionScrollsBodyScrollAdvancedOptionsScreenshotObject: &gboxsdk.V1BoxActionScrollParamsBodyScrollAdvancedOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -659,9 +750,19 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				Distance: gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion{
 					OfFloat: gboxsdk.Float(300),
 				},
-				Duration:           gboxsdk.String("500ms"),
-				IncludeScreenshot:  gboxsdk.Bool(false),
-				Location:           gboxsdk.String("Chrome App"),
+				Duration:          gboxsdk.String("500ms"),
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Location:          gboxsdk.String("Chrome App"),
+				Options: gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptions{
+					Screenshot: gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotUnion{
+						OfV1BoxActionSwipesBodySwipeSimpleOptionsScreenshotObject: &gboxsdk.V1BoxActionSwipeParamsBodySwipeSimpleOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -695,9 +796,19 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTapParams{
 			OfTapAction: &gboxsdk.V1BoxActionTapParamsBodyTapAction{
-				X:                  100,
-				Y:                  100,
-				IncludeScreenshot:  gboxsdk.Bool(false),
+				X:                 100,
+				Y:                 100,
+				IncludeScreenshot: gboxsdk.Bool(false),
+				Options: gboxsdk.V1BoxActionTapParamsBodyTapActionOptions{
+					Screenshot: gboxsdk.V1BoxActionTapParamsBodyTapActionOptionsScreenshotUnion{
+						OfV1BoxActionTapsBodyTapActionOptionsScreenshotObject: &gboxsdk.V1BoxActionTapParamsBodyTapActionOptionsScreenshotObject{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       "base64",
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
+					},
+				},
 				OutputFormat:       "base64",
 				PresignedExpiresIn: gboxsdk.String("30m"),
 				ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -744,7 +855,17 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 					},
 				}},
 			}},
-			IncludeScreenshot:  gboxsdk.Bool(false),
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Options: gboxsdk.V1BoxActionTouchParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionTouchParamsOptionsScreenshotUnion{
+					OfV1BoxActionTouchsOptionsScreenshotObject: &gboxsdk.V1BoxActionTouchParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionTouchParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			ScreenshotDelay:    gboxsdk.String("500ms"),
@@ -776,9 +897,19 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionTypeParams{
-			Text:               "Hello World",
-			IncludeScreenshot:  gboxsdk.Bool(false),
-			Mode:               gboxsdk.V1BoxActionTypeParamsModeAppend,
+			Text:              "Hello World",
+			IncludeScreenshot: gboxsdk.Bool(false),
+			Mode:              gboxsdk.V1BoxActionTypeParamsModeAppend,
+			Options: gboxsdk.V1BoxActionTypeParamsOptions{
+				Screenshot: gboxsdk.V1BoxActionTypeParamsOptionsScreenshotUnion{
+					OfV1BoxActionTypesOptionsScreenshotObject: &gboxsdk.V1BoxActionTypeParamsOptionsScreenshotObject{
+						Delay:              gboxsdk.String("500ms"),
+						OutputFormat:       "base64",
+						PresignedExpiresIn: gboxsdk.String("30m"),
+						Range:              []string{"before", "after"},
+					},
+				},
+			},
 			OutputFormat:       gboxsdk.V1BoxActionTypeParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			PressEnter:         gboxsdk.Bool(false),
