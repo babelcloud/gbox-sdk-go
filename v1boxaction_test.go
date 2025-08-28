@@ -87,7 +87,12 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
@@ -139,7 +144,12 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
@@ -211,7 +221,12 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
@@ -615,7 +630,12 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
@@ -735,7 +755,12 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				Location:          gboxsdk.String("Chrome App"),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
@@ -776,7 +801,12 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-						OfBool: gboxsdk.Bool(true),
+						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
+							Delay:              gboxsdk.String("500ms"),
+							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							PresignedExpiresIn: gboxsdk.String("30m"),
+							Range:              []string{"before", "after"},
+						},
 					},
 				},
 				OutputFormat:       "base64",
