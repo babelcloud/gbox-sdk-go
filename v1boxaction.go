@@ -389,15 +389,15 @@ type ActionCommonOptionsScreenshotUnion struct {
 	// This field is from variant [ActionScreenshotOptions].
 	OutputFormat ActionScreenshotOptionsOutputFormat `json:"outputFormat"`
 	// This field is from variant [ActionScreenshotOptions].
-	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	Phases []string `json:"phases"`
 	// This field is from variant [ActionScreenshotOptions].
-	Range []string `json:"range"`
-	JSON  struct {
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
+	JSON               struct {
 		OfBool             respjson.Field
 		Delay              respjson.Field
 		OutputFormat       respjson.Field
+		Phases             respjson.Field
 		PresignedExpiresIn respjson.Field
-		Range              respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -586,12 +586,7 @@ type ActionScreenshotOptions struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat ActionScreenshotOptionsOutputFormat `json:"outputFormat"`
-	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
-	PresignedExpiresIn string `json:"presignedExpiresIn"`
-	// Specify which screenshots to capture.
+	// Specify which screenshot phases to capture.
 	//
 	// Available options:
 	//
@@ -599,16 +594,21 @@ type ActionScreenshotOptions struct {
 	// - after: Screenshot after the action
 	// - trace: Screenshot with operation trace
 	//
-	// Default captures all three types. Can specify one or multiple in an array.
+	// Default captures all three phases. Can specify one or multiple in an array.
 	//
 	// Any of "before", "after", "trace".
-	Range []string `json:"range"`
+	Phases []string `json:"phases"`
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Delay              respjson.Field
 		OutputFormat       respjson.Field
+		Phases             respjson.Field
 		PresignedExpiresIn respjson.Field
-		Range              respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
 	} `json:"-"`
@@ -663,7 +663,7 @@ type ActionScreenshotOptionsParam struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat ActionScreenshotOptionsOutputFormat `json:"outputFormat,omitzero"`
-	// Specify which screenshots to capture.
+	// Specify which screenshot phases to capture.
 	//
 	// Available options:
 	//
@@ -671,10 +671,10 @@ type ActionScreenshotOptionsParam struct {
 	// - after: Screenshot after the action
 	// - trace: Screenshot with operation trace
 	//
-	// Default captures all three types. Can specify one or multiple in an array.
+	// Default captures all three phases. Can specify one or multiple in an array.
 	//
 	// Any of "before", "after", "trace".
-	Range []string `json:"range,omitzero"`
+	Phases []string `json:"phases,omitzero"`
 	paramObj
 }
 
