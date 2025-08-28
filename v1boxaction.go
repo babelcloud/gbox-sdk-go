@@ -375,7 +375,7 @@ func (r ActionCommonOptions) ToParam() ActionCommonOptionsParam {
 }
 
 // ActionCommonOptionsScreenshotUnion contains all possible properties and values
-// from [bool], [ActionScreenshotOptions].
+// from [ActionScreenshotOptions], [bool].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 //
@@ -402,12 +402,12 @@ type ActionCommonOptionsScreenshotUnion struct {
 	} `json:"-"`
 }
 
-func (u ActionCommonOptionsScreenshotUnion) AsBool() (v bool) {
+func (u ActionCommonOptionsScreenshotUnion) AsActionScreenshotOptions() (v ActionScreenshotOptions) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
 
-func (u ActionCommonOptionsScreenshotUnion) AsActionScreenshotOptions() (v ActionScreenshotOptions) {
+func (u ActionCommonOptionsScreenshotUnion) AsBool() (v bool) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -439,23 +439,23 @@ func (r *ActionCommonOptionsParam) UnmarshalJSON(data []byte) error {
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type ActionCommonOptionsScreenshotUnionParam struct {
-	OfBool                    param.Opt[bool]               `json:",omitzero,inline"`
 	OfActionScreenshotOptions *ActionScreenshotOptionsParam `json:",omitzero,inline"`
+	OfBool                    param.Opt[bool]               `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ActionCommonOptionsScreenshotUnionParam) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfBool, u.OfActionScreenshotOptions)
+	return param.MarshalUnion(u, u.OfActionScreenshotOptions, u.OfBool)
 }
 func (u *ActionCommonOptionsScreenshotUnionParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
 }
 
 func (u *ActionCommonOptionsScreenshotUnionParam) asAny() any {
-	if !param.IsOmitted(u.OfBool) {
-		return &u.OfBool.Value
-	} else if !param.IsOmitted(u.OfActionScreenshotOptions) {
+	if !param.IsOmitted(u.OfActionScreenshotOptions) {
 		return u.OfActionScreenshotOptions
+	} else if !param.IsOmitted(u.OfBool) {
+		return &u.OfBool.Value
 	}
 	return nil
 }
