@@ -1,5 +1,16 @@
 # V1
 
+## Devices
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#DeviceInfo">DeviceInfo</a>
+- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#GetDeviceListResponse">GetDeviceListResponse</a>
+
+Methods:
+
+- <code title="get /devices">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#GetDeviceListResponse">GetDeviceListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 ## Boxes
 
 Params Types:
