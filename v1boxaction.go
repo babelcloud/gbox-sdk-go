@@ -1160,7 +1160,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClickActi
 	Button string `json:"button"`
 	// Whether to perform a double click
 	Double bool `json:"double"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -1234,7 +1234,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedClick
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchAction struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -1457,7 +1457,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragAdvan
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -1559,7 +1559,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedDragSimpl
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -1777,7 +1777,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollAct
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -1866,7 +1866,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSim
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2000,7 +2000,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimp
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2132,7 +2132,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeAdva
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2360,7 +2360,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyA
 	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
 	// keys are pressed one by one in sequence.
 	Combination bool `json:"combination"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2435,7 +2435,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressButt
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
 	// "appSwitch".
 	Buttons []string `json:"buttons,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2513,7 +2513,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedLongPress
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2586,7 +2586,7 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedLongP
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedTypeAction struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2668,7 +2668,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedMoveActio
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2742,7 +2742,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenRot
 	//
 	// Any of "portrait", "landscapeLeft", "portraitUpsideDown", "landscapeRight".
 	Orientation string `json:"orientation,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -2890,7 +2890,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedWaitActio
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 3s
 	Duration string `json:"duration,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -3412,7 +3412,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction struct 
 	Button string `json:"button"`
 	// Whether to perform a double click
 	Double bool `json:"double"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -3486,7 +3486,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedClickAction) Un
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchAction struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionAIResponseAIActionResultAIResponseActionTypedTouchActionPoint `json:"points,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -3709,7 +3709,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragAdvancedAction 
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -3811,7 +3811,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedDragSimpleAction st
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4029,7 +4029,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollAction struct
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4118,7 +4118,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction 
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4252,7 +4252,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction s
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4384,7 +4384,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeAdvancedAction
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4612,7 +4612,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction stru
 	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
 	// keys are pressed one by one in sequence.
 	Combination bool `json:"combination"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4687,7 +4687,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressButtonAction s
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
 	// "appSwitch".
 	Buttons []string `json:"buttons,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4765,7 +4765,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedLongPressAction str
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
 	Duration string `json:"duration"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4838,7 +4838,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedLongPressAction
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedTypeAction struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4920,7 +4920,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedMoveAction struct {
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -4994,7 +4994,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenRotationActio
 	//
 	// Any of "portrait", "landscapeLeft", "portraitUpsideDown", "landscapeRight".
 	Orientation string `json:"orientation,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5142,7 +5142,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 3s
 	Duration string `json:"duration,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5454,7 +5454,7 @@ type V1BoxActionAIParams struct {
 	// the action executor to understand the context of why the instruction is given
 	// including important previous actions and observations
 	Background param.Opt[string] `json:"background,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5575,7 +5575,7 @@ type V1BoxActionClickParamsBodyClickAction struct {
 	Y float64 `json:"y,required"`
 	// Whether to perform a double click
 	Double param.Opt[bool] `json:"double,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5654,7 +5654,7 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
 	Target string `json:"target,required"`
 	// Whether to perform a double click
 	Double param.Opt[bool] `json:"double,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5770,7 +5770,7 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -5932,7 +5932,7 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 50ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6093,7 +6093,7 @@ type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6168,7 +6168,7 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6236,7 +6236,7 @@ type V1BoxActionMoveParams struct {
 	X float64 `json:"x,required"`
 	// Y coordinate to move to
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6301,7 +6301,7 @@ type V1BoxActionPressButtonParams struct {
 	// Any of "power", "volumeUp", "volumeDown", "volumeMute", "home", "back", "menu",
 	// "appSwitch".
 	Buttons []string `json:"buttons,omitzero,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6382,7 +6382,7 @@ type V1BoxActionPressKeyParams struct {
 	// true, all keys are pressed together as a shortcut (e.g., Ctrl+C). When false,
 	// keys are pressed one by one in sequence.
 	Combination param.Opt[bool] `json:"combination,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6483,7 +6483,7 @@ type V1BoxActionScreenRotationParams struct {
 	//
 	// Any of "portrait", "landscapeLeft", "portraitUpsideDown", "landscapeRight".
 	Orientation V1BoxActionScreenRotationParamsOrientation `json:"orientation,omitzero,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6668,7 +6668,7 @@ type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	X float64 `json:"x,required"`
 	// Y coordinate of the scroll position
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6749,7 +6749,7 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -6919,7 +6919,7 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -7042,7 +7042,7 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms
 	Duration param.Opt[string] `json:"duration,omitzero"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -7224,7 +7224,7 @@ type V1BoxActionTapParamsBodyTapAction struct {
 	X float64 `json:"x,required"`
 	// Y coordinate of the tap
 	Y float64 `json:"y,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -7294,7 +7294,7 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
 	// Describe the target to operate using natural language, e.g., 'login button' or
 	// 'Chrome'.
 	Target string `json:"target,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -7360,7 +7360,7 @@ func init() {
 type V1BoxActionTouchParams struct {
 	// Array of touch points and their actions
 	Points []V1BoxActionTouchParamsPoint `json:"points,omitzero,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
@@ -7569,7 +7569,7 @@ const (
 type V1BoxActionTypeParams struct {
 	// Text to type
 	Text string `json:"text,required"`
-	// ⚠️ DEPRECATED: Use `options.screenshot.range` instead. This field will be
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
 	// ignored when `options.screenshot` is provided. Whether to include screenshots in
 	// the action response. If false, the screenshot object will still be returned but
 	// with empty URIs. Default is false.
