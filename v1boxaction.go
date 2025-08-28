@@ -164,7 +164,7 @@ func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, op
 	return
 }
 
-// Stop the device's background screen rewind recording.
+// Disable the device's background screen rewind recording.
 func (r *V1BoxActionService) RewindDisable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -177,7 +177,7 @@ func (r *V1BoxActionService) RewindDisable(ctx context.Context, boxID string, op
 	return
 }
 
-// Start the device's background screen rewind recording.
+// Enable the device's background screen rewind recording.
 func (r *V1BoxActionService) RewindEnable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
