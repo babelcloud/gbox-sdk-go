@@ -38,8 +38,8 @@ func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -90,8 +90,8 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -147,8 +147,8 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -224,8 +224,8 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -269,8 +269,8 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -312,8 +312,8 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -356,8 +356,8 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -549,8 +549,8 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -633,8 +633,8 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -758,8 +758,8 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -804,8 +804,8 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
 							OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+							Phases:             []string{"before", "after"},
 							PresignedExpiresIn: gboxsdk.String("30m"),
-							Range:              []string{"before", "after"},
 						},
 					},
 				},
@@ -861,8 +861,8 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
@@ -905,8 +905,8 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
 						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
+						Phases:             []string{"before", "after"},
 						PresignedExpiresIn: gboxsdk.String("30m"),
-						Range:              []string{"before", "after"},
 					},
 				},
 			},
