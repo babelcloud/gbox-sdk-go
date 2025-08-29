@@ -46,6 +46,8 @@ type DeviceInfo struct {
 	Enable string `json:"enable,required"`
 	// Whether device is idle
 	IsIdle bool `json:"isIdle,required"`
+	// Product model from ro.product.model
+	ProductModel string `json:"productModel,required"`
 	// Provider ID
 	ProviderID string `json:"providerId,required"`
 	// Provider type
@@ -57,6 +59,7 @@ type DeviceInfo struct {
 		DeviceID     respjson.Field
 		Enable       respjson.Field
 		IsIdle       respjson.Field
+		ProductModel respjson.Field
 		ProviderID   respjson.Field
 		ProviderType respjson.Field
 		Status       respjson.Field
