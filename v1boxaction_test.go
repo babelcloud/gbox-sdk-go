@@ -593,7 +593,7 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 			},
 			OutputFormat:       gboxsdk.V1BoxActionScreenshotParamsOutputFormatBase64,
 			PresignedExpiresIn: gboxsdk.String("30m"),
-			Scale:              gboxsdk.Float(1),
+			SaveToAlbum:        gboxsdk.Bool(false),
 		},
 	)
 	if err != nil {
