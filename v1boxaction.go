@@ -931,8 +931,8 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	Clip V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
-	Scale float64 `json:"scale"`
-	JSON  struct {
+	SaveToAlbum bool `json:"saveToAlbum"`
+	JSON        struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -960,7 +960,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
 		Clip               respjson.Field
-		Scale              respjson.Field
+		SaveToAlbum        respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -2822,25 +2822,14 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreensho
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
-	// The scale of the action to be performed. Must be greater than 0.1 and less than
-	// or equal to 1.
-	//
-	// Notes:
-	//
-	//   - Scale does not change the box's actual screen resolution.
-	//   - It affects the size of the output screenshot and the coordinates/distances of
-	//     actions. Coordinates and distances are scaled by this factor. Example: when
-	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
-	//     Click({x:50, y:50}).
-	//   - If not provided, uses the scale value from UI action settings; otherwise uses
-	//     the passed value.
-	Scale float64 `json:"scale"`
+	// Whether to save the screenshot to the device screenshot album
+	SaveToAlbum bool `json:"saveToAlbum"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Clip               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
-		Scale              respjson.Field
+		SaveToAlbum        respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
 	} `json:"-"`
@@ -3188,8 +3177,8 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	Clip V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip `json:"clip"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
-	Scale float64 `json:"scale"`
-	JSON  struct {
+	SaveToAlbum bool `json:"saveToAlbum"`
+	JSON        struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -3217,7 +3206,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		PressEnter         respjson.Field
 		Orientation        respjson.Field
 		Clip               respjson.Field
-		Scale              respjson.Field
+		SaveToAlbum        respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -5074,25 +5063,14 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction st
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
-	// The scale of the action to be performed. Must be greater than 0.1 and less than
-	// or equal to 1.
-	//
-	// Notes:
-	//
-	//   - Scale does not change the box's actual screen resolution.
-	//   - It affects the size of the output screenshot and the coordinates/distances of
-	//     actions. Coordinates and distances are scaled by this factor. Example: when
-	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
-	//     Click({x:50, y:50}).
-	//   - If not provided, uses the scale value from UI action settings; otherwise uses
-	//     the passed value.
-	Scale float64 `json:"scale"`
+	// Whether to save the screenshot to the device screenshot album
+	SaveToAlbum bool `json:"saveToAlbum"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Clip               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
-		Scale              respjson.Field
+		SaveToAlbum        respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
 	} `json:"-"`
@@ -6558,19 +6536,8 @@ type V1BoxActionScreenshotParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
 	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
-	// The scale of the action to be performed. Must be greater than 0.1 and less than
-	// or equal to 1.
-	//
-	// Notes:
-	//
-	//   - Scale does not change the box's actual screen resolution.
-	//   - It affects the size of the output screenshot and the coordinates/distances of
-	//     actions. Coordinates and distances are scaled by this factor. Example: when
-	//     scale = 1, Click({x:100, y:100}); when scale = 0.5, the equivalent position is
-	//     Click({x:50, y:50}).
-	//   - If not provided, uses the scale value from UI action settings; otherwise uses
-	//     the passed value.
-	Scale param.Opt[float64] `json:"scale,omitzero"`
+	// Whether to save the screenshot to the device screenshot album
+	SaveToAlbum param.Opt[bool] `json:"saveToAlbum,omitzero"`
 	// Clipping region for screenshot capture
 	Clip V1BoxActionScreenshotParamsClip `json:"clip,omitzero"`
 	// Type of the URI. default is base64.
