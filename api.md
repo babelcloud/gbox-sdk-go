@@ -10,6 +10,8 @@ Response Types:
 Methods:
 
 - <code title="get /devices">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#GetDeviceListResponse">GetDeviceListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /devices/{deviceId}">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, deviceID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#DeviceInfo">DeviceInfo</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /devices/{deviceId}/box">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.ToBox">ToBox</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, deviceID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceToBoxParams">V1DeviceToBoxParams</a>) (<a href="https://pkg.go.dev/builtin#string">string</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ## Boxes
 
