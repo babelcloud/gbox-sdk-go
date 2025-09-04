@@ -4,11 +4,14 @@ package gboxsdk
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
+	"github.com/babelcloud/gbox-sdk-go/packages/param"
 	"github.com/babelcloud/gbox-sdk-go/packages/respjson"
 )
 
@@ -36,6 +39,30 @@ func (r *V1DeviceService) List(ctx context.Context, opts ...option.RequestOption
 	opts = append(r.Options[:], opts...)
 	path := "devices"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Get device info
+func (r *V1DeviceService) Get(ctx context.Context, deviceID string, opts ...option.RequestOption) (res *DeviceInfo, err error) {
+	opts = append(r.Options[:], opts...)
+	if deviceID == "" {
+		err = errors.New("missing required deviceId parameter")
+		return
+	}
+	path := fmt.Sprintf("devices/%s", deviceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Create a new box using a physical device
+func (r *V1DeviceService) ToBox(ctx context.Context, deviceID string, body V1DeviceToBoxParams, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if deviceID == "" {
+		err = errors.New("missing required deviceId parameter")
+		return
+	}
+	path := fmt.Sprintf("devices/%s/box", deviceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -94,5 +121,22 @@ type GetDeviceListResponse struct {
 // Returns the unmodified JSON received from the API
 func (r GetDeviceListResponse) RawJSON() string { return r.JSON.raw }
 func (r *GetDeviceListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1DeviceToBoxParams struct {
+	// If true, the device will be forcibly created as a new Box, which will forcibly
+	// terminate any existing box that is currently using this device. If false, an
+	// error will be thrown with HTTP 423 status code when the device is already
+	// occupied by a box.
+	Force param.Opt[bool] `json:"force,omitzero"`
+	paramObj
+}
+
+func (r V1DeviceToBoxParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1DeviceToBoxParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1DeviceToBoxParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
