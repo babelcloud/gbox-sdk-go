@@ -594,7 +594,8 @@ type ActionScreenshotOptions struct {
 	// - after: Screenshot after the action
 	// - trace: Screenshot with operation trace
 	//
-	// Default captures all three phases. Can specify one or multiple in an array.
+	// Default captures all three phases. Can specify one or multiple in an array. If
+	// empty array is provided, no screenshots will be taken.
 	//
 	// Any of "before", "after", "trace".
 	Phases []string `json:"phases"`
@@ -671,7 +672,8 @@ type ActionScreenshotOptionsParam struct {
 	// - after: Screenshot after the action
 	// - trace: Screenshot with operation trace
 	//
-	// Default captures all three phases. Can specify one or multiple in an array.
+	// Default captures all three phases. Can specify one or multiple in an array. If
+	// empty array is provided, no screenshots will be taken.
 	//
 	// Any of "before", "after", "trace".
 	Phases []string `json:"phases,omitzero"`
