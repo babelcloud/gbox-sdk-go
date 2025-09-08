@@ -185,7 +185,7 @@ func TestV1BoxExecuteCommandsWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxExecuteCommandsParams{
-			Command: gboxsdk.String("ls -l"),
+			Command: "ls -l",
 			Envs: map[string]interface{}{
 				"PATH":     "/usr/bin:/bin",
 				"NODE_ENV": "production",

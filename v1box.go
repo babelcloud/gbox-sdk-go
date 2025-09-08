@@ -1210,7 +1210,7 @@ func (r *V1BoxNewLinuxParams) UnmarshalJSON(data []byte) error {
 
 type V1BoxExecuteCommandsParams struct {
 	// The command to run
-	Command param.Opt[string] `json:"command,omitzero"`
+	Command string `json:"command,required"`
 	// The timeout of the command. If the command times out, the exit code will be 124.
 	// For example: 'timeout 5s sleep 10s' will result in exit code 124.
 	//
