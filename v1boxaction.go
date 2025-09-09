@@ -934,7 +934,10 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
 	SaveToAlbum bool `json:"saveToAlbum"`
-	JSON        struct {
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotAction].
+	ScrollCapture V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture `json:"scrollCapture"`
+	JSON          struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -963,6 +966,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 		Orientation        respjson.Field
 		Clip               respjson.Field
 		SaveToAlbum        respjson.Field
+		ScrollCapture      respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -2826,12 +2830,15 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreensho
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Whether to save the screenshot to the device screenshot album
 	SaveToAlbum bool `json:"saveToAlbum"`
+	// Scroll capture parameters
+	ScrollCapture V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture `json:"scrollCapture"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Clip               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
 		SaveToAlbum        respjson.Field
+		ScrollCapture      respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
 	} `json:"-"`
@@ -2871,6 +2878,29 @@ func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreen
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Scroll capture parameters
+type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture struct {
+	// Maximum height of the screenshot in pixels
+	MaxHeight float64 `json:"maxHeight,required"`
+	// Whether to scroll back to the original position after capturing the screenshot
+	ScrollBack bool `json:"scrollBack,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxHeight   respjson.Field
+		ScrollBack  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -3180,7 +3210,10 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
 	SaveToAlbum bool `json:"saveToAlbum"`
-	JSON        struct {
+	// This field is from variant
+	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction].
+	ScrollCapture V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture `json:"scrollCapture"`
+	JSON          struct {
 		X                  respjson.Field
 		Y                  respjson.Field
 		Button             respjson.Field
@@ -3209,6 +3242,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 		Orientation        respjson.Field
 		Clip               respjson.Field
 		SaveToAlbum        respjson.Field
+		ScrollCapture      respjson.Field
 		raw                string
 	} `json:"-"`
 }
@@ -5067,12 +5101,15 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction st
 	PresignedExpiresIn string `json:"presignedExpiresIn"`
 	// Whether to save the screenshot to the device screenshot album
 	SaveToAlbum bool `json:"saveToAlbum"`
+	// Scroll capture parameters
+	ScrollCapture V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture `json:"scrollCapture"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Clip               respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
 		SaveToAlbum        respjson.Field
+		ScrollCapture      respjson.Field
 		ExtraFields        map[string]respjson.Field
 		raw                string
 	} `json:"-"`
@@ -5112,6 +5149,29 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotAction
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionClip) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Scroll capture parameters
+type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture struct {
+	// Maximum height of the screenshot in pixels
+	MaxHeight float64 `json:"maxHeight,required"`
+	// Whether to scroll back to the original position after capturing the screenshot
+	ScrollBack bool `json:"scrollBack,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxHeight   respjson.Field
+		ScrollBack  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -6546,6 +6606,8 @@ type V1BoxActionScreenshotParams struct {
 	//
 	// Any of "base64", "storageKey".
 	OutputFormat V1BoxActionScreenshotParamsOutputFormat `json:"outputFormat,omitzero"`
+	// Scroll capture parameters
+	ScrollCapture V1BoxActionScreenshotParamsScrollCapture `json:"scrollCapture,omitzero"`
 	paramObj
 }
 
@@ -6587,6 +6649,25 @@ const (
 	V1BoxActionScreenshotParamsOutputFormatBase64     V1BoxActionScreenshotParamsOutputFormat = "base64"
 	V1BoxActionScreenshotParamsOutputFormatStorageKey V1BoxActionScreenshotParamsOutputFormat = "storageKey"
 )
+
+// Scroll capture parameters
+//
+// The properties MaxHeight, ScrollBack are required.
+type V1BoxActionScreenshotParamsScrollCapture struct {
+	// Maximum height of the screenshot in pixels
+	MaxHeight float64 `json:"maxHeight,required"`
+	// Whether to scroll back to the original position after capturing the screenshot
+	ScrollBack bool `json:"scrollBack,required"`
+	paramObj
+}
+
+func (r V1BoxActionScreenshotParamsScrollCapture) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionScreenshotParamsScrollCapture
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionScreenshotParamsScrollCapture) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type V1BoxActionScrollParams struct {
 
