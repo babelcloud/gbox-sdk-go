@@ -595,8 +595,8 @@ func TestV1BoxActionScreenshotWithOptionalParams(t *testing.T) {
 			PresignedExpiresIn: gboxsdk.String("30m"),
 			SaveToAlbum:        gboxsdk.Bool(false),
 			ScrollCapture: gboxsdk.V1BoxActionScreenshotParamsScrollCapture{
-				MaxHeight:  4000,
-				ScrollBack: true,
+				MaxHeight:  gboxsdk.Float(4000),
+				ScrollBack: gboxsdk.Bool(true),
 			},
 		},
 	)

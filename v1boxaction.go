@@ -2883,10 +2883,12 @@ func (r *V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScree
 
 // Scroll capture parameters
 type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScreenshotActionScrollCapture struct {
-	// Maximum height of the screenshot in pixels
-	MaxHeight float64 `json:"maxHeight,required"`
+	// Maximum height of the screenshot in pixels. Limits the maximum height of the
+	// automatically scrolled content. Useful for managing memory usage when capturing
+	// tall content like long web pages. Default: 4000px
+	MaxHeight float64 `json:"maxHeight"`
 	// Whether to scroll back to the original position after capturing the screenshot
-	ScrollBack bool `json:"scrollBack,required"`
+	ScrollBack bool `json:"scrollBack"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		MaxHeight   respjson.Field
@@ -5154,10 +5156,12 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActio
 
 // Scroll capture parameters
 type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScreenshotActionScrollCapture struct {
-	// Maximum height of the screenshot in pixels
-	MaxHeight float64 `json:"maxHeight,required"`
+	// Maximum height of the screenshot in pixels. Limits the maximum height of the
+	// automatically scrolled content. Useful for managing memory usage when capturing
+	// tall content like long web pages. Default: 4000px
+	MaxHeight float64 `json:"maxHeight"`
 	// Whether to scroll back to the original position after capturing the screenshot
-	ScrollBack bool `json:"scrollBack,required"`
+	ScrollBack bool `json:"scrollBack"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		MaxHeight   respjson.Field
@@ -6651,13 +6655,13 @@ const (
 )
 
 // Scroll capture parameters
-//
-// The properties MaxHeight, ScrollBack are required.
 type V1BoxActionScreenshotParamsScrollCapture struct {
-	// Maximum height of the screenshot in pixels
-	MaxHeight float64 `json:"maxHeight,required"`
+	// Maximum height of the screenshot in pixels. Limits the maximum height of the
+	// automatically scrolled content. Useful for managing memory usage when capturing
+	// tall content like long web pages. Default: 4000px
+	MaxHeight param.Opt[float64] `json:"maxHeight,omitzero"`
 	// Whether to scroll back to the original position after capturing the screenshot
-	ScrollBack bool `json:"scrollBack,required"`
+	ScrollBack param.Opt[bool] `json:"scrollBack,omitzero"`
 	paramObj
 }
 
