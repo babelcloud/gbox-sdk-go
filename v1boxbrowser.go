@@ -48,6 +48,18 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1B
 	return
 }
 
+func (r *V1BoxBrowserService) ClearProxy(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/proxy", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return
+}
+
 // Close a specific browser tab identified by its id. This endpoint will
 // permanently close the tab and free up the associated resources. After closing a
 // tab, the ids of subsequent tabs may change.
@@ -63,6 +75,17 @@ func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabID string, body V
 	}
 	path := fmt.Sprintf("boxes/%s/browser/tabs/%s", body.BoxID, tabID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxBrowserService) GetProxy(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxBrowserGetProxyResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/proxy", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
 
@@ -98,6 +121,18 @@ func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1
 	}
 	path := fmt.Sprintf("boxes/%s/browser/tabs", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+func (r *V1BoxBrowserService) SetProxy(ctx context.Context, boxID string, body V1BoxBrowserSetProxyParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/proxy", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
 	return
 }
 
@@ -155,6 +190,37 @@ type V1BoxBrowserCloseTabResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxBrowserCloseTabResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxBrowserCloseTabResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxBrowserGetProxyResponse struct {
+	// HTTP proxy server, format: http://<username>:<password>@<host>:<port>
+	HTTPServer string `json:"httpServer,required"`
+	// HTTPS proxy server, format: https://<username>:<password>@<host>:<port>
+	HTTPSServer string `json:"httpsServer,required"`
+	// SOCKS5 proxy server, format: socks5://<username>:<password>@<host>:<port>
+	Socks5Server string `json:"socks5Server,required"`
+	// List of IP addresses and domains that should bypass the proxy. These addresses
+	// will be accessed directly without going through the proxy server. Default is
+	// ['127.0.0.1', 'localhost']
+	BypassList []string `json:"bypassList"`
+	// PAC (Proxy Auto-Configuration) URL.
+	PacURL string `json:"pacUrl"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		HTTPServer   respjson.Field
+		HTTPSServer  respjson.Field
+		Socks5Server respjson.Field
+		BypassList   respjson.Field
+		PacURL       respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxBrowserGetProxyResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxBrowserGetProxyResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -361,6 +427,30 @@ func (r V1BoxBrowserOpenTabParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxBrowserOpenTabParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxBrowserSetProxyParams struct {
+	// HTTP proxy server, format: http://<username>:<password>@<host>:<port>
+	HTTPServer string `json:"httpServer,required"`
+	// HTTPS proxy server, format: https://<username>:<password>@<host>:<port>
+	HTTPSServer string `json:"httpsServer,required"`
+	// SOCKS5 proxy server, format: socks5://<username>:<password>@<host>:<port>
+	Socks5Server string `json:"socks5Server,required"`
+	// PAC (Proxy Auto-Configuration) URL.
+	PacURL param.Opt[string] `json:"pacUrl,omitzero"`
+	// List of IP addresses and domains that should bypass the proxy. These addresses
+	// will be accessed directly without going through the proxy server. Default is
+	// ['127.0.0.1', 'localhost']
+	BypassList []string `json:"bypassList,omitzero"`
+	paramObj
+}
+
+func (r V1BoxBrowserSetProxyParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxBrowserSetProxyParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxBrowserSetProxyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
