@@ -140,7 +140,7 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 // Start recording the box screen. Only one recording can be active at a time. If a
 // recording is already in progress, starting a new recording will stop the
 // previous one and keep only the latest recording.
-func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, body V1BoxActionRecordingStartParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
@@ -148,7 +148,7 @@ func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, b
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/actions/recording/start", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
 
@@ -6484,24 +6484,6 @@ const (
 	V1BoxActionPressKeyParamsOutputFormatBase64     V1BoxActionPressKeyParamsOutputFormat = "base64"
 	V1BoxActionPressKeyParamsOutputFormatStorageKey V1BoxActionPressKeyParamsOutputFormat = "storageKey"
 )
-
-type V1BoxActionRecordingStartParams struct {
-	// Duration of the recording. Default is 30m, max is 30m. The recording will
-	// automatically stop when the duration time is reached.
-	//
-	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
-	// Example formats: "500ms", "30s", "5m", "1h" Maximum allowed: 30m
-	Duration param.Opt[string] `json:"duration,omitzero"`
-	paramObj
-}
-
-func (r V1BoxActionRecordingStartParams) MarshalJSON() (data []byte, err error) {
-	type shadow V1BoxActionRecordingStartParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *V1BoxActionRecordingStartParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
 
 type V1BoxActionRewindExtractParams struct {
 	// How far back in time to rewind for extracting recorded video. This specifies the
