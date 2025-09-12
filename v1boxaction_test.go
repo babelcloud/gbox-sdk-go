@@ -375,7 +375,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
+func TestV1BoxActionRecordingStart(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -388,13 +388,7 @@ func TestV1BoxActionRecordingStartWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Actions.RecordingStart(
-		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxActionRecordingStartParams{
-			Duration: gboxsdk.String("10s"),
-		},
-	)
+	err := client.V1.Boxes.Actions.RecordingStart(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
