@@ -462,12 +462,16 @@ func (u *ActionCommonOptionsScreenshotUnionParam) asAny() any {
 
 // Result of an UI action execution with optional screenshots
 type ActionResult struct {
+	// Unique identifier for each action. Use this ID to locate the action and report
+	// issues.
+	ActionID string `json:"actionId,required"`
 	// message
 	Message string `json:"message,required"`
 	// Complete screenshot result with operation trace, before and after images
 	Screenshot ActionResultScreenshot `json:"screenshot"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ActionID    respjson.Field
 		Message     respjson.Field
 		Screenshot  respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -694,6 +698,8 @@ func (r *ActionScreenshotOptionsParam) UnmarshalJSON(data []byte) error {
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type V1BoxActionAIResponseUnion struct {
+	// This field is from variant [V1BoxActionAIResponseAIActionScreenshotResult].
+	ActionID string `json:"actionId"`
 	// This field is a union of
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponse],
 	// [V1BoxActionAIResponseAIActionResultAIResponse]
@@ -704,6 +710,7 @@ type V1BoxActionAIResponseUnion struct {
 	// This field is from variant [V1BoxActionAIResponseAIActionScreenshotResult].
 	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot"`
 	JSON       struct {
+		ActionID   respjson.Field
 		AIResponse respjson.Field
 		Message    respjson.Field
 		Output     respjson.Field
@@ -788,6 +795,9 @@ func (r *V1BoxActionAIResponseUnionAIResponseActions) UnmarshalJSON(data []byte)
 
 // Result of AI action execution with screenshot
 type V1BoxActionAIResponseAIActionScreenshotResult struct {
+	// Unique identifier for each action. Use this ID to locate the action and report
+	// issues.
+	ActionID string `json:"actionId,required"`
 	// Response of AI action execution
 	AIResponse V1BoxActionAIResponseAIActionScreenshotResultAIResponse `json:"aiResponse,required"`
 	// message
@@ -798,6 +808,7 @@ type V1BoxActionAIResponseAIActionScreenshotResult struct {
 	Screenshot V1BoxActionAIResponseAIActionScreenshotResultScreenshot `json:"screenshot"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ActionID    respjson.Field
 		AIResponse  respjson.Field
 		Message     respjson.Field
 		Output      respjson.Field
