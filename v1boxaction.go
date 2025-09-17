@@ -61,6 +61,29 @@ func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1Box
 	return
 }
 
+func (r *V1BoxActionService) ClipboardGet(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
+	opts = append(r.Options[:], opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/clipboard", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxActionService) ClipboardSet(ctx context.Context, boxID string, body V1BoxActionClipboardSetParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/clipboard", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	return
+}
+
 // Drag
 func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
@@ -5777,6 +5800,20 @@ func init() {
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
 		"outputFormat", "base64", "storageKey",
 	)
+}
+
+type V1BoxActionClipboardSetParams struct {
+	// The content to set the clipboard content
+	Content string `json:"content,required"`
+	paramObj
+}
+
+func (r V1BoxActionClipboardSetParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClipboardSetParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionClipboardSetParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxActionDragParams struct {
