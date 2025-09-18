@@ -61,6 +61,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1Box
 	return
 }
 
+// Get the clipboard content
 func (r *V1BoxActionService) ClipboardGet(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -72,6 +73,7 @@ func (r *V1BoxActionService) ClipboardGet(ctx context.Context, boxID string, opt
 	return
 }
 
+// Set the clipboard content
 func (r *V1BoxActionService) ClipboardSet(ctx context.Context, boxID string, body V1BoxActionClipboardSetParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
