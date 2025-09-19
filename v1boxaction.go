@@ -49,7 +49,7 @@ func (r *V1BoxActionService) AI(ctx context.Context, boxID string, body V1BoxAct
 	return
 }
 
-// Click
+// Simulates a click action on the box
 func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -86,7 +86,9 @@ func (r *V1BoxActionService) ClipboardSet(ctx context.Context, boxID string, bod
 	return
 }
 
-// Drag
+// Simulates a drag gesture, moving from a start point to an end point over a set
+// duration. Supports simple start/end coordinates, multi-point drag paths, and
+// natural-language targets.
 func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -124,7 +126,9 @@ func (r *V1BoxActionService) LongPress(ctx context.Context, boxID string, body V
 	return
 }
 
-// Move to position
+// Moves the focus to a specific coordinate on the box without performing a click
+// or tap. Use this endpoint to position the cursor, hover over elements, or
+// prepare for chained actions such as drag or swipe.
 func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -246,7 +250,7 @@ func (r *V1BoxActionService) ScreenLayout(ctx context.Context, boxID string, opt
 	return
 }
 
-// Rotate the screen orientation. Note that even after rotating the screen,
+// Rotates the screen orientation. Note that even after rotating the screen,
 // applications or system layouts may not automatically adapt to the gravity sensor
 // changes, so visual changes may not always occur.
 func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
@@ -260,7 +264,7 @@ func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, b
 	return
 }
 
-// Take screenshot
+// Captures a screenshot of the current box screen
 func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -285,7 +289,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1Bo
 	return
 }
 
-// Get the box action settings
+// Get the action settings for the box
 func (r *V1BoxActionService) Settings(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -297,7 +301,7 @@ func (r *V1BoxActionService) Settings(ctx context.Context, boxID string, opts ..
 	return
 }
 
-// Reset the box settings to default
+// Resets the box settings to default
 func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResetResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -309,7 +313,7 @@ func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, op
 	return
 }
 
-// Update the box action settings
+// Update the action settings for the box
 func (r *V1BoxActionService) SettingsUpdate(ctx context.Context, boxID string, body V1BoxActionSettingsUpdateParams, opts ...option.RequestOption) (res *V1BoxActionSettingsUpdateResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -345,7 +349,8 @@ func (r *V1BoxActionService) Tap(ctx context.Context, boxID string, body V1BoxAc
 	return
 }
 
-// Touch
+// Performs more advanced touch gestures. Use this endpoint to simulate realistic
+// behaviors.
 func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
