@@ -53,7 +53,7 @@ func NewV1BoxService(opts ...option.RequestOption) (r V1BoxService) {
 	return
 }
 
-// Get box
+// This endpoint retrieves information about a box
 func (r *V1BoxService) Get(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxGetResponseUnion, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -65,7 +65,9 @@ func (r *V1BoxService) Get(ctx context.Context, boxID string, opts ...option.Req
 	return
 }
 
-// List box
+// Returns a paginated list of box instances. Use this endpoint to monitor
+// environments, filter by status or type, or retrieve boxes by labels or device
+// type.
 func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...option.RequestOption) (res *V1BoxListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "boxes"
@@ -73,7 +75,9 @@ func (r *V1BoxService) List(ctx context.Context, query V1BoxListParams, opts ...
 	return
 }
 
-// Create android box
+// Provisions a new Android box that you can operate through the GBOX SDK. Use this
+// endpoint when you want to create a fresh Android environment for testing,
+// automation, or agent execution.
 func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParams, opts ...option.RequestOption) (res *AndroidBox, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "boxes/android"
@@ -81,7 +85,9 @@ func (r *V1BoxService) NewAndroid(ctx context.Context, body V1BoxNewAndroidParam
 	return
 }
 
-// Create linux box
+// Provisions a new Linux box that you can operate through the GBOX SDK. Use this
+// endpoint when you want to create a fresh Linux environment for testing,
+// automation, or agent execution.
 func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, opts ...option.RequestOption) (res *LinuxBox, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "boxes/linux"
@@ -91,7 +97,7 @@ func (r *V1BoxService) NewLinux(ctx context.Context, body V1BoxNewLinuxParams, o
 
 // Retrieve the current display properties for a running box. This endpoint
 // provides details about the box's screen resolution, orientation, and other
-// visual properties
+// visual properties.
 func (r *V1BoxService) Display(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxDisplayResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -118,7 +124,7 @@ func (r *V1BoxService) ExecuteCommands(ctx context.Context, boxID string, body V
 
 // This endpoint allows you to generate a pre-signed URL for accessing the live
 // view of a running box. The URL is valid for a limited time and can be used to
-// view the box's live stream
+// view the box's live stream.
 func (r *V1BoxService) LiveViewURL(ctx context.Context, boxID string, body V1BoxLiveViewURLParams, opts ...option.RequestOption) (res *V1BoxLiveViewURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -142,7 +148,9 @@ func (r *V1BoxService) ResolutionSet(ctx context.Context, boxID string, body V1B
 	return
 }
 
-// Run code on the box
+// Executes code inside the specified box. Supports multiple languages (bash,
+// Python, TypeScript) and allows you to configure environment variables,
+// arguments, working directory, and timeouts.
 func (r *V1BoxService) RunCode(ctx context.Context, boxID string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
@@ -178,7 +186,8 @@ func (r *V1BoxService) Stop(ctx context.Context, boxID string, body V1BoxStopPar
 	return
 }
 
-// Terminate a running box. This action will stop the box and release its resources
+// Terminate a running box. This action will stop the box and release its
+// resources.
 func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTerminateParams, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -193,7 +202,7 @@ func (r *V1BoxService) Terminate(ctx context.Context, boxID string, body V1BoxTe
 
 // This endpoint allows you to generate a pre-signed URL for accessing the web
 // terminal of a running box. The URL is valid for a limited time and can be used
-// to access the box's terminal interface
+// to access the box's terminal interface.
 func (r *V1BoxService) WebTerminalURL(ctx context.Context, boxID string, body V1BoxWebTerminalURLParams, opts ...option.RequestOption) (res *V1BoxWebTerminalURLResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if boxID == "" {
