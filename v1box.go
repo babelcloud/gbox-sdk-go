@@ -130,6 +130,18 @@ func (r *V1BoxService) LiveViewURL(ctx context.Context, boxID string, body V1Box
 	return
 }
 
+func (r *V1BoxService) ResolutionSet(ctx context.Context, boxID string, body V1BoxResolutionSetParams, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/resolution", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	return
+}
+
 // Run code on the box
 func (r *V1BoxService) RunCode(ctx context.Context, boxID string, body V1BoxRunCodeParams, opts ...option.RequestOption) (res *V1BoxRunCodeResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -1247,6 +1259,22 @@ func (r V1BoxLiveViewURLParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *V1BoxLiveViewURLParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxResolutionSetParams struct {
+	// The height of the screen
+	Height float64 `json:"height,required"`
+	// The width of the screen
+	Width float64 `json:"width,required"`
+	paramObj
+}
+
+func (r V1BoxResolutionSetParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxResolutionSetParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxResolutionSetParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
