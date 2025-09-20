@@ -11,6 +11,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
@@ -41,7 +42,7 @@ func NewV1BoxMediaService(opts ...option.RequestOption) (r V1BoxMediaService) {
 
 // Create a new album with media files
 func (r *V1BoxMediaService) NewAlbum(ctx context.Context, boxID string, body V1BoxMediaNewAlbumParams, opts ...option.RequestOption) (res *MediaAlbum, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -53,7 +54,7 @@ func (r *V1BoxMediaService) NewAlbum(ctx context.Context, boxID string, body V1B
 
 // Delete an album and all its media files
 func (r *V1BoxMediaService) DeleteAlbum(ctx context.Context, albumName string, body V1BoxMediaDeleteAlbumParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -70,7 +71,7 @@ func (r *V1BoxMediaService) DeleteAlbum(ctx context.Context, albumName string, b
 
 // Delete a specific media file from an album
 func (r *V1BoxMediaService) DeleteMedia(ctx context.Context, mediaName string, body V1BoxMediaDeleteMediaParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -91,7 +92,7 @@ func (r *V1BoxMediaService) DeleteMedia(ctx context.Context, mediaName string, b
 
 // Download a specific media file from an album
 func (r *V1BoxMediaService) DownloadMedia(ctx context.Context, mediaName string, query V1BoxMediaDownloadMediaParams, opts ...option.RequestOption) (res *http.Response, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -112,7 +113,7 @@ func (r *V1BoxMediaService) DownloadMedia(ctx context.Context, mediaName string,
 
 // Get detailed information about a specific album including its media files
 func (r *V1BoxMediaService) GetAlbumDetail(ctx context.Context, albumName string, query V1BoxMediaGetAlbumDetailParams, opts ...option.RequestOption) (res *MediaAlbum, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -128,7 +129,7 @@ func (r *V1BoxMediaService) GetAlbumDetail(ctx context.Context, albumName string
 
 // Get detailed information about a specific media file
 func (r *V1BoxMediaService) GetMedia(ctx context.Context, mediaName string, query V1BoxMediaGetMediaParams, opts ...option.RequestOption) (res *V1BoxMediaGetMediaResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -148,7 +149,7 @@ func (r *V1BoxMediaService) GetMedia(ctx context.Context, mediaName string, quer
 
 // Get supported media file extensions for photos and videos
 func (r *V1BoxMediaService) GetMediaSupport(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxMediaGetMediaSupportResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -160,7 +161,7 @@ func (r *V1BoxMediaService) GetMediaSupport(ctx context.Context, boxID string, o
 
 // Get a list of albums in the box
 func (r *V1BoxMediaService) ListAlbums(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxMediaListAlbumsResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -172,7 +173,7 @@ func (r *V1BoxMediaService) ListAlbums(ctx context.Context, boxID string, opts .
 
 // Get a list of media files in a specific album
 func (r *V1BoxMediaService) ListMedia(ctx context.Context, albumName string, query V1BoxMediaListMediaParams, opts ...option.RequestOption) (res *V1BoxMediaListMediaResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -188,7 +189,7 @@ func (r *V1BoxMediaService) ListMedia(ctx context.Context, albumName string, que
 
 // Add media files to an existing album
 func (r *V1BoxMediaService) UpdateAlbum(ctx context.Context, albumName string, params V1BoxMediaUpdateAlbumParams, opts ...option.RequestOption) (res *MediaAlbum, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return

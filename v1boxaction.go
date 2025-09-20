@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -39,7 +40,7 @@ func NewV1BoxActionService(opts ...option.RequestOption) (r V1BoxActionService) 
 // endpoint will stream progress events before and after the action is executed. If
 // you don't need intermediate events, set stream to false.
 func (r *V1BoxActionService) AI(ctx context.Context, boxID string, body V1BoxActionAIParams, opts ...option.RequestOption) (res *V1BoxActionAIResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -51,7 +52,7 @@ func (r *V1BoxActionService) AI(ctx context.Context, boxID string, body V1BoxAct
 
 // Simulates a click action on the box
 func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1BoxActionClickParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -63,7 +64,7 @@ func (r *V1BoxActionService) Click(ctx context.Context, boxID string, body V1Box
 
 // Get the clipboard content
 func (r *V1BoxActionService) ClipboardGet(ctx context.Context, boxID string, opts ...option.RequestOption) (res *string, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -75,7 +76,7 @@ func (r *V1BoxActionService) ClipboardGet(ctx context.Context, boxID string, opt
 
 // Set the clipboard content
 func (r *V1BoxActionService) ClipboardSet(ctx context.Context, boxID string, body V1BoxActionClipboardSetParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -90,7 +91,7 @@ func (r *V1BoxActionService) ClipboardSet(ctx context.Context, boxID string, bod
 // duration. Supports simple start/end coordinates, multi-point drag paths, and
 // natural-language targets.
 func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxActionDragParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -102,7 +103,7 @@ func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxA
 
 // Extract data from the UI interface using a JSON schema.
 func (r *V1BoxActionService) Extract(ctx context.Context, boxID string, body V1BoxActionExtractParams, opts ...option.RequestOption) (res *V1BoxActionExtractResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -116,7 +117,7 @@ func (r *V1BoxActionService) Extract(ctx context.Context, boxID string, body V1B
 // Useful for triggering context menus, drag operations, or other long-press
 // interactions.
 func (r *V1BoxActionService) LongPress(ctx context.Context, boxID string, body V1BoxActionLongPressParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -130,7 +131,7 @@ func (r *V1BoxActionService) LongPress(ctx context.Context, boxID string, body V
 // or tap. Use this endpoint to position the cursor, hover over elements, or
 // prepare for chained actions such as drag or swipe.
 func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxActionMoveParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -142,7 +143,7 @@ func (r *V1BoxActionService) Move(ctx context.Context, boxID string, body V1BoxA
 
 // Press device buttons like power, volume, home, back, etc.
 func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body V1BoxActionPressButtonParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -156,7 +157,7 @@ func (r *V1BoxActionService) PressButton(ctx context.Context, boxID string, body
 // chain (keydown, keypress, keyup). Use this to activate keyboard key event
 // listeners such as shortcuts or form submissions.
 func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1BoxActionPressKeyParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -170,7 +171,7 @@ func (r *V1BoxActionService) PressKey(ctx context.Context, boxID string, body V1
 // recording is already in progress, starting a new recording will stop the
 // previous one and keep only the latest recording.
 func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -183,7 +184,7 @@ func (r *V1BoxActionService) RecordingStart(ctx context.Context, boxID string, o
 
 // Stop recording the box screen
 func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionRecordingStopResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -195,7 +196,7 @@ func (r *V1BoxActionService) RecordingStop(ctx context.Context, boxID string, op
 
 // Disable the device's background screen rewind recording.
 func (r *V1BoxActionService) RewindDisable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -208,7 +209,7 @@ func (r *V1BoxActionService) RewindDisable(ctx context.Context, boxID string, op
 
 // Enable the device's background screen rewind recording.
 func (r *V1BoxActionService) RewindEnable(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -222,7 +223,7 @@ func (r *V1BoxActionService) RewindEnable(ctx context.Context, boxID string, opt
 // Rewind and capture the device's background screen recording from a specified
 // time period.
 func (r *V1BoxActionService) RewindExtract(ctx context.Context, boxID string, body V1BoxActionRewindExtractParams, opts ...option.RequestOption) (res *V1BoxActionRewindExtractResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -240,7 +241,7 @@ func (r *V1BoxActionService) RewindExtract(ctx context.Context, boxID string, bo
 // resource IDs, and properties, while other box types may return different
 // structured formats.
 func (r *V1BoxActionService) ScreenLayout(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionScreenLayoutResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -254,7 +255,7 @@ func (r *V1BoxActionService) ScreenLayout(ctx context.Context, boxID string, opt
 // applications or system layouts may not automatically adapt to the gravity sensor
 // changes, so visual changes may not always occur.
 func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, body V1BoxActionScreenRotationParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -266,7 +267,7 @@ func (r *V1BoxActionService) ScreenRotation(ctx context.Context, boxID string, b
 
 // Captures a screenshot of the current box screen
 func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body V1BoxActionScreenshotParams, opts ...option.RequestOption) (res *V1BoxActionScreenshotResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -279,7 +280,7 @@ func (r *V1BoxActionService) Screenshot(ctx context.Context, boxID string, body 
 // Performs a scroll action. Supports both advanced scroll with coordinates and
 // simple scroll with direction.
 func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1BoxActionScrollParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -291,7 +292,7 @@ func (r *V1BoxActionService) Scroll(ctx context.Context, boxID string, body V1Bo
 
 // Get the action settings for the box
 func (r *V1BoxActionService) Settings(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -303,7 +304,7 @@ func (r *V1BoxActionService) Settings(ctx context.Context, boxID string, opts ..
 
 // Resets the box settings to default
 func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxActionSettingsResetResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -315,7 +316,7 @@ func (r *V1BoxActionService) SettingsReset(ctx context.Context, boxID string, op
 
 // Update the action settings for the box
 func (r *V1BoxActionService) SettingsUpdate(ctx context.Context, boxID string, body V1BoxActionSettingsUpdateParams, opts ...option.RequestOption) (res *V1BoxActionSettingsUpdateResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -327,7 +328,7 @@ func (r *V1BoxActionService) SettingsUpdate(ctx context.Context, boxID string, b
 
 // Performs a swipe in the specified direction
 func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1BoxActionSwipeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -339,7 +340,7 @@ func (r *V1BoxActionService) Swipe(ctx context.Context, boxID string, body V1Box
 
 // Tap action for Android devices using ADB input tap command
 func (r *V1BoxActionService) Tap(ctx context.Context, boxID string, body V1BoxActionTapParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -352,7 +353,7 @@ func (r *V1BoxActionService) Tap(ctx context.Context, boxID string, body V1BoxAc
 // Performs more advanced touch gestures. Use this endpoint to simulate realistic
 // behaviors.
 func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1BoxActionTouchParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -366,7 +367,7 @@ func (r *V1BoxActionService) Touch(ctx context.Context, boxID string, body V1Box
 // etc.), ideal for quickly filling large amounts of text when intermediate input
 // events aren't needed.
 func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxActionTypeParams, opts ...option.RequestOption) (res *ActionResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return

@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -36,7 +37,7 @@ func NewV1BoxProxyService(opts ...option.RequestOption) (r V1BoxProxyService) {
 
 // Clears the HTTP proxy for the box
 func (r *V1BoxProxyService) Clear(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -50,7 +51,7 @@ func (r *V1BoxProxyService) Clear(ctx context.Context, boxID string, opts ...opt
 // Retrieves the HTTP proxy settings for a specific box. Use this endpoint to route
 // traffic through the box's network.
 func (r *V1BoxProxyService) Get(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxProxyGetResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -63,7 +64,7 @@ func (r *V1BoxProxyService) Get(ctx context.Context, boxID string, opts ...optio
 // Configures the HTTP proxy settings for a specific box. Use this endpoint when
 // you need the box's outbound network traffic to pass through a proxy server.
 func (r *V1BoxProxyService) Set(ctx context.Context, boxID string, body V1BoxProxySetParams, opts ...option.RequestOption) (res *V1BoxProxySetResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
