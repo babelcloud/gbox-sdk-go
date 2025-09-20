@@ -12,6 +12,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
@@ -46,7 +47,7 @@ func NewV1BoxFService(opts ...option.RequestOption) (r V1BoxFService) {
 // depth, and optionally a working directory. The response includes metadata such
 // as type, size, permissions, and last modified time.
 func (r *V1BoxFService) List(ctx context.Context, boxID string, query V1BoxFListParams, opts ...option.RequestOption) (res *V1BoxFListResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -58,7 +59,7 @@ func (r *V1BoxFService) List(ctx context.Context, boxID string, query V1BoxFList
 
 // Check if file/dir exists
 func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExistsParams, opts ...option.RequestOption) (res *V1BoxFExistsResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -70,7 +71,7 @@ func (r *V1BoxFService) Exists(ctx context.Context, boxID string, body V1BoxFExi
 
 // Retrieves metadata for a specific file or directory inside a box
 func (r *V1BoxFService) Info(ctx context.Context, boxID string, query V1BoxFInfoParams, opts ...option.RequestOption) (res *V1BoxFInfoResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -83,7 +84,7 @@ func (r *V1BoxFService) Info(ctx context.Context, boxID string, query V1BoxFInfo
 // Reads the contents of a file inside the box and returns it as a string. Supports
 // absolute or relative paths, with `workingDir` as the base for relative paths.
 func (r *V1BoxFService) Read(ctx context.Context, boxID string, query V1BoxFReadParams, opts ...option.RequestOption) (res *V1BoxFReadResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -96,7 +97,7 @@ func (r *V1BoxFService) Read(ctx context.Context, boxID string, query V1BoxFRead
 // Deletes a file or a directory. If target path doesn't exist, the delete will
 // fail.
 func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRemoveParams, opts ...option.RequestOption) (res *V1BoxFRemoveResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -109,7 +110,7 @@ func (r *V1BoxFService) Remove(ctx context.Context, boxID string, body V1BoxFRem
 // Renames a file or a directory. If the target newPath already exists, the rename
 // will fail.
 func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRenameParams, opts ...option.RequestOption) (res *V1BoxFRenameResponseUnion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -122,7 +123,7 @@ func (r *V1BoxFService) Rename(ctx context.Context, boxID string, body V1BoxFRen
 // Creates or overwrites a file. Creates necessary directories in the path if they
 // don't exist. If the target path already exists, the write will fail.
 func (r *V1BoxFService) Write(ctx context.Context, boxID string, body V1BoxFWriteParams, opts ...option.RequestOption) (res *File, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return

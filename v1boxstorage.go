@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -36,7 +37,7 @@ func NewV1BoxStorageService(opts ...option.RequestOption) (r V1BoxStorageService
 // Create a presigned url for a storage key. This endpoint provides a presigned url
 // for a storage key, which can be used to download the file from the storage.
 func (r *V1BoxStorageService) PresignedURL(ctx context.Context, boxID string, body V1BoxStoragePresignedURLParams, opts ...option.RequestOption) (res *string, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return

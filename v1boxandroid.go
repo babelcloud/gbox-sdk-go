@@ -11,6 +11,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apiform"
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
@@ -42,7 +43,7 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 
 // Backup
 func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -59,7 +60,7 @@ func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, bo
 
 // Backup all
 func (r *V1BoxAndroidService) BackupAll(ctx context.Context, boxID string, opts ...option.RequestOption) (res *http.Response, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -72,7 +73,7 @@ func (r *V1BoxAndroidService) BackupAll(ctx context.Context, boxID string, opts 
 
 // Forces the specified Android application to close inside the box
 func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, body V1BoxAndroidCloseParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -89,7 +90,7 @@ func (r *V1BoxAndroidService) Close(ctx context.Context, packageName string, bod
 
 // Terminates all running Android applications inside the box
 func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -102,7 +103,7 @@ func (r *V1BoxAndroidService) CloseAll(ctx context.Context, boxID string, opts .
 
 // Get pkg
 func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query V1BoxAndroidGetParams, opts ...option.RequestOption) (res *AndroidPkg, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -118,7 +119,7 @@ func (r *V1BoxAndroidService) Get(ctx context.Context, packageName string, query
 
 // Get installed app info by package name
 func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, query V1BoxAndroidGetAppParams, opts ...option.RequestOption) (res *AndroidApp, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -134,7 +135,7 @@ func (r *V1BoxAndroidService) GetApp(ctx context.Context, packageName string, qu
 
 // Get connect address
 func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidGetConnectAddressResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -146,7 +147,7 @@ func (r *V1BoxAndroidService) GetConnectAddress(ctx context.Context, boxID strin
 
 // Install an Android app on the box
 func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1BoxAndroidInstallParams, opts ...option.RequestOption) (res *V1BoxAndroidInstallResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -158,7 +159,7 @@ func (r *V1BoxAndroidService) Install(ctx context.Context, boxID string, body V1
 
 // Retrieves the list of activities defined in a specific Android package
 func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName string, query V1BoxAndroidListActivitiesParams, opts ...option.RequestOption) (res *V1BoxAndroidListActivitiesResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if query.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -174,7 +175,7 @@ func (r *V1BoxAndroidService) ListActivities(ctx context.Context, packageName st
 
 // List all installed apps on the launcher
 func (r *V1BoxAndroidService) ListApp(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxAndroidListAppResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -187,7 +188,7 @@ func (r *V1BoxAndroidService) ListApp(ctx context.Context, boxID string, opts ..
 // Retrieves detailed information for all installed pkgs. This endpoint provides
 // comprehensive pkg details.
 func (r *V1BoxAndroidService) ListPkg(ctx context.Context, boxID string, query V1BoxAndroidListPkgParams, opts ...option.RequestOption) (res *V1BoxAndroidListPkgResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -201,7 +202,7 @@ func (r *V1BoxAndroidService) ListPkg(ctx context.Context, boxID string, query V
 // better performance for scenarios where you need to get essential pkg details
 // quickly.
 func (r *V1BoxAndroidService) ListPkgSimple(ctx context.Context, boxID string, query V1BoxAndroidListPkgSimpleParams, opts ...option.RequestOption) (res *V1BoxAndroidListPkgSimpleResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -213,7 +214,7 @@ func (r *V1BoxAndroidService) ListPkgSimple(ctx context.Context, boxID string, q
 
 // Launches a specific Android application within the box
 func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, params V1BoxAndroidOpenParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -230,7 +231,7 @@ func (r *V1BoxAndroidService) Open(ctx context.Context, packageName string, para
 
 // Closes and immediately reopens the specified Android application inside the box
 func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, params V1BoxAndroidRestartParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -247,7 +248,7 @@ func (r *V1BoxAndroidService) Restart(ctx context.Context, packageName string, p
 
 // Restore
 func (r *V1BoxAndroidService) Restore(ctx context.Context, boxID string, body V1BoxAndroidRestoreParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -260,7 +261,7 @@ func (r *V1BoxAndroidService) Restore(ctx context.Context, boxID string, body V1
 
 // Uninstalls an Android app from the box
 func (r *V1BoxAndroidService) Uninstall(ctx context.Context, packageName string, params V1BoxAndroidUninstallParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")

@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
@@ -38,7 +39,7 @@ func NewV1BoxBrowserService(opts ...option.RequestOption) (r V1BoxBrowserService
 // DevTools Protocol (CDP) of a running box. The URL is valid for a limited time
 // and can be used to interact with the box's browser environment
 func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1BoxBrowserCdpURLParams, opts ...option.RequestOption) (res *string, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -49,7 +50,7 @@ func (r *V1BoxBrowserService) CdpURL(ctx context.Context, boxID string, body V1B
 }
 
 func (r *V1BoxBrowserService) ClearProxy(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -64,7 +65,7 @@ func (r *V1BoxBrowserService) ClearProxy(ctx context.Context, boxID string, opts
 // permanently close the tab and free up the associated resources. After closing a
 // tab, the ids of subsequent tabs may change.
 func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabID string, body V1BoxBrowserCloseTabParams, opts ...option.RequestOption) (res *V1BoxBrowserCloseTabResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -79,7 +80,7 @@ func (r *V1BoxBrowserService) CloseTab(ctx context.Context, tabID string, body V
 }
 
 func (r *V1BoxBrowserService) GetProxy(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxBrowserGetProxyResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -96,7 +97,7 @@ func (r *V1BoxBrowserService) GetProxy(ctx context.Context, boxID string, opts .
 // essential for managing multiple browser sessions and understanding the current
 // state of the browser environment.
 func (r *V1BoxBrowserService) GetTabs(ctx context.Context, boxID string, opts ...option.RequestOption) (res *V1BoxBrowserGetTabsResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -114,7 +115,7 @@ func (r *V1BoxBrowserService) GetTabs(ctx context.Context, boxID string, opts ..
 // loaded before returning the response. If the URL is invalid or unreachable, an
 // error will be returned.
 func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1BoxBrowserOpenTabParams, opts ...option.RequestOption) (res *V1BoxBrowserOpenTabResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -125,7 +126,7 @@ func (r *V1BoxBrowserService) OpenTab(ctx context.Context, boxID string, body V1
 }
 
 func (r *V1BoxBrowserService) SetProxy(ctx context.Context, boxID string, body V1BoxBrowserSetProxyParams, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -142,7 +143,7 @@ func (r *V1BoxBrowserService) SetProxy(ctx context.Context, boxID string, body V
 // become visible to the user. This is useful for managing multiple browser
 // sessions and controlling which tab is currently in focus.
 func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, body V1BoxBrowserSwitchTabParams, opts ...option.RequestOption) (res *V1BoxBrowserSwitchTabResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if body.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
@@ -163,7 +164,7 @@ func (r *V1BoxBrowserService) SwitchTab(ctx context.Context, tabID string, body 
 // issues, an error will be returned. The updated tab information will include the
 // new title, final URL (after any redirects), and favicon from the new page.
 func (r *V1BoxBrowserService) UpdateTab(ctx context.Context, tabID string, params V1BoxBrowserUpdateTabParams, opts ...option.RequestOption) (res *V1BoxBrowserUpdateTabResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if params.BoxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
