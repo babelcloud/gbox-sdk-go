@@ -104,15 +104,14 @@ func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxA
 // Detect and identify interactive UI elements in the current screen. Note: This
 // feature currently only supports element detection within a running browser. If
 // the browser is not running, the Elements array will be empty.
-func (r *V1BoxActionService) ElementsDetect(ctx context.Context, boxID string, body V1BoxActionElementsDetectParams, opts ...option.RequestOption) (err error) {
+func (r *V1BoxActionService) ElementsDetect(ctx context.Context, boxID string, body V1BoxActionElementsDetectParams, opts ...option.RequestOption) (res *V1BoxActionElementsDetectResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/actions/elements/detect", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -5307,6 +5306,142 @@ func (r V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) RawJ
 	return r.JSON.raw
 }
 func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result containing original screenshot, annotated screenshot, and detected
+// elements
+type V1BoxActionElementsDetectResponse struct {
+	// Detected UI elements
+	Elements []V1BoxActionElementsDetectResponseElement `json:"elements,required"`
+	// Detected elements screenshot
+	Screenshot V1BoxActionElementsDetectResponseScreenshot `json:"screenshot,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Elements    respjson.Field
+		Screenshot  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionElementsDetectResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionElementsDetectResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Detected UI element
+type V1BoxActionElementsDetectResponseElement struct {
+	// Element id
+	ID string `json:"id,required"`
+	// Element center x coordinate relative to screen
+	CenterX float64 `json:"centerX,required"`
+	// Element center y coordinate relative to screen
+	CenterY float64 `json:"centerY,required"`
+	// Element height
+	Height float64 `json:"height,required"`
+	// A human-readable identifier generated from the element's visible attributes to
+	// help understand what this element represents. For images, it uses alt text or
+	// filename; for links, it uses text content or href; for buttons, it uses text
+	// content or aria-label; for inputs, it uses placeholder or value; etc.
+	Label string `json:"label,required"`
+	// Element path
+	Path string `json:"path,required"`
+	// Element source
+	Source string `json:"source,required"`
+	// Element type
+	Type string `json:"type,required"`
+	// Element width
+	Width float64 `json:"width,required"`
+	// Element x coordinate relative to screen
+	X float64 `json:"x,required"`
+	// Element y coordinate relative to screen
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		CenterX     respjson.Field
+		CenterY     respjson.Field
+		Height      respjson.Field
+		Label       respjson.Field
+		Path        respjson.Field
+		Source      respjson.Field
+		Type        respjson.Field
+		Width       respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionElementsDetectResponseElement) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionElementsDetectResponseElement) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Detected elements screenshot
+type V1BoxActionElementsDetectResponseScreenshot struct {
+	// Result of screenshot capture action
+	Marked V1BoxActionElementsDetectResponseScreenshotMarked `json:"marked,required"`
+	// Result of screenshot capture action
+	Source V1BoxActionElementsDetectResponseScreenshotSource `json:"source,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Marked      respjson.Field
+		Source      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionElementsDetectResponseScreenshot) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionElementsDetectResponseScreenshot) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of screenshot capture action
+type V1BoxActionElementsDetectResponseScreenshotMarked struct {
+	// URL of the screenshot
+	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot
+	PresignedURL string `json:"presignedUrl"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri          respjson.Field
+		PresignedURL respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionElementsDetectResponseScreenshotMarked) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionElementsDetectResponseScreenshotMarked) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Result of screenshot capture action
+type V1BoxActionElementsDetectResponseScreenshotSource struct {
+	// URL of the screenshot
+	Uri string `json:"uri,required"`
+	// Presigned url of the screenshot
+	PresignedURL string `json:"presignedUrl"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Uri          respjson.Field
+		PresignedURL respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxActionElementsDetectResponseScreenshotSource) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxActionElementsDetectResponseScreenshotSource) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
