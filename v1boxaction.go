@@ -101,6 +101,21 @@ func (r *V1BoxActionService) Drag(ctx context.Context, boxID string, body V1BoxA
 	return
 }
 
+// Detect and identify interactive UI elements in the current screen. Note: This
+// feature currently only supports element detection within a running browser. If
+// the browser is not running, the Elements array will be empty.
+func (r *V1BoxActionService) ElementsDetect(ctx context.Context, boxID string, body V1BoxActionElementsDetectParams, opts ...option.RequestOption) (err error) {
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/actions/elements/detect", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	return
+}
+
 // Extract data from the UI interface using a JSON schema.
 func (r *V1BoxActionService) Extract(ctx context.Context, boxID string, body V1BoxActionExtractParams, opts ...option.RequestOption) (res *V1BoxActionExtractResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -6113,6 +6128,35 @@ func (r V1BoxActionDragParamsBodyDragAdvancedPath) MarshalJSON() (data []byte, e
 func (r *V1BoxActionDragParamsBodyDragAdvancedPath) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type V1BoxActionElementsDetectParams struct {
+	// Presigned url expires in. Only takes effect when outputFormat is storageKey.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// Type of the URI. default is base64.
+	//
+	// Any of "base64", "storageKey".
+	OutputFormat V1BoxActionElementsDetectParamsOutputFormat `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionElementsDetectParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionElementsDetectParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionElementsDetectParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Type of the URI. default is base64.
+type V1BoxActionElementsDetectParamsOutputFormat string
+
+const (
+	V1BoxActionElementsDetectParamsOutputFormatBase64     V1BoxActionElementsDetectParamsOutputFormat = "base64"
+	V1BoxActionElementsDetectParamsOutputFormatStorageKey V1BoxActionElementsDetectParamsOutputFormat = "storageKey"
+)
 
 type V1BoxActionExtractParams struct {
 	// The instruction of the action to extract data from the UI interface
