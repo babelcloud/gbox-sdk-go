@@ -236,8 +236,10 @@ func TestV1BoxActionElementsDetectWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		gboxsdk.V1BoxActionElementsDetectParams{
-			OutputFormat:       gboxsdk.V1BoxActionElementsDetectParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
+			Screenshot: gboxsdk.V1BoxActionElementsDetectParamsScreenshot{
+				OutputFormat:       "base64",
+				PresignedExpiresIn: gboxsdk.String("30m"),
+			},
 		},
 	)
 	if err != nil {
