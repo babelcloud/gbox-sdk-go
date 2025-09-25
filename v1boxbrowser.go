@@ -194,6 +194,7 @@ func (r *V1BoxBrowserCloseTabResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Browser proxy
 type V1BoxBrowserGetProxyResponse struct {
 	// HTTP proxy server, format: http://<username>:<password>@<host>:<port>
 	HTTPServer string `json:"httpServer,required"`
