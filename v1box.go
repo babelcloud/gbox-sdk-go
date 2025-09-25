@@ -137,15 +137,15 @@ func (r *V1BoxService) LiveViewURL(ctx context.Context, boxID string, body V1Box
 	return
 }
 
-func (r *V1BoxService) ResolutionSet(ctx context.Context, boxID string, body V1BoxResolutionSetParams, opts ...option.RequestOption) (err error) {
+// Set the screen resolution
+func (r *V1BoxService) ResolutionSet(ctx context.Context, boxID string, body V1BoxResolutionSetParams, opts ...option.RequestOption) (res *V1BoxResolutionSetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
 		return
 	}
 	path := fmt.Sprintf("boxes/%s/resolution", boxID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -908,6 +908,27 @@ type V1BoxLiveViewURLResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxLiveViewURLResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxLiveViewURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Resolution configuration
+type V1BoxResolutionSetResponse struct {
+	// Height of the screen
+	Height float64 `json:"height,required"`
+	// Width of the screen
+	Width float64 `json:"width,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Height      respjson.Field
+		Width       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxResolutionSetResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxResolutionSetResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
