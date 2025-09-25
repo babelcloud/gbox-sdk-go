@@ -737,6 +737,107 @@ func (r *ActionScreenshotOptionsParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Detected UI element
+type DetectedElement struct {
+	// Element id
+	ID string `json:"id,required"`
+	// Element center x coordinate relative to screen
+	CenterX float64 `json:"centerX,required"`
+	// Element center y coordinate relative to screen
+	CenterY float64 `json:"centerY,required"`
+	// Element height
+	Height float64 `json:"height,required"`
+	// A human-readable identifier generated from the element's visible attributes to
+	// help understand what this element represents. For images, it uses alt text or
+	// filename; for links, it uses text content or href; for buttons, it uses text
+	// content or aria-label; for inputs, it uses placeholder or value; etc.
+	Label string `json:"label,required"`
+	// Element path
+	Path string `json:"path,required"`
+	// Element source
+	Source string `json:"source,required"`
+	// Element type
+	Type string `json:"type,required"`
+	// Element width
+	Width float64 `json:"width,required"`
+	// Element x coordinate relative to screen
+	X float64 `json:"x,required"`
+	// Element y coordinate relative to screen
+	Y float64 `json:"y,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		CenterX     respjson.Field
+		CenterY     respjson.Field
+		Height      respjson.Field
+		Label       respjson.Field
+		Path        respjson.Field
+		Source      respjson.Field
+		Type        respjson.Field
+		Width       respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r DetectedElement) RawJSON() string { return r.JSON.raw }
+func (r *DetectedElement) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this DetectedElement to a DetectedElementParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// DetectedElementParam.Overrides()
+func (r DetectedElement) ToParam() DetectedElementParam {
+	return param.Override[DetectedElementParam](json.RawMessage(r.RawJSON()))
+}
+
+// Detected UI element
+//
+// The properties ID, CenterX, CenterY, Height, Label, Path, Source, Type, Width,
+// X, Y are required.
+type DetectedElementParam struct {
+	// Element id
+	ID string `json:"id,required"`
+	// Element center x coordinate relative to screen
+	CenterX float64 `json:"centerX,required"`
+	// Element center y coordinate relative to screen
+	CenterY float64 `json:"centerY,required"`
+	// Element height
+	Height float64 `json:"height,required"`
+	// A human-readable identifier generated from the element's visible attributes to
+	// help understand what this element represents. For images, it uses alt text or
+	// filename; for links, it uses text content or href; for buttons, it uses text
+	// content or aria-label; for inputs, it uses placeholder or value; etc.
+	Label string `json:"label,required"`
+	// Element path
+	Path string `json:"path,required"`
+	// Element source
+	Source string `json:"source,required"`
+	// Element type
+	Type string `json:"type,required"`
+	// Element width
+	Width float64 `json:"width,required"`
+	// Element x coordinate relative to screen
+	X float64 `json:"x,required"`
+	// Element y coordinate relative to screen
+	Y float64 `json:"y,required"`
+	paramObj
+}
+
+func (r DetectedElementParam) MarshalJSON() (data []byte, err error) {
+	type shadow DetectedElementParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *DetectedElementParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // V1BoxActionAIResponseUnion contains all possible properties and values from
 // [V1BoxActionAIResponseAIActionScreenshotResult],
 // [V1BoxActionAIResponseAIActionResult].
@@ -5313,7 +5414,7 @@ func (r *V1BoxActionAIResponseAIActionResultAIResponseActionTypedWaitAction) Unm
 // elements
 type V1BoxActionElementsDetectResponse struct {
 	// Detected UI elements
-	Elements []V1BoxActionElementsDetectResponseElement `json:"elements,required"`
+	Elements []DetectedElement `json:"elements,required"`
 	// Detected elements screenshot
 	Screenshot V1BoxActionElementsDetectResponseScreenshot `json:"screenshot,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -5328,57 +5429,6 @@ type V1BoxActionElementsDetectResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxActionElementsDetectResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxActionElementsDetectResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Detected UI element
-type V1BoxActionElementsDetectResponseElement struct {
-	// Element id
-	ID string `json:"id,required"`
-	// Element center x coordinate relative to screen
-	CenterX float64 `json:"centerX,required"`
-	// Element center y coordinate relative to screen
-	CenterY float64 `json:"centerY,required"`
-	// Element height
-	Height float64 `json:"height,required"`
-	// A human-readable identifier generated from the element's visible attributes to
-	// help understand what this element represents. For images, it uses alt text or
-	// filename; for links, it uses text content or href; for buttons, it uses text
-	// content or aria-label; for inputs, it uses placeholder or value; etc.
-	Label string `json:"label,required"`
-	// Element path
-	Path string `json:"path,required"`
-	// Element source
-	Source string `json:"source,required"`
-	// Element type
-	Type string `json:"type,required"`
-	// Element width
-	Width float64 `json:"width,required"`
-	// Element x coordinate relative to screen
-	X float64 `json:"x,required"`
-	// Element y coordinate relative to screen
-	Y float64 `json:"y,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		ID          respjson.Field
-		CenterX     respjson.Field
-		CenterY     respjson.Field
-		Height      respjson.Field
-		Label       respjson.Field
-		Path        respjson.Field
-		Source      respjson.Field
-		Type        respjson.Field
-		Width       respjson.Field
-		X           respjson.Field
-		Y           respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r V1BoxActionElementsDetectResponseElement) RawJSON() string { return r.JSON.raw }
-func (r *V1BoxActionElementsDetectResponseElement) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -5790,12 +5840,15 @@ type V1BoxActionClickParams struct {
 	// This field is a request body variant, only one variant field can be set. Click
 	// action configuration with natural language
 	OfClickActionWithNaturalLanguage *V1BoxActionClickParamsBodyClickActionWithNaturalLanguage `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Click
+	// action configuration by element
+	OfClickActionByElement *V1BoxActionClickParamsBodyClickActionByElement `json:",inline"`
 
 	paramObj
 }
 
 func (u V1BoxActionClickParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfClickAction, u.OfClickActionWithNaturalLanguage)
+	return param.MarshalUnion(u, u.OfClickAction, u.OfClickActionWithNaturalLanguage, u.OfClickActionByElement)
 }
 func (r *V1BoxActionClickParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -5956,6 +6009,84 @@ func init() {
 		"button", "left", "right", "middle",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
+
+// Click action configuration by element
+//
+// The property Target is required.
+type V1BoxActionClickParamsBodyClickActionByElement struct {
+	// Detected UI element
+	Target DetectedElementParam `json:"target,omitzero,required"`
+	// Whether to perform a double click
+	Double param.Opt[bool] `json:"double,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
+	// ignored when `options.screenshot` is provided. Whether to include screenshots in
+	// the action response. If false, the screenshot object will still be returned but
+	// with empty URIs. Default is false.
+	//
+	// Deprecated: deprecated
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.presignedExpiresIn` instead. Presigned
+	// url expires in. Only takes effect when outputFormat is storageKey. This field
+	// will be ignored when `options.screenshot` is provided.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
+	// ignored when `options.screenshot` is provided.
+	//
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Mouse button to click
+	//
+	// Any of "left", "right", "middle".
+	Button string `json:"button,omitzero"`
+	// Action common options
+	Options ActionCommonOptionsParam `json:"options,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
+	// default is base64. This field will be ignored when `options.screenshot` is
+	// provided.
+	//
+	// Any of "base64", "storageKey".
+	//
+	// Deprecated: deprecated
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionClickParamsBodyClickActionByElement) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionClickParamsBodyClickActionByElement
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionClickParamsBodyClickActionByElement) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionByElement](
+		"button", "left", "right", "middle",
+	)
+	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionByElement](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -6352,12 +6483,15 @@ type V1BoxActionLongPressParams struct {
 	// This field is a request body variant, only one variant field can be set. Long
 	// press action configuration using natural language target
 	OfLongPressActionWithNaturalLanguage *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Long
+	// press action configuration by element
+	OfLongPressActionByElement *V1BoxActionLongPressParamsBodyLongPressActionByElement `json:",inline"`
 
 	paramObj
 }
 
 func (u V1BoxActionLongPressParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfLongPressAction, u.OfLongPressActionWithNaturalLanguage)
+	return param.MarshalUnion(u, u.OfLongPressAction, u.OfLongPressActionWithNaturalLanguage, u.OfLongPressActionByElement)
 }
 func (r *V1BoxActionLongPressParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -6519,6 +6653,80 @@ func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage) Unmar
 
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
+
+// Long press action configuration by element
+//
+// The property Target is required.
+type V1BoxActionLongPressParamsBodyLongPressActionByElement struct {
+	// Detected UI element
+	Target DetectedElementParam `json:"target,omitzero,required"`
+	// Duration to hold the press (e.g. '1s', '500ms')
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 1s
+	Duration param.Opt[string] `json:"duration,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
+	// ignored when `options.screenshot` is provided. Whether to include screenshots in
+	// the action response. If false, the screenshot object will still be returned but
+	// with empty URIs. Default is false.
+	//
+	// Deprecated: deprecated
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.presignedExpiresIn` instead. Presigned
+	// url expires in. Only takes effect when outputFormat is storageKey. This field
+	// will be ignored when `options.screenshot` is provided.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
+	// ignored when `options.screenshot` is provided.
+	//
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Action common options
+	Options ActionCommonOptionsParam `json:"options,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
+	// default is base64. This field will be ignored when `options.screenshot` is
+	// provided.
+	//
+	// Any of "base64", "storageKey".
+	//
+	// Deprecated: deprecated
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionLongPressParamsBodyLongPressActionByElement) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionLongPressParamsBodyLongPressActionByElement
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionLongPressParamsBodyLongPressActionByElement) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionByElement](
 		"outputFormat", "base64", "storageKey",
 	)
 }
@@ -7489,12 +7697,15 @@ type V1BoxActionTapParams struct {
 	// This field is a request body variant, only one variant field can be set. Tap
 	// action configuration with natural language
 	OfTapActionWithNaturalLanguage *V1BoxActionTapParamsBodyTapActionWithNaturalLanguage `json:",inline"`
+	// This field is a request body variant, only one variant field can be set. Tap
+	// action configuration by element
+	OfTapActionByElement *V1BoxActionTapParamsBodyTapActionByElement `json:",inline"`
 
 	paramObj
 }
 
 func (u V1BoxActionTapParams) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfTapAction, u.OfTapActionWithNaturalLanguage)
+	return param.MarshalUnion(u, u.OfTapAction, u.OfTapActionWithNaturalLanguage, u.OfTapActionByElement)
 }
 func (r *V1BoxActionTapParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
@@ -7637,6 +7848,75 @@ func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguage) UnmarshalJSON(dat
 
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguage](
+		"outputFormat", "base64", "storageKey",
+	)
+}
+
+// Tap action configuration by element
+//
+// The property Target is required.
+type V1BoxActionTapParamsBodyTapActionByElement struct {
+	// Detected UI element
+	Target DetectedElementParam `json:"target,omitzero,required"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.phases` instead. This field will be
+	// ignored when `options.screenshot` is provided. Whether to include screenshots in
+	// the action response. If false, the screenshot object will still be returned but
+	// with empty URIs. Default is false.
+	//
+	// Deprecated: deprecated
+	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.presignedExpiresIn` instead. Presigned
+	// url expires in. Only takes effect when outputFormat is storageKey. This field
+	// will be ignored when `options.screenshot` is provided.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 30m
+	//
+	// Deprecated: deprecated
+	PresignedExpiresIn param.Opt[string] `json:"presignedExpiresIn,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.delay` instead. This field will be
+	// ignored when `options.screenshot` is provided.
+	//
+	// Delay after performing the action, before taking the final screenshot.
+	//
+	// Execution flow:
+	//
+	// 1. Take screenshot before action
+	// 2. Perform the action
+	// 3. Wait for screenshotDelay (this parameter)
+	// 4. Take screenshot after action
+	//
+	// Example: '500ms' means wait 500ms after the action before capturing the final
+	// screenshot.
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
+	//
+	// Deprecated: deprecated
+	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
+	// Action common options
+	Options ActionCommonOptionsParam `json:"options,omitzero"`
+	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
+	// default is base64. This field will be ignored when `options.screenshot` is
+	// provided.
+	//
+	// Any of "base64", "storageKey".
+	//
+	// Deprecated: deprecated
+	OutputFormat string `json:"outputFormat,omitzero"`
+	paramObj
+}
+
+func (r V1BoxActionTapParamsBodyTapActionByElement) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxActionTapParamsBodyTapActionByElement
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxActionTapParamsBodyTapActionByElement) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionByElement](
 		"outputFormat", "base64", "storageKey",
 	)
 }
