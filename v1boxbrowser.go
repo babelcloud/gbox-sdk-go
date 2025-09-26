@@ -61,6 +61,18 @@ func (r *V1BoxBrowserService) ClearProxy(ctx context.Context, boxID string, opts
 	return
 }
 
+func (r *V1BoxBrowserService) Close(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/close", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return
+}
+
 // Close a specific browser tab identified by its id. This endpoint will
 // permanently close the tab and free up the associated resources. After closing a
 // tab, the ids of subsequent tabs may change.
@@ -104,6 +116,17 @@ func (r *V1BoxBrowserService) GetTabs(ctx context.Context, boxID string, opts ..
 	}
 	path := fmt.Sprintf("boxes/%s/browser/tabs", boxID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+func (r *V1BoxBrowserService) Open(ctx context.Context, boxID string, body V1BoxBrowserOpenParams, opts ...option.RequestOption) (res *string, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/browser/open", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -416,6 +439,27 @@ func (r *V1BoxBrowserCdpURLParams) UnmarshalJSON(data []byte) error {
 type V1BoxBrowserCloseTabParams struct {
 	BoxID string `path:"boxId,required" json:"-"`
 	paramObj
+}
+
+type V1BoxBrowserOpenParams struct {
+	// Whether to maximize the browser window.
+	Maximize param.Opt[bool] `json:"maximize,omitzero"`
+	// Whether to show the browser's minimize, maximize and close buttons. Default is
+	// true.
+	ShowControls param.Opt[bool] `json:"showControls,omitzero"`
+	// The window size, format: <width>x<height>. If not specified, the browser will
+	// open with the default size. If both `maximize` and `size` are specified,
+	// `maximize` will take precedence.
+	Size param.Opt[string] `json:"size,omitzero"`
+	paramObj
+}
+
+func (r V1BoxBrowserOpenParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxBrowserOpenParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxBrowserOpenParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type V1BoxBrowserOpenTabParams struct {
