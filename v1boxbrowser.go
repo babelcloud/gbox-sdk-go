@@ -61,6 +61,7 @@ func (r *V1BoxBrowserService) ClearProxy(ctx context.Context, boxID string, opts
 	return
 }
 
+// Close the browser in the specified box
 func (r *V1BoxBrowserService) Close(ctx context.Context, boxID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -119,7 +120,9 @@ func (r *V1BoxBrowserService) GetTabs(ctx context.Context, boxID string, opts ..
 	return
 }
 
-func (r *V1BoxBrowserService) Open(ctx context.Context, boxID string, body V1BoxBrowserOpenParams, opts ...option.RequestOption) (res *string, err error) {
+// Open the browser in the specified box. If the browser is already open, repeated
+// calls will not open a new browser.
+func (r *V1BoxBrowserService) Open(ctx context.Context, boxID string, body V1BoxBrowserOpenParams, opts ...option.RequestOption) (res *V1BoxBrowserOpenResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if boxID == "" {
 		err = errors.New("missing required boxId parameter")
@@ -302,6 +305,25 @@ type V1BoxBrowserGetTabsResponseData struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxBrowserGetTabsResponseData) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxBrowserGetTabsResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Browser open result
+type V1BoxBrowserOpenResponse struct {
+	// The CDP url. You can use this URL with CDP libraries like
+	// puppeteer/playwright/etc.
+	CdpURL string `json:"cdpUrl,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		CdpURL      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxBrowserOpenResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxBrowserOpenResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
