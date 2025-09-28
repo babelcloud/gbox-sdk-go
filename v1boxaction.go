@@ -1061,9 +1061,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
 	Distance V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionUnionDistance `json:"distance"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedSwipeSimpleAction].
-	Location string `json:"location"`
+	Location string                                                                     `json:"location"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -2036,6 +2034,9 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSim
 	//
 	// Deprecated: deprecated
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Natural language description of the location where the scroll should originate.
+	// If not provided, the scroll will be performed from the center of the screen.
+	Location string `json:"location"`
 	// Action common options
 	Options ActionCommonOptions `json:"options"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2081,6 +2082,7 @@ type V1BoxActionAIResponseAIActionScreenshotResultAIResponseActionTypedScrollSim
 		Distance           respjson.Field
 		Duration           respjson.Field
 		IncludeScreenshot  respjson.Field
+		Location           respjson.Field
 		Options            respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
@@ -3339,9 +3341,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionUnion struct {
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleActionDistanceUnion],
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleActionDistanceUnion]
 	Distance V1BoxActionAIResponseAIActionResultAIResponseActionUnionDistance `json:"distance"`
-	// This field is from variant
-	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedSwipeSimpleAction].
-	Location string `json:"location"`
+	Location string                                                           `json:"location"`
 	// This field is from variant
 	// [V1BoxActionAIResponseAIActionResultAIResponseActionTypedPressKeyAction].
 	Keys []string `json:"keys"`
@@ -4309,6 +4309,9 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction 
 	//
 	// Deprecated: deprecated
 	IncludeScreenshot bool `json:"includeScreenshot"`
+	// Natural language description of the location where the scroll should originate.
+	// If not provided, the scroll will be performed from the center of the screen.
+	Location string `json:"location"`
 	// Action common options
 	Options ActionCommonOptions `json:"options"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -4354,6 +4357,7 @@ type V1BoxActionAIResponseAIActionResultAIResponseActionTypedScrollSimpleAction 
 		Distance           respjson.Field
 		Duration           respjson.Field
 		IncludeScreenshot  respjson.Field
+		Location           respjson.Field
 		Options            respjson.Field
 		OutputFormat       respjson.Field
 		PresignedExpiresIn respjson.Field
@@ -7248,6 +7252,9 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	//
 	// Deprecated: deprecated
 	IncludeScreenshot param.Opt[bool] `json:"includeScreenshot,omitzero"`
+	// Natural language description of the location where the scroll should originate.
+	// If not provided, the scroll will be performed from the center of the screen.
+	Location param.Opt[string] `json:"location,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.presignedExpiresIn` instead. Presigned
 	// url expires in. Only takes effect when outputFormat is storageKey. This field
 	// will be ignored when `options.screenshot` is provided.
