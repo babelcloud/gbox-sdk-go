@@ -13,55 +13,6 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
-func TestV1BoxActionAIWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Actions.AI(
-		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxActionAIParams{
-			Instruction:       "click the login button",
-			Background:        gboxsdk.String("The user is on the login page"),
-			IncludeScreenshot: gboxsdk.Bool(false),
-			Options: gboxsdk.ActionCommonOptionsParam{
-				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
-					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
-						Delay:              gboxsdk.String("500ms"),
-						OutputFormat:       gboxsdk.ActionScreenshotOptionsOutputFormatBase64,
-						Phases:             []string{"before", "after"},
-						PresignedExpiresIn: gboxsdk.String("30m"),
-					},
-				},
-			},
-			OutputFormat:       gboxsdk.V1BoxActionAIParamsOutputFormatBase64,
-			PresignedExpiresIn: gboxsdk.String("30m"),
-			ScreenshotDelay:    gboxsdk.String("500ms"),
-			Settings: gboxsdk.V1BoxActionAIParamsSettings{
-				DisableActions: []string{"swipe"},
-				SystemPrompt:   gboxsdk.String("You are a helpful assistant specialized in UI automation. When given a screenshot and instruction, analyze the visual elements carefully and execute the most appropriate action. Always prioritize user safety and avoid destructive actions unless explicitly requested."),
-			},
-			Stream: gboxsdk.Bool(false),
-		},
-	)
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
 func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
@@ -85,6 +36,7 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 				Button:            "left",
 				Double:            gboxsdk.Bool(false),
 				IncludeScreenshot: gboxsdk.Bool(false),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -194,6 +146,7 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				},
 				Duration:          gboxsdk.String("500ms"),
 				IncludeScreenshot: gboxsdk.Bool(false),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -303,6 +256,7 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 				Y:                 250,
 				Duration:          gboxsdk.String("1s"),
 				IncludeScreenshot: gboxsdk.Bool(false),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -348,6 +302,7 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 			X:                 200,
 			Y:                 300,
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Model:             gboxsdk.V1BoxActionMoveParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -391,6 +346,7 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionPressButtonParams{
 			Buttons:           []string{"power"},
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Model:             gboxsdk.V1BoxActionPressButtonParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -435,6 +391,7 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 			Keys:              []string{"enter"},
 			Combination:       gboxsdk.Bool(true),
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Model:             gboxsdk.V1BoxActionPressKeyParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -622,6 +579,7 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionScreenRotationParams{
 			Orientation:       gboxsdk.V1BoxActionScreenRotationParamsOrientationLandscapeLeft,
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Model:             gboxsdk.V1BoxActionScreenRotationParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -710,6 +668,7 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 				X:                 100,
 				Y:                 100,
 				IncludeScreenshot: gboxsdk.Bool(false),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -835,6 +794,7 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				Duration:          gboxsdk.String("500ms"),
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Location:          gboxsdk.String("Chrome App"),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -881,6 +841,7 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 				X:                 100,
 				Y:                 100,
 				IncludeScreenshot: gboxsdk.Bool(false),
+				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -938,6 +899,7 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 				}},
 			}},
 			IncludeScreenshot: gboxsdk.Bool(false),
+			Model:             gboxsdk.V1BoxActionTouchParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
@@ -982,6 +944,7 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 			Text:              "Hello World",
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Mode:              gboxsdk.V1BoxActionTypeParamsModeAppend,
+			Model:             gboxsdk.V1BoxActionTypeParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
