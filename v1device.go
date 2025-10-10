@@ -7,9 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"slices"
 
 	"github.com/babelcloud/gbox-sdk-go/internal/apijson"
+	"github.com/babelcloud/gbox-sdk-go/internal/apiquery"
 	"github.com/babelcloud/gbox-sdk-go/internal/requestconfig"
 	"github.com/babelcloud/gbox-sdk-go/option"
 	"github.com/babelcloud/gbox-sdk-go/packages/param"
@@ -36,10 +38,13 @@ func NewV1DeviceService(opts ...option.RequestOption) (r V1DeviceService) {
 }
 
 // Get device list
-func (r *V1DeviceService) List(ctx context.Context, opts ...option.RequestOption) (res *GetDeviceListResponse, err error) {
+func (r *V1DeviceService) List(ctx context.Context, params V1DeviceListParams, opts ...option.RequestOption) (res *GetDeviceListResponse, err error) {
+	if !param.IsOmitted(params.XDeviceAp) {
+		opts = append(opts, option.WithHeader("x-device-ap", fmt.Sprintf("%s", params.XDeviceAp)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	path := "devices"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return
 }
 
@@ -123,6 +128,23 @@ type GetDeviceListResponse struct {
 func (r GetDeviceListResponse) RawJSON() string { return r.JSON.raw }
 func (r *GetDeviceListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1DeviceListParams struct {
+	XDeviceAp string `header:"x-device-ap,required" json:"-"`
+	// Page number
+	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
+	// Page size
+	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [V1DeviceListParams]'s query parameters as `url.Values`.
+func (r V1DeviceListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
 
 type V1DeviceToBoxParams struct {

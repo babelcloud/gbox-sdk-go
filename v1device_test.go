@@ -13,7 +13,7 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
-func TestV1DeviceList(t *testing.T) {
+func TestV1DeviceListWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,7 +26,11 @@ func TestV1DeviceList(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Devices.List(context.TODO())
+	_, err := client.V1.Devices.List(context.TODO(), gboxsdk.V1DeviceListParams{
+		XDeviceAp: "x-device-ap",
+		Page:      gboxsdk.Int(1),
+		PageSize:  gboxsdk.Int(10),
+	})
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
