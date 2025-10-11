@@ -379,6 +379,10 @@ func (r *V1BoxActionService) Type(ctx context.Context, boxID string, body V1BoxA
 
 // Action common options
 type ActionCommonOptionsParam struct {
+	// Model to use for natural-language target resolution. Defaults to 'uitars'.
+	//
+	// Any of "gpt-5", "gpt-4o", "ui-tars", "openai-computer-use".
+	Model ActionCommonOptionsModel `json:"model,omitzero"`
 	// Screenshot options. Can be a boolean to enable/disable screenshots, or an object
 	// to configure screenshot options.
 	Screenshot ActionCommonOptionsScreenshotUnionParam `json:"screenshot,omitzero"`
@@ -392,6 +396,16 @@ func (r ActionCommonOptionsParam) MarshalJSON() (data []byte, err error) {
 func (r *ActionCommonOptionsParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Model to use for natural-language target resolution. Defaults to 'uitars'.
+type ActionCommonOptionsModel string
+
+const (
+	ActionCommonOptionsModelGpt5              ActionCommonOptionsModel = "gpt-5"
+	ActionCommonOptionsModelGpt4o             ActionCommonOptionsModel = "gpt-4o"
+	ActionCommonOptionsModelUiTars            ActionCommonOptionsModel = "ui-tars"
+	ActionCommonOptionsModelOpenAIComputerUse ActionCommonOptionsModel = "openai-computer-use"
+)
 
 // Only one field can be non-zero.
 //
@@ -1084,10 +1098,6 @@ type V1BoxActionClickParamsBodyClickAction struct {
 	//
 	// Any of "left", "right", "middle".
 	Button string `json:"button,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1112,9 +1122,6 @@ func (r *V1BoxActionClickParamsBodyClickAction) UnmarshalJSON(data []byte) error
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickAction](
 		"button", "left", "right", "middle",
-	)
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickAction](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickAction](
 		"outputFormat", "base64", "storageKey",
@@ -1170,10 +1177,6 @@ type V1BoxActionClickParamsBodyClickActionWithNaturalLanguage struct {
 	//
 	// Any of "left", "right", "middle".
 	Button string `json:"button,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1198,9 +1201,6 @@ func (r *V1BoxActionClickParamsBodyClickActionWithNaturalLanguage) UnmarshalJSON
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
 		"button", "left", "right", "middle",
-	)
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionWithNaturalLanguage](
 		"outputFormat", "base64", "storageKey",
@@ -1255,10 +1255,6 @@ type V1BoxActionClickParamsBodyClickActionByElement struct {
 	//
 	// Any of "left", "right", "middle".
 	Button string `json:"button,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1283,9 +1279,6 @@ func (r *V1BoxActionClickParamsBodyClickActionByElement) UnmarshalJSON(data []by
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionByElement](
 		"button", "left", "right", "middle",
-	)
-	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionByElement](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionClickParamsBodyClickActionByElement](
 		"outputFormat", "base64", "storageKey",
@@ -1388,10 +1381,6 @@ type V1BoxActionDragParamsBodyDragSimple struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1414,9 +1403,6 @@ func (r *V1BoxActionDragParamsBodyDragSimple) UnmarshalJSON(data []byte) error {
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragSimple](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragSimple](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -1557,10 +1543,6 @@ type V1BoxActionDragParamsBodyDragAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1583,9 +1565,6 @@ func (r *V1BoxActionDragParamsBodyDragAdvanced) UnmarshalJSON(data []byte) error
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragAdvanced](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionDragParamsBodyDragAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -1770,10 +1749,6 @@ type V1BoxActionLongPressParamsBodyLongPressAction struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1796,9 +1771,6 @@ func (r *V1BoxActionLongPressParamsBodyLongPressAction) UnmarshalJSON(data []byt
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressAction](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressAction](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -1852,10 +1824,6 @@ type V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1878,9 +1846,6 @@ func (r *V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage) Unmar
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionWithNaturalLanguage](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -1933,10 +1898,6 @@ type V1BoxActionLongPressParamsBodyLongPressActionByElement struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -1959,9 +1920,6 @@ func (r *V1BoxActionLongPressParamsBodyLongPressActionByElement) UnmarshalJSON(d
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionByElement](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionLongPressParamsBodyLongPressActionByElement](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -2002,10 +1960,6 @@ type V1BoxActionMoveParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionMoveParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2024,16 +1978,6 @@ func (r V1BoxActionMoveParams) MarshalJSON() (data []byte, err error) {
 func (r *V1BoxActionMoveParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionMoveParamsModel string
-
-const (
-	V1BoxActionMoveParamsModelGpt5   V1BoxActionMoveParamsModel = "gpt-5"
-	V1BoxActionMoveParamsModelGpt4o  V1BoxActionMoveParamsModel = "gpt-4o"
-	V1BoxActionMoveParamsModelUitars V1BoxActionMoveParamsModel = "uitars"
-	V1BoxActionMoveParamsModelCua    V1BoxActionMoveParamsModel = "cua"
-)
 
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 // default is base64. This field will be ignored when `options.screenshot` is
@@ -2081,10 +2025,6 @@ type V1BoxActionPressButtonParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionPressButtonParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2103,16 +2043,6 @@ func (r V1BoxActionPressButtonParams) MarshalJSON() (data []byte, err error) {
 func (r *V1BoxActionPressButtonParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionPressButtonParamsModel string
-
-const (
-	V1BoxActionPressButtonParamsModelGpt5   V1BoxActionPressButtonParamsModel = "gpt-5"
-	V1BoxActionPressButtonParamsModelGpt4o  V1BoxActionPressButtonParamsModel = "gpt-4o"
-	V1BoxActionPressButtonParamsModelUitars V1BoxActionPressButtonParamsModel = "uitars"
-	V1BoxActionPressButtonParamsModelCua    V1BoxActionPressButtonParamsModel = "cua"
-)
 
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 // default is base64. This field will be ignored when `options.screenshot` is
@@ -2176,10 +2106,6 @@ type V1BoxActionPressKeyParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionPressKeyParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2198,16 +2124,6 @@ func (r V1BoxActionPressKeyParams) MarshalJSON() (data []byte, err error) {
 func (r *V1BoxActionPressKeyParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionPressKeyParamsModel string
-
-const (
-	V1BoxActionPressKeyParamsModelGpt5   V1BoxActionPressKeyParamsModel = "gpt-5"
-	V1BoxActionPressKeyParamsModelGpt4o  V1BoxActionPressKeyParamsModel = "gpt-4o"
-	V1BoxActionPressKeyParamsModelUitars V1BoxActionPressKeyParamsModel = "uitars"
-	V1BoxActionPressKeyParamsModelCua    V1BoxActionPressKeyParamsModel = "cua"
-)
 
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 // default is base64. This field will be ignored when `options.screenshot` is
@@ -2273,10 +2189,6 @@ type V1BoxActionScreenRotationParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionScreenRotationParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2304,16 +2216,6 @@ const (
 	V1BoxActionScreenRotationParamsOrientationLandscapeLeft      V1BoxActionScreenRotationParamsOrientation = "landscapeLeft"
 	V1BoxActionScreenRotationParamsOrientationPortraitUpsideDown V1BoxActionScreenRotationParamsOrientation = "portraitUpsideDown"
 	V1BoxActionScreenRotationParamsOrientationLandscapeRight     V1BoxActionScreenRotationParamsOrientation = "landscapeRight"
-)
-
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionScreenRotationParamsModel string
-
-const (
-	V1BoxActionScreenRotationParamsModelGpt5   V1BoxActionScreenRotationParamsModel = "gpt-5"
-	V1BoxActionScreenRotationParamsModelGpt4o  V1BoxActionScreenRotationParamsModel = "gpt-4o"
-	V1BoxActionScreenRotationParamsModelUitars V1BoxActionScreenRotationParamsModel = "uitars"
-	V1BoxActionScreenRotationParamsModelCua    V1BoxActionScreenRotationParamsModel = "cua"
 )
 
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2488,10 +2390,6 @@ type V1BoxActionScrollParamsBodyScrollAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2514,9 +2412,6 @@ func (r *V1BoxActionScrollParamsBodyScrollAdvanced) UnmarshalJSON(data []byte) e
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvanced](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -2583,10 +2478,6 @@ type V1BoxActionScrollParamsBodyScrollSimple struct {
 	// value (tiny, short, medium, long). If not provided, the scroll will be performed
 	// from the center of the screen to the screen edge
 	Distance V1BoxActionScrollParamsBodyScrollSimpleDistanceUnion `json:"distance,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2611,9 +2502,6 @@ func (r *V1BoxActionScrollParamsBodyScrollSimple) UnmarshalJSON(data []byte) err
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimple](
 		"direction", "up", "down", "left", "right",
-	)
-	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimple](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionScrollParamsBodyScrollSimple](
 		"outputFormat", "base64", "storageKey",
@@ -2763,10 +2651,6 @@ type V1BoxActionSwipeParamsBodySwipeSimple struct {
 	// value (tiny, short, medium, long). If not provided, the swipe will be performed
 	// from the center of the screen to the screen edge
 	Distance V1BoxActionSwipeParamsBodySwipeSimpleDistanceUnion `json:"distance,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2791,9 +2675,6 @@ func (r *V1BoxActionSwipeParamsBodySwipeSimple) UnmarshalJSON(data []byte) error
 func init() {
 	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
 		"direction", "up", "down", "left", "right", "upLeft", "upRight", "downLeft", "downRight",
-	)
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
 	)
 	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeSimple](
 		"outputFormat", "base64", "storageKey",
@@ -2886,10 +2767,6 @@ type V1BoxActionSwipeParamsBodySwipeAdvanced struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -2912,9 +2789,6 @@ func (r *V1BoxActionSwipeParamsBodySwipeAdvanced) UnmarshalJSON(data []byte) err
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvanced](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionSwipeParamsBodySwipeAdvanced](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -3078,10 +2952,6 @@ type V1BoxActionTapParamsBodyTapAction struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -3104,9 +2974,6 @@ func (r *V1BoxActionTapParamsBodyTapAction) UnmarshalJSON(data []byte) error {
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapAction](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapAction](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -3155,10 +3022,6 @@ type V1BoxActionTapParamsBodyTapActionWithNaturalLanguage struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -3181,9 +3044,6 @@ func (r *V1BoxActionTapParamsBodyTapActionWithNaturalLanguage) UnmarshalJSON(dat
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguage](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionWithNaturalLanguage](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -3231,10 +3091,6 @@ type V1BoxActionTapParamsBodyTapActionByElement struct {
 	//
 	// Deprecated: deprecated
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model string `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -3257,9 +3113,6 @@ func (r *V1BoxActionTapParamsBodyTapActionByElement) UnmarshalJSON(data []byte) 
 }
 
 func init() {
-	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionByElement](
-		"model", "gpt-5", "gpt-4o", "uitars", "cua",
-	)
 	apijson.RegisterFieldValidator[V1BoxActionTapParamsBodyTapActionByElement](
 		"outputFormat", "base64", "storageKey",
 	)
@@ -3298,10 +3151,6 @@ type V1BoxActionTouchParams struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 500ms Maximum allowed: 30s
 	ScreenshotDelay param.Opt[string] `json:"screenshotDelay,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionTouchParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -3468,16 +3317,6 @@ func (r *V1BoxActionTouchParamsPointActionTouchPointWaitAction) UnmarshalJSON(da
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionTouchParamsModel string
-
-const (
-	V1BoxActionTouchParamsModelGpt5   V1BoxActionTouchParamsModel = "gpt-5"
-	V1BoxActionTouchParamsModelGpt4o  V1BoxActionTouchParamsModel = "gpt-4o"
-	V1BoxActionTouchParamsModelUitars V1BoxActionTouchParamsModel = "uitars"
-	V1BoxActionTouchParamsModelCua    V1BoxActionTouchParamsModel = "cua"
-)
-
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
 // default is base64. This field will be ignored when `options.screenshot` is
 // provided.
@@ -3528,10 +3367,6 @@ type V1BoxActionTypeParams struct {
 	//
 	// Any of "append", "replace".
 	Mode V1BoxActionTypeParamsMode `json:"mode,omitzero"`
-	// Model to use for natural-language target resolution. Defaults to 'uitars'.
-	//
-	// Any of "gpt-5", "gpt-4o", "uitars", "cua".
-	Model V1BoxActionTypeParamsModel `json:"model,omitzero"`
 	// Action common options
 	Options ActionCommonOptionsParam `json:"options,omitzero"`
 	// ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.
@@ -3558,16 +3393,6 @@ type V1BoxActionTypeParamsMode string
 const (
 	V1BoxActionTypeParamsModeAppend  V1BoxActionTypeParamsMode = "append"
 	V1BoxActionTypeParamsModeReplace V1BoxActionTypeParamsMode = "replace"
-)
-
-// Model to use for natural-language target resolution. Defaults to 'uitars'.
-type V1BoxActionTypeParamsModel string
-
-const (
-	V1BoxActionTypeParamsModelGpt5   V1BoxActionTypeParamsModel = "gpt-5"
-	V1BoxActionTypeParamsModelGpt4o  V1BoxActionTypeParamsModel = "gpt-4o"
-	V1BoxActionTypeParamsModelUitars V1BoxActionTypeParamsModel = "uitars"
-	V1BoxActionTypeParamsModelCua    V1BoxActionTypeParamsModel = "cua"
 )
 
 // ⚠️ DEPRECATED: Use `options.screenshot.outputFormat` instead. Type of the URI.

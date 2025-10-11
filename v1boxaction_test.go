@@ -36,8 +36,8 @@ func TestV1BoxActionClickWithOptionalParams(t *testing.T) {
 				Button:            "left",
 				Double:            gboxsdk.Bool(false),
 				IncludeScreenshot: gboxsdk.Bool(false),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -146,8 +146,8 @@ func TestV1BoxActionDragWithOptionalParams(t *testing.T) {
 				},
 				Duration:          gboxsdk.String("500ms"),
 				IncludeScreenshot: gboxsdk.Bool(false),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -256,8 +256,8 @@ func TestV1BoxActionLongPressWithOptionalParams(t *testing.T) {
 				Y:                 250,
 				Duration:          gboxsdk.String("1s"),
 				IncludeScreenshot: gboxsdk.Bool(false),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -302,8 +302,8 @@ func TestV1BoxActionMoveWithOptionalParams(t *testing.T) {
 			X:                 200,
 			Y:                 300,
 			IncludeScreenshot: gboxsdk.Bool(false),
-			Model:             gboxsdk.V1BoxActionMoveParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
@@ -346,8 +346,8 @@ func TestV1BoxActionPressButtonWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionPressButtonParams{
 			Buttons:           []string{"power"},
 			IncludeScreenshot: gboxsdk.Bool(false),
-			Model:             gboxsdk.V1BoxActionPressButtonParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
@@ -391,8 +391,8 @@ func TestV1BoxActionPressKeyWithOptionalParams(t *testing.T) {
 			Keys:              []string{"enter"},
 			Combination:       gboxsdk.Bool(true),
 			IncludeScreenshot: gboxsdk.Bool(false),
-			Model:             gboxsdk.V1BoxActionPressKeyParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
@@ -579,8 +579,8 @@ func TestV1BoxActionScreenRotationWithOptionalParams(t *testing.T) {
 		gboxsdk.V1BoxActionScreenRotationParams{
 			Orientation:       gboxsdk.V1BoxActionScreenRotationParamsOrientationLandscapeLeft,
 			IncludeScreenshot: gboxsdk.Bool(false),
-			Model:             gboxsdk.V1BoxActionScreenRotationParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
@@ -668,8 +668,8 @@ func TestV1BoxActionScrollWithOptionalParams(t *testing.T) {
 				X:                 100,
 				Y:                 100,
 				IncludeScreenshot: gboxsdk.Bool(false),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -794,8 +794,8 @@ func TestV1BoxActionSwipeWithOptionalParams(t *testing.T) {
 				Duration:          gboxsdk.String("500ms"),
 				IncludeScreenshot: gboxsdk.Bool(false),
 				Location:          gboxsdk.String("Chrome App"),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -841,8 +841,8 @@ func TestV1BoxActionTapWithOptionalParams(t *testing.T) {
 				X:                 100,
 				Y:                 100,
 				IncludeScreenshot: gboxsdk.Bool(false),
-				Model:             "gpt-5",
 				Options: gboxsdk.ActionCommonOptionsParam{
+					Model: gboxsdk.ActionCommonOptionsModelGpt5,
 					Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 						OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 							Delay:              gboxsdk.String("500ms"),
@@ -899,8 +899,8 @@ func TestV1BoxActionTouchWithOptionalParams(t *testing.T) {
 				}},
 			}},
 			IncludeScreenshot: gboxsdk.Bool(false),
-			Model:             gboxsdk.V1BoxActionTouchParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
@@ -944,8 +944,8 @@ func TestV1BoxActionTypeWithOptionalParams(t *testing.T) {
 			Text:              "Hello World",
 			IncludeScreenshot: gboxsdk.Bool(false),
 			Mode:              gboxsdk.V1BoxActionTypeParamsModeAppend,
-			Model:             gboxsdk.V1BoxActionTypeParamsModelGpt5,
 			Options: gboxsdk.ActionCommonOptionsParam{
+				Model: gboxsdk.ActionCommonOptionsModelGpt5,
 				Screenshot: gboxsdk.ActionCommonOptionsScreenshotUnionParam{
 					OfActionScreenshotOptions: &gboxsdk.ActionScreenshotOptionsParam{
 						Delay:              gboxsdk.String("500ms"),
