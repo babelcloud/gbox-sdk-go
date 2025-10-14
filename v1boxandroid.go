@@ -41,6 +41,18 @@ func NewV1BoxAndroidService(opts ...option.RequestOption) (r V1BoxAndroidService
 	return
 }
 
+// Generate a pre-signed proxy URL for Appium server of a running Android box.
+func (r *V1BoxAndroidService) AppiumURL(ctx context.Context, boxID string, body V1BoxAndroidAppiumURLParams, opts ...option.RequestOption) (res *V1BoxAndroidAppiumURLResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if boxID == "" {
+		err = errors.New("missing required boxId parameter")
+		return
+	}
+	path := fmt.Sprintf("boxes/%s/android/connect-url/appium", boxID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Backup
 func (r *V1BoxAndroidService) Backup(ctx context.Context, packageName string, body V1BoxAndroidBackupParams, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -343,6 +355,30 @@ const (
 	AndroidPkgPkgTypeThirdParty AndroidPkgPkgType = "thirdParty"
 )
 
+// Appium connection information
+type V1BoxAndroidAppiumURLResponse struct {
+	// A ready-to-use default WebdriverIO remote options object
+	DefaultOption any `json:"defaultOption,required"`
+	// Device UDID for Appium connection
+	Udid string `json:"udid,required"`
+	// Appium connection URL
+	URL string `json:"url,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		DefaultOption respjson.Field
+		Udid          respjson.Field
+		URL           respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidAppiumURLResponse) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidAppiumURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Android connection information
 type V1BoxAndroidGetConnectAddressResponse struct {
 	// Android adb connect address. use `adb connect <adbConnectAddress>` to connect to
@@ -564,6 +600,23 @@ type V1BoxAndroidListPkgSimpleResponseData struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxAndroidListPkgSimpleResponseData) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidListPkgSimpleResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type V1BoxAndroidAppiumURLParams struct {
+	// The Appium connection url will be alive for the given duration
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 120m
+	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	paramObj
+}
+
+func (r V1BoxAndroidAppiumURLParams) MarshalJSON() (data []byte, err error) {
+	type shadow V1BoxAndroidAppiumURLParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *V1BoxAndroidAppiumURLParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
