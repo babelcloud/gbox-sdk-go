@@ -88,6 +88,7 @@ func TestV1BoxNewAndroidWithOptionalParams(t *testing.T) {
 					"ADB_TRACE":        "all",
 				},
 				ExpiresIn: gboxsdk.String("15m"),
+				KeepAlive: gboxsdk.String("0ms"),
 				Labels: map[string]string{
 					"app":     "mobile-testing",
 					"version": "v1.0",
@@ -127,6 +128,7 @@ func TestV1BoxNewLinuxWithOptionalParams(t *testing.T) {
 					"API_URL": "https://api.example.com",
 				},
 				ExpiresIn: gboxsdk.String("60m"),
+				KeepAlive: gboxsdk.String("0ms"),
 				Labels: map[string]string{
 					"project":     "web-automation",
 					"environment": "testing",

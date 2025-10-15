@@ -390,6 +390,11 @@ type CreateAndroidBoxConfigParam struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	// Keep alive duration on activity; 0 disables keep alive
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 0ms
+	KeepAlive param.Opt[string] `json:"keepAlive,omitzero"`
 	// Device type - virtual or physical Android device
 	//
 	// Any of "virtual", "physical".
@@ -451,6 +456,11 @@ type CreateLinuxBoxConfigParam struct {
 	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
 	// Example formats: "500ms", "30s", "5m", "1h" Default: 60m
 	ExpiresIn param.Opt[string] `json:"expiresIn,omitzero"`
+	// Keep alive duration on activity; 0 disables keep alive
+	//
+	// Supported time units: ms (milliseconds), s (seconds), m (minutes), h (hours)
+	// Example formats: "500ms", "30s", "5m", "1h" Default: 0ms
+	KeepAlive param.Opt[string] `json:"keepAlive,omitzero"`
 	// Environment variables for the box. These variables will be available in all
 	// operations including command execution, code running, and other box behaviors
 	Envs map[string]string `json:"envs,omitzero"`
