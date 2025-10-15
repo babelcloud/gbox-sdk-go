@@ -40,7 +40,7 @@ func NewV1DeviceService(opts ...option.RequestOption) (r V1DeviceService) {
 // Get device list
 func (r *V1DeviceService) List(ctx context.Context, params V1DeviceListParams, opts ...option.RequestOption) (res *GetDeviceListResponse, err error) {
 	if !param.IsOmitted(params.XDeviceAp) {
-		opts = append(opts, option.WithHeader("x-device-ap", fmt.Sprintf("%s", params.XDeviceAp)))
+		opts = append(opts, option.WithHeader("x-device-ap", fmt.Sprintf("%s", params.XDeviceAp.Value)))
 	}
 	opts = slices.Concat(r.Options, opts)
 	path := "devices"
@@ -131,11 +131,11 @@ func (r *GetDeviceListResponse) UnmarshalJSON(data []byte) error {
 }
 
 type V1DeviceListParams struct {
-	XDeviceAp string `header:"x-device-ap,required" json:"-"`
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
-	PageSize param.Opt[int64] `query:"pageSize,omitzero" json:"-"`
+	PageSize  param.Opt[int64]  `query:"pageSize,omitzero" json:"-"`
+	XDeviceAp param.Opt[string] `header:"x-device-ap,omitzero" json:"-"`
 	paramObj
 }
 
