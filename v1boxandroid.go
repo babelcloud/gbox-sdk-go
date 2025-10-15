@@ -357,8 +357,8 @@ const (
 
 // Appium connection information
 type V1BoxAndroidAppiumURLResponse struct {
-	// A ready-to-use default WebdriverIO remote options object
-	DefaultOption any `json:"defaultOption,required"`
+	// Ready-to-use WebdriverIO remote options
+	DefaultOption V1BoxAndroidAppiumURLResponseDefaultOption `json:"defaultOption,required"`
 	// Device UDID for Appium connection
 	Udid string `json:"udid,required"`
 	// Appium connection URL
@@ -376,6 +376,63 @@ type V1BoxAndroidAppiumURLResponse struct {
 // Returns the unmodified JSON received from the API
 func (r V1BoxAndroidAppiumURLResponse) RawJSON() string { return r.JSON.raw }
 func (r *V1BoxAndroidAppiumURLResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ready-to-use WebdriverIO remote options
+type V1BoxAndroidAppiumURLResponseDefaultOption struct {
+	// Appium capabilities for WebdriverIO
+	Capabilities V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities `json:"capabilities,required"`
+	// Hostname
+	Hostname string `json:"hostname,required"`
+	// URL pathname
+	Path string `json:"path,required"`
+	// Port number
+	Port float64 `json:"port,required"`
+	// Protocol (http or https)
+	Protocol string `json:"protocol,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Capabilities respjson.Field
+		Hostname     respjson.Field
+		Path         respjson.Field
+		Port         respjson.Field
+		Protocol     respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidAppiumURLResponseDefaultOption) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidAppiumURLResponseDefaultOption) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Appium capabilities for WebdriverIO
+type V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities struct {
+	// Appium automation name
+	AppiumAutomationName string `json:"appium:automationName,required"`
+	// Device name
+	AppiumDeviceName string `json:"appium:deviceName,required"`
+	// Device UDID
+	AppiumUdid string `json:"appium:udid,required"`
+	// Platform name
+	PlatformName string `json:"platformName,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AppiumAutomationName respjson.Field
+		AppiumDeviceName     respjson.Field
+		AppiumUdid           respjson.Field
+		PlatformName         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities) RawJSON() string { return r.JSON.raw }
+func (r *V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
