@@ -27,9 +27,9 @@ func TestV1DeviceListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.V1.Devices.List(context.TODO(), gboxsdk.V1DeviceListParams{
-		XDeviceAp: "x-device-ap",
 		Page:      gboxsdk.Int(1),
 		PageSize:  gboxsdk.Int(10),
+		XDeviceAp: gboxsdk.String("x-device-ap"),
 	})
 	if err != nil {
 		var apierr *gboxsdk.Error
