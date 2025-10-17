@@ -359,6 +359,10 @@ const (
 type V1BoxAndroidAppiumURLResponse struct {
 	// Ready-to-use WebdriverIO remote options
 	DefaultOption V1BoxAndroidAppiumURLResponseDefaultOption `json:"defaultOption,required"`
+	// Log level for WebdriverIO/Appium client
+	//
+	// Any of "trace", "debug", "info", "warn", "error", "silent".
+	LogLevel V1BoxAndroidAppiumURLResponseLogLevel `json:"logLevel,required"`
 	// Device UDID for Appium connection
 	Udid string `json:"udid,required"`
 	// Appium connection URL
@@ -366,6 +370,7 @@ type V1BoxAndroidAppiumURLResponse struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		DefaultOption respjson.Field
+		LogLevel      respjson.Field
 		Udid          respjson.Field
 		URL           respjson.Field
 		ExtraFields   map[string]respjson.Field
@@ -435,6 +440,18 @@ func (r V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities) RawJSON() string
 func (r *V1BoxAndroidAppiumURLResponseDefaultOptionCapabilities) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Log level for WebdriverIO/Appium client
+type V1BoxAndroidAppiumURLResponseLogLevel string
+
+const (
+	V1BoxAndroidAppiumURLResponseLogLevelTrace  V1BoxAndroidAppiumURLResponseLogLevel = "trace"
+	V1BoxAndroidAppiumURLResponseLogLevelDebug  V1BoxAndroidAppiumURLResponseLogLevel = "debug"
+	V1BoxAndroidAppiumURLResponseLogLevelInfo   V1BoxAndroidAppiumURLResponseLogLevel = "info"
+	V1BoxAndroidAppiumURLResponseLogLevelWarn   V1BoxAndroidAppiumURLResponseLogLevel = "warn"
+	V1BoxAndroidAppiumURLResponseLogLevelError  V1BoxAndroidAppiumURLResponseLogLevel = "error"
+	V1BoxAndroidAppiumURLResponseLogLevelSilent V1BoxAndroidAppiumURLResponseLogLevel = "silent"
+)
 
 // Android connection information
 type V1BoxAndroidGetConnectAddressResponse struct {
