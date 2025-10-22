@@ -733,7 +733,7 @@ type V1BoxAndroidInstallParams struct {
 func (r V1BoxAndroidInstallParams) MarshalMultipart() (data []byte, contentType string, err error) {
 	buf := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(buf)
-	err = apiform.MarshalRoot(r, writer)
+	err = apiform.MarshalRoot(r.Body, writer)
 	if err == nil {
 		err = apiform.WriteExtras(writer, r.ExtraFields())
 	}
