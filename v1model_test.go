@@ -27,9 +27,11 @@ func TestV1ModelCallWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.V1.Models.Call(context.TODO(), gboxsdk.V1ModelCallParams{
-		Action: map[string]interface{}{
-			"type":   "click",
-			"target": "the VSCode app icon on the bottom dock",
+		Action: gboxsdk.V1ModelCallParamsActionUnion{
+			OfClickAction: &gboxsdk.V1ModelCallParamsActionClickAction{
+				Target: "the VSCode app icon on the bottom dock",
+				Type:   "click",
+			},
 		},
 		Screenshot: "https://gru-activate2-public-assets.s3.us-west-2.amazonaws.com/jessica/screenshot-1759332945616-pu0ovj.png",
 		Model:      gboxsdk.V1ModelCallParamsModelGboxHandy1,
