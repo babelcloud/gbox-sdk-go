@@ -13,6 +13,16 @@ Methods:
 - <code title="get /devices/{deviceId}">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, deviceID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#DeviceInfo">DeviceInfo</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /devices/{deviceId}/box">client.V1.Devices.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceService.ToBox">ToBox</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, deviceID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1DeviceToBoxParams">V1DeviceToBoxParams</a>) (<a href="https://pkg.go.dev/builtin#string">string</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+## Models
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1ModelCallResponse">V1ModelCallResponse</a>
+
+Methods:
+
+- <code title="post /model">client.V1.Models.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1ModelService.Call">Call</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1ModelCallParams">V1ModelCallParams</a>) (<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go">gboxsdk</a>.<a href="https://pkg.go.dev/github.com/babelcloud/gbox-sdk-go#V1ModelCallResponse">V1ModelCallResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 ## Boxes
 
 Params Types:
