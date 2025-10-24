@@ -334,7 +334,10 @@ func (r *V1ModelCallResponseResponseModelScrollResponseDataCoordinates) Unmarsha
 type V1ModelCallParams struct {
 	// Structured action object (click or drag)
 	Action V1ModelCallParamsActionUnion `json:"action,omitzero,required"`
-	// HTTP(S) URL to screenshot image
+	// Screenshot image as HTTP(S) URL or base64-encoded data URI. Supports both
+	// formats: 1) HTTP(S) URL pointing to an image file; 2) Base64-encoded data URI
+	// with format 'data:image/png;base64,[data]' or 'data:image/jpeg;base64,[data]'.
+	// Only PNG and JPEG formats are supported for base64.
 	Screenshot string `json:"screenshot,required"`
 	// Model to use
 	//

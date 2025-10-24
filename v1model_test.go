@@ -33,7 +33,7 @@ func TestV1ModelCallWithOptionalParams(t *testing.T) {
 				Type:   "click",
 			},
 		},
-		Screenshot: "https://gru-activate2-public-assets.s3.us-west-2.amazonaws.com/jessica/screenshot-1759332945616-pu0ovj.png",
+		Screenshot: "screenshot",
 		Model:      gboxsdk.V1ModelCallParamsModelGboxHandy1,
 	})
 	if err != nil {
