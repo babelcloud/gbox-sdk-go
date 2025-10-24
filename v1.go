@@ -14,6 +14,8 @@ import (
 // the [NewV1Service] method instead.
 type V1Service struct {
 	Options []option.RequestOption
+	Devices V1DeviceService
+	Models  V1ModelService
 	Boxes   V1BoxService
 }
 
@@ -23,6 +25,8 @@ type V1Service struct {
 func NewV1Service(opts ...option.RequestOption) (r V1Service) {
 	r = V1Service{}
 	r.Options = opts
+	r.Devices = NewV1DeviceService(opts...)
+	r.Models = NewV1ModelService(opts...)
 	r.Boxes = NewV1BoxService(opts...)
 	return
 }

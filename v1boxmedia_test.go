@@ -3,8 +3,12 @@
 package gboxsdk_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
@@ -13,7 +17,7 @@ import (
 	"github.com/babelcloud/gbox-sdk-go/option"
 )
 
-func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
+func TestV1BoxMediaNewAlbumWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,11 +30,12 @@ func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.CdpURL(
+	_, err := client.V1.Boxes.Media.NewAlbum(
 		context.TODO(),
 		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxBrowserCdpURLParams{
-			ExpiresIn: gboxsdk.String("120m"),
+		gboxsdk.V1BoxMediaNewAlbumParams{
+			Name:  "Vacation Photos",
+			Media: []io.Reader{io.Reader(bytes.NewBuffer([]byte("some file contents")))},
 		},
 	)
 	if err != nil {
@@ -42,7 +47,7 @@ func TestV1BoxBrowserCdpURLWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxBrowserClearProxy(t *testing.T) {
+func TestV1BoxMediaDeleteAlbum(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -55,56 +60,10 @@ func TestV1BoxBrowserClearProxy(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.V1.Boxes.Browser.ClearProxy(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestV1BoxBrowserClose(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	err := client.V1.Boxes.Browser.Close(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestV1BoxBrowserCloseTab(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Browser.CloseTab(
+	err := client.V1.Boxes.Media.DeleteAlbum(
 		context.TODO(),
-		"tabId",
-		gboxsdk.V1BoxBrowserCloseTabParams{
+		"Pictures",
+		gboxsdk.V1BoxMediaDeleteAlbumParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
@@ -117,7 +76,7 @@ func TestV1BoxBrowserCloseTab(t *testing.T) {
 	}
 }
 
-func TestV1BoxBrowserGetProxy(t *testing.T) {
+func TestV1BoxMediaDeleteMedia(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -130,59 +89,12 @@ func TestV1BoxBrowserGetProxy(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.GetProxy(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestV1BoxBrowserGetTabs(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Browser.GetTabs(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
-	if err != nil {
-		var apierr *gboxsdk.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestV1BoxBrowserOpenWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.V1.Boxes.Browser.Open(
+	err := client.V1.Boxes.Media.DeleteMedia(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxBrowserOpenParams{
-			Maximize:     gboxsdk.Bool(false),
-			ShowControls: gboxsdk.Bool(true),
-			Size:         gboxsdk.String("1024x768"),
+		"IMG_001.jpg",
+		gboxsdk.V1BoxMediaDeleteMediaParams{
+			BoxID:     "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			AlbumName: "Pictures",
 		},
 	)
 	if err != nil {
@@ -194,24 +106,23 @@ func TestV1BoxBrowserOpenWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestV1BoxBrowserOpenTab(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
+func TestV1BoxMediaDownloadMedia(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("abc"))
+	}))
+	defer server.Close()
+	baseURL := server.URL
 	client := gboxsdk.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.OpenTab(
+	resp, err := client.V1.Boxes.Media.DownloadMedia(
 		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxBrowserOpenTabParams{
-			URL: "https://www.google.com",
+		"IMG_001.jpg",
+		gboxsdk.V1BoxMediaDownloadMediaParams{
+			BoxID:     "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			AlbumName: "Pictures",
 		},
 	)
 	if err != nil {
@@ -221,32 +132,9 @@ func TestV1BoxBrowserOpenTab(t *testing.T) {
 		}
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-}
+	defer resp.Body.Close()
 
-func TestV1BoxBrowserSetProxyWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := gboxsdk.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	err := client.V1.Boxes.Browser.SetProxy(
-		context.TODO(),
-		"c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-		gboxsdk.V1BoxBrowserSetProxyParams{
-			HTTPServer:   "http://127.0.0.1:8080",
-			HTTPSServer:  "https://127.0.0.1:8080",
-			Socks5Server: "socks5://127.0.0.1:8080",
-			BypassList:   []string{"127.0.0.1", "localhost", "example.com", "*.example.com", "*.example.org", "https://x.*.y.com:99", "192.168.1.1/16", "fefe:13::abc/33"},
-			PacURL:       gboxsdk.String("http://proxy.company.com/proxy.pac"),
-		},
-	)
+	b, err := io.ReadAll(resp.Body)
 	if err != nil {
 		var apierr *gboxsdk.Error
 		if errors.As(err, &apierr) {
@@ -254,9 +142,12 @@ func TestV1BoxBrowserSetProxyWithOptionalParams(t *testing.T) {
 		}
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
+	if !bytes.Equal(b, []byte("abc")) {
+		t.Fatalf("return value not %s: %s", "abc", b)
+	}
 }
 
-func TestV1BoxBrowserSwitchTab(t *testing.T) {
+func TestV1BoxMediaGetAlbumDetail(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -269,10 +160,10 @@ func TestV1BoxBrowserSwitchTab(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.SwitchTab(
+	_, err := client.V1.Boxes.Media.GetAlbumDetail(
 		context.TODO(),
-		"tabId",
-		gboxsdk.V1BoxBrowserSwitchTabParams{
+		"Pictures",
+		gboxsdk.V1BoxMediaGetAlbumDetailParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
 		},
 	)
@@ -285,7 +176,7 @@ func TestV1BoxBrowserSwitchTab(t *testing.T) {
 	}
 }
 
-func TestV1BoxBrowserUpdateTab(t *testing.T) {
+func TestV1BoxMediaGetMedia(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -298,12 +189,117 @@ func TestV1BoxBrowserUpdateTab(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.V1.Boxes.Browser.UpdateTab(
+	_, err := client.V1.Boxes.Media.GetMedia(
 		context.TODO(),
-		"tabId",
-		gboxsdk.V1BoxBrowserUpdateTabParams{
+		"IMG_001.jpg",
+		gboxsdk.V1BoxMediaGetMediaParams{
+			BoxID:     "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			AlbumName: "Pictures",
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxMediaGetMediaSupport(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Media.GetMediaSupport(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxMediaListAlbums(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Media.ListAlbums(context.TODO(), "c9bdc193-b54b-4ddb-a035-5ac0c598d32d")
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxMediaListMedia(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Media.ListMedia(
+		context.TODO(),
+		"Pictures",
+		gboxsdk.V1BoxMediaListMediaParams{
 			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
-			URL:   "https://www.google.com",
+		},
+	)
+	if err != nil {
+		var apierr *gboxsdk.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestV1BoxMediaUpdateAlbum(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := gboxsdk.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.V1.Boxes.Media.UpdateAlbum(
+		context.TODO(),
+		"Pictures",
+		gboxsdk.V1BoxMediaUpdateAlbumParams{
+			BoxID: "c9bdc193-b54b-4ddb-a035-5ac0c598d32d",
+			Media: []io.Reader{io.Reader(bytes.NewBuffer([]byte("some file contents")))},
 		},
 	)
 	if err != nil {
